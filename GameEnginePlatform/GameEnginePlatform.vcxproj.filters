@@ -86,18 +86,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="ThirdParty\FMOD\lib\x64\fmod_vc.lib">
-      <Filter>ThirdParty\FMOD\bin</Filter>
-    </Library>
-    <Library Include="ThirdParty\FMOD\lib\x64\fmodL_vc.lib">
-      <Filter>ThirdParty\FMOD\bin</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmod.dll">
       <Filter>ThirdParty\FMOD\bin</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmodL.dll">
+      <Filter>ThirdParty\FMOD\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmod_vc.lib">
+      <Filter>ThirdParty\FMOD\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmodL_vc.lib">
       <Filter>ThirdParty\FMOD\bin</Filter>
     </CopyFileToFolders>
   </ItemGroup>
