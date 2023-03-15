@@ -5,8 +5,13 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="CenterLevel.h" />
     <ClInclude Include="Player.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterLevel.h">
+      <Filter>Center</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
       <Filter>Play</Filter>
     </ClInclude>
   </ItemGroup>
@@ -15,11 +20,16 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="CenterLevel.cpp" />
     <ClCompile Include="Player.cpp">
       <Filter>Play</Filter>
     </ClCompile>
     <ClCompile Include="Player_State.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="CenterLevel.cpp">
+      <Filter>Center</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
       <Filter>Play</Filter>
     </ClCompile>
   </ItemGroup>
