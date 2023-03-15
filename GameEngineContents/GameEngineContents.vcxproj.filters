@@ -5,14 +5,24 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="CenterLevel.h" />
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterLevel.h">
+      <Filter>Center</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="CenterLevel.cpp" />
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="CenterLevel.cpp">
+      <Filter>Center</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -20,6 +30,9 @@
     </Filter>
     <Filter Include="Title">
       <UniqueIdentifier>{e319163e-7f2f-4f80-b187-882031d15de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Center">
+      <UniqueIdentifier>{e22b4451-24a8-41b8-8a4d-637a173a2372}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
