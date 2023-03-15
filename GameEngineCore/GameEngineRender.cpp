@@ -239,7 +239,7 @@ void GameEngineRender::ImageRender(float _DeltaTime)
 				MsgAssert("회전시킬수 없는 이미지 입니다. 필터가 존재하지 않습니다.");
 			}
 
-			GameEngineWindow::GetDoubleBufferImage()->PlgCopy(Image, Frame, RenderPos, GetScale(), Angle, RotationFilter);
+			GameEngineWindow::GetDoubleBufferImage()->PlgCopy(Image, RenderPos, GetScale(), { 0, 0 }, Image->GetImageScale(), Angle, RotationFilter);
 		}
 		else if (255 == Alpha)
 		{

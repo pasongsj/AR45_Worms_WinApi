@@ -103,18 +103,6 @@ void NumberRenderObject::SetValue(int _Value)
 	// 최종 랜더 길이 설정x - Numbers.size(), 설정o - NumOfDigits
 	size_t Digits = (NumOfDigits == -1 ? Numbers.size() : NumOfDigits) + (Negative ? 1 : 0);
 
-	// -- [수정 전] : NumOfDigits 추가 이전
-	////            자리수가 바뀌었고                  3자리 랜더하고 있었는데 5자리가 됐다면
-	//if (NumberRenders.size() != Numbers.size() && NumberRenders.size() < Numbers.size())
-	//{
-	//	size_t CurRenderSize = NumberRenders.size();
-	//	//                       5                   3
-	//	for (size_t i = 0; i < (Numbers.size() - CurRenderSize); i++)
-	//	{
-	//		NumberRenders.push_back(Actor->CreateRender(Order));
-	//	}
-	//}
-	// --
 
 	if (NumberRenders.size() < Digits) // NumberRenders를 추가해야 하는 경우
 	{
@@ -157,25 +145,6 @@ void NumberRenderObject::SetValue(int _Value)
 		break;
 	}
 
-	//--[수정 전] : NumOfDigits 추가 이전
-	//Negative = _Value >= 0 ? false : true;
-
-	/*if (true == Negative && nullptr == NegativeRender)
-	{
-		NegativeRender = Actor->CreateRender(Order);
-		NegativeRender->SetTransColor(TransColor);
-		NegativeRender->SetPosition(Pos + RenderPos);
-		NegativeRender->SetImage(NegativeName);
-		NegativeRender->SetScale(NumberScale);
-		RenderPos.x += NumberScale.x;
-	}
-
-	if (nullptr != NegativeRender)
-	{
-		NegativeRender->SetPosition(Pos + RenderPos);
-		RenderPos.x += NumberScale.x;
-	}*/
-	//--
 	if (true == Negative && nullptr == NegativeRender)
 	{
 		SetNumberRenders(NumRenderIndex++, TransColor, RenderPos, NegativeName, NumberScale, CameraEffect);
@@ -186,60 +155,11 @@ void NumberRenderObject::SetValue(int _Value)
 		SetNumberRenders(NumRenderIndex, TransColor, RenderPos, ImageName, NumberScale, CameraEffect, 0);
 		RenderPos.x += NumberScale.x;
 	}
-	for (int i = 0; NumRenderIndex < NumberRenders.size(); ++NumRenderIndex)
+	for (int i = 0; i < Numbers.size(); ++NumRenderIndex)
 	{
 		SetNumberRenders(NumRenderIndex, TransColor, RenderPos, ImageName, NumberScale, CameraEffect, Numbers[i++]);
 		RenderPos.x += NumberScale.x;
 	}
-
-	// -- [수정 전] : NumOfDigits 추가 이전
-	//for (size_t i = 0; i < NumberRenders.size(); i++)
-	//{
-	//	GameEngineRender* Render = NumberRenders[i];
-
-	//	if (nullptr == Render)
-	//	{
-	//		MsgAssert("숫자랜더러가 nullptr 입니다");
-	//	}
-
-	//	Render->SetTransColor(TransColor);
-	//	Render->SetPosition(Pos + RenderPos);
-	//	Render->SetImage(ImageName);
-	//	Render->SetScale(NumberScale);
-	//	Render->SetFrame(Numbers[i]);
-
-	//	RenderPos.x += NumberScale.x;
-	//}
-	// --
-
-	//switch (AlignState)
-	//{
-	//case Align::Left:
-	//	break;
-	//case Align::Right:
-	//	SetMove(float4::Left * static_cast<const float>(GameEngineMath::GetLenth(Value) - 1) * NumberScale.x);
-	//	if (nullptr != NegativeRender)
-	//	{
-	//		NegativeRender->SetPosition(Pos + float4::Left * static_cast<const float>(GameEngineMath::GetLenth(Value) - 1) * NumberScale.x);
-	//	}
-	//	break;
-	//case Align::Center:
-	//	SetMove((float4::Left * static_cast<const float>(GameEngineMath::GetLenth(Value) - 1) * NumberScale.x).half());
-	//	if (nullptr != NegativeRender)
-	//	{
-	//		NegativeRender->SetPosition(Pos + (float4::Left * static_cast<const float>(GameEngineMath::GetLenth(Value) - 1) * NumberScale.x).half());
-	//	}
-	//	break;
-	//default:
-	//	break;
-	//}
-
-	//for (size_t i = 0; i < NumberRenders.size(); i++)
-	//{
-	//	//CameraEffect
-	//	NumberRenders[i]->SetEffectCamera(CameraEffect);
-	//}
-	// --
 
 }
 
