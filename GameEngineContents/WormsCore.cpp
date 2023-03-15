@@ -1,6 +1,6 @@
 #include "WormsCore.h"
 
-
+#include "CenterLevel.h"
 #include "TitleLevel.h"
 
 void WormsCore::Start()
@@ -17,8 +17,9 @@ void WormsCore::End()
 
 WormsCore::WormsCore()
 {
+	CreateLevel<CenterLevel>("Center");
 	CreateLevel<TitleLevel>("Title");
-	ChangeLevel("Title");
+	ChangeLevel("Center");
 }
 
 WormsCore::~WormsCore() 

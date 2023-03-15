@@ -5,12 +5,14 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
+    <ClInclude Include="CenterLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
+    <ClCompile Include="CenterLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
