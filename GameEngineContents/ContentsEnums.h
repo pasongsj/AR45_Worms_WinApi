@@ -9,3 +9,10 @@ enum class WormsRenderOrder
 	Weapon,
 
 };
+
+enum class WormsCollisionOrder
+{
+	Player,
+	Weapon,
+
+};
