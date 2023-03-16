@@ -12,6 +12,8 @@ public:
 	void WeaponBazookaInit();
 	void firing(float _DeltaTime);
 	void CreatePlayerAnimation();
+	bool CheckCollision();
+	void Explosion();
 
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
 	WeaponBazooka(WeaponBazooka&& _Other) noexcept = delete;

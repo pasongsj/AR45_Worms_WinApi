@@ -30,12 +30,15 @@ void WeaponBazooka::Render(float _DeltaTime)
 void WeaponBazooka::WeaponBazookaInit()
 {
 	WeaponRender =  CreateRender("Weapon1.bmp", static_cast<int>(WormsRenderOrder::Weapon));
-	WeaponCollision = CreateCollision(static_cast<int>(WormsRenderOrder::Weapon));
+	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
 	WeaponRender->SetPosition({ 500, 200 }); //임시 설정값
 	WeaponRender->SetScale({150, 150}); //임시 설정값
+
+	WeaponCollision->SetPosition(WeaponRender->GetPosition());
+	WeaponCollision->SetScale(WeaponRender->GetScale());
 
 	WeaponName = "Bazooka";
 
@@ -49,16 +52,28 @@ void WeaponBazooka::WeaponBazookaInit()
 	isBlocked = true;
 	isTarget = false;
 
-
+	CreatePlayerAnimation();
 						
 }
 
 void WeaponBazooka::CreatePlayerAnimation()
 {
-
+	//플레이어를 받아와서 렌더에 애니메이션 추가
 }
 
-void WeaponBazooka::firing(float _DeltaTime)
+bool WeaponBazooka::CheckCollision()
+{
+	if (WeaponCollision != nullptr && true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsRenderOrder::Player), .TargetColType = CollisionType::CT_Rect, .ThisColType = CollisionType::CT_CirCle }))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void WeaponBazooka::firing(float _DeltaTime) //발사
 {
 	Gravity += GravityAccel * _DeltaTime;
 	GravityAccel += 150.0f * _DeltaTime;
@@ -72,5 +87,17 @@ void WeaponBazooka::firing(float _DeltaTime)
 	{
 		WeaponRender->Off(); 
 	}
+}
 
+void WeaponBazooka::Explosion() //폭발
+{
+	if (CheckCollision == false /*발사되었는지 아닌지도 bool값으로 만들어서 조건에 넣어야함*/ )
+	{
+		return;
+	}
+
+	else
+	{
+		//Dmg만큼 Player의 HP가 감소, 폭발반경의 맵이 깎여야함, 넉백이 있을 수도, 
+	}
 }
