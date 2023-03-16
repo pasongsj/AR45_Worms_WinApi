@@ -18,6 +18,9 @@
       <Filter>Play</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -39,6 +42,9 @@
     <ClCompile Include="Map.cpp">
       <Filter>Play</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -49,6 +55,9 @@
     </Filter>
     <Filter Include="Center">
       <UniqueIdentifier>{e22b4451-24a8-41b8-8a4d-637a173a2372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{2fb70536-a1e2-4cfa-b96c-8b40110dc234}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
