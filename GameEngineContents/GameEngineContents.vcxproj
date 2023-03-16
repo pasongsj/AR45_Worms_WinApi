@@ -23,6 +23,11 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
@@ -36,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CenterLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
       <SubType>
       </SubType>
     </ClCompile>

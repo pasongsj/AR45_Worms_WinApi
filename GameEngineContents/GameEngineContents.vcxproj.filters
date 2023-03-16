@@ -14,6 +14,10 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>Play</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnums.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -30,6 +34,9 @@
       <Filter>Center</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
       <Filter>Play</Filter>
     </ClCompile>
   </ItemGroup>

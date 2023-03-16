@@ -23,6 +23,9 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
+	
 
+	void SoundLoad();
+	void ImageLoad();
 };
 
