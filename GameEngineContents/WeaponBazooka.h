@@ -10,9 +10,12 @@ public:
 	~WeaponBazooka();
 
 	void WeaponBazookaInit();
-	void firing(float _DeltaTime);
 	void CreatePlayerAnimation();
 	bool CheckCollision();
+
+	void SetAngle();
+	void Charging();
+	void firing(float _DeltaTime);
 	void Explosion();
 
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
