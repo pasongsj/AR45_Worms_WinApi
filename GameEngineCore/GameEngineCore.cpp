@@ -111,7 +111,7 @@ void GameEngineCore::CoreStart(HINSTANCE _instance)
 		GameEngineInput::CreateKey("EngineMouseRight", VK_RBUTTON);
 	}
 
-	GameEngineWindow::WindowCreate(_instance, "Worms Armageddon", { 1280, 720 }, { 0, 0 });
+	GameEngineWindow::WindowCreate(_instance, "Worms Armageddon", { 1280, 960 }, { 0, 0 });
 	GameEngineWindow::WindowLoop(GameEngineCore::GlobalStart, GameEngineCore::GlobalUpdate, GameEngineCore::GlobalEnd);
 }
 
