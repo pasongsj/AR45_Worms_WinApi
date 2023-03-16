@@ -1,6 +1,7 @@
 #include "PlayLevel.h"
 #include "WeaponBazooka.h"
 #include "Map.h"
+#include "Player.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
@@ -56,9 +57,7 @@ void PlayLevel::ImageLoad()
 			IdleRight->Cut(1, 6);
 		}
 	}
-}
 
-	CreateActor<WeaponBazooka>();
 }
 
 void PlayLevel::Loading()
@@ -73,6 +72,8 @@ void PlayLevel::Loading()
 		WormPlayer1 = CreateActor<Player>();
 		WormPlayer1->SetColImage("MapCity_Ground.bmp");
 	}
+
+	CreateActor<WeaponBazooka>();
 }
 
 void PlayLevel::Update(float _DeltaTime)
