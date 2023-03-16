@@ -11,7 +11,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include <GameEnginePlatform/GameEngineInput.h>
+
 
 PlayLevel::PlayLevel() 
 {
@@ -72,11 +72,15 @@ void PlayLevel::ImageLoad()
 			//Left 플레이어 이미지
 			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
 			IdleLeft->Cut(1, 6);
+			GameEngineImage* WalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WalkLeft.bmp"));
+			WalkLeft->Cut(1, 15);
 		}
 		{
 			//Right 플레이어 이미지
 			GameEngineImage* IdleRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleRight.bmp"));
 			IdleRight->Cut(1, 6);
+			GameEngineImage* WalkRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WalkRight.bmp"));
+			WalkRight->Cut(1, 15);
 		}
 	}
 
@@ -113,6 +117,7 @@ void PlayLevel::Loading()
 
 		iPlayerNumber = 0;
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
+		pCurPlayer->SetIsMyTurn(true);
 	}
 
 	CreateActor<WeaponBazooka>();
@@ -131,7 +136,9 @@ void PlayLevel::Update(float _DeltaTime)
 		{
 			iPlayerNumber = 0;
 		}
+		pCurPlayer->SetIsMyTurn(false);
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
+		pCurPlayer->SetIsMyTurn(true);
 	}
 	if (GameEngineInput::IsDown("FreeMoveSwitch"))
 	{

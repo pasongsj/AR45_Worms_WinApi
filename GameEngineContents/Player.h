@@ -24,6 +24,10 @@ public:
 
 	void SetColImage(const std::string_view& _Name);
 
+	void SetIsMyTurn(bool _Value)
+	{
+		IsMyTurn = _Value;
+	}
 
 protected:
 	void Start() override;
@@ -33,20 +37,40 @@ protected:
 private:
 	GameEngineRender* AnimationRender = nullptr;
 
+	bool IsMyTurn = false; //내 턴인지 체크
 
-	//플레이어 스테이트 관련
-	PlayerState StateValue = PlayerState::IDLE;
+	//플레이어의 현재 방향
+	std::string DirString = "Right_";
+	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
+	void DirCheck(const std::string_view& _AnimationName);
 
 	//플레이어의 이동방향
 	float4 MoveDir = float4::Zero;
 
-	//이동 관련 함수
-	void MoveCalculation(float _DeltaTime);
+	//이동 관련
+	float MoveSpeed = 50.0f;
+	float Gravity = 300.0f;
 
+	void GravityApplied();
+	void MoveCalculation(float _DeltaTime);
+	float4 PullUpCharacter(float4 _NextPos, float _DeltaTime); //플레이어가 colimage상 아래로 들어가 있다면,MoveDir을 위로 끌어올림
+
+	GameEngineImage* ColImage = nullptr; //이동 등에 사용될 colimage
+
+	//플레이어 스테이트 관련	
 	void ChangeState(PlayerState _State);
 	void UpdateState(float _Time);
 
-	GameEngineImage* ColImage = nullptr; //이동 등에 사용될 colimage
+	//플레이어의 현재 상태
+	PlayerState StateValue = PlayerState::IDLE;
+
+	void IdleStart();
+	void IdleUpdate(float _DeltatTime);
+	void IdleEnd();
+
+	void MoveStart();
+	void MoveUpdate(float _DeltatTime);
+	void MoveEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
