@@ -10,6 +10,7 @@ public:
 	~WeaponBazooka();
 
 	void WeaponBazookaInit();
+	void firing(float _DeltaTime);
 
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
 	WeaponBazooka(WeaponBazooka&& _Other) noexcept = delete;

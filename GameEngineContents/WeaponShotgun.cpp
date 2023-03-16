@@ -14,11 +14,6 @@ void WeaponShotgun::Start()
 }
 void WeaponShotgun::Update(float _DeltaTime)
 {
-	if (nullptr == GetWeaponRender)
-	{
-		WeaponBazookaInit();
-	}
-
 }
 void WeaponShotgun::Render(float _DeltaTime)
 {
@@ -27,9 +22,4 @@ void WeaponShotgun::Render(float _DeltaTime)
 
 void WeaponShotgun::WeaponBazookaInit()
 {
-	GameEngineRender* Render = GetWeaponRender();
-
-
-	GameEngineRender* Render = GetWeaponRender();
-
 }

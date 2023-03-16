@@ -19,26 +19,6 @@ public:
 
 protected:
 
-	// Render
-	GameEngineRender* GetWeaponRender()
-	{
-		return WeaponRender;
-	}
-
-	void SetWeaponRender(GameEngineRender* _Render)
-	{
-		WeaponRender = _Render;
-	}
-	// Collision
-	GameEngineCollision* GetWeaponCollision()
-	{
-		return WeaponCollision;
-	}
-
-	void SetWeaponCollision(GameEngineCollision* _Collision)
-	{
-		WeaponCollision = _Collision;
-	}
 	//
 	bool EffectGravity = true;						// 중력영향
 	bool isAnimation = false;						// 애니메이션
@@ -59,12 +39,12 @@ protected:
 
 	std::string WeaponName;							// 무기 이름
 
-private:
-
-	GameEngineImage* MapCollision = nullptr;
+	GameEngineImage* MapCollision = nullptr;		//충돌맵
 
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
+
+private:
 		
 };
 

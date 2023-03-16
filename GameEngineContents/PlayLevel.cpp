@@ -1,8 +1,9 @@
 #include "PlayLevel.h"
+#include "WeaponBazooka.h"
+#include "Map.h"
+
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include "Map.h"
-#include "Player.h"
 
 PlayLevel::PlayLevel() 
 {
@@ -55,6 +56,9 @@ void PlayLevel::ImageLoad()
 			IdleRight->Cut(1, 6);
 		}
 	}
+}
+
+	CreateActor<WeaponBazooka>();
 }
 
 void PlayLevel::Loading()
