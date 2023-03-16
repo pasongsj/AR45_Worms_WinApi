@@ -1,5 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+
+class GameEngineImage;
+class GameEngineRender;
+class GameEngineCollision;
+
 class Weapon :public GameEngineActor
 {
 public:
@@ -24,6 +29,16 @@ protected:
 		return WeaponCollision;
 	}
 
+	GameEngineRender* SetWeaponRender(GameEngineRender* _Render)
+	{
+		WeaponRender = _Render;
+	}
+
+	GameEngineCollision* SetWeaponCollision(GameEngineCollision* _Collision)
+	{
+		WeaponCollision = _Collision;
+	}
+
 private:
 	bool EffectGravity = true;						// 중력영향
 	bool isAnimation = false;						// 애니메이션
@@ -44,6 +59,7 @@ private:
 
 	std::string WeaponName;							// 무기 이름
 
+	GameEngineImage* MapCollision = nullptr;
 
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전

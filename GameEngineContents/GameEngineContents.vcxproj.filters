@@ -11,14 +11,17 @@
     <ClInclude Include="CenterLevel.h">
       <Filter>Center</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Play</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Play</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponBazooka.h">
       <Filter>Weapon</Filter>
     </ClInclude>
   </ItemGroup>
@@ -43,6 +46,9 @@
       <Filter>Play</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBazooka.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
