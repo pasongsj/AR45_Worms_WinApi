@@ -25,7 +25,7 @@ protected:
 		return WeaponRender;
 	}
 
-	GameEngineRender* SetWeaponRender(GameEngineRender* _Render)
+	void SetWeaponRender(GameEngineRender* _Render)
 	{
 		WeaponRender = _Render;
 	}
@@ -35,7 +35,7 @@ protected:
 		return WeaponCollision;
 	}
 
-	GameEngineCollision* SetWeaponCollision(GameEngineCollision* _Collision)
+	void SetWeaponCollision(GameEngineCollision* _Collision)
 	{
 		WeaponCollision = _Collision;
 	}

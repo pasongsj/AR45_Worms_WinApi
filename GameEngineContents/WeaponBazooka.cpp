@@ -1,4 +1,5 @@
 #include "WeaponBazooka.h"
+#include "ContentsEnums.h"
 
 WeaponBazooka::WeaponBazooka()
 {
@@ -25,4 +26,6 @@ void WeaponBazooka::Render(float _DeltaTime)
 
 void WeaponBazooka::WeaponBazookaInit()
 {
+	SetWeaponRender(CreateRender("Waepon1.bmp", static_cast<int>(WormsRenderOrder::Weapon)));
+	SetWeaponCollision(CreateCollision(static_cast<int>(WormsRenderOrder::Weapon)));
 }
