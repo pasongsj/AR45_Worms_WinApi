@@ -1,5 +1,6 @@
 #include "Map.h"
-#include <string>
+//#include <string>
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRender.h>
@@ -19,6 +20,7 @@ Map::~Map()
 
 void Map::Start()
 {
+	//입력 키 생성
 	if (false == GameEngineInput::IsKey("FreeMoveSwitch"))
 	{
 		GameEngineInput::CreateKey("FreeMoveSwitch", '0');
@@ -32,6 +34,7 @@ void Map::Start()
 	}
 
 
+	//랜더 생성
 	MapRender = CreateRender(WormsRenderOrder::Map);
 	MapRender->SetImage("MapCity.bmp");
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
@@ -52,6 +55,7 @@ void Map::Start()
 		WaveBack->SetPosition(WaveBackPos);
 		WaveBack->SetScale(WaveBackScale);
 	}
+	//Wave Animation
 	{
 		GameEngineRender* Wave0 = CreateRender(WormsRenderOrder::Wave);
 		Wave0->SetImage("Water_sprite.bmp");
@@ -60,29 +64,32 @@ void Map::Start()
 		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave0->ChangeAnimation("Wave0");
 	}
+	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
 		GameEngineRender* Wave1 = CreateRender(WormsRenderOrder::Wave);
 		Wave1->SetImage("Water_sprite.bmp");
 		Wave1->SetPosition(WaveAnimPos1);
 		Wave1->SetScale(WaveScale);
 		Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
-		Wave1->ChangeAnimation("Wave1");
+		Wave1->ChangeAnimation("Wave1", RandIdx);
 	}
+	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
 		GameEngineRender* Wave2 = CreateRender(WormsRenderOrder::Wave);
 		Wave2->SetImage("Water_sprite.bmp");
 		Wave2->SetPosition(WaveAnimPos2);
 		Wave2->SetScale(WaveScale);
 		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
-		Wave2->ChangeAnimation("Wave2");
+		Wave2->ChangeAnimation("Wave2", RandIdx);
 	}
+	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
 		GameEngineRender* Wave3 = CreateRender(WormsRenderOrder::Wave);
 		Wave3->SetImage("Water_sprite.bmp");
 		Wave3->SetPosition(WaveAnimPos3);
 		Wave3->SetScale(WaveScale);
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
-		Wave3->ChangeAnimation("Wave3");
+		Wave3->ChangeAnimation("Wave3", RandIdx);
 	}
 }
 
