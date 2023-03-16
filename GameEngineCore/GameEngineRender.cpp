@@ -323,7 +323,7 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Paramter)
 	NewAnimation.Parent = this;
 }
 
-void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange /*= false*/)
+void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, int _CurIndex, bool _ForceChange)
 {
 	// 이미 같은 애니메이션으로 바꾸라고 리턴할껍니다.
 
@@ -342,7 +342,7 @@ void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, b
 
 	CurrentAnimation = &Animation[UpperName];
 
-	CurrentAnimation->CurrentIndex = 0;
+	CurrentAnimation->CurrentIndex = _CurIndex;
 	// 0.1
 	CurrentAnimation->CurrentTime = CurrentAnimation->FrameTime[CurrentAnimation->CurrentIndex];
 }
