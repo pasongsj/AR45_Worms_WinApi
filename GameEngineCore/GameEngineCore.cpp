@@ -17,7 +17,6 @@ GameEngineCore* GameEngineCore::GetInst()
 void GameEngineCore::GlobalStart() 
 {
 	Core->Start();
-
 	GameEngineTime::GlobalTime.Reset();
 }
 

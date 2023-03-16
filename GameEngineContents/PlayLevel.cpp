@@ -1,11 +1,15 @@
 #include "PlayLevel.h"
 #include "WeaponBazooka.h"
 #include "Map.h"
-#include "Player.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+#include "Player.h"
 PlayLevel::PlayLevel() 
 {
 }
@@ -64,13 +68,33 @@ void PlayLevel::Loading()
 {
 	SoundLoad();
 	ImageLoad();
+	if (false == GameEngineInput::IsKey("ChangePlayer"))
+	{
+		GameEngineInput::CreateKey("ChangePlayer", 'n');
+	}
 
 	{
 		Map* Actor = CreateActor<Map>();
 	}
 	{
-		WormPlayer1 = CreateActor<Player>();
-		WormPlayer1->SetColImage("MapCity_Ground.bmp");
+		ScreenSize = GameEngineWindow::GetScreenSize();
+		for (size_t i = 0; i < 8; i++)
+		{
+			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 399);
+
+			vecAllPlayer.push_back(CreateActor<Player>());
+			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
+
+			float4 StartPos = float4{ 350,50 };
+			StartPos.x *= i+1;
+			StartPos.x += iRandxPos;
+			vecAllPlayer[i]->SetPos(StartPos);
+		}
+
+		iPlayerNumber = 0;
+		pCurPlayer = vecAllPlayer[iPlayerNumber];
+		//WormPlayer1 = CreateActor<Player>();
+		//WormPlayer1->SetColImage("MapCity_Ground.bmp");
 	}
 
 	CreateActor<WeaponBazooka>();
@@ -78,5 +102,21 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
+	if (-1 == iPlayerNumber)
+	{
+		MsgAssert("PlayerNumber가 오류났습니다.");
+	}
+	if (GameEngineInput::IsDown("ChangePlayer"))
+	{
+		++iPlayerNumber;
+		if (8 == iPlayerNumber)
+		{
+			iPlayerNumber = 0;
+		}
+		pCurPlayer = vecAllPlayer[iPlayerNumber];
+	}
+
+	float4 CurPlayerPos = pCurPlayer->GetPos();
+	SetCameraPos(CurPlayerPos - ScreenSize.half());
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <vector>
 
 // Ό³Έν :
 class Player;
@@ -24,8 +25,11 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
-	Player* WormPlayer1 = nullptr;
-
+	int iPlayerNumber = -1;
+	Player* pCurPlayer = nullptr;
+	//Player* WormPlayer1 = nullptr;
+	std::vector<Player*> vecAllPlayer;
+	float4 ScreenSize = float4::Zero;
 	void SoundLoad();
 	void ImageLoad();
 };
