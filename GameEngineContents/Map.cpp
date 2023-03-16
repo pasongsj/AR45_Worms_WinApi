@@ -5,12 +5,15 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
+//ScreenSize: { 1280, 720 }
+//BackGround_Hrz: 5120
 
-Map::Map() 
+
+Map::Map()
 {
 }
 
-Map::~Map() 
+Map::~Map()
 {
 }
 
@@ -23,26 +26,89 @@ void Map::Start()
 		GameEngineInput::CreateKey("FreeRight", VK_RIGHT);
 		GameEngineInput::CreateKey("FreeUp", VK_UP);
 		GameEngineInput::CreateKey("FreeDown", VK_DOWN);
-		
+
+		//µð¹ö±ë ¸ðµå_Ãæµ¹¸Ê È®ÀÎ
+		GameEngineInput::CreateKey("DebugMode", '9');
+	}
+
+
+	MapRender = CreateRender(WormsRenderOrder::Map);
+	MapRender->SetImage("MapCity.bmp");
+	float4 MapScale = MapRender->GetImage()->GetImageScale();
+	MapRender->SetPosition(MapScale.half());
+	MapRender->SetScaleToImage();
+
+	//BackGround_Sky
+	{
+		GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
+		BackGround->SetImage("gradient.bmp");
+		BackGround->SetPosition(MapScale.half());
+		BackGround->SetScaleToImage();
+	}
+	//BackGround_Wave
+	{
+		GameEngineRender* WaveBack = CreateRender(WormsRenderOrder::BackGround);
+		WaveBack->SetImage("Under_Water.bmp");
+		WaveBack->SetPosition(WaveBackPos);
+		WaveBack->SetScale(WaveBackScale);
 	}
 	{
-		GameEngineRender* MapRender0 = CreateRender(WormsRenderOrder::Map);
-		MapRender0->SetImage("MapCity.bmp");
-		float4 MapScale = MapRender0->GetImage()->GetImageScale().half();
-		MapRender0->SetPosition(MapScale);
-		//MapRender0->SetScale(MapScale);
-		MapRender0->SetScaleToImage();		//1840, 1392
+		GameEngineRender* Wave0 = CreateRender(WormsRenderOrder::Wave);
+		Wave0->SetImage("Water_sprite.bmp");
+		Wave0->SetPosition(WaveAnimPos0);
+		Wave0->SetScale(WaveScale);
+		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+		Wave0->ChangeAnimation("Wave0");
+	}
+	{
+		GameEngineRender* Wave1 = CreateRender(WormsRenderOrder::Wave);
+		Wave1->SetImage("Water_sprite.bmp");
+		Wave1->SetPosition(WaveAnimPos1);
+		Wave1->SetScale(WaveScale);
+		Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+		Wave1->ChangeAnimation("Wave1");
+	}
+	{
+		GameEngineRender* Wave2 = CreateRender(WormsRenderOrder::Wave);
+		Wave2->SetImage("Water_sprite.bmp");
+		Wave2->SetPosition(WaveAnimPos2);
+		Wave2->SetScale(WaveScale);
+		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+		Wave2->ChangeAnimation("Wave2");
+	}
+	{
+		GameEngineRender* Wave3 = CreateRender(WormsRenderOrder::Wave);
+		Wave3->SetImage("Water_sprite.bmp");
+		Wave3->SetPosition(WaveAnimPos3);
+		Wave3->SetScale(WaveScale);
+		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+		Wave3->ChangeAnimation("Wave3");
 	}
 }
 
 void Map::Update(float _DeltaTime)
 {
+
 	if (true == FreeMoveState(_DeltaTime))
 	{
 		return;
 	}
 
-	std::string PlayLevel = "FreeMoveSwitch Key : Number0";
+	if (true == GameEngineInput::IsDown("DebugMode"))							//µð¹ö±ë ¸ðµå_Ãæµ¹¸Ê È¤Àº ¸ÊÀ» º¼ ¼ö ÀÖÀ½
+	{
+		if (false == IsColMap)
+		{
+			IsColMap = true;
+			MapRender->SetImage("MapCity_Ground.bmp");
+		}
+		else
+		{
+			IsColMap = false;
+			MapRender->SetImage("MapCity.bmp");
+		}
+	}
+
+	std::string PlayLevel = "FreeMoveSwitch Key : 0, DebugMode Key: 9";
 	GameEngineLevel::DebugTextPush(PlayLevel);
 }
 
