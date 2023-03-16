@@ -1,10 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 class GameEngineImage;
-class GameEngineRender;
-class GameEngineCollision;
-
 class Weapon :public GameEngineActor
 {
 public:

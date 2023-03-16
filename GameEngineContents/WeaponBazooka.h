@@ -17,9 +17,9 @@ public:
 	WeaponBazooka& operator=(WeaponBazooka&& _Other) noexcept = delete;
 
 protected:
-	virtual void Start();
-	virtual void Update(float _DeltaTime);
-	virtual void Render(float _DeltaTime);
+	void Start() override;
+	void Update(float _DeltaTime) override;
+	void Render(float _DeltaTime) override;
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 };
