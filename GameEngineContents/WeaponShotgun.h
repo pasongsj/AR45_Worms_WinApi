@@ -21,6 +21,17 @@ protected:
 
 private:
 
-	void WeaponBazookaInit();
+
+	int BulletCount = 2;
+
+
+	GameEngineRender* BombRender = nullptr;
+	GameEngineCollision* BombCollision = nullptr;
+
+
+	void WeaponShotgunInit();
+	void WeaponMove(float _DeltaTime);
+
+	bool CheckCollision();
 };
 

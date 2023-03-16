@@ -21,7 +21,7 @@ protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
 
-	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) override {}
+	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:

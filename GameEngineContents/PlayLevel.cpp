@@ -1,6 +1,9 @@
 #include "PlayLevel.h"
 #include "WeaponBazooka.h"
 #include "Map.h"
+#include "Player.h"
+#include "WeaponShotgun.h"
+#include "ContentsEnums.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -8,8 +11,8 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
-#include "Player.h"
 PlayLevel::PlayLevel() 
 {
 }
@@ -58,6 +61,7 @@ void PlayLevel::ImageLoad()
 
 		GameEngineImage* Weapon1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Weapon1.bmp"));
 		GameEngineImage* Weapon2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Weapon2.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 
 		Dir.MoveParent();
 	}
@@ -82,6 +86,12 @@ void PlayLevel::Loading()
 {
 	SoundLoad();
 	ImageLoad();
+	{
+		if (false == GameEngineInput::IsKey("DebugMode"))
+		{
+			GameEngineInput::CreateKey("DebugMode", '9');
+		}
+	}
 	if (false == GameEngineInput::IsKey("ChangePlayer"))
 	{
 		GameEngineInput::CreateKey("ChangePlayer", 'n');
@@ -137,5 +147,13 @@ void PlayLevel::Update(float _DeltaTime)
 		float4 CurPlayerPos = pCurPlayer->GetPos();
 		SetCameraPos(CurPlayerPos - ScreenSize.half());
 	}
+	if (GameEngineInput::IsDown("DebugMode"))
+	{
+		DebugRenderSwitch();
+	}
 }
 
+void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	CreateActor<WeaponShotgun>();
+}
