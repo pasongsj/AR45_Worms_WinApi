@@ -27,8 +27,9 @@ protected:
 private:
 	int iPlayerNumber = -1;
 	Player* pCurPlayer = nullptr;
-	//Player* WormPlayer1 = nullptr;
 	std::vector<Player*> vecAllPlayer;
+	bool bFreeCamMove = false;
+
 	float4 ScreenSize = float4::Zero;
 	void SoundLoad();
 	void ImageLoad();

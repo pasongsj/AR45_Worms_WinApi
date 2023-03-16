@@ -93,8 +93,6 @@ void PlayLevel::Loading()
 
 		iPlayerNumber = 0;
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		//WormPlayer1 = CreateActor<Player>();
-		//WormPlayer1->SetColImage("MapCity_Ground.bmp");
 	}
 
 	CreateActor<WeaponBazooka>();
@@ -115,8 +113,15 @@ void PlayLevel::Update(float _DeltaTime)
 		}
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
 	}
+	if (GameEngineInput::IsDown("FreeMoveSwitch"))
+	{
+		bFreeCamMove = !bFreeCamMove;
+	}
 
-	float4 CurPlayerPos = pCurPlayer->GetPos();
-	SetCameraPos(CurPlayerPos - ScreenSize.half());
+	if (false == bFreeCamMove)
+	{
+		float4 CurPlayerPos = pCurPlayer->GetPos();
+		SetCameraPos(CurPlayerPos - ScreenSize.half());
+	}
 }
 
