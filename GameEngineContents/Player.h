@@ -8,6 +8,7 @@ enum class PlayerState
 };
 
 // 설명 : 플레이어 클래스
+class GameEngineImage;
 class Player : public GameEngineActor
 {
 public:
@@ -21,12 +22,17 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	void SetColImage(const std::string_view& _Name);
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
 private:
+	GameEngineRender* AnimationRender = nullptr;
+
 
 	//플레이어 스테이트 관련
 	PlayerState StateValue = PlayerState::IDLE;
@@ -39,5 +45,12 @@ private:
 
 	void ChangeState(PlayerState _State);
 	void UpdateState(float _Time);
+
+	GameEngineImage* ColImage = nullptr; //이동 등에 사용될 colimage
+
+	//기본 스테이트 관련 함수
+	//void Start();
+	//void Update(float _DeltatTime);
+	//void End();
 };
 

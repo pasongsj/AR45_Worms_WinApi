@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν :
+class Player;
 class PlayLevel : public GameEngineLevel
 {
 public:
@@ -23,7 +24,7 @@ protected:
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
-	
+	Player* WormPlayer1 = nullptr;
 
 	void SoundLoad();
 	void ImageLoad();

@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "Map.h"
+#include "Player.h"
 
 PlayLevel::PlayLevel() 
 {
@@ -22,9 +23,9 @@ void PlayLevel::ImageLoad()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
+	Dir.Move("Play");
 
 	{
-		Dir.Move("Play");
 		Dir.Move("Map");
 
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCity.bmp"));
@@ -40,6 +41,20 @@ void PlayLevel::ImageLoad()
 
 		Dir.MoveParent();
 	}
+	{
+		Dir.Move("Player");
+		Dir.Move("Image");
+		{
+			//Left 플레이어 이미지
+			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
+			IdleLeft->Cut(1, 6);
+		}
+		{
+			//Right 플레이어 이미지
+			GameEngineImage* IdleRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleRight.bmp"));
+			IdleRight->Cut(1, 6);
+		}
+	}
 }
 
 void PlayLevel::Loading()
@@ -49,6 +64,10 @@ void PlayLevel::Loading()
 
 	{
 		Map* Actor = CreateActor<Map>();
+	}
+	{
+		WormPlayer1 = CreateActor<Player>();
+		WormPlayer1->SetColImage("MapCity_Ground.bmp");
 	}
 }
 
