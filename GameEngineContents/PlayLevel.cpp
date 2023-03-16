@@ -86,15 +86,11 @@ void PlayLevel::Loading()
 {
 	SoundLoad();
 	ImageLoad();
-	{
-		if (false == GameEngineInput::IsKey("DebugMode"))
-		{
-			GameEngineInput::CreateKey("DebugMode", '9');
-		}
-	}
+
 	if (false == GameEngineInput::IsKey("ChangePlayer"))
 	{
 		GameEngineInput::CreateKey("ChangePlayer", 'n');
+		GameEngineInput::CreateKey("DebugCollision", '8');
 	}
 
 	{
@@ -106,7 +102,7 @@ void PlayLevel::Loading()
 		{
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 399);
 
-			vecAllPlayer.push_back(CreateActor<Player>());
+			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
 			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
 
 			float4 StartPos = float4{ 350,50 };
@@ -147,7 +143,7 @@ void PlayLevel::Update(float _DeltaTime)
 		float4 CurPlayerPos = pCurPlayer->GetPos();
 		SetCameraPos(CurPlayerPos - ScreenSize.half());
 	}
-	if (GameEngineInput::IsDown("DebugMode"))
+	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();
 	}
