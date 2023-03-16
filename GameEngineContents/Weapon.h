@@ -27,6 +27,7 @@ protected:
 
 	float MoveSpeed = 0.0f;							// 무기속력
 	float Gravity = 0.0f;							// 중력
+	float GravityAccel = 0.0f;						// 중력가속도
 	float Timer = 0.0f;								// 타이머
 	float WindPower = 0.0f;							// 바람세기
 	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
