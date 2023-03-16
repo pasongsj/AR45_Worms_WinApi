@@ -24,6 +24,9 @@
     <ClInclude Include="WeaponBazooka.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponShotgun.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -49,6 +52,9 @@
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="WeaponBazooka.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponShotgun.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>

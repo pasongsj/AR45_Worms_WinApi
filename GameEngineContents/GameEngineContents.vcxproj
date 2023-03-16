@@ -39,6 +39,10 @@
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="TitleLevel.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponShotgun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WormsCore.h">
       <SubType>
       </SubType>
@@ -65,6 +69,10 @@
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponShotgun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WormsCore.cpp">
       <SubType>
       </SubType>

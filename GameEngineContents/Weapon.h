@@ -18,27 +18,28 @@ public:
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
 
 protected:
+
+	// Render
 	GameEngineRender* GetWeaponRender()
 	{
 		return WeaponRender;
-	}
-
-	GameEngineCollision* GetWeaponCollision()
-	{
-		return WeaponCollision;
 	}
 
 	GameEngineRender* SetWeaponRender(GameEngineRender* _Render)
 	{
 		WeaponRender = _Render;
 	}
+	// Collision
+	GameEngineCollision* GetWeaponCollision()
+	{
+		return WeaponCollision;
+	}
 
 	GameEngineCollision* SetWeaponCollision(GameEngineCollision* _Collision)
 	{
 		WeaponCollision = _Collision;
 	}
-
-private:
+	//
 	bool EffectGravity = true;						// 중력영향
 	bool isAnimation = false;						// 애니메이션
 	bool isBlocked = false;							// 지형 통과여부
@@ -57,6 +58,8 @@ private:
 	//float4 Scale = float4::Zero;					// 랜더스케일
 
 	std::string WeaponName;							// 무기 이름
+
+private:
 
 	GameEngineImage* MapCollision = nullptr;
 
