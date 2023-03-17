@@ -113,7 +113,7 @@ void WeaponBazooka::firing(float _DeltaTime) //¹ß»ç
 
 	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponRender->GetActorPlusPos(), RGB(0, 0, 255))) //¸Ê¿¡ ´êÀ¸¸é »ç¶óÁü
 	{
-		//WeaponRender->Off(); 
+		WeaponRender->Off(); 
 	}
 }
 

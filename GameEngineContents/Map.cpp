@@ -1,14 +1,16 @@
 #include "Map.h"
-//#include <string>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
+#include "MapModifier.h"
 //ScreenSize: { 1280, 720 }
 //BackGround_Hrz: 5120
 
+
+Map* Map::MainMap;
 
 Map::Map()
 {
@@ -20,6 +22,8 @@ Map::~Map()
 
 void Map::Start()
 {
+	MainMap = this;
+
 	//입력 키 생성
 	if (false == GameEngineInput::IsKey("FreeMoveSwitch"))
 	{
@@ -38,14 +42,31 @@ void Map::Start()
 	MapRender = CreateRender(WormsRenderOrder::Map);
 	MapRender->SetImage("MapCity.bmp");
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
-	MapRender->SetPosition(MapScale.half());
+	//MapRender->SetPosition(MapScale.half());
+	MapRender->SetPosition(float4::Zero);
 	MapRender->SetScaleToImage();
+
+	
+	//맵 위치 확인을 위한 테스트용 원---------삭제할 예정
+	{
+		HDC MapRenderDc = Map::MainMap->GetMapRenderDC();
+		float4 CircleRenderPos = MapRender->GetPosition();
+		int Radius = 10;
+
+		Ellipse(MapRenderDc,
+			CircleRenderPos.ix() - Radius,
+			CircleRenderPos.iy() - Radius,
+			CircleRenderPos.ix() + Radius,
+			CircleRenderPos.iy() + Radius);
+	}
+
 
 	//BackGround_Sky
 	{
 		GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
 		BackGround->SetImage("gradient.bmp");
-		BackGround->SetPosition(MapScale.half());
+		//BackGround->SetPosition(MapScale.half());
+		BackGround->SetPosition(float4::Zero);
 		BackGround->SetScaleToImage();
 	}
 	//BackGround_Wave
@@ -91,6 +112,10 @@ void Map::Start()
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave3->ChangeAnimation("Wave3", RandIdx);
 	}
+
+	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Wave);
+	MapMdfActor->SetPos({ 1920.0f, 1200.0f });
+	MapMdfActor->CreateHole(100);
 }
 
 void Map::Update(float _DeltaTime)
@@ -152,4 +177,10 @@ bool Map::FreeMoveState(float _DeltaTime)
 		return true;
 	}
 	return false;
+}
+
+HDC Map::GetMapRenderDC() const
+{
+	HDC hdc = MapRender->GetImage()->GetImageDC();
+	return hdc;
 }
