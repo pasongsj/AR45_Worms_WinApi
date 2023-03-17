@@ -156,18 +156,11 @@ void Map::Update(float _DeltaTime)
 }
 
 bool FreeMove = false;
-bool FreeMoveSwitch = false;
 bool Map::FreeMoveState(float _DeltaTime)
 {
-	if (false == FreeMoveSwitch && true == GameEngineInput::IsDown("FreeMoveSwitch"))
+	if (true == GameEngineInput::IsDown("FreeMoveSwitch"))
 	{
-		FreeMove = true;
-		FreeMoveSwitch = true;
-	}
-	else if(true == FreeMoveSwitch && true == GameEngineInput::IsDown("FreeMoveSwitch"))
-	{
-		FreeMove = false;
-		FreeMoveSwitch = false;
+		FreeMove = !FreeMove;
 	}
 
 	if (true == FreeMove)
@@ -176,27 +169,21 @@ bool Map::FreeMoveState(float _DeltaTime)
 		{
 			GetLevel()->SetCameraMove(float4::Left * FreeSpeed * _DeltaTime);
 		}
-		else if (GameEngineInput::IsPress("FreeRight"))
+		if (GameEngineInput::IsPress("FreeRight"))
 		{
 			GetLevel()->SetCameraMove(float4::Right * FreeSpeed * _DeltaTime);
 		}
-		else if (GameEngineInput::IsPress("FreeUp"))
+		if (GameEngineInput::IsPress("FreeUp"))
 		{
 			GetLevel()->SetCameraMove(float4::Up * FreeSpeed * _DeltaTime);
 		}
-		else if (GameEngineInput::IsPress("FreeDown"))
+		if (GameEngineInput::IsPress("FreeDown"))
 		{
 			GetLevel()->SetCameraMove(float4::Down * FreeSpeed * _DeltaTime);
 		}
 	}
-	if (true == FreeMove)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+
+	return FreeMove;
 }
 
 HDC Map::GetMapRenderDC() const
