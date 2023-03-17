@@ -2,6 +2,9 @@
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
+
+std::map<std::string, Weapon*> Weapon::AllWeapons;
+
 Weapon::Weapon()
 {
 }
@@ -14,15 +17,15 @@ Weapon::~Weapon()
 float4 Weapon::GetShootDir()
 {
 	float4 ReturnDir = float4::Zero;
-	if (GameEngineInput::IsKey("WeaponUp") == false)
-	{
-		// 무기 방향
-		GameEngineInput::CreateKey("WeaponUp", 'W');
-		GameEngineInput::CreateKey("WeaponDown", 'S');
-		GameEngineInput::CreateKey("WeaponRight", 'D');
-		GameEngineInput::CreateKey("WeaponLeft", 'A');
+	//if (GameEngineInput::IsKey("WeaponUp") == false)
+	//{
+	//	// 무기 방향
+	//	GameEngineInput::CreateKey("WeaponUp", 'W');
+	//	GameEngineInput::CreateKey("WeaponDown", 'S');
+	//	GameEngineInput::CreateKey("WeaponRight", 'D');
+	//	GameEngineInput::CreateKey("WeaponLeft", 'A');
 
-	}
+	//}
 
 	if (GameEngineInput::IsPress("WeaponUp") && -1 < Height) // 윈도우 좌표계 위로
 	{
@@ -34,7 +37,7 @@ float4 Weapon::GetShootDir()
 	}
 
 	// 지속적으로 마지막 방향 업데이트
-	if (GameEngineInput::IsPress("WeaponRight"))
+	if (GameEngineInput::IsDown("MoveRight"))
 	{
 	
 		if (false == isRightDir)
@@ -43,7 +46,7 @@ float4 Weapon::GetShootDir()
 		}
 		isRightDir = true;
 	}
-	else if (GameEngineInput::IsPress("WeaponLeft"))
+	else if (GameEngineInput::IsDown("MoveLeft"))
 	{
 		if (true == isRightDir)
 		{
@@ -62,12 +65,12 @@ float4 Weapon::GetShootDir()
 
 bool Weapon::PressShoot()
 {
-	if (GameEngineInput::IsKey("Shoot") == false)
+	/*if (GameEngineInput::IsKey("Shoot") == false)
 	{
 		GameEngineInput::CreateKey("Shoot", VK_SPACE);
-	}
+	}*/
 
-	if (GameEngineInput::IsPress("Shoot")) // 상하
+	if (GameEngineInput::IsDown("Shoot")) // 상하
 	{
 		return true;
 	}

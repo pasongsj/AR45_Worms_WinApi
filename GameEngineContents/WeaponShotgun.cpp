@@ -40,6 +40,7 @@ void WeaponShotgun::Start()
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
 	AimingLine->SetImage("TempBomb.bmp");
 	AimingLine->SetScale({ 10,10 });
+	AllWeapons[WeaponName] = this;
 }
 void WeaponShotgun::Update(float _DeltaTime)
 {
@@ -161,7 +162,7 @@ bool WeaponShotgun::CheckCollision(GameEngineCollision* _Col)
 		MsgAssert("콜리전 이미지가 설정되지 않았습니다.");
 		return false;
 	}
-	//if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetPosition(), RGB(0, 0, 255))) // - 콜리전 맵 위치 수정 필요
+	//if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetPosition(), RGB(255, 0, 255))) // - 콜리전 맵 위치 수정 필요
 	//{
 
 	//	return true;

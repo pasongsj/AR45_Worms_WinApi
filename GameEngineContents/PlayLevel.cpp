@@ -96,6 +96,9 @@ void PlayLevel::Loading()
 	{
 		GameEngineInput::CreateKey("ChangePlayer", 'n');
 		GameEngineInput::CreateKey("DebugCollision", '8');
+		GameEngineInput::CreateKey("WeaponUp", 'W');
+		GameEngineInput::CreateKey("WeaponDown", 'S');
+		GameEngineInput::CreateKey("Shoot", VK_SPACE);
 	}
 
 	{

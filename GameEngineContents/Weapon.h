@@ -7,6 +7,9 @@ class GameEngineImage;
 class Weapon :public GameEngineActor
 {
 public:
+
+
+	static std::map<std::string, Weapon*> AllWeapons;
 	// constrcuter destructer
 	Weapon() ;
 	~Weapon();
@@ -20,6 +23,7 @@ public:
 	float4 GetShootDir();
 	bool PressShoot();
 	bool isEndCharging();
+	virtual void ResetWeapon(float _DeltaTme) {};
 
 protected:
 
@@ -48,6 +52,7 @@ protected:
 
 	GameEngineRender* WeaponRender = nullptr;		//·»´õ
 	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
+
 
 private:
 	bool isRightDir = true;
