@@ -140,17 +140,15 @@ void PlayLevel::Update(float _DeltaTime)
 		pCurPlayer->SetIsMyTurn(false);
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
 		pCurPlayer->SetIsMyTurn(true);
+
+		float4 CurPlayerPos = pCurPlayer->GetPos();
+		SetCameraPos(CurPlayerPos - ScreenSize.half());
 	}
 	if (GameEngineInput::IsDown("FreeMoveSwitch"))
 	{
 		bFreeCamMove = !bFreeCamMove;
 	}
 
-	if (false == bFreeCamMove)
-	{
-		float4 CurPlayerPos = pCurPlayer->GetPos();
-		SetCameraPos(CurPlayerPos - ScreenSize.half());
-	}
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();
