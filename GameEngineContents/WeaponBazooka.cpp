@@ -24,11 +24,16 @@ void WeaponBazooka::Update(float _DeltaTime)
 {
 
 	firing(_DeltaTime);
+	BazookaOn();
 }
 
 void WeaponBazooka::Render(float _DeltaTime)
 {
-
+	if (GameEngineInput::IsDown("ChangePlayer"))
+	{
+		CurPlayer->ChangePlayerAnimation("BazOff");
+		SetCurPlayer();
+	}
 }
 
 void WeaponBazooka::WeaponBazookaInit()
@@ -50,22 +55,41 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	WeaponName = "Bazooka";
 
-	Gravity = 100.0f; //임시 설정값
+	Gravity = 0.0f; //임시 설정값
 	GravityAccel = 0.0f; //임시 설정값
 
-	MoveSpeed = 400.0f; //임시 설정값
+	MoveSpeed = 1000.0f; //임시 설정값
 
 	EffectGravity = true;
 	isAnimation = true;
 	isBlocked = true;
 	isTarget = false;
 
-	CreatePlayerAnimation();						
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+
+	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
+	SetCurPlayer();
+	CreatePlayerAnimation();
+
 }
 
 void WeaponBazooka::CreatePlayerAnimation()
 {
-	//플레이어를 받아와서 렌더에 애니메이션 추가
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+
+	for (int i = 0; i < PlayerList.size(); i++)
+	{
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f);
+
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.1f, false);
+
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 6, 0.1f, false);
+	}
+
+
 }
 
 bool WeaponBazooka::CheckCollision()
@@ -110,6 +134,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 	if (isSet == false)
 	{
+
 		for (int i = 0; i < PlayerList.size(); i++)
 		{
 			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
@@ -118,15 +143,15 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 				break;
 			}
 		}
+
 		WeaponRender->On();
 		WeaponCollision->On();
 		isSet = true;
 	}
 
-	Gravity += GravityAccel * _DeltaTime;
-	GravityAccel += 150.0f * _DeltaTime;
+	Gravity = 1.0f * _DeltaTime;
 	
-	Dir = { 50, -150 + Gravity }; // 다른 함수를 통해, 최초 발사 각도를 저장한 후 Y축에 +Gravity 를 프레임마다 해줌으로써 천천히 우(좌)하향하게 만든다 
+	Dir += { 100 , -100 + Gravity }; // 다른 함수를 통해, 최초 발사 각도를 저장한 후 Y축에 +Gravity 를 프레임마다 해줌으로써 천천히 우(좌)하향하게 만든다 
 	Dir.Normalize();
 
 	WeaponRender->SetAngle(-Dir.GetAnagleDeg() - 45);
@@ -134,13 +159,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponRender->GetActorPlusPos(), RGB(0, 0, 255))) //맵에 닿으면 사라짐
 	{
-
-		Gravity = 100.0f; //임시 설정값
-		GravityAccel = 0.0f; //임시 설정값
-		WeaponRender->Off();
-		WeaponCollision->Off();
-		isFire =false;
-		isSet = false;
+		ResetWeapon(_DeltaTime);
 	}
 }
 
@@ -174,3 +193,45 @@ void WeaponBazooka::SetAngle()
 		//각도가 변하면서 Dir의 좌표값이 변하고, Dir - PlayerPos 해서 방향벡터를 구한다음 Normalize
 	}
 }
+
+void WeaponBazooka::ChangeBazReadyAnimation()
+{
+
+}
+
+void WeaponBazooka::BazookaOn()
+{
+	if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
+	{
+		TimeCounting();
+	}
+	else
+	{	
+		CurPlayer->ChangePlayerAnimation("BazOff");
+		TimeCount = 0;
+	}
+
+	if (TimeCount >= 1.5f) 
+	{
+		CurPlayer->ChangePlayerAnimation("BazOn");
+	}
+}
+void WeaponBazooka::ResetWeapon(float _DeltaTime)
+{
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+
+	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
+	SetCurPlayer();
+
+	//위치 재설정
+	WeaponRender->SetPosition(CurPlayer->GetPos());
+	WeaponCollision->SetPosition(CurPlayer->GetPos());
+
+	Gravity = 0.0f; //임시 설정값
+	GravityAccel = 0.0f; //임시 설정값
+	WeaponRender->Off();
+	WeaponCollision->Off();
+	isFire = false;
+	isSet = false;
+}
+

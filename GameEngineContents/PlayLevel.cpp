@@ -74,14 +74,28 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
 			IdleLeft->Cut(1, 6);
 			GameEngineImage* WalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WalkLeft.bmp"));
-			WalkLeft->Cut(1, 15);
+			WalkLeft->Cut(1, 15);			
+			GameEngineImage* bazAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazAimLeft.bmp"));
+			bazAimLeft->Cut(1, 32);
+			GameEngineImage* bazOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffLeft.bmp"));
+			bazOffLeft->Cut(1, 7);
+			GameEngineImage* bazOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnLeft.bmp"));
+			bazOnLeft->Cut(1, 7);
+
 		}
+
 		{
 			//Right 플레이어 이미지
 			GameEngineImage* IdleRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleRight.bmp"));
 			IdleRight->Cut(1, 6);
 			GameEngineImage* WalkRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WalkRight.bmp"));
 			WalkRight->Cut(1, 15);
+			GameEngineImage* bazAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazAimRight.bmp"));
+			bazAimRight->Cut(1, 32);
+			GameEngineImage* bazOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffRight.bmp"));
+			bazOffRight->Cut(1, 7);
+			GameEngineImage* bazOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnRight.bmp"));
+			bazOnRight->Cut(1, 7);
 		}
 	}
 

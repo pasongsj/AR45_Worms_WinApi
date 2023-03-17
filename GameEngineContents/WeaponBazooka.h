@@ -13,6 +13,11 @@ public:
 	void CreatePlayerAnimation();
 	bool CheckCollision();
 
+	void ChangeBazReadyAnimation();
+	void BazookaOn();
+	void BazookaOff();
+
+
 	void SetAngle();
 	void Charging();
 	void firing(float _DeltaTime);
@@ -27,6 +32,8 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
+
+	void ResetWeapon(float _DeltaTime) override;
 private:
 	GameEngineRender* shell = nullptr; //Æ÷Åº (Åõ»çÃ¼)
 	bool isSet = false;

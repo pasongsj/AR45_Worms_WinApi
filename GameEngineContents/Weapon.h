@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+class Player;
 class GameEngineImage;
 class Weapon :public GameEngineActor
 {
@@ -23,6 +24,8 @@ public:
 	float4 GetShootDir();
 	bool PressShoot();
 	bool isEndCharging();
+	void TimeCounting();
+	void SetCurPlayer();
 	virtual void ResetWeapon(float _DeltaTme) {};
 
 protected:
@@ -36,7 +39,6 @@ protected:
 	float MoveSpeed = 0.0f;							// 무기속력
 	float Gravity = 0.0f;							// 중력
 	float GravityAccel = 0.0f;						// 중력가속도
-	float Timer = 0.0f;								// 타이머
 	float WindPower = 0.0f;							// 바람세기
 	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
 	float Charge = 0.0f;							// 차지게이지
@@ -53,10 +55,18 @@ protected:
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
+	Player* CurPlayer = nullptr;
+
+	float PrevTime = 0.0f;
+	float CurTime = 0.0f;
+	float Timer = 0.0f;								// 타이머
+	float TimeCount = 0.0f;		
+
 
 private:
-	bool isRightDir = true;
 	float Height = 0.0f;
+	bool isRightDir = true;
+
 		
 };
 

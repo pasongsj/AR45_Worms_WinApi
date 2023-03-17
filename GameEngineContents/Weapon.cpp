@@ -1,6 +1,11 @@
 #include "Weapon.h"
+#include "Player.h"
+#include "ContentsEnums.h"
+
+#include <time.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 
 std::map<std::string, Weapon*> Weapon::AllWeapons;
@@ -91,4 +96,26 @@ bool Weapon::isEndCharging() //스페이스를 눌러서 차징을 하다가 끝나는 순간 공격�
 	}
 
 	return false;
+}
+
+void Weapon::TimeCounting()
+{
+	CurTime = clock();
+	TimeCount += (CurTime - PrevTime) / 1000;
+	PrevTime = CurTime;
+}
+
+
+void Weapon::SetCurPlayer()
+{
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+
+	for (int i = 0; i < PlayerList.size(); i++)
+	{
+		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
+		{
+			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
+			break;
+		}
+	}
 }
