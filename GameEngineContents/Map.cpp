@@ -45,14 +45,13 @@ void Map::Start()
 	MapRender->SetImage("MapCity.bmp");
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
 	MapRender->SetPosition(MapScale.half());
-	//MapRender->SetPosition(float4::Zero);
 	MapRender->SetScaleToImage();
 
 	
 	//맵 위치 확인을 위한 테스트용 원---------삭제할 예정
 	{
 		HDC MapRenderDc = Map::MainMap->GetMapRenderDC();
-		float4 CircleRenderPos = MapRender->GetPosition();
+		float4 CircleRenderPos = float4::Zero;
 		int Radius = 10;
 
 		Ellipse(MapRenderDc,
@@ -160,12 +159,12 @@ bool FreeMove = false;
 bool FreeMoveSwitch = false;
 bool Map::FreeMoveState(float _DeltaTime)
 {
-	if (false == FreeMoveSwitch && true == GameEngineInput::IsPress("FreeMoveSwitch"))
+	if (false == FreeMoveSwitch && true == GameEngineInput::IsDown("FreeMoveSwitch"))
 	{
 		FreeMove = true;
 		FreeMoveSwitch = true;
 	}
-	else if(true == FreeMoveSwitch && true == GameEngineInput::IsPress("FreeMoveSwitch"))
+	else if(true == FreeMoveSwitch && true == GameEngineInput::IsDown("FreeMoveSwitch"))
 	{
 		FreeMove = false;
 		FreeMoveSwitch = false;
