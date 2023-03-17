@@ -40,19 +40,19 @@ protected:
 	void Render(float _DeltaTime) override;
 
 private:
-	GameEngineRender* AnimationRender = nullptr;
+	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
+	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
 
 	bool IsMyTurn = false; //내 턴인지 체크
 
-	//플레이어의 현재 방향
-	std::string DirString = "Right_";
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
 	void DirCheck(const std::string_view& _AnimationName);
 
-	//플레이어의 이동방향
-	float4 MoveDir = float4::Zero;
-
 	//이동 관련
+	std::string DirString = "Right_"; //방향
+
+	float4 MoveDir = float4::Zero; //플레이어의 이동 벡터
+
 	float MoveSpeed = 50.0f;
 	float Gravity = 300.0f;
 

@@ -5,6 +5,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 #include "ContentsEnums.h"
 
@@ -34,7 +35,12 @@ void Player::Start()
 
 	}
 
-	SetMove(GameEngineWindow::GetScreenSize().half());
+	//콜리전
+	{
+		BodyCollision = CreateCollision(WormsCollisionOrder::Player);
+		BodyCollision->SetMove({ 0, -10 });
+		BodyCollision->SetScale({ 30 , 30 });
+	}
 
 	//키 설정이 안되어있으면 키 설정( 플레이어가 여러명 일 경우를 대비하여 키 설정이 없으면 설정함 ) 
 	if (GameEngineInput::IsKey("MoveLeft") == false)
@@ -42,7 +48,6 @@ void Player::Start()
 		//캐릭터 이동 및 행동
 		GameEngineInput::CreateKey("MoveRight", 'D');
 		GameEngineInput::CreateKey("MoveLeft", 'A');
-
 	}
 
 	ChangeState(PlayerState::IDLE);
