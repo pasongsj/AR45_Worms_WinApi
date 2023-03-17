@@ -107,7 +107,7 @@ void PlayLevel::Loading()
 	{
 		ScreenSize = GameEngineWindow::GetScreenSize(); 
 		
-		vecAllPlayer.resize(8);
+		//vecAllPlayer.resize(8);
 		for (size_t i = 0; i < 8; i++)
 		{
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 399);
