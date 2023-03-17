@@ -1,8 +1,10 @@
 #include "WeaponBazooka.h"
 #include "ContentsEnums.h"
+#include "Player.h"
 
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 WeaponBazooka::WeaponBazooka()
 {
@@ -31,6 +33,8 @@ void WeaponBazooka::WeaponBazookaInit()
 {
 	WeaponRender =  CreateRender("Weapon1.bmp", static_cast<int>(WormsRenderOrder::Weapon));
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
+
+	WeaponRender->SetRotFilter("Weapon1Rot.bmp");
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -83,17 +87,33 @@ void WeaponBazooka::Charging()
 
 void WeaponBazooka::firing(float _DeltaTime) //발사
 {
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+
+	if (isSet == false)
+	{
+		for (int i = 0; i < PlayerList.size(); i++)
+		{
+			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
+			{
+				WeaponRender->SetPosition(PlayerList[i]->GetPos());
+			}
+		}
+
+		isSet = true;
+	}
+
 	Gravity += GravityAccel * _DeltaTime;
 	GravityAccel += 150.0f * _DeltaTime;
 	
 	Dir = { 50, -150 + Gravity }; // 다른 함수를 통해, 최초 발사 각도를 저장한 후 Y축에 +Gravity 를 프레임마다 해줌으로써 천천히 우(좌)하향하게 만든다 
 	Dir.Normalize();
 
+	WeaponRender->SetAngle(-Dir.GetAnagleDeg());
 	WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 
 	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponRender->GetActorPlusPos(), RGB(0, 0, 255))) //맵에 닿으면 사라짐
 	{
-		WeaponRender->Off(); 
+		//WeaponRender->Off(); 
 	}
 }
 

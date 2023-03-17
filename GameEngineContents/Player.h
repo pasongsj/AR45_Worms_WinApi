@@ -29,6 +29,11 @@ public:
 		IsMyTurn = _Value;
 	}
 
+	bool GetIsMyTurn()
+	{
+		return IsMyTurn;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
