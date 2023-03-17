@@ -25,9 +25,9 @@ void Player::Start()
 	//애니메이션
 	{
 		//좌측
-		CreatePlayerAnimation("Left_Idle", "IdleLeft.bmp", 0, 5, 0.1f);
+		//CreatePlayerAnimation("Left_Idle", "IdleLeft.bmp", 0, 5, 0.1f);
 
-		//AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Move", .ImageName = "WalkLeft.bmp", .Start = 0, .End = 14, .InterTime = 0.1f });
 	}
 	{
@@ -132,6 +132,10 @@ void Player::DirCheck(const std::string_view& _AnimationName)
 void Player::CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop)
 {
 	AnimationRender->CreateAnimation({ .AnimationName = _AnimationName, .ImageName = _ImageName, .Start = _StartFrame, .End = _EndFrame, .InterTime = _InterTime, .Loop = _Loop });
+}
+void Player::ChangePlayerAnimation(const std::string_view& _AnimationName)
+{
+	DirCheck(_AnimationName);
 }
 
 
