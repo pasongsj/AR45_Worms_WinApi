@@ -106,11 +106,11 @@ void PlayLevel::Loading()
 	}
 	{
 		ScreenSize = GameEngineWindow::GetScreenSize(); 
-		
+
 		//vecAllPlayer.resize(8);
 		for (size_t i = 0; i < 8; i++)
 		{
-			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 399);
+			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
 			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
 			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
@@ -133,7 +133,7 @@ void PlayLevel::Update(float _DeltaTime)
 {
 	if (-1 == iPlayerNumber)
 	{
-		MsgAssert("PlayerNumber가 오류났습니다.");
+		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
 	if (GameEngineInput::IsDown("ChangePlayer"))
 	{
@@ -148,10 +148,6 @@ void PlayLevel::Update(float _DeltaTime)
 
 		float4 CurPlayerPos = pCurPlayer->GetPos();
 		SetCameraPos(CurPlayerPos - ScreenSize.half());
-	}
-	if (GameEngineInput::IsDown("FreeMoveSwitch"))
-	{
-		bFreeCamMove = !bFreeCamMove;
 	}
 
 	if (GameEngineInput::IsDown("DebugCollision"))
