@@ -11,7 +11,12 @@ enum class WormsRenderOrder
 	Weapon,
 
 };
-
+enum class WormsTitle
+{
+	IntroBackGround,
+	Intro,
+	WhiteBackGround,
+};
 enum class WormsCollisionOrder
 {
 	Player,

@@ -7,9 +7,9 @@
 
 HWND GameEngineWindow::HWnd = nullptr;
 HDC GameEngineWindow::WindowBackBufferHdc = nullptr;
-float4 GameEngineWindow::WindowSize = { 1280, 960 };
+float4 GameEngineWindow::WindowSize = { 800,600 };
 float4 GameEngineWindow::WindowPos = { 100, 100 };
-float4 GameEngineWindow::ScreenSize = { 1280, 960 };
+float4 GameEngineWindow::ScreenSize = { 800,600 };
 GameEngineImage* GameEngineWindow::BackBufferImage = nullptr;
 GameEngineImage* GameEngineWindow::DoubleBufferImage = nullptr;
 bool GameEngineWindow::IsWindowUpdate = true;

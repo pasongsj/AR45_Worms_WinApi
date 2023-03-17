@@ -40,7 +40,9 @@ void TitleLevel::Loading()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TitleLogo_Actor.BMP"));
 		Image->Cut(5, 1);
 	}
-
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Fade_White.BMP"));
+	}
 	
 	CreateActor<TitleBack>();
 }
