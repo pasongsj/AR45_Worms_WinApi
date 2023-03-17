@@ -1,7 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <vector>
 
 // Ό³Έν :
+class Player;
 class PlayLevel : public GameEngineLevel
 {
 public:
@@ -19,12 +21,16 @@ protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
 
-	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) override {}
+	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
-	
+	int iPlayerNumber = -1;
+	Player* pCurPlayer = nullptr;
+	std::vector<Player*> vecAllPlayer;
+	bool bFreeCamMove = false;
 
+	float4 ScreenSize = float4::Zero;
 	void SoundLoad();
 	void ImageLoad();
 };

@@ -94,6 +94,9 @@ public:
 		return Scale;
 	}
 
+	void setting(const std::string_view& _ReleaseName, const std::string_view& _HoverName, const std::string_view& _PressName,
+		float4 _Pos, float4 _Scale, int _Order, bool _EffectCam); 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

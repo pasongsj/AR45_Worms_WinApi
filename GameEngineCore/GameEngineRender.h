@@ -118,7 +118,7 @@ public:
 
 	bool IsAnimationEnd();
 	void CreateAnimation(const FrameAnimationParameter& _Paramter);
-	void ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange = false);
+	void ChangeAnimation(const std::string_view& _AnimationName, int _CurIndex = 0, bool _ForceChange = false);
 
 	void SetOrder(int _Order) override;
 

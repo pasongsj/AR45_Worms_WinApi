@@ -1,5 +1,9 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineCollision.h>
+
+class GameEngineImage;
 class Weapon :public GameEngineActor
 {
 public:
@@ -13,18 +17,13 @@ public:
 	Weapon& operator=(const Weapon& _Other) = delete;
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
 
+	float4 GetShootDir();
+	bool PressShoot();
+	bool isEndCharging();
+
 protected:
-	GameEngineRender* GetWeaponRender()
-	{
-		return WeaponRender;
-	}
 
-	GameEngineCollision* GetWeaponCollision()
-	{
-		return WeaponCollision;
-	}
-
-private:
+	//
 	bool EffectGravity = true;						// 중력영향
 	bool isAnimation = false;						// 애니메이션
 	bool isBlocked = false;							// 지형 통과여부
@@ -32,6 +31,7 @@ private:
 
 	float MoveSpeed = 0.0f;							// 무기속력
 	float Gravity = 0.0f;							// 중력
+	float GravityAccel = 0.0f;						// 중력가속도
 	float Timer = 0.0f;								// 타이머
 	float WindPower = 0.0f;							// 바람세기
 	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
@@ -44,9 +44,14 @@ private:
 
 	std::string WeaponName;							// 무기 이름
 
+	GameEngineImage* MapCollision = nullptr;		//충돌맵
 
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
+
+private:
+	bool isRightDir = true;
+	float Height = 0.0f;
 		
 };
 

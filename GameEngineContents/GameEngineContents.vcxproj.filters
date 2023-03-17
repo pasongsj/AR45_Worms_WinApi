@@ -11,11 +11,24 @@
     <ClInclude Include="CenterLevel.h">
       <Filter>Center</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Play</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponBazooka.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponShotgun.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Play</Filter>
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapModifier.h">
+      <Filter>Play\Map</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="TitleBack.h">
@@ -39,8 +52,20 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Play</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBazooka.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponShotgun.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Play</Filter>
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapModifier.cpp">
+      <Filter>Play\Map</Filter>
     </ClCompile>
     <ClCompile Include="TitleBack.cpp">
       <Filter>Title</Filter>
@@ -55,6 +80,12 @@
     </Filter>
     <Filter Include="Center">
       <UniqueIdentifier>{e22b4451-24a8-41b8-8a4d-637a173a2372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{2fb70536-a1e2-4cfa-b96c-8b40110dc234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map">
+      <UniqueIdentifier>{73d77194-5812-4306-8014-e0fc45caa6d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
