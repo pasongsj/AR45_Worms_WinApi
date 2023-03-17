@@ -33,6 +33,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h" />
+    <ClInclude Include="TitleBack.h" />
     <ClInclude Include="TitleLevel.h" />
     <ClInclude Include="WormsCore.h">
       <SubType>
@@ -54,6 +55,7 @@
     </ClCompile>
     <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp" />
+    <ClCompile Include="TitleBack.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
     <ClCompile Include="WormsCore.cpp">
       <SubType>

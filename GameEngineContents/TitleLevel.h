@@ -24,6 +24,6 @@ protected:
 	
 
 private:
-
+	GameEngineRender* AnimationBodyRender = nullptr;
 };
 

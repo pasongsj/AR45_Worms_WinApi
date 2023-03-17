@@ -2,6 +2,8 @@
 
 enum class WormsRenderOrder
 {
+	IntroBackGround,
+	Intro,
 	BackGround,
 	Map,
 	Player,

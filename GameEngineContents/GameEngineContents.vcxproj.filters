@@ -18,6 +18,9 @@
       <Filter>Play</Filter>
     </ClInclude>
     <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="TitleBack.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBack.cpp">
+      <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
