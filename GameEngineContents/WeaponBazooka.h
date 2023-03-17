@@ -30,5 +30,6 @@ protected:
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 	bool isSet = false;
+	bool isFire = false;
 };
 

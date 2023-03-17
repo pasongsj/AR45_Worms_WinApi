@@ -59,8 +59,8 @@ void PlayLevel::ImageLoad()
 	{
 		Dir.Move("Weapon");
 
-		GameEngineImage* Weapon1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Weapon1.bmp"));
-		GameEngineImage* Weapon1Rot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Weapon1Rot.bmp"));
+		GameEngineImage* bazooka = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazooka.bmp"));
+		GameEngineImage* bazookaRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazookaRot.bmp"));
 		GameEngineImage* Weapon2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Weapon2.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 

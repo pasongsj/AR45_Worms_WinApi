@@ -19,7 +19,7 @@ public:
 
 	float4 GetShootDir();
 	bool PressShoot();
-
+	bool isEndCharging();
 
 protected:
 

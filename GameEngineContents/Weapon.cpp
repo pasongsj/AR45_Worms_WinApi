@@ -74,3 +74,18 @@ bool Weapon::PressShoot()
 
 	return false;
 }
+
+bool Weapon::isEndCharging() //스페이스를 눌러서 차징을 하다가 끝나는 순간 공격이 시작되므로 끝나는 시점에 대한 검사가 필요
+{
+	if (GameEngineInput::IsUp("Shoot"))
+	{
+		return true;
+	}
+
+	if (/*스페이스바를 놓지는 않았는데, 제한시간이 끝났을 때*/ true)
+	{
+		//return true;
+	}
+
+	return false;
+}

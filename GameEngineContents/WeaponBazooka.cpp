@@ -3,6 +3,7 @@
 #include "Player.h"
 
 #include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
@@ -21,6 +22,7 @@ void WeaponBazooka::Start()
 
 void WeaponBazooka::Update(float _DeltaTime)
 {
+
 	firing(_DeltaTime);
 }
 
@@ -31,18 +33,20 @@ void WeaponBazooka::Render(float _DeltaTime)
 
 void WeaponBazooka::WeaponBazookaInit()
 {
-	WeaponRender =  CreateRender("Weapon1.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+	WeaponRender =  CreateRender("bazooka.bmp", static_cast<int>(WormsRenderOrder::Weapon));
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
 
-	WeaponRender->SetRotFilter("Weapon1Rot.bmp");
+	WeaponRender->SetRotFilter("bazookaRot.bmp");
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
 	WeaponRender->SetPosition({ 500, 200 }); //임시 설정값
-	WeaponRender->SetScale({150, 150}); //임시 설정값
+	WeaponRender->SetScaleToImage(); //임시 설정값
+	WeaponRender->Off();
 
 	WeaponCollision->SetPosition(WeaponRender->GetPosition());
 	WeaponCollision->SetScale(WeaponRender->GetScale());
+	WeaponCollision->Off();
 
 	WeaponName = "Bazooka";
 
@@ -87,6 +91,21 @@ void WeaponBazooka::Charging()
 
 void WeaponBazooka::firing(float _DeltaTime) //발사
 {
+	if (GameEngineInput::IsKey("Shoot") == false)
+	{
+		return;
+	}
+
+	if (isEndCharging() == true)
+	{
+		isFire = true;
+	}
+
+	if (isFire == false)
+	{
+		return;
+	}
+
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
 	if (isSet == false)
@@ -96,9 +115,11 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
 			{
 				WeaponRender->SetPosition(PlayerList[i]->GetPos());
+				break;
 			}
 		}
-
+		WeaponRender->On();
+		WeaponCollision->On();
 		isSet = true;
 	}
 
@@ -108,12 +129,18 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 	Dir = { 50, -150 + Gravity }; // 다른 함수를 통해, 최초 발사 각도를 저장한 후 Y축에 +Gravity 를 프레임마다 해줌으로써 천천히 우(좌)하향하게 만든다 
 	Dir.Normalize();
 
-	WeaponRender->SetAngle(-Dir.GetAnagleDeg());
+	WeaponRender->SetAngle(-Dir.GetAnagleDeg() - 45);
 	WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 
 	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponRender->GetActorPlusPos(), RGB(0, 0, 255))) //맵에 닿으면 사라짐
 	{
-		WeaponRender->Off(); 
+
+		Gravity = 100.0f; //임시 설정값
+		GravityAccel = 0.0f; //임시 설정값
+		WeaponRender->Off();
+		WeaponCollision->Off();
+		isFire =false;
+		isSet = false;
 	}
 }
 
