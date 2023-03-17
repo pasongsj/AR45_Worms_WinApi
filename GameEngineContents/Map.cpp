@@ -39,8 +39,14 @@ void Map::Start()
 		GameEngineInput::CreateKey("DebugMode", '9');
 	}
 
+	//마우스 좌측 키 입력 생성
+	if (false == GameEngineInput::IsKey("LandHole"))
+	{
+		GameEngineInput::CreateKey("LandHole", VK_LBUTTON);
+	}
 
-	//랜더 생성
+
+	//MapRender 생성
 	MapRender = CreateRender(WormsRenderOrder::Map);
 	MapRender->SetImage("MapCity.bmp");
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
@@ -50,7 +56,7 @@ void Map::Start()
 	
 	//맵 위치 확인을 위한 테스트용 원---------삭제할 예정
 	{
-		HDC MapRenderDc = Map::MainMap->GetMapRenderDC();
+		HDC MapRenderDc = Map::MainMap->GetMapDC();
 		float4 CircleRenderPos = float4::Zero;
 		int Radius = 10;
 
@@ -61,6 +67,16 @@ void Map::Start()
 			CircleRenderPos.iy() + Radius);
 	}
 
+
+	//ColMapRender 생성
+	{
+		ColMapRender = CreateRender(WormsRenderOrder::Map);
+		ColMapRender->SetImage("MapCity_Ground.bmp");
+		ColMapRender->SetPosition(MapScale.half());
+		ColMapRender->SetScaleToImage();
+
+		ColMapRender->Off();
+	}
 
 	//BackGround_Sky
 	{
@@ -76,7 +92,7 @@ void Map::Start()
 		WaveBack->SetPosition(WaveBackPos);
 		WaveBack->SetScale(WaveBackScale);
 
-		WaveBack->Off();
+		//WaveBack->Off();
 	}
 	//Wave Animation
 	{
@@ -87,7 +103,7 @@ void Map::Start()
 		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave0->ChangeAnimation("Wave0");
 
-		Wave0->Off();
+		//Wave0->Off();
 	}
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
@@ -98,7 +114,7 @@ void Map::Start()
 		Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave1->ChangeAnimation("Wave1", RandIdx);
 
-		Wave1->Off();
+		//Wave1->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -109,7 +125,7 @@ void Map::Start()
 		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave2->ChangeAnimation("Wave2", RandIdx);
 
-		Wave2->Off();
+		//Wave2->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -120,18 +136,17 @@ void Map::Start()
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave3->ChangeAnimation("Wave3", RandIdx);
 
-		Wave3->Off();
-	}
-
-
-	//테스트 코드------------------삭제 예정
-	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
-	MapMdfActor->SetPos({ 1920.0f, 1200.0f });
+		//Wave3->Off();
+	}	
 }
 
 void Map::Update(float _DeltaTime)
 {
-	
+	if (true == GameEngineInput::IsDown("LandHole"))
+	{
+		CreateMapModifier(50);
+	}
+
 	if (true == FreeMoveState(_DeltaTime))
 	{
 		return;
@@ -142,12 +157,14 @@ void Map::Update(float _DeltaTime)
 		if (false == IsColMap)
 		{
 			IsColMap = true;
-			MapRender->SetImage("MapCity_Ground.bmp");
+			MapRender->Off();
+			ColMapRender->On();
 		}
 		else
 		{
 			IsColMap = false;
-			MapRender->SetImage("MapCity.bmp");
+			MapRender->On();
+			ColMapRender->Off();
 		}
 	}
 
@@ -186,8 +203,29 @@ bool Map::FreeMoveState(float _DeltaTime)
 	return FreeMove;
 }
 
-HDC Map::GetMapRenderDC() const
+HDC Map::GetMapDC() const
 {
 	HDC hdc = MapRender->GetImage()->GetImageDC();
 	return hdc;
+}
+
+HDC Map::GetColMapDC() const
+{
+	HDC hdc = ColMapRender->GetImage()->GetImageDC();
+	return hdc;
+}
+
+void Map::CreateMapModifier(int _Radius)
+{
+	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
+	float4 MousePos = GetLevel()->GetMousePosToCamera();
+	MapMdfActor->SetPos(MousePos);
+	MapMdfActor->SetRadius(_Radius);
+}
+
+void Map::Render(float _DeltaTime)
+{
+	std::string MousePosStr = "MousePosition : ";
+	MousePosStr += GetLevel()->GetMousePos().ToString();
+	GameEngineLevel::DebugTextPush(MousePosStr);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <GameEngineCore/GameEngineActor.h>
+#include "MapModifier.h"
 
 // 설명 :
 class Map : public GameEngineActor
@@ -33,12 +34,18 @@ public:
 		return WaveBackPos;
 	}
 
-	HDC GetMapRenderDC() const;
+	//HDC를 얻어오는 함수
+	HDC GetMapDC() const;
+	HDC GetColMapDC() const;
+
+	//MapModifier 객체 생성 함수
+	void CreateMapModifier(int _Radius);
 
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void Render(float _DeltaTime) override;
 
 private:
 	bool IsColMap = false;								//픽셀 충돌맵의 랜더링 여부
@@ -59,6 +66,8 @@ private:
 	std::string ColMapName = "MapCity_Ground.bmp";
 
 	GameEngineRender* MapRender = nullptr;
+	GameEngineRender* ColMapRender = nullptr;
+
 
 	//카메라를 자유롭게 움직임
 	bool FreeMoveState(float _DeltaTime);

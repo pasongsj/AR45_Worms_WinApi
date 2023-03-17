@@ -16,75 +16,101 @@ MapModifier::~MapModifier()
 
 void MapModifier::Start()
 {
-	//마우스 좌측 키 입력 생성
-	if (false == GameEngineInput::IsKey("LandHole"))
-	{
-		GameEngineInput::CreateKey("LandHole", VK_LBUTTON);
-	}
+	
 }
 
 void MapModifier::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsPress("LandHole"))
+	if (true == GameEngineInput::IsDown("LandHole"))
 	{
-		CreateHole(50);
+		CreateHole();
+		this->Death();
+		return;
 	}
 }
 
-void MapModifier::CreateMapModifier(float4 _Pos)
-{
-	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
-	MapMdfActor->SetPos(_Pos);
-}
 
-void MapModifier::CreateHole(int _Radius)
+void MapModifier::CreateHole()
 {
+	if (0 >= Radius)
+	{
+		MsgAssert("반지름이 0보다 작거나 같을 수 없습니다.");
+		return;
+	}
+
 	std::string CurMapName = Map::MainMap->GetMapName();
 
-	HDC MapRenderDc = Map::MainMap->GetMapRenderDC();
+	HDC MapDc = Map::MainMap->GetMapDC();
+	HDC ColMapDc = Map::MainMap->GetColMapDC();
+
 	float4 CircleRenderPos = GetLevel()->GetMousePosToCamera();
-	
-	//float4 CircleRenderPos = GetLevel()->GetMousePos();
 
-	int Radius = _Radius;
-
-	HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(RGB(255, 255, 255));
-	HBRUSH OldBrush = (HBRUSH)SelectObject(MapRenderDc, MyBrush);
-
-	Ellipse(MapRenderDc,
-		CircleRenderPos.ix() - Radius,
-		CircleRenderPos.iy() - Radius,
-		CircleRenderPos.ix() + Radius,
-		CircleRenderPos.iy() + Radius);
-
-	SelectObject(MapRenderDc, OldBrush);
-	DeleteObject(MyBrush);
-
-
+	//Map에 그림
 	{
+		//선에 대한 팬 생성
+		//PS_SOLID: 선
+		HPEN MyPen = CreatePen(PS_SOLID, 1, Magenta);
+		HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
 		//단색에 대한 논리적 브러쉬를 생성
-		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
-		//
-		HBRUSH OldBrush = (HBRUSH)SelectObject(MapRenderDc, MyBrush);
+		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Magenta);
+		//지정된 DC로 개체 선택
+		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
+	
+		Ellipse(MapDc,
+			CircleRenderPos.ix() - Radius,
+			CircleRenderPos.iy() - Radius,
+			CircleRenderPos.ix() + Radius,
+			CircleRenderPos.iy() + Radius);
+
+		//다시 기존 브러쉬 선택
+		SelectObject(MapDc, OldBrush);
+		//생성한 브러쉬 삭제
+		DeleteObject(MyBrush);
+
+		SelectObject(MapDc, OldPen);
+		DeleteObject(MyPen);
+	}
+
+	//ColMap에 그림
+	{
+		HPEN MyPen = CreatePen(PS_SOLID, 1, Magenta);
+		HPEN OldPen = (HPEN)SelectObject(ColMapDc, MyPen);
+		//단색에 대한 논리적 브러쉬를 생성
+		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Magenta);
+		//지정된 DC로 개체 선택
+		HBRUSH OldBrush = (HBRUSH)SelectObject(ColMapDc, MyBrush);
+
+		Ellipse(ColMapDc,
+			CircleRenderPos.ix() - Radius,
+			CircleRenderPos.iy() - Radius,
+			CircleRenderPos.ix() + Radius,
+			CircleRenderPos.iy() + Radius);
+
+		SelectObject(ColMapDc, OldBrush);
+		DeleteObject(MyBrush);
+
+		SelectObject(ColMapDc, OldPen);
+		DeleteObject(MyPen);
+	}
+
+
+	//테스트 코드-------삭제 예정
+	{
+
+		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Red);
+		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
 
 		int r = 5;
 
-		Ellipse(MapRenderDc,
+		Ellipse(MapDc,
 			CircleRenderPos.ix() - r,
 			CircleRenderPos.iy() - r,
 			CircleRenderPos.ix() + r,
 			CircleRenderPos.iy() + r);
 
-		SelectObject(MapRenderDc, OldBrush);
+		SelectObject(MapDc, OldBrush);
 		DeleteObject(MyBrush);
 	}
 
 	
-}
-
-void MapModifier::Render(float _DeltaTime)
-{
-	std::string MousePosStr = "MousePosition : ";
-	MousePosStr += GetLevel()->GetMousePos().ToString();
-	GameEngineLevel::DebugTextPush(MousePosStr);
 }
