@@ -96,3 +96,14 @@ void Button::Update(float _DeltaTime)
 		break;
 	}
 }
+
+void Button::setting(const std::string_view& _ReleaseName, const std::string_view& _HoverName, const std::string_view& _PressName, float4 _Pos, float4 _Scale, int _Order, bool _EffectCam)
+{
+	SetReleaseImage(_ReleaseName);
+	SetHoverImage(_HoverName);
+	SetPressImage(_PressName);
+	SetPos(_Pos);
+	Button::SetScale(_Scale);
+	SetRenderOrder(_Order);
+	ButtonRender->SetEffectCamera(_EffectCam);
+}

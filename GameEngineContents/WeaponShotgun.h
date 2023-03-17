@@ -21,17 +21,22 @@ protected:
 
 private:
 
-
 	int BulletCount = 2;
 
+	std::vector <GameEngineCollision*> ShotGunCollision;	//ÄÝ¸®Àü
+	std::vector <float4> ShotGunDir;
 
-	GameEngineRender* BombRender = nullptr;
-	GameEngineCollision* BombCollision = nullptr;
-
+	std::vector<bool> isShooted;
 
 	void WeaponShotgunInit();
-	void WeaponMove(float _DeltaTime);
+	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);
 
-	bool CheckCollision();
+	bool CheckCollision(GameEngineCollision* _Col);
+
+	void MakeBomb(float4 _Pos);
+
+	float DelayTime = 0.0f;
+
+	GameEngineRender* AimingLine = nullptr;
 };
 

@@ -14,6 +14,7 @@ WeaponShotgun::~WeaponShotgun()
 
 void WeaponShotgun::Start()
 {
+	// 샷건 기본 설정
 	WeaponName = "Shotgun";
 	EffectGravity = false;
 	isAnimation = false;
@@ -35,48 +36,99 @@ void WeaponShotgun::Start()
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 	//WeaponShotgunInit();
 	//SetPos({50, 400});
+
+	AimingLine = CreateRender(WormsRenderOrder::Weapon);
+	AimingLine->SetImage("TempBomb.bmp");
+	AimingLine->SetScale({ 10,10 });
 }
 void WeaponShotgun::Update(float _DeltaTime)
 {
-	if (nullptr == WeaponCollision)
+
+	if (0 == ShotGunCollision.size()) // 무기가 생성되지 않았을 경우 생성되도록 함.
 	{
-		WeaponShotgunInit();
-		float4 PlayerPos = (GetLevel()->GetActors(WormsRenderOrder::Player))[0]->GetPos();// 임시 index0 PlayerPos
-		SetPos(PlayerPos - float4{ 0, 30 });
+		for (int i = 0;i < BulletCount;i++)
+		{
+			WeaponShotgunInit();
+		}
 	}
 	
-
-	WeaponMove(_DeltaTime);
-
-	if (true == CheckCollision() && nullptr == BombRender)
+	// 탄 사이의 딜레이
+	if (DelayTime > 0)
 	{
-		
-		BombRender = CreateRender(WormsRenderOrder::Weapon);
-		BombRender->SetImage("TempBomb.bmp");
-		BombRender->SetPosition(WeaponCollision->GetPosition());
-		BombRender->SetScale(BombScale);
+		DelayTime -= _DeltaTime;
+	}
 
-		BombCollision = CreateCollision(WormsRenderOrder::Weapon);
-		BombCollision->SetPosition(WeaponCollision->GetPosition());
-		BombCollision->SetScale(BombScale);
+	if (PressShoot() && DelayTime <= 0)
+	{
+		for (int i = 0;i < BulletCount;i++)
+		{
+			if (isShooted[i] == false)
+			{
+				isShooted[i] = true;
+				ShotGunDir[i] = Dir; // 발사시 방향설정
+				DelayTime = 1.0f;
+				break;
+			}
+		}
+		int a = 0;
+	}
+	else
+	{
+		float4 PlayerPos = (GetLevel()->GetActors(WormsRenderOrder::Player))[0]->GetPos();// 임시 index0 PlayerPos
+		SetPos(PlayerPos - float4{0,30});
+		Dir = GetShootDir(); // 방향 조정
+		AimingLine->SetPosition(Dir*50 + float4{ 0,30 });
 
-		WeaponCollision->Off();
+	}
+
+	for (int i = 0;i < BulletCount;i++)
+	{
+		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate())
+		{
+			WeaponMove(ShotGunCollision[i], _DeltaTime, ShotGunDir[i]);
+
+			if (true == CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+			{
+				MakeBomb(ShotGunCollision[i]->GetPosition()); // 폭발 범위 표시
+
+				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+			}
+		}
 	}
 
 
 }
 
-void WeaponShotgun::WeaponMove(float _DeltaTime)
+void WeaponShotgun::MakeBomb(float4 _Pos) // 임시 - 폭탄 터지는 위치 표기
 {
+	GameEngineRender* BombRender = CreateRender(WormsRenderOrder::Weapon);
+	BombRender->SetImage("TempBomb.bmp"); // 임시 그림
+	BombRender->SetPosition(_Pos);
+	BombRender->SetScale(BombScale);
+
+	/*GameEngineCollision* BombCollision = CreateCollision(WormsRenderOrder::Weapon);
+	BombCollision->SetPosition(_Pos);
+	BombCollision->SetScale(BombScale);*/
+}
+
+
+void WeaponShotgun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime,float4 _Dir)
+{
+	if (false == _Col->IsUpdate())
+	{
+		return;
+	}
+
 	if (true == EffectGravity)
 	{
 
 	}
-	else
+	else // 중력의 영향을 받지 않음.
 	{
-		WeaponCollision->SetMove(Dir * _DeltaTime * MoveSpeed);
+		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
 	}
 }
+
 void WeaponShotgun::Render(float _DeltaTime)
 {
 
@@ -85,17 +137,19 @@ void WeaponShotgun::Render(float _DeltaTime)
 void WeaponShotgun::WeaponShotgunInit()
 {
 	// ShotGun은 랜더이미지가 존재하지 않음
-	WeaponCollision = CreateCollision(WormsRenderOrder::Weapon);
-	WeaponCollision->SetScale({ 25,25 });
+	GameEngineCollision* Collision = CreateCollision(WormsRenderOrder::Weapon);
+	Collision->SetScale({ 25,25 });
 
-
+	ShotGunCollision.push_back(Collision);
+	isShooted.push_back(false);
+	ShotGunDir.push_back(float4::Right);
 
 }
 
-bool WeaponShotgun::CheckCollision()
+bool WeaponShotgun::CheckCollision(GameEngineCollision* _Col)
 {
 	// 플레이어를 맞춘 경우
-	if (nullptr != WeaponCollision && true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsRenderOrder::Player), .TargetColType = CollisionType::CT_Rect, .ThisColType = CollisionType::CT_CirCle }))
+	if (nullptr != _Col && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsRenderOrder::Player), .TargetColType = CollisionType::CT_Rect, .ThisColType = CollisionType::CT_CirCle }))
 	{
 		return true;
 	}
@@ -107,18 +161,17 @@ bool WeaponShotgun::CheckCollision()
 		MsgAssert("콜리전 이미지가 설정되지 않았습니다.");
 		return false;
 	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetPosition(), RGB(0, 0, 255))) // - 콜리전 맵 위치 수정 필요
-	{
-		int a = 0;
+	//if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetPosition(), RGB(0, 0, 255))) // - 콜리전 맵 위치 수정 필요
+	//{
 
-		return true;
-	}
+	//	return true;
+	//}
 
 	//임시 타이머
-	if (GetLiveTime() >= 5.0f)
+	/*if (GetLiveTime() >= 5.0f)
 	{
 		return true;
-	}
+	}*/
 
 	// 스테이지 밖으로 나가는 경우 - 추가 필요
 

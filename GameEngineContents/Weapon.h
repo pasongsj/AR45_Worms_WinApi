@@ -17,6 +17,10 @@ public:
 	Weapon& operator=(const Weapon& _Other) = delete;
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
 
+	float4 GetShootDir();
+	bool PressShoot();
+
+
 protected:
 
 	//
@@ -46,6 +50,8 @@ protected:
 	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
 
 private:
+	bool isRightDir = true;
+	float Height = 0.0f;
 		
 };
 
