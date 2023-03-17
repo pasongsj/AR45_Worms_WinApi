@@ -34,6 +34,8 @@ public:
 		return IsMyTurn;
 	}
 
+	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
