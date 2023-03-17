@@ -16,6 +16,7 @@ enum class WormsTitle
 	IntroBackGround,
 	Intro,
 	WhiteBackGround,
+	Write
 };
 enum class WormsCollisionOrder
 {

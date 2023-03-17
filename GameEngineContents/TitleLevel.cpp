@@ -43,6 +43,38 @@ void TitleLevel::Loading()
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Fade_White.BMP"));
 	}
+
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_1.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_2.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_3.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_4.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_5.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_6.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_7.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_8.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_9.BMP"));
+	}
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_10.BMP"));
+	}
+
 	
 	CreateActor<TitleBack>();
 }

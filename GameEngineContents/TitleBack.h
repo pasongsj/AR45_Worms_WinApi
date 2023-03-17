@@ -52,8 +52,9 @@ private:
 	float AnimatonCheck = 0; 
 	float AnimationWhiteTime = 0; 
 	float WhiteColor = 0;
+	float WriteTime = 0;
 	bool IntroCheck = false;
 	bool TitleCheck = false;
-
+	bool WriteCheck = false;
 };
 
