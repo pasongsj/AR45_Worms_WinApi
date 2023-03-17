@@ -6,7 +6,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
 #include "MapModifier.h"
-//ScreenSize: { 1280, 720 }
+//ScreenSize: { 1280, 960 }
 //BackGround_Hrz: 5120
 
 
@@ -23,6 +23,8 @@ Map::~Map()
 void Map::Start()
 {
 	MainMap = this;
+
+
 
 	//입력 키 생성
 	if (false == GameEngineInput::IsKey("FreeMoveSwitch"))
@@ -42,8 +44,8 @@ void Map::Start()
 	MapRender = CreateRender(WormsRenderOrder::Map);
 	MapRender->SetImage("MapCity.bmp");
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
-	//MapRender->SetPosition(MapScale.half());
-	MapRender->SetPosition(float4::Zero);
+	MapRender->SetPosition(MapScale.half());
+	//MapRender->SetPosition(float4::Zero);
 	MapRender->SetScaleToImage();
 
 	
@@ -65,8 +67,7 @@ void Map::Start()
 	{
 		GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
 		BackGround->SetImage("gradient.bmp");
-		//BackGround->SetPosition(MapScale.half());
-		BackGround->SetPosition(float4::Zero);
+		BackGround->SetPosition(MapScale.half());
 		BackGround->SetScaleToImage();
 	}
 	//BackGround_Wave
@@ -75,6 +76,8 @@ void Map::Start()
 		WaveBack->SetImage("Under_Water.bmp");
 		WaveBack->SetPosition(WaveBackPos);
 		WaveBack->SetScale(WaveBackScale);
+
+		WaveBack->Off();
 	}
 	//Wave Animation
 	{
@@ -84,6 +87,8 @@ void Map::Start()
 		Wave0->SetScale(WaveScale);
 		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave0->ChangeAnimation("Wave0");
+
+		Wave0->Off();
 	}
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
@@ -93,6 +98,8 @@ void Map::Start()
 		Wave1->SetScale(WaveScale);
 		Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave1->ChangeAnimation("Wave1", RandIdx);
+
+		Wave1->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -102,6 +109,8 @@ void Map::Start()
 		Wave2->SetScale(WaveScale);
 		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave2->ChangeAnimation("Wave2", RandIdx);
+
+		Wave2->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -111,16 +120,19 @@ void Map::Start()
 		Wave3->SetScale(WaveScale);
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave3->ChangeAnimation("Wave3", RandIdx);
+
+		Wave3->Off();
 	}
 
-	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Wave);
+
+	//테스트 코드------------------삭제 예정
+	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
 	MapMdfActor->SetPos({ 1920.0f, 1200.0f });
-	MapMdfActor->CreateHole(100);
 }
 
 void Map::Update(float _DeltaTime)
 {
-
+	
 	if (true == FreeMoveState(_DeltaTime))
 	{
 		return;
@@ -145,12 +157,18 @@ void Map::Update(float _DeltaTime)
 }
 
 bool FreeMove = false;
-
+bool FreeMoveSwitch = false;
 bool Map::FreeMoveState(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsPress("FreeMoveSwitch"))
+	if (false == FreeMoveSwitch && true == GameEngineInput::IsPress("FreeMoveSwitch"))
 	{
 		FreeMove = true;
+		FreeMoveSwitch = true;
+	}
+	else if(true == FreeMoveSwitch && true == GameEngineInput::IsPress("FreeMoveSwitch"))
+	{
+		FreeMove = false;
+		FreeMoveSwitch = false;
 	}
 
 	if (true == FreeMove)
@@ -176,7 +194,10 @@ bool Map::FreeMoveState(float _DeltaTime)
 	{
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
 }
 
 HDC Map::GetMapRenderDC() const

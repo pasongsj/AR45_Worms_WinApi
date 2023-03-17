@@ -46,11 +46,11 @@ private:
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 
-	float4 WaveBackPos = { 0.0f, 1068.0f };				//Wave BackGround 위치
-	float4 WaveAnimPos0 = { 0.0f, 696.0f };				//Wave Animation 위치	
-	float4 WaveAnimPos1 = { 0.0f, 751.0f };
-	float4 WaveAnimPos2 = { 0.0f, 806.0f };
-	float4 WaveAnimPos3 = { 0.0f, 861.0f };
+	float4 WaveBackPos = { 1920.0f, 1764.0f };			//Wave BackGround 위치
+	float4 WaveAnimPos0 = { 1920.0f, 1392.0f };			//Wave Animation 위치	
+	float4 WaveAnimPos1 = { 1920.0f, 1447.0f };
+	float4 WaveAnimPos2 = { 1920.0f, 1502.0f };
+	float4 WaveAnimPos3 = { 1920.0f, 1557.0f };
 
 	float4 WaveBackScale = { 5120.0f, 744.0f };
 	float4 WaveScale = { 5120.0f, 110.0f };

@@ -27,8 +27,7 @@ void MapModifier::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsPress("LandHole"))
 	{
-
-		CreateHole(200);
+		CreateHole(50);
 	}
 }
 
@@ -43,8 +42,14 @@ void MapModifier::CreateHole(int _Radius)
 	std::string CurMapName = Map::MainMap->GetMapName();
 
 	HDC MapRenderDc = Map::MainMap->GetMapRenderDC();
-	float4 CircleRenderPos = GetLevel()->GetMousePosToCamera(); //-GetLevel()->GetCameraPos();
+	float4 CircleRenderPos = GetLevel()->GetMousePosToCamera();
+	
+	//float4 CircleRenderPos = GetLevel()->GetMousePos();
+
 	int Radius = _Radius;
+
+	HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(RGB(255, 255, 255));
+	HBRUSH OldBrush = (HBRUSH)SelectObject(MapRenderDc, MyBrush);
 
 	Ellipse(MapRenderDc,
 		CircleRenderPos.ix() - Radius,
@@ -52,9 +57,14 @@ void MapModifier::CreateHole(int _Radius)
 		CircleRenderPos.ix() + Radius,
 		CircleRenderPos.iy() + Radius);
 
+	SelectObject(MapRenderDc, OldBrush);
+	DeleteObject(MyBrush);
+
 
 	{
+		//단색에 대한 논리적 브러쉬를 생성
 		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
+		//
 		HBRUSH OldBrush = (HBRUSH)SelectObject(MapRenderDc, MyBrush);
 
 		int r = 5;
@@ -76,4 +86,5 @@ void MapModifier::Render(float _DeltaTime)
 {
 	std::string MousePosStr = "MousePosition : ";
 	MousePosStr += GetLevel()->GetMousePos().ToString();
+	GameEngineLevel::DebugTextPush(MousePosStr);
 }
