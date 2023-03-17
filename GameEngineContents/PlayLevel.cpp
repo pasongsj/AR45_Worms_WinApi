@@ -102,7 +102,9 @@ void PlayLevel::Loading()
 		Map* Actor = CreateActor<Map>();
 	}
 	{
-		ScreenSize = GameEngineWindow::GetScreenSize();
+		ScreenSize = GameEngineWindow::GetScreenSize(); 
+		
+		vecAllPlayer.resize(8);
 		for (size_t i = 0; i < 8; i++)
 		{
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 399);
