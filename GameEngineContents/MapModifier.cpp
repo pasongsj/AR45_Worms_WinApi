@@ -43,7 +43,7 @@ void MapModifier::CreateHole()
 	HDC MapDc = Map::MainMap->GetMapDC();
 	HDC ColMapDc = Map::MainMap->GetColMapDC();
 
-	float4 CircleRenderPos = GetLevel()->GetMousePosToCamera();
+	float4 CircleRenderPos = /*GetLevel()->GetMousePosToCamera();*/GetPos();
 
 	//Map¿¡ ±×¸²
 	{

@@ -1,6 +1,8 @@
 #pragma once
 #include "Weapon.h"
 
+
+class MapModifier;
 class WeaponShotgun : public Weapon
 {
 public:
@@ -18,10 +20,11 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
+	void ResetWeapon(float _DeltaTime) override;
 
 private:
 
-	int BulletCount = 2;
+	int BulletCount = 20;
 
 	std::vector <GameEngineCollision*> ShotGunCollision;	//ÄÝ¸®Àü
 	std::vector <float4> ShotGunDir;
@@ -31,12 +34,9 @@ private:
 	void WeaponShotgunInit();
 	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);
 
-	bool CheckCollision(GameEngineCollision* _Col);
-
 	void MakeBomb(float4 _Pos);
 
-	float DelayTime = 0.0f;
+	MapModifier* Bomb = nullptr;
 
-	GameEngineRender* AimingLine = nullptr;
 };
 
