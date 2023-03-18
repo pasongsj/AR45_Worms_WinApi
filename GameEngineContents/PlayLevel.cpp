@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "WeaponShotgun.h"
+#include "WeaponGrenade.h"
 #include "ContentsEnums.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -67,6 +68,7 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* circle50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle50.bmp"));
 		circle50->Cut(1, 9);
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
 
 		Dir.MoveParent();
 	}
@@ -245,4 +247,5 @@ void PlayLevel::Update(float _DeltaTime)
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	CreateActor<WeaponShotgun>();
+	//CreateActor<WeaponGrenade>();
 }
