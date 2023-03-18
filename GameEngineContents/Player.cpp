@@ -133,11 +133,16 @@ void Player::CreatePlayerAnimation(const std::string_view& _AnimationName, const
 {
 	AnimationRender->CreateAnimation({ .AnimationName = _AnimationName, .ImageName = _ImageName, .Start = _StartFrame, .End = _EndFrame, .InterTime = _InterTime, .Loop = _Loop });
 }
+
 void Player::ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex)
 {
 	DirCheck(_AnimationName, _CurIndex);
 }
 
+void Player::SetPlayerAnimationFrame(int _Frame)
+{
+	AnimationRender->SetFrame(_Frame);
+}
 
 void Player::Render(float _DeltaTime)
 {
