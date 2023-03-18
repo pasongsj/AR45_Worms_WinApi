@@ -35,7 +35,7 @@ private:
 	float4 CurPlayerPos = float4::Zero;
 	float4 LerpCamPos = float4::Zero;
 	float fLerpRatio = 0.f;
-
+	float fCamMoveSpeed = 500.f;
 
 	float4 ScreenSize = float4::Zero;
 	void SoundLoad();
@@ -44,5 +44,6 @@ private:
 
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
+
 };
 

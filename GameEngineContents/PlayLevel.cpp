@@ -191,7 +191,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	}
 	
 	MoveCam.Normalize();
-	SetCameraMove(MoveCam*500.f *_DeltaTime);
+	SetCameraMove(MoveCam * fCamMoveSpeed *_DeltaTime);
 }
 
 void PlayLevel::Loading()
