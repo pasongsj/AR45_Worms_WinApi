@@ -19,6 +19,7 @@ WeaponBazooka::~WeaponBazooka()
 void WeaponBazooka::Start()
 {
 	WeaponBazookaInit();
+	CreatePlayerAnimation();
 }
 
 void WeaponBazooka::Update(float _DeltaTime)
@@ -76,8 +77,6 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
-
-	CreatePlayerAnimation();
 }
 
 void WeaponBazooka::CreatePlayerAnimation()
@@ -207,7 +206,6 @@ void WeaponBazooka::BazookaOn()
 	{	
 		if (isAiming == false) 
 		{
-			CurPlayer->ChangePlayerAnimation("BazOff");
 			TimeCount = 0;
 		}
 	}
@@ -239,10 +237,14 @@ void WeaponBazooka::ResetWeapon(float _DeltaTime)
 
 void WeaponBazooka::BazAiming()
 {
-	if (GameEngineInput::IsPress("WeaponUp"))
+	if (isAiming == true)
+	{
+		CurPlayer->SetPlayerAnimationFrame(15);
+	}
+
+	if (GameEngineInput::IsDown("WeaponUp") && isAiming == false)
 	{
 		isAiming = true;
-
 		CurPlayer->ChangePlayerAnimation("bazAim");
 	}
 
@@ -250,5 +252,6 @@ void WeaponBazooka::BazAiming()
 	{
 		isAiming = false;
 	}
+
 }
 

@@ -141,7 +141,7 @@ void Player::ChangePlayerAnimation(const std::string_view& _AnimationName, int _
 
 void Player::SetPlayerAnimationFrame(int _Frame)
 {
-	AnimationRender->SetFrame(_Frame);
+	AnimationRender->SetAnimationFrame(_Frame);
 }
 
 void Player::Render(float _DeltaTime)
