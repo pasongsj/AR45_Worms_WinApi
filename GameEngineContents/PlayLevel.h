@@ -29,7 +29,6 @@ private:
 	Player* pCurPlayer = nullptr;
 	std::vector<Player*> vecAllPlayer;
 
-	bool bFreeCamMove = false;
 
 	bool bCamMove = false;
 	float4 PrevCamPos = float4::Zero;
