@@ -134,6 +134,11 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 		return;
 	}
 
+	if (CurPlayer->GetPlayerState() != PlayerState::IDLE)
+	{
+		return;
+	}
+
 	if (isAiming == true && isEndCharging() == true)
 	{
 		isFire = true;
