@@ -44,5 +44,6 @@ private:
 	void KeyLoad();
 
 	void PlayerChange(float _DeltaTime);
+	void MoveCamForMouse(float _DeltaTime);
 };
 

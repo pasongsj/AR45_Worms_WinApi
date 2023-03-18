@@ -151,7 +151,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	{
 		//1초동안 플레이어 카메라 위치 변경
 		fLerpRatio += _DeltaTime;
-		SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - ScreenSize.half(), fLerpRatio) );
+		SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - ScreenSize.half(), fLerpRatio));
 
 		if (fLerpRatio > 1.f)
 		{
@@ -159,6 +159,39 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 			fLerpRatio = 0.f;
 		}
 	}
+}
+
+void PlayLevel::MoveCamForMouse(float _DeltaTime)
+{
+	float4 CurCamPos = GetCameraPos() + ScreenSize.half();
+	float4 CurMousePos = GetMousePosToCamera();
+	float4 DistancePos = CurMousePos - CurCamPos;
+	float4 MoveCam = float4::Zero;
+
+	if (DistancePos.x>500.f)
+	{
+		MoveCam += float4::Right;
+	}
+	if (DistancePos.x < -500.f)
+	{
+		MoveCam += float4::Left;
+	}
+	if (DistancePos.y< -350.f)
+	{
+		MoveCam += float4::Up;
+	}
+	if (DistancePos.y > 350.f)
+	{
+		MoveCam += float4::Down;
+	}
+	
+	if (MoveCam.ix() == 0&& MoveCam.iy()==0)
+	{
+		return;
+	}
+	
+	MoveCam.Normalize();
+	SetCameraMove(MoveCam*500.f *_DeltaTime);
 }
 
 void PlayLevel::Loading()
@@ -199,7 +232,7 @@ void PlayLevel::Loading()
 void PlayLevel::Update(float _DeltaTime)
 {
 	PlayerChange(_DeltaTime);
-
+	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();
