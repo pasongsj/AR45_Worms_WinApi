@@ -46,5 +46,7 @@ private:
 	float4 ShootDir = { 0,0 };
 
 	float4 StartDir = { 0,0 };
+
+	Player* PrevPlayer = nullptr;
 };
 

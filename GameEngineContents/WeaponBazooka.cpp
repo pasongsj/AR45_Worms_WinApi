@@ -34,9 +34,8 @@ void WeaponBazooka::Render(float _DeltaTime)
 	if (GameEngineInput::IsDown("ChangePlayer"))
 	{
 		CurPlayer->ChangePlayerAnimation("BazOff");
-		SetCurPlayer();
+		ResetWeapon(_DeltaTime);
 	}
-
 	//HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	//Rectangle(_hdc, static_cast<int>(WeaponCollision->GetActorPlusPos().x) - static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
 	//				static_cast<int>(WeaponCollision->GetActorPlusPos().y) - static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y),
@@ -77,6 +76,7 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
+	PrevPlayer = CurPlayer;
 }
 
 void WeaponBazooka::CreatePlayerAnimation()
@@ -88,11 +88,11 @@ void WeaponBazooka::CreatePlayerAnimation()
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f, false);
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 7, 0.1f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 7, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 6, 0.075f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 6, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 7, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 7, 0.075f, false);
 	}
 }
 
@@ -228,8 +228,16 @@ void WeaponBazooka::ResetWeapon(float _DeltaTime)
 	GravityAccel = 0.0f; //임시 설정값
 	WeaponRender->Off();
 	WeaponCollision->Off();
-	isFire = false;
+
+	isBazOn = false;
 	isSet = false;
+	isFire = false;
+	isAiming = false;
+
+	Bazindex = 0;
+
+	ShootDir = { 0,0 };
+	StartDir = { 0,0 };
 }
 
 void WeaponBazooka::BazAiming()
