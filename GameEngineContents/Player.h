@@ -36,6 +36,7 @@ public:
 
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
 	void ChangePlayerAnimation(const std::string_view& _AnimationName);
+	
 
 	PlayerState GetPlayerState() //플레이어 상태를 받아옴
 	{

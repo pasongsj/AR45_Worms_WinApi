@@ -11,11 +11,11 @@ public:
 
 	void WeaponBazookaInit();
 	void CreatePlayerAnimation();
-	bool CheckCollision();
 
 	void ChangeBazReadyAnimation();
 	void BazookaOn();
 	void BazookaOff();
+	void BazAiming();
 
 
 	void SetAngle();
@@ -38,5 +38,7 @@ private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 	bool isSet = false;
 	bool isFire = false;
+	bool isAiming = false;
+	float4 StartDir = { 0,0 };
 };
 

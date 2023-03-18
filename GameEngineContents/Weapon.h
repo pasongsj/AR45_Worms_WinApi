@@ -27,7 +27,7 @@ public:
 	void TimeCounting();
 	void SetCurPlayer();
 	virtual void ResetWeapon(float _DeltaTme) {};
-
+	virtual bool CheckCollision();
 protected:
 
 	//
@@ -64,6 +64,7 @@ protected:
 
 
 private:
+
 	float Height = 0.0f;
 	bool isRightDir = true;
 

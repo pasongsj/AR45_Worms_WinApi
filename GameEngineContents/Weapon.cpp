@@ -32,13 +32,13 @@ float4 Weapon::GetShootDir()
 
 	//}
 
-	if (GameEngineInput::IsPress("WeaponUp") && -1 < Height) // 윈도우 좌표계 위로
+	if (GameEngineInput::IsPress("WeaponUp") && -0.96 < Height) // 윈도우 좌표계 위로
 	{
-		Height -= 0.05f;
+		Height -= 0.03f;
 	}
-	else if (GameEngineInput::IsPress("WeaponDown") && 1 > Height)
+	else if (GameEngineInput::IsPress("WeaponDown") && 0.96 > Height)
 	{
-		Height += 0.05f;
+		Height += 0.03f;
 	}
 
 	// 지속적으로 마지막 방향 업데이트
@@ -117,5 +117,31 @@ void Weapon::SetCurPlayer()
 			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
 			break;
 		}
+	}
+}
+
+bool Weapon::CheckCollision()
+{
+	std::vector<GameEngineCollision*> CollisionList;
+
+	if (WeaponCollision != nullptr && true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+	{
+		for (int i = 0; i < CollisionList.size(); i++)
+		{
+			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+
+			if (ColPlayer->GetIsMyTurn() == false)
+			{
+				return true;
+			}
+		}
+	}
+	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos(), RGB(0, 0, 255))) //맵에 닿으면 사라짐
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
