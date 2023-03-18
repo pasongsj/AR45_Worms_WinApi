@@ -36,9 +36,15 @@ protected:
 	void ResetWeapon(float _DeltaTime) override;
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
+
+	bool isBazOn = false;
 	bool isSet = false;
 	bool isFire = false;
 	bool isAiming = false;
+
+	int Bazindex = 0;
+	float4 ShootDir = { 0,0 };
+
 	float4 StartDir = { 0,0 };
 };
 

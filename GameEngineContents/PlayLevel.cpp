@@ -81,7 +81,7 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* bazOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffLeft.bmp"));
 			bazOffLeft->Cut(1, 7);
 			GameEngineImage* bazOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnLeft.bmp"));
-			bazOnLeft->Cut(1, 7);
+			bazOnLeft->Cut(1, 8);
 
 		}
 
@@ -96,7 +96,7 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* bazOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffRight.bmp"));
 			bazOffRight->Cut(1, 7);
 			GameEngineImage* bazOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnRight.bmp"));
-			bazOnRight->Cut(1, 7);
+			bazOnRight->Cut(1, 8);
 		}
 	}
 

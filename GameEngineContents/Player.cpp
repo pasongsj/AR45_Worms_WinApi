@@ -157,3 +157,8 @@ void Player::Render(float _DeltaTime)
 		ActorPos.iy() + 5
 	);
 }
+
+bool Player::IsPlayerAnimationEnd()
+{
+	return AnimationRender->IsAnimationEnd();
+}

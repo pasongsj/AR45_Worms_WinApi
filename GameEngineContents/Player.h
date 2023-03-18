@@ -43,6 +43,8 @@ public:
 		return StateValue;
 	}
 
+	bool IsPlayerAnimationEnd();
+
 
 protected:
 	void Start() override;

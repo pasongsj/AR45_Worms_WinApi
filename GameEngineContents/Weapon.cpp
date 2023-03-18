@@ -32,13 +32,13 @@ float4 Weapon::GetShootDir()
 
 	//}
 
-	if (GameEngineInput::IsPress("WeaponUp") && -0.96 < Height) // 윈도우 좌표계 위로
+	if (GameEngineInput::IsPress("WeaponUp") && -5.7 < Height) // 윈도우 좌표계 위로
 	{
-		Height -= 0.03f;
+		Height -= 0.05f;
 	}
-	else if (GameEngineInput::IsPress("WeaponDown") && 0.96 > Height)
+	else if (GameEngineInput::IsPress("WeaponDown") && 5.7 > Height)
 	{
-		Height += 0.03f;
+		Height += 0.05f;
 	}
 
 	// 지속적으로 마지막 방향 업데이트

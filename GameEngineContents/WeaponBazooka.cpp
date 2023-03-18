@@ -37,11 +37,11 @@ void WeaponBazooka::Render(float _DeltaTime)
 		SetCurPlayer();
 	}
 
-	HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	Rectangle(_hdc, static_cast<int>(WeaponCollision->GetActorPlusPos().x) - static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
-					static_cast<int>(WeaponCollision->GetActorPlusPos().y) - static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y),
-					static_cast<int>(WeaponCollision->GetActorPlusPos().x) + static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
-					static_cast<int>(WeaponCollision->GetActorPlusPos().y) + static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y));
+	//HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+	//Rectangle(_hdc, static_cast<int>(WeaponCollision->GetActorPlusPos().x) - static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
+	//				static_cast<int>(WeaponCollision->GetActorPlusPos().y) - static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y),
+	//				static_cast<int>(WeaponCollision->GetActorPlusPos().x) + static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
+	//				static_cast<int>(WeaponCollision->GetActorPlusPos().y) + static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y));
 }
 
 void WeaponBazooka::WeaponBazookaInit()
@@ -66,7 +66,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	Gravity = 0.0f; //임시 설정값
 	GravityAccel = 0.0f; //임시 설정값
 
-	MoveSpeed = 500.0f; //임시 설정값
+	MoveSpeed = 1500.0f; //임시 설정값
 
 	EffectGravity = true;
 	isAnimation = true;
@@ -88,11 +88,11 @@ void WeaponBazooka::CreatePlayerAnimation()
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f, false);
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.1f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 7, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 7, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 6, 0.1f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 6, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 6, 0.075f, false);
 	}
 }
 
@@ -136,17 +136,18 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 				WeaponCollision->SetPosition(PlayerList[i]->GetPos());
 				break;
 			}
-
 		}
+
+		Dir = ShootDir;
 
 		WeaponRender->On();
 		WeaponCollision->On();
 		isSet = true;
 	}
 
-	Gravity = 10.0f * GravityAccel * _DeltaTime;
-	GravityAccel += 10.0f;
-	Dir += { 100 , -100 + Gravity }; // 다른 함수를 통해, 최초 발사 각도를 저장한 후 Y축에 +Gravity 를 프레임마다 해줌으로써 천천히 우(좌)하향하게 만든다 
+	Gravity = 0.005f;
+
+	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
 
 	WeaponRender->SetAngle(-Dir.GetAnagleDeg() - 45);
@@ -198,22 +199,18 @@ void WeaponBazooka::ChangeBazReadyAnimation()
 
 void WeaponBazooka::BazookaOn()
 {
-	if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
+	if (CurPlayer->GetPlayerState() == PlayerState::IDLE && isBazOn == false)
 	{
 		TimeCounting();
 	}
-	else
-	{	
-		if (isAiming == false) 
-		{
-			TimeCount = 0;
-		}
-	}
 
-	if (TimeCount >= 1.5f && isAiming == false)
+	if (TimeCount >= 1.5f && isBazOn == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
+		TimeCount = 0;
+		isBazOn = true;
 	}
+
 }
 
 void WeaponBazooka::ResetWeapon(float _DeltaTime)
@@ -237,21 +234,52 @@ void WeaponBazooka::ResetWeapon(float _DeltaTime)
 
 void WeaponBazooka::BazAiming()
 {
-	if (isAiming == true)
+	if (CurPlayer->GetPlayerState() != PlayerState::IDLE)
 	{
-		CurPlayer->SetPlayerAnimationFrame(15);
+		return;
+	}
+	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
+	{
+		TimeCounting();
+		CurPlayer->SetPlayerAnimationFrame(6);
+
+		if (TimeCount > 0.75f) 
+		{
+			isAiming = true;
+			CurPlayer->ChangePlayerAnimation("bazAim", Bazindex);
+		}
 	}
 
-	if (GameEngineInput::IsDown("WeaponUp") && isAiming == false)
+	else if (isAiming == true)
 	{
-		isAiming = true;
-		CurPlayer->ChangePlayerAnimation("bazAim");
+		ShootDir = GetShootDir();
+		float Angle = ShootDir.GetAnagleDeg();
+
+		if (ShootDir.x > 0 && Angle > 270)
+		{
+			Angle = Angle - 360;
+		}
+
+		else if (ShootDir.x < 0)
+		{
+			Angle = 180 - Angle;
+		}
+
+		Bazindex = Angle / 5 + 15;
+
+		if (Bazindex < 0)
+		{
+			Bazindex = 0;
+		}
+
+
+		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 	}
 
 	if (GameEngineInput::IsDown("MoveRight") || GameEngineInput::IsDown("MoveLeft"))
 	{
 		isAiming = false;
+		isBazOn = false;
 	}
-
 }
 
