@@ -1,6 +1,7 @@
 #include "WeaponBazooka.h"
 #include "ContentsEnums.h"
 #include "Player.h"
+#include "MapModifier.h"
 
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -27,6 +28,15 @@ void WeaponBazooka::Update(float _DeltaTime)
 	firing(_DeltaTime);
 	BazookaOn();
 	BazAiming();
+
+	if (isExplosion == true && ExplosionAnimation->IsAnimationEnd() == true)
+	{
+		ExplosionAnimation->ChangeAnimation("Idle");
+		ExplosionAnimation->Off();
+
+		CurPlayer->ChangePlayerAnimation("BazOff");
+		isExplosion = false;
+	}
 }
 
 void WeaponBazooka::Render(float _DeltaTime)
@@ -35,6 +45,7 @@ void WeaponBazooka::Render(float _DeltaTime)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOff");
 		ResetWeapon(_DeltaTime);
+		isAttack = false;
 	}
 	//HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	//Rectangle(_hdc, static_cast<int>(WeaponCollision->GetActorPlusPos().x) - static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
@@ -62,6 +73,15 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	WeaponName = "Bazooka";
 
+	BazookaExplosion = GetLevel()->CreateActor<MapModifier>();
+	BazookaExplosion->SetRadius(50);
+
+	ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
+	ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End =  8, .InterTime = 0.03f , .Loop =false });
+	ExplosionAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End =  0, .InterTime = 0.05f , .Loop =false });
+	ExplosionAnimation->SetScale({ 100, 100 });
+	ExplosionAnimation->Off();
+
 	Gravity = 0.0f; //임시 설정값
 	GravityAccel = 0.0f; //임시 설정값
 
@@ -72,11 +92,12 @@ void WeaponBazooka::WeaponBazookaInit()
 	isBlocked = true;
 	isTarget = false;
 
+	TimeCount = 0;
+
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
-	PrevPlayer = CurPlayer;
 }
 
 void WeaponBazooka::CreatePlayerAnimation()
@@ -113,7 +134,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		return;
 	}
 
-	if (isEndCharging() == true)
+	if (isAiming == true && isEndCharging() == true)
 	{
 		isFire = true;
 	}
@@ -171,6 +192,15 @@ void WeaponBazooka::Explosion() //폭발
 	else
 	{
 		//Dmg만큼 Player의 HP가 감소, 폭발반경의 맵이 깎여야함, 넉백이 있을 수도, 
+		ExplosionAnimation->SetPosition(WeaponRender->GetPosition());
+		ExplosionAnimation->On();
+		ExplosionAnimation->ChangeAnimation("Explosion", 0);
+
+		BazookaExplosion->SetPos(WeaponRender->GetPosition());
+		BazookaExplosion->CreateHole();
+
+		isAttack = true;
+		isExplosion = true;
 	}
 }
 
@@ -199,12 +229,12 @@ void WeaponBazooka::ChangeBazReadyAnimation()
 
 void WeaponBazooka::BazookaOn()
 {
-	if (CurPlayer->GetPlayerState() == PlayerState::IDLE && isBazOn == false)
+	if (CurPlayer->GetPlayerState() == PlayerState::IDLE && isBazOn == false && isAttack == false)
 	{
 		TimeCounting();
 	}
 
-	if (TimeCount >= 1.5f && isBazOn == false)
+	if (TimeCount >= 1.0f && isBazOn == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
 		TimeCount = 0;
@@ -213,7 +243,7 @@ void WeaponBazooka::BazookaOn()
 
 }
 
-void WeaponBazooka::ResetWeapon(float _DeltaTime)
+void WeaponBazooka::ResetWeapon()
 {
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
@@ -246,15 +276,17 @@ void WeaponBazooka::BazAiming()
 	{
 		return;
 	}
+
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 		TimeCounting();
 		CurPlayer->SetPlayerAnimationFrame(6);
 
-		if (TimeCount > 0.75f) 
+		if (TimeCount > 0.5f) 
 		{
 			isAiming = true;
-			CurPlayer->ChangePlayerAnimation("bazAim", Bazindex);
+			CurPlayer->ChangePlayerAnimation("bazAim", CurIndex);
+			TimeCount = 0;
 		}
 	}
 
@@ -280,14 +312,40 @@ void WeaponBazooka::BazAiming()
 			Bazindex = 0;
 		}
 
+		if(Bazindex == CurIndex)
+		{
+			CurPlayer->SetPlayerAnimationFrame(Bazindex);
+		}
 
-		CurPlayer->SetPlayerAnimationFrame(Bazindex);
+		else if (Bazindex > CurIndex)
+		{
+			TimeCounting();
+
+			if (TimeCount >= 0.01f)
+			{
+				++CurIndex;
+				CurPlayer->SetPlayerAnimationFrame(CurIndex);
+				TimeCount = 0;
+			}
+		}
+		else if (Bazindex < CurIndex)
+		{
+			TimeCounting();
+
+			if (TimeCount >= 0.01f)
+			{
+				--CurIndex;
+				CurPlayer->SetPlayerAnimationFrame(CurIndex);
+				TimeCount = 0;
+			}
+		}
 	}
 
 	if (GameEngineInput::IsDown("MoveRight") || GameEngineInput::IsDown("MoveLeft"))
 	{
 		isAiming = false;
 		isBazOn = false;
+		CurIndex = 16;
 	}
 }
 
