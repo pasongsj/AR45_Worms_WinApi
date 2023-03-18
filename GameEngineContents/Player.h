@@ -35,7 +35,7 @@ public:
 	}
 
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
-	void ChangePlayerAnimation(const std::string_view& _AnimationName);
+	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0);
 	
 
 	PlayerState GetPlayerState() //플레이어 상태를 받아옴
@@ -56,7 +56,7 @@ private:
 	bool IsMyTurn = false; //내 턴인지 체크
 
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
-	void DirCheck(const std::string_view& _AnimationName);
+	void DirCheck(const std::string_view& _AnimationName, int _CurIndex = 0);
 
 	//이동 관련
 	std::string DirString = "Right_"; //방향

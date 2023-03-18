@@ -109,10 +109,10 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 }
 
 
-void Player::DirCheck(const std::string_view& _AnimationName)
+void Player::DirCheck(const std::string_view& _AnimationName, int _CurIndex)
 {
 	std::string PrevDirString = DirString;
-	AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+	AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
 
 	if (GameEngineInput::IsPress("MoveLeft"))
 	{
@@ -125,7 +125,7 @@ void Player::DirCheck(const std::string_view& _AnimationName)
 
 	if (PrevDirString != DirString)
 	{
-		AnimationRender->ChangeAnimation(DirString + _AnimationName.data());
+		AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
 	}
 }
 
@@ -133,9 +133,9 @@ void Player::CreatePlayerAnimation(const std::string_view& _AnimationName, const
 {
 	AnimationRender->CreateAnimation({ .AnimationName = _AnimationName, .ImageName = _ImageName, .Start = _StartFrame, .End = _EndFrame, .InterTime = _InterTime, .Loop = _Loop });
 }
-void Player::ChangePlayerAnimation(const std::string_view& _AnimationName)
+void Player::ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex)
 {
-	DirCheck(_AnimationName);
+	DirCheck(_AnimationName, _CurIndex);
 }
 
 
