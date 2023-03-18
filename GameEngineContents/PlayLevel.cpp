@@ -136,13 +136,13 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 
 		//현재 플레이어의 턴 종료
 		pCurPlayer->SetIsMyTurn(false);
-		PrevPlayerPos = pCurPlayer->GetPos();
 
 		//다음 플레이어가 현재 플레이어가됨
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
 		pCurPlayer->SetIsMyTurn(true);
-		CurPlayerPos = pCurPlayer->GetPos();
 
+		CurPlayerPos = pCurPlayer->GetPos();
+		PrevCamPos = GetCameraPos();
 		bCamMove = true;
 	}
 
@@ -151,7 +151,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	{
 		//1초동안 플레이어 카메라 위치 변경
 		fLerpRatio += _DeltaTime;
-		SetCameraPos(LerpCamPos.LerpClamp(PrevPlayerPos, CurPlayerPos, fLerpRatio) - ScreenSize.half());
+		SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - ScreenSize.half(), fLerpRatio) );
 
 		if (fLerpRatio > 1.f)
 		{
@@ -190,6 +190,7 @@ void PlayLevel::Loading()
 		iPlayerNumber = 0;
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
 		pCurPlayer->SetIsMyTurn(true);
+		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
 	}
 
 	CreateActor<WeaponBazooka>();

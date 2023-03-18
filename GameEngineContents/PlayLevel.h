@@ -32,7 +32,7 @@ private:
 	bool bFreeCamMove = false;
 
 	bool bCamMove = false;
-	float4 PrevPlayerPos = float4::Zero;
+	float4 PrevCamPos = float4::Zero;
 	float4 CurPlayerPos = float4::Zero;
 	float4 LerpCamPos = float4::Zero;
 	float fLerpRatio = 0.f;
