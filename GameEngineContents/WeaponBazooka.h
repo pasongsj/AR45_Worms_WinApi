@@ -1,6 +1,7 @@
 #pragma once
 #include "Weapon.h"
 
+class MapModifier;
 class WeaponBazooka : public Weapon
 {
 
@@ -33,16 +34,22 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
-	void ResetWeapon(float _DeltaTime) override;
+	void ResetWeapon() override;
 private:
 	GameEngineRender* shell = nullptr; //Æ÷Åº (Åõ»çÃ¼)
+	MapModifier* BazookaExplosion = nullptr;
+	GameEngineRender* ExplosionAnimation = nullptr;
 
+	bool isExplosion = false;
 	bool isBazOn = false;
 	bool isSet = false;
 	bool isFire = false;
 	bool isAiming = false;
+	bool isAttack = false;
 
 	int Bazindex = 0;
+	int CurIndex = 16;
+
 	float4 ShootDir = { 0,0 };
 
 	float4 StartDir = { 0,0 };
