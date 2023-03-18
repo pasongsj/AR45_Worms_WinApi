@@ -3,8 +3,10 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
+//#include <GameEnginePlatform/GameEngineInput.h>
 
 #include "MapModifier.h"
+#include "Player.h"
 
 WeaponShotgun::WeaponShotgun()
 {
@@ -22,45 +24,50 @@ void WeaponShotgun::Start()
 	isAnimation = false;
 	isBlocked = true;
 	isTarget = false;
-
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
-
 	Dir = float4{ 1,0 }.NormalizeReturn();
 	//float4 PlayerPos = float4::Zero;
 	BombScale = float4{ 100,100 };
 	//float4 Scale = float4::Zero;	
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
-	//WeaponShotgunInit();
+	
+	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 
 
-	// 폭발 맵깍기
-	Bomb = GetLevel()->CreateActor<MapModifier>();
-	Bomb->SetRadius(BombScale.hix());
 
-	// - 조준선 
+	// 폭발 맵깍기 - 수정필요 : WeaponClass에서 Bomb를 관리해야 여러 액터를 만들지 않아도 됨
+	Explosion = GetLevel()->CreateActor<MapModifier>();
+	Explosion->SetRadius(BombScale.hix());
+
+	// 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
 	AimingLine->SetImage("TempBomb.bmp");
 	AimingLine->SetScale({ 20,20 });
+
+
 	AllWeapons[WeaponName] = this;
 }
 
 void WeaponShotgun::Update(float _DeltaTime)
 {
-
-	if (0 == ShotGunCollision.size()) // 무기가 생성되지 않았을 경우 생성되도록 함.
+	while (BulletCount > ShotGunCollision.size()) // 총탄 개수만큼 WeaponInit
 	{
-		for (int i = 0;i < BulletCount;i++)
-		{
-			WeaponShotgunInit();
-		}
+		WeaponShotgunInit();
 	}
 	
 
-	if (PressShoot())
+
+	CheckFiring();
+	Firing(_DeltaTime);
+
+}
+
+void WeaponShotgun::CheckFiring()
+{
+	if (PressShoot()) // 발사
 	{
-		for (int i = 0;i < BulletCount;i++)
+		for (int i = 0; i < BulletCount; i++)
 		{
 			if (isShooted[i] == false)
 			{
@@ -72,15 +79,32 @@ void WeaponShotgun::Update(float _DeltaTime)
 	}
 	else
 	{
-		float4 PlayerPos = (GetLevel()->GetActors(WormsRenderOrder::Player))[0]->GetPos();// 임시 index0 PlayerPos
-		SetPos(PlayerPos /*- float4{0,30}*/);
+		float4 PlayerPos = float4::Zero;// 임시 index0 PlayerPos
+		std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); // 효율적이지 못한 느낌??
+		for (int i = 0; i < PlayerList.size(); i++)
+		{
+			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
+			{
+				PlayerPos = PlayerList[i]->GetPos();
+				break;
+			}
+		}
+		if (true == PlayerPos.IsZero())
+		{
+			MsgAssert("현재 턴으로 지정된 플레이어가 없습니다.");
+			return;
+		}
+		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
-		// 조준선 이동
-		AimingLine->SetPosition(Dir*100 /*+ float4{ 0,30 }*/);
-
+		AimingLine->SetPosition(Dir * 100); // 조준선 이동
 	}
 
-	for (int i = 0;i < BulletCount;i++)
+}
+
+
+void WeaponShotgun::Firing(float _DeltaTime)
+{
+	for (int i = 0; i < BulletCount; i++)
 	{
 		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate())
 		{
@@ -88,20 +112,12 @@ void WeaponShotgun::Update(float _DeltaTime)
 
 			if (true == WeaponShotgun::CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 			{
-				MakeBomb(GetPos()+ShotGunCollision[i]->GetPosition()); // 폭발 범위 표시
-
+				Explosion->SetPos(GetPos() + ShotGunCollision[i]->GetPosition()); // 폭발 범위 마젠타 색칠하기
+				Explosion->CreateHole();
 				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
 			}
 		}
 	}
-
-
-}
-
-void WeaponShotgun::MakeBomb(float4 _Pos) // 임시 - 폭탄 터지는 위치 표기
-{
-	Bomb->SetPos(_Pos);
-	Bomb->CreateHole();
 }
 
 
@@ -124,7 +140,6 @@ void WeaponShotgun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime,float
 
 void WeaponShotgun::Render(float _DeltaTime)
 {
-
 }
 
 void WeaponShotgun::WeaponShotgunInit()
@@ -141,5 +156,11 @@ void WeaponShotgun::WeaponShotgunInit()
 
 void WeaponShotgun::ResetWeapon(float _DeltaTime)
 {
-
+	for (int i = 0; i < BulletCount; i++)
+	{
+		isShooted[i] = false;
+		ShotGunDir[i] = float4::Right;
+		ShotGunCollision[i]->SetPosition(float4::Zero);
+		ShotGunCollision[i]->On();
+	}
 }
