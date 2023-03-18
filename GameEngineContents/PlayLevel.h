@@ -28,10 +28,21 @@ private:
 	int iPlayerNumber = -1;
 	Player* pCurPlayer = nullptr;
 	std::vector<Player*> vecAllPlayer;
+
 	bool bFreeCamMove = false;
+
+	bool bCamMove = false;
+	float4 PrevPlayerPos = float4::Zero;
+	float4 CurPlayerPos = float4::Zero;
+	float4 LerpCamPos = float4::Zero;
+	float fLerpRatio = 0.f;
+
 
 	float4 ScreenSize = float4::Zero;
 	void SoundLoad();
 	void ImageLoad();
+	void KeyLoad();
+
+	void PlayerChange(float _DeltaTime);
 };
 

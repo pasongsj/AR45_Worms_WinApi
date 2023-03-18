@@ -7,6 +7,7 @@
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -101,11 +102,8 @@ void PlayLevel::ImageLoad()
 
 }
 
-void PlayLevel::Loading()
+void PlayLevel::KeyLoad()
 {
-	SoundLoad();
-	ImageLoad();
-
 	if (false == GameEngineInput::IsKey("ChangePlayer"))
 	{
 		GameEngineInput::CreateKey("ChangePlayer", 'n');
@@ -114,6 +112,60 @@ void PlayLevel::Loading()
 		GameEngineInput::CreateKey("WeaponDown", 'S');
 		GameEngineInput::CreateKey("Shoot", VK_SPACE);
 	}
+}
+
+void PlayLevel::PlayerChange(float _DeltaTime)
+{
+	//Player벡터 오류 검사
+	if (-1 == iPlayerNumber)
+	{
+		MsgAssert("PlayerNumber가 -1 입니다.");
+	}
+
+	//ChangePlayer 키가 눌렸을때
+	if (GameEngineInput::IsDown("ChangePlayer"))
+	{
+		//벡터 인덱스 증가
+		++iPlayerNumber;
+
+		//초과시 0
+		if (8 == iPlayerNumber)
+		{
+			iPlayerNumber = 0;
+		}
+
+		//현재 플레이어의 턴 종료
+		pCurPlayer->SetIsMyTurn(false);
+		PrevPlayerPos = pCurPlayer->GetPos();
+
+		//다음 플레이어가 현재 플레이어가됨
+		pCurPlayer = vecAllPlayer[iPlayerNumber];
+		pCurPlayer->SetIsMyTurn(true);
+		CurPlayerPos = pCurPlayer->GetPos();
+
+		bCamMove = true;
+	}
+
+	//플레이어가 변경되었다면
+	if (bCamMove)
+	{
+		//1초동안 플레이어 카메라 위치 변경
+		fLerpRatio += _DeltaTime;
+		SetCameraPos(LerpCamPos.LerpClamp(PrevPlayerPos, CurPlayerPos, fLerpRatio) - ScreenSize.half());
+
+		if (fLerpRatio > 1.f)
+		{
+			bCamMove = false;
+			fLerpRatio = 0.f;
+		}
+	}
+}
+
+void PlayLevel::Loading()
+{
+	SoundLoad();
+	ImageLoad();
+	KeyLoad();
 
 	{
 		Map* Actor = CreateActor<Map>();
@@ -145,24 +197,7 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
-	if (-1 == iPlayerNumber)
-	{
-		MsgAssert("PlayerNumber가 -1 입니다.");
-	}
-	if (GameEngineInput::IsDown("ChangePlayer"))
-	{
-		++iPlayerNumber;
-		if (8 == iPlayerNumber)
-		{
-			iPlayerNumber = 0;
-		}
-		pCurPlayer->SetIsMyTurn(false);
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
-
-		float4 CurPlayerPos = pCurPlayer->GetPos();
-		SetCameraPos(CurPlayerPos - ScreenSize.half());
-	}
+	PlayerChange(_DeltaTime);
 
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
