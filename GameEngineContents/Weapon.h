@@ -26,7 +26,7 @@ public:
 	bool isEndCharging();
 	void TimeCounting();
 	void SetCurPlayer();
-	virtual void ResetWeapon(float _DeltaTme) {};
+	virtual void ResetWeapon() {};
 	virtual bool CheckCollision(GameEngineCollision* _Col = nullptr);
 protected:
 

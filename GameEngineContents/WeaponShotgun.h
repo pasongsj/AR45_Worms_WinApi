@@ -16,7 +16,7 @@ public:
 	WeaponShotgun& operator=(const WeaponShotgun& _Other) = delete;
 	WeaponShotgun& operator=(WeaponShotgun&& _Other) noexcept = delete;
 
-	void ResetWeapon(float _DeltaTime) override;
+	void ResetWeapon() override;
 
 protected:
 	void Start() override;
@@ -36,6 +36,8 @@ private:
 	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// ÃÑ¾Ë ÀÌµ¿
 	void Firing(float _DeltaTime);	
 	void CheckFiring();
+
+	void FindCurPlayer();
 
 	MapModifier* Explosion = nullptr;													// ¸Ê Æø¹ß
 };

@@ -21,13 +21,10 @@ void WeaponShotgun::Start()
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
 	EffectGravity = false;
-	isAnimation = false;
 	isBlocked = true;
-	isTarget = false;
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
-	Dir = float4{ 1,0 }.NormalizeReturn();
-	//float4 PlayerPos = float4::Zero;
+	Dir = float4::Right;
 	BombScale = float4{ 100,100 };
 	//float4 Scale = float4::Zero;	
 
@@ -58,14 +55,14 @@ void WeaponShotgun::Update(float _DeltaTime)
 	
 
 
-	CheckFiring();
-	Firing(_DeltaTime);
+	CheckFiring(); // 방향체크, 발사 체크
+	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
 }
 
 void WeaponShotgun::CheckFiring()
 {
-	if (PressShoot()) // 발사
+	if (PressShoot()) // 발사체크
 	{
 		for (int i = 0; i < BulletCount; i++)
 		{
@@ -77,23 +74,13 @@ void WeaponShotgun::CheckFiring()
 			}
 		}
 	}
-	else
+	else // 방향체크
 	{
-		float4 PlayerPos = float4::Zero;// 임시 index0 PlayerPos
-		std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); // 효율적이지 못한 느낌??
-		for (int i = 0; i < PlayerList.size(); i++)
+		if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn())
 		{
-			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
-			{
-				PlayerPos = PlayerList[i]->GetPos();
-				break;
-			}
+			FindCurPlayer();
 		}
-		if (true == PlayerPos.IsZero())
-		{
-			MsgAssert("현재 턴으로 지정된 플레이어가 없습니다.");
-			return;
-		}
+		PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
@@ -101,13 +88,32 @@ void WeaponShotgun::CheckFiring()
 
 }
 
+void WeaponShotgun::FindCurPlayer()
+{
+	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); 
+	for (int i = 0; i < PlayerList.size(); i++)
+	{
+		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
+		{
+			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
+			break;
+		}
+	}
+	if (nullptr == CurPlayer)
+	{
+		MsgAssert("현재플레이어를 찾지 못했습니다.");
+	}
+}
+
 
 void WeaponShotgun::Firing(float _DeltaTime)
 {
+	//bool isRemainBullet = false;
 	for (int i = 0; i < BulletCount; i++)
 	{
 		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate())
 		{
+			//isRemainBullet = true;
 			WeaponMove(ShotGunCollision[i], _DeltaTime, ShotGunDir[i]);
 
 			if (true == WeaponShotgun::CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
@@ -118,6 +124,14 @@ void WeaponShotgun::Firing(float _DeltaTime)
 			}
 		}
 	}
+
+	// 수정 필요 : 터지는 애니메이션까지 Weapon이 On되어있어야 하는지 논의 필요
+	//if (false == isRemainBullet) // 남아있는 총탄이 없다면 WeaponOff
+	//{
+	//	this->Off();
+	//	return;
+	//}
+
 }
 
 
@@ -154,7 +168,7 @@ void WeaponShotgun::WeaponShotgunInit()
 
 }
 
-void WeaponShotgun::ResetWeapon(float _DeltaTime)
+void WeaponShotgun::ResetWeapon()
 {
 	for (int i = 0; i < BulletCount; i++)
 	{
