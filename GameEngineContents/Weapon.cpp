@@ -120,11 +120,15 @@ void Weapon::SetCurPlayer()
 	}
 }
 
-bool Weapon::CheckCollision()
+bool Weapon::CheckCollision(GameEngineCollision* _Col)
 {
+	if (nullptr == _Col)
+	{
+		_Col = WeaponCollision;
+	}
 	std::vector<GameEngineCollision*> CollisionList;
 
-	if (WeaponCollision != nullptr && true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
@@ -136,12 +140,10 @@ bool Weapon::CheckCollision()
 			}
 		}
 	}
-	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos(), RGB(0, 0, 255))) //∏ ø° ¥Í¿∏∏È ªÁ∂Û¡¸
+	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(255, 0, 255))) //∏ ø° ¥Í¿∏∏È ªÁ∂Û¡¸
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
+
 }

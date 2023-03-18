@@ -27,7 +27,7 @@ public:
 	void TimeCounting();
 	void SetCurPlayer();
 	virtual void ResetWeapon(float _DeltaTme) {};
-	virtual bool CheckCollision();
+	virtual bool CheckCollision(GameEngineCollision* _Col = nullptr);
 protected:
 
 	//
@@ -62,6 +62,7 @@ protected:
 	float Timer = 0.0f;								// ≈∏¿Ã∏”
 	float TimeCount = 0.0f;		
 
+	GameEngineRender* AimingLine = nullptr;
 
 private:
 
