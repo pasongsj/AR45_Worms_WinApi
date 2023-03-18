@@ -44,7 +44,7 @@ void WeaponBazooka::Render(float _DeltaTime)
 	if (GameEngineInput::IsDown("ChangePlayer"))
 	{
 		CurPlayer->ChangePlayerAnimation("BazOff");
-		ResetWeapon(_DeltaTime);
+		ResetWeapon();
 		isAttack = false;
 	}
 	//HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
@@ -178,7 +178,7 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 	if (CheckCollision() == true)
 	{
 		Explosion();
-		ResetWeapon(_DeltaTime);
+		ResetWeapon();
 	}
 }
 
