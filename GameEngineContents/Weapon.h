@@ -61,6 +61,7 @@ protected:
 	float CurTime = 0.0f;
 	float Timer = 0.0f;								// ≈∏¿Ã∏”
 	float TimeCount = 0.0f;		
+	float TimeCount_2 = 0.0f;
 
 	GameEngineRender* AimingLine = nullptr;
 

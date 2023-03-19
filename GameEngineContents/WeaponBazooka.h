@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Weapon.h"
 
 class MapModifier;
@@ -18,8 +19,10 @@ public:
 	void BazookaOff();
 	void BazAiming();
 
+	void ChargingRenderInit();
+	void ChargingRenderOn();
+	void ChargingRenderOff();
 
-	void SetAngle();
 	void Charging();
 	void firing(float _DeltaTime);
 	void Explosion();
@@ -50,10 +53,14 @@ private:
 	int Bazindex = 0;
 	int CurIndex = 16;
 
+	int CountingIndex = 0;
+
 	float4 ShootDir = { 0,0 };
 
 	float4 StartDir = { 0,0 };
 
 	Player* PrevPlayer = nullptr;
+
+	std::vector< GameEngineRender*> ChargingRender;
 };
 

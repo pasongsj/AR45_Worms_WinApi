@@ -28,6 +28,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 	firing(_DeltaTime);
 	BazookaOn();
 	BazAiming();
+	Charging();
 
 	if (isExplosion == true && ExplosionAnimation->IsAnimationEnd() == true)
 	{
@@ -41,7 +42,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 void WeaponBazooka::Render(float _DeltaTime)
 {
-	if (GameEngineInput::IsDown("ChangePlayer"))
+	if (true == GameEngineInput::IsDown("ChangePlayer"))
 	{
 		CurPlayer->ChangePlayerAnimation("BazOff");
 		ResetWeapon();
@@ -95,7 +96,8 @@ void WeaponBazooka::WeaponBazookaInit()
 	TimeCount = 0;
 
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
-
+	
+	ChargingRenderInit();
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
 }
@@ -120,10 +122,23 @@ void WeaponBazooka::CreatePlayerAnimation()
 
 void WeaponBazooka::Charging()
 {
-	if (/* isPress(스페이스바) == true */ true)
+	if (CurPlayer->GetPlayerState() != PlayerState::IDLE)
+	{
+		return;
+	}
+
+	if (isAiming == false)
+	{
+		return;
+	}
+
+	if (GameEngineInput::IsPress("Shoot") == true)
 	{
 		/* timer 로 시간을 재고, 시간에 맞게 차징정도를 설정 ( 0 ~ 1 까지 시간비례 ) => ( 차징정도 = 현재차징시간 / 최대차징시간 ) */
 		/* 차지가 길게 될수록 발사 거리가 길어짐 (발사속도가 빨라짐) */
+		CurPlayer->SetCanIMove(false);
+		ChargingRenderOn();
+		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 	}
 }
 
@@ -141,6 +156,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 	if (isAiming == true && isEndCharging() == true)
 	{
+		ChargingRenderOff();
 		isFire = true;
 	}
 
@@ -206,24 +222,8 @@ void WeaponBazooka::Explosion() //폭발
 
 		isAttack = true;
 		isExplosion = true;
-	}
-}
 
-void WeaponBazooka::SetAngle()
-{
-	if (/*플레이어가 이동중이라면*/ true)
-	{
-		return;
-	}
-	else if (/*플레이어가 이동을 멈췄다면*/ true)
-	{
-		//바주카를 꺼내는 모션으로 애니메이션을 변경
-	}
-
-	if (/*바주카를 꺼내는 모션을 모두 끝냈다면(isAnimationEnd) */ true)
-	{
-		//키입력을 받아 위아래로 각도를 조절 Dir에 각도를 넣는다.
-		//각도가 변하면서 Dir의 좌표값이 변하고, Dir - PlayerPos 해서 방향벡터를 구한다음 Normalize
+		CurPlayer->SetCanIMove(true);
 	}
 }
 
@@ -245,7 +245,6 @@ void WeaponBazooka::BazookaOn()
 		TimeCount = 0;
 		isBazOn = true;
 	}
-
 }
 
 void WeaponBazooka::ResetWeapon()
@@ -273,6 +272,8 @@ void WeaponBazooka::ResetWeapon()
 
 	ShootDir = { 0,0 };
 	StartDir = { 0,0 };
+
+	TimeCount = 0;
 }
 
 void WeaponBazooka::BazAiming()
@@ -282,6 +283,12 @@ void WeaponBazooka::BazAiming()
 		return;
 	}
 
+	if (isAiming == true && GameEngineInput::IsPress("Shoot") == true)
+	{
+		return;
+	}
+
+	//바주카를 꺼내는 모션이 끝나고 0.5초뒤에 에임조준 애니메이션으로 변경
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 		TimeCounting();
@@ -295,6 +302,7 @@ void WeaponBazooka::BazAiming()
 		}
 	}
 
+	//에임조준 에니메이션이 시작되면, 방향키를 통해 각도조절 가능
 	else if (isAiming == true)
 	{
 		ShootDir = GetShootDir();
@@ -354,3 +362,52 @@ void WeaponBazooka::BazAiming()
 	}
 }
 
+void WeaponBazooka::ChargingRenderInit()
+{
+	ChargingRender.resize(16);
+	size_t Size = ChargingRender.size();
+
+	for (int i = 0; i < Size; i++)
+	{
+		ChargingRender[i] = CreateRender("Charging.bmp", WormsRenderOrder::Weapon);
+		ChargingRender[i]->SetFrame(i);
+		ChargingRender[i]->SetScale({ 64, 64 });
+		ChargingRender[i]->Off();
+	}
+}
+
+void WeaponBazooka::ChargingRenderOn()
+{
+	if (CountingIndex >= ChargingRender.size())
+	{
+		return;
+	}
+
+	size_t Size = ChargingRender.size();
+	float4 PlayerPos = CurPlayer->GetPos();
+
+	float4 StartPos = PlayerPos + float4{ ShootDir.x * 5, ShootDir.y * 5 } + float4{ 0, -8 };
+	
+	TimeCounting();
+	
+	if (TimeCount_2 > 0.05)
+	{
+		ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ ShootDir.x * 3 * (CountingIndex + 1), ShootDir.y * 3 * (CountingIndex + 1) });
+		ChargingRender[CountingIndex]->On();
+
+		TimeCount_2 = 0;
+
+		CountingIndex++;
+	}
+}
+
+void WeaponBazooka::ChargingRenderOff()
+{
+	CountingIndex = 0;
+	size_t Size = ChargingRender.size();
+
+	for (int i = 0; i < Size; i++)
+	{
+		ChargingRender[i]->Off();
+	}
+}

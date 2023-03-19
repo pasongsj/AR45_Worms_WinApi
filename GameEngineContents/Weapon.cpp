@@ -101,7 +101,10 @@ bool Weapon::isEndCharging() //스페이스를 눌러서 차징을 하다가 끝나는 순간 공격�
 void Weapon::TimeCounting()
 {
 	CurTime = clock();
+
 	TimeCount += (CurTime - PrevTime) / 1000;
+	TimeCount_2 += (CurTime - PrevTime) / 1000;
+
 	PrevTime = CurTime;
 }
 
@@ -144,6 +147,6 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 	{
 		return true;
 	}
-	return false;
 
+	return false;
 }
