@@ -72,16 +72,19 @@ void Player::IdleUpdate(float _DeltatTime)
 		return;
 	}
 
-	if (true == GameEngineInput::IsPress("MoveLeft"))
+	if (true == CanIMove)
 	{
-		ChangeState(PlayerState::MOVE);
-		return;
-	}
+		if (true == GameEngineInput::IsPress("MoveLeft"))
+		{
+			ChangeState(PlayerState::MOVE);
+			return;
+		}
 
-	if (true == GameEngineInput::IsPress("MoveRight"))
-	{
-		ChangeState(PlayerState::MOVE);
-		return;
+		if (true == GameEngineInput::IsPress("MoveRight"))
+		{
+			ChangeState(PlayerState::MOVE);
+			return;
+		}
 	}
 }
 void Player::IdleEnd()
