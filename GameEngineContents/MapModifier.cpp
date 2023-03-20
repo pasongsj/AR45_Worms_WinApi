@@ -65,10 +65,10 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
 	
 		Ellipse(MapDc,
-			CircleRenderPos.ix() - Radius,
-			CircleRenderPos.iy() - Radius,
-			CircleRenderPos.ix() + Radius,
-			CircleRenderPos.iy() + Radius);
+			CircleRenderPos.ix() - _Radius,
+			CircleRenderPos.iy() - _Radius,
+			CircleRenderPos.ix() + _Radius,
+			CircleRenderPos.iy() + _Radius);
 
 		//다시 기존 브러쉬 선택
 		SelectObject(MapDc, OldBrush);
@@ -89,10 +89,10 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		HBRUSH OldBrush = (HBRUSH)SelectObject(ColMapDc, MyBrush);
 
 		Ellipse(ColMapDc,
-			CircleRenderPos.ix() - Radius,
-			CircleRenderPos.iy() - Radius,
-			CircleRenderPos.ix() + Radius,
-			CircleRenderPos.iy() + Radius);
+			CircleRenderPos.ix() - _Radius,
+			CircleRenderPos.iy() - _Radius,
+			CircleRenderPos.ix() + _Radius,
+			CircleRenderPos.iy() + _Radius);
 
 		SelectObject(ColMapDc, OldBrush);
 		DeleteObject(MyBrush);
