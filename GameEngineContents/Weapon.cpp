@@ -142,6 +142,10 @@ void Weapon::SetCurPlayer()
 			break;
 		}
 	}
+	if (nullptr == CurPlayer)
+	{
+		MsgAssert("현재 턴인 플레이어가 없습니다.");
+	}
 }
 
 bool Weapon::CheckCollision(GameEngineCollision* _Col)

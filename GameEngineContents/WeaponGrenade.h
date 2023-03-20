@@ -28,7 +28,7 @@ protected:
 private:
 
 	void WeaponGrenadeInit();
-	void FindCurPlayer();
+	//void FindCurPlayer();
 	bool isFire = false;
 	bool isExplosion = false;
 	//MapModifier* Explosion = nullptr;

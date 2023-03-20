@@ -37,7 +37,7 @@ private:
 	void Firing(float _DeltaTime);	
 	void CheckFiring();
 
-	void FindCurPlayer();
+	//void FindCurPlayer();
 
 	//MapModifier* Explosion = nullptr;													// ¸Ê Æø¹ß
 };

@@ -53,7 +53,11 @@ void WeaponShotgun::Update(float _DeltaTime)
 		WeaponShotgunInit();
 	}
 	
-
+	if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정
+	{
+		SetCurPlayer();
+		ResetWeapon();
+	}
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
@@ -76,10 +80,10 @@ void WeaponShotgun::CheckFiring()
 	}
 	else // 방향체크
 	{
-		if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn())
+		/*if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn())
 		{
 			FindCurPlayer();
-		}
+		}*/
 		PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
@@ -87,23 +91,23 @@ void WeaponShotgun::CheckFiring()
 	}
 
 }
-
-void WeaponShotgun::FindCurPlayer()
-{
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); 
-	for (int i = 0; i < PlayerList.size(); i++)
-	{
-		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
-		{
-			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
-			break;
-		}
-	}
-	if (nullptr == CurPlayer)
-	{
-		MsgAssert("현재플레이어를 찾지 못했습니다.");
-	}
-}
+//
+//void WeaponShotgun::FindCurPlayer()
+//{
+//	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); 
+//	for (int i = 0; i < PlayerList.size(); i++)
+//	{
+//		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
+//		{
+//			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
+//			break;
+//		}
+//	}
+//	if (nullptr == CurPlayer)
+//	{
+//		MsgAssert("현재플레이어를 찾지 못했습니다.");
+//	}
+//}
 
 
 void WeaponShotgun::Firing(float _DeltaTime)
@@ -178,4 +182,9 @@ void WeaponShotgun::ResetWeapon()
 		ShotGunCollision[i]->SetPosition(float4::Zero);
 		ShotGunCollision[i]->On();
 	}
+	if (CurPlayer == nullptr)
+	{
+		return;
+	}
+	isRightDir = ((CurPlayer->GetPlayerDir().x == 1.0f) ? true : false);
 }

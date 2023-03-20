@@ -69,10 +69,10 @@ protected:
 	float GetChargeTime();
 	float4 CheckCollisionSide();
 
+	bool isRightDir = true;
 private:
 
 	float Height = 0.0f;
-	bool isRightDir = true;
 
 		
 };
