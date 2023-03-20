@@ -23,6 +23,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponBazooka.h">
       <SubType>
       </SubType>
@@ -63,6 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

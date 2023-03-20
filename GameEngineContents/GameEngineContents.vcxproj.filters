@@ -37,6 +37,9 @@
     <ClInclude Include="WeaponGrenade.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="TestLevel.h">
+      <Filter>Test</Filter>
+    </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -79,9 +82,6 @@
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponSheep.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -98,6 +98,9 @@
     </Filter>
     <Filter Include="Play\Map">
       <UniqueIdentifier>{73d77194-5812-4306-8014-e0fc45caa6d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{5892ccdb-0504-4db6-8493-534a1f331bd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

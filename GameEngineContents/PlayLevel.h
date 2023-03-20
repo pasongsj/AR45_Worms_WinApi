@@ -22,7 +22,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
-	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
+	void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 
 private:
 	int iPlayerNumber = -1;

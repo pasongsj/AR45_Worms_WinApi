@@ -4,6 +4,7 @@
 #include "CenterLevel.h"
 #include "TitleLevel.h"
 #include "PlayLevel.h"
+#include "TestLevel.h"
 
 void WormsCore::Start()
 {
@@ -12,6 +13,7 @@ void WormsCore::Start()
 	CreateLevel<CenterLevel>("Center");
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<PlayLevel>("Play");
+	CreateLevel<TestLevel>("Test");
 	ChangeLevel("Center");
 }
 

@@ -153,7 +153,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		++iPlayerNumber;
 
 		//ÃÊ°ú½Ã 0
-		if (8 == iPlayerNumber)
+		if (vecAllPlayer.size() == iPlayerNumber)
 		{
 			iPlayerNumber = 0;
 		}
