@@ -40,7 +40,7 @@ void MapModifier::Update(float _DeltaTime)
 
 void MapModifier::CreateHole(float4 _Pos, int _Radius)
 {
-	if (0 >= Radius)
+	if (0 >= _Radius)
 	{
 		MsgAssert("반지름이 0보다 작거나 같을 수 없습니다.");
 		return;
