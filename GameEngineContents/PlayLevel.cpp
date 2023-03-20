@@ -189,7 +189,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	if (bCamMove)
 	{
 		//1초동안 플레이어 카메라 위치 변경
-		fLerpRatio += _DeltaTime*2.f;
+		fLerpRatio += _DeltaTime * fLerpSpeed;
 		SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - ScreenSize.half(), fLerpRatio));
 
 		if (fLerpRatio > 1.f)

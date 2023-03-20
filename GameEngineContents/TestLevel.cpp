@@ -48,6 +48,7 @@ void TestLevel::PlayerChange(float _DeltaTime)
 
 	//ChangePlayer 키가 눌렸을때
 	//if (GameEngineInput::IsDown("ChangePlayer"))
+	if (GameEngineInput::IsDown("ChangePlayer"))
 	{
 		//벡터 인덱스 증가
 		++iPlayerNumber;
@@ -60,6 +61,7 @@ void TestLevel::PlayerChange(float _DeltaTime)
 
 		//현재 플레이어의 턴 종료
 		//pCurPlayer->SetIsMyTurn(false);
+		pCurPlayer->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
@@ -155,10 +157,12 @@ void TestLevel::Loading()
 
 void TestLevel::Update(float _DeltaTime)
 {
-	if (false == pCurPlayer->GetIsMyTurn())
-	{
-		PlayerChange(_DeltaTime);
-	}
+	//if (false == pCurPlayer->GetIsMyTurn())
+	//{
+	//	PlayerChange(_DeltaTime);
+	//}
+
+	PlayerChange(_DeltaTime);
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
