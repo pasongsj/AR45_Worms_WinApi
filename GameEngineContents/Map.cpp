@@ -10,7 +10,8 @@
 //BackGround_Hrz: 5120
 
 
-Map* Map::MainMap;
+Map* Map::MainMap = nullptr;
+int Map::MapMode = 0;
 
 Map::Map()
 {
@@ -23,6 +24,23 @@ Map::~Map()
 void Map::Start()
 {
 	MainMap = this;
+
+	if (nullptr == MainMap)
+	{
+		MsgAssert("MainMap이 nullptr입니다.");
+		return;
+	}
+
+
+	Maps.push_back("MapCity.bmp");
+	Maps.push_back("MapBooks.bmp");
+	Maps.push_back("MapCars.bmp");
+	Maps.push_back("MapTrain.bmp");
+
+	ColMaps.push_back("MapCity_Ground.bmp");
+	ColMaps.push_back("MapBooks_Ground.bmp");
+	ColMaps.push_back("MapCars_Ground.bmp");
+	ColMaps.push_back("MapTrain_Ground.bmp");
 
 
 
@@ -48,7 +66,8 @@ void Map::Start()
 
 	//MapRender 생성
 	MapRender = CreateRender(WormsRenderOrder::Map);
-	MapRender->SetImage("MapCity.bmp");
+	//MapRender->SetImage("MapCity.bmp");
+	MapRender->SetImage(Maps[MapMode]);
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
 	MapRender->SetPosition(MapScale.half());
 	MapRender->SetScaleToImage();
@@ -71,7 +90,8 @@ void Map::Start()
 	//ColMapRender 생성
 	{
 		ColMapRender = CreateRender(WormsRenderOrder::Map);
-		ColMapRender->SetImage("MapCity_Ground.bmp");
+		//ColMapRender->SetImage("MapCity_Ground.bmp");
+		ColMapRender->SetImage(ColMaps[MapMode]);
 		ColMapRender->SetPosition(MapScale.half());
 		ColMapRender->SetScaleToImage();
 
@@ -105,6 +125,17 @@ void Map::Start()
 
 		//Wave0->Off();
 	}
+	{
+		GameEngineRender* WaveSuf0 = CreateRender(WormsRenderOrder::Wave);
+		WaveSuf0->SetImage("Water_sprite_surfice.bmp");
+		WaveSuf0->SetPosition({ 1920.0f, 1372.0f });
+		WaveSuf0->SetScale(WaveScale);
+		WaveSuf0->CreateAnimation({ .AnimationName = "WaveSuf0",  .ImageName = "Water_sprite_surfice.bmp", .Start = 0, .End = 10 });
+		WaveSuf0->ChangeAnimation("WaveSuf0");
+
+		//Wave0->Off();
+	}
+
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
 		GameEngineRender* Wave1 = CreateRender(WormsRenderOrder::Wave);
@@ -142,11 +173,6 @@ void Map::Start()
 
 void Map::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown("LandHole"))
-	{
-		CreateMapModifier(50);
-	}
-
 	if (true == FreeMoveState(_DeltaTime))
 	{
 		return;
@@ -215,12 +241,11 @@ HDC Map::GetColMapDC() const
 	return hdc;
 }
 
-void Map::CreateMapModifier(int _Radius)
+void Map::CreateMapModifier()
 {
 	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
 	float4 MousePos = GetLevel()->GetMousePosToCamera();
-	MapMdfActor->SetPos(MousePos);
-	MapMdfActor->SetRadius(_Radius);
+	MapMdfActor->SetPos(MousePos);															//액터의 위치를 나중에 수정해야 함
 }
 
 void Map::Render(float _DeltaTime)

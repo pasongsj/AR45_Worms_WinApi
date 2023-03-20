@@ -6,6 +6,8 @@ class GameEngineActor;
 class MapModifier :public GameEngineActor
 {
 public:
+	static MapModifier* MainModifier;
+public:
 	// constrcuter destructer
 	MapModifier();
 	~MapModifier();
@@ -16,7 +18,8 @@ public:
 	MapModifier& operator=(const MapModifier& _Other) = delete;
 	MapModifier& operator=(MapModifier&& _Other) noexcept = delete;
 
-	void CreateHole();
+
+	void CreateHole(float4 _Pos = float4::Zero, int _Radius = 10);
 
 	inline void SetRadius(int _Radius)
 	{
@@ -30,10 +33,8 @@ protected:
 private:
 	int White	= RGB(255, 255, 255);
 	int Red		= RGB(255, 0, 0);
-	//int Blue	= RGB(0, 0, 255);
 	int Magenta = RGB(255, 0, 255);
 
 	int Radius = 0;
 
 };
-

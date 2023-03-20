@@ -6,6 +6,8 @@
 #include "Map.h"
 #include "ContentsEnums.h"
 
+MapModifier* MapModifier::MainModifier = nullptr;
+
 MapModifier::MapModifier() 
 {
 }
@@ -16,21 +18,27 @@ MapModifier::~MapModifier()
 
 void MapModifier::Start()
 {
-	
+	MainModifier = this;
+
+	if (nullptr == MainModifier)
+	{
+		MsgAssert("MainModifier가 nullptr입니다.");
+		return;
+	}
 }
 
 void MapModifier::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
-		CreateHole();
-		this->Death();
+		float4 Pos = GetLevel()->GetMousePosToCamera();
+		CreateHole(Pos);
 		return;
 	}
 }
 
 
-void MapModifier::CreateHole()
+void MapModifier::CreateHole(float4 _Pos, int _Radius)
 {
 	if (0 >= Radius)
 	{
@@ -43,7 +51,7 @@ void MapModifier::CreateHole()
 	HDC MapDc = Map::MainMap->GetMapDC();
 	HDC ColMapDc = Map::MainMap->GetColMapDC();
 
-	float4 CircleRenderPos = /*GetLevel()->GetMousePosToCamera();*/GetPos();
+	float4 CircleRenderPos = _Pos;
 
 	//Map에 그림
 	{
@@ -111,6 +119,4 @@ void MapModifier::CreateHole()
 		SelectObject(MapDc, OldBrush);
 		DeleteObject(MyBrush);
 	}
-
-	
 }

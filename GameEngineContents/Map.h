@@ -8,6 +8,7 @@ class Map : public GameEngineActor
 {
 public:
 	static Map* MainMap;
+	static int MapMode;									//Map 선택
 public:
 	// constrcuter destructer
 	Map();
@@ -34,12 +35,13 @@ public:
 		return WaveBackPos;
 	}
 
+
 	//HDC를 얻어오는 함수
 	HDC GetMapDC() const;
 	HDC GetColMapDC() const;
 
 	//MapModifier 객체 생성 함수
-	void CreateMapModifier(int _Radius);
+	void CreateMapModifier();
 
 
 protected:
@@ -64,6 +66,9 @@ private:
 
 	std::string MapName = "MapCity.bmp";
 	std::string ColMapName = "MapCity_Ground.bmp";
+
+	std::vector<std::string> Maps = std::vector<std::string>();
+	std::vector<std::string> ColMaps = std::vector<std::string>();
 
 	GameEngineRender* MapRender = nullptr;
 	GameEngineRender* ColMapRender = nullptr;
