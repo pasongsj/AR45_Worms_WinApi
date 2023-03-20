@@ -26,9 +26,9 @@ void WeaponBazooka::Start()
 void WeaponBazooka::Update(float _DeltaTime)
 {
 	firing(_DeltaTime);
+	Charging();
 	BazookaOn();
 	BazAiming();
-	Charging();
 
 	ShootDir = GetShootDir();
 
@@ -71,11 +71,9 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponCollision->SetScale(WeaponRender->GetScale());
 	WeaponCollision->Off();
 
-	WeaponName = "Bazooka";
+	GetLevel()->CreateActor<MapModifier>();
 
-	BazookaExplosion = GetLevel()->CreateActor<MapModifier>();
-	MapModifier::MainModifier->MapModifier::CreateMapModifier();
-	//BazookaExplosion->SetRadius(50);
+	WeaponName = "Bazooka";
 
 	ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
 	ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End =  8, .InterTime = 0.03f , .Loop =false });
@@ -132,10 +130,6 @@ void WeaponBazooka::Charging()
 		return;
 	}
 
-	if (isEndBazOn == true)
-	{
-		CurPlayer->SetPlayerAnimationFrame(Bazindex);
-	}
 
 	if (isAiming == true && GameEngineInput::IsPress("Shoot") == true)
 	{
@@ -143,9 +137,8 @@ void WeaponBazooka::Charging()
 		/* 차지가 길게 될수록 발사 거리가 길어짐 (발사속도가 빨라짐) */
    		CurPlayer->SetCanIMove(false);
 		ChargingRenderOn();
-		isEndBazOn = true;
+		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 	}
-
 }
 
 void WeaponBazooka::firing(float _DeltaTime) //발사
@@ -222,7 +215,7 @@ void WeaponBazooka::Explosion() //폭발
 		ExplosionAnimation->SetPosition(WeaponRender->GetPosition());
 		ExplosionAnimation->On();
 		ExplosionAnimation->ChangeAnimation("Explosion", 0);
-
+		
 		MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), 50);
 
 		isAttack = true;
@@ -295,6 +288,7 @@ void WeaponBazooka::BazAiming()
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 		TimeCounting();
+
 		CurPlayer->SetPlayerAnimationFrame(5);
 
 		if (TimeCount > 0.5f) 

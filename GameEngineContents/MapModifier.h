@@ -3,7 +3,7 @@
 
 // 설명 : 맵의 지형 변화와 관련된 기능
 class GameEngineActor;
-class MapModifier :public GameEngineActor
+class MapModifier : public GameEngineActor
 {
 public:
 	static MapModifier* MainModifier;
