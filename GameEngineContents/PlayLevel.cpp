@@ -1,4 +1,5 @@
 #include "PlayLevel.h"
+#include "WeaponSheep.h"
 #include "WeaponBazooka.h"
 #include "Map.h"
 #include "Player.h"
@@ -81,6 +82,9 @@ void PlayLevel::ImageLoad()
 
 		GameEngineImage* circle50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle50.bmp"));
 		circle50->Cut(1, 9);
+
+		GameEngineImage* sheepWalk = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalk.bmp"));
+		sheepWalk->Cut(1, 8);
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
@@ -247,6 +251,7 @@ void PlayLevel::Loading()
 	}
 
 	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponSheep>();
 }
 
 void PlayLevel::Update(float _DeltaTime)
@@ -261,6 +266,6 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<WeaponShotgun>();
+	//CreateActor<WeaponShotgun>();
 	//CreateActor<WeaponGrenade>();
 }

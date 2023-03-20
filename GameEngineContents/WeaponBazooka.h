@@ -40,7 +40,8 @@ protected:
 	void ResetWeapon() override;
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
-	MapModifier* BazookaExplosion = nullptr;
+
+	//MapModifier* BazookaExplosion = nullptr;
 	GameEngineRender* ExplosionAnimation = nullptr;
 
 	bool isExplosion = false;
@@ -49,6 +50,8 @@ private:
 	bool isFire = false;
 	bool isAiming = false;
 	bool isAttack = false;
+
+	bool isEndBazOn = false;
 
 	int Bazindex = 0;
 	int CurIndex = 16;

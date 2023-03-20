@@ -30,10 +30,14 @@ void WeaponBazooka::Update(float _DeltaTime)
 	BazAiming();
 	Charging();
 
+	ShootDir = GetShootDir();
+
 	if (isExplosion == true && ExplosionAnimation->IsAnimationEnd() == true)
 	{
 		ExplosionAnimation->ChangeAnimation("Idle");
 		ExplosionAnimation->Off();
+
+		isEndBazOn = false;
 
 		CurPlayer->ChangePlayerAnimation("BazOff");
 		isExplosion = false;
@@ -48,11 +52,6 @@ void WeaponBazooka::Render(float _DeltaTime)
 		ResetWeapon();
 		isAttack = false;
 	}
-	//HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	//Rectangle(_hdc, static_cast<int>(WeaponCollision->GetActorPlusPos().x) - static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
-	//				static_cast<int>(WeaponCollision->GetActorPlusPos().y) - static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y),
-	//				static_cast<int>(WeaponCollision->GetActorPlusPos().x) + static_cast<int>(WeaponCollision->GetScale().hx()) - static_cast<int>(GetLevel()->GetCameraPos().x),
-	//				static_cast<int>(WeaponCollision->GetActorPlusPos().y) + static_cast<int>(WeaponCollision->GetScale().hy()) - static_cast<int>(GetLevel()->GetCameraPos().y));
 }
 
 void WeaponBazooka::WeaponBazookaInit()
@@ -112,8 +111,8 @@ void WeaponBazooka::CreatePlayerAnimation()
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f, false);
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.1f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.1f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.075f, false);
 
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 7, 0.075f, false);
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 7, 0.075f, false);
@@ -133,14 +132,20 @@ void WeaponBazooka::Charging()
 		return;
 	}
 
-	if (GameEngineInput::IsPress("Shoot") == true)
+	if (isEndBazOn == true)
+	{
+		CurPlayer->SetPlayerAnimationFrame(Bazindex);
+	}
+
+	if (isAiming == true && GameEngineInput::IsPress("Shoot") == true)
 	{
 		/* timer 로 시간을 재고, 시간에 맞게 차징정도를 설정 ( 0 ~ 1 까지 시간비례 ) => ( 차징정도 = 현재차징시간 / 최대차징시간 ) */
 		/* 차지가 길게 될수록 발사 거리가 길어짐 (발사속도가 빨라짐) */
-		CurPlayer->SetCanIMove(false);
+   		CurPlayer->SetCanIMove(false);
 		ChargingRenderOn();
-		CurPlayer->SetPlayerAnimationFrame(Bazindex);
+		isEndBazOn = true;
 	}
+
 }
 
 void WeaponBazooka::firing(float _DeltaTime) //발사
@@ -218,8 +223,7 @@ void WeaponBazooka::Explosion() //폭발
 		ExplosionAnimation->On();
 		ExplosionAnimation->ChangeAnimation("Explosion", 0);
 
-		BazookaExplosion->SetPos(WeaponRender->GetPosition());
-		//BazookaExplosion->CreateHole();
+		MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), 50);
 
 		isAttack = true;
 		isExplosion = true;
@@ -250,11 +254,9 @@ void WeaponBazooka::BazookaOn()
 
 void WeaponBazooka::ResetWeapon()
 {
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
-
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
-
+	ChargingRenderOff();
 	//위치 재설정
 	WeaponRender->SetPosition(CurPlayer->GetPos());
 	WeaponCollision->SetPosition(CurPlayer->GetPos());
@@ -293,7 +295,7 @@ void WeaponBazooka::BazAiming()
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 		TimeCounting();
-		CurPlayer->SetPlayerAnimationFrame(6);
+		CurPlayer->SetPlayerAnimationFrame(5);
 
 		if (TimeCount > 0.5f) 
 		{
@@ -305,8 +307,7 @@ void WeaponBazooka::BazAiming()
 
 	//에임조준 에니메이션이 시작되면, 방향키를 통해 각도조절 가능
 	else if (isAiming == true)
-	{
-		ShootDir = GetShootDir();
+	{		
 		float Angle = ShootDir.GetAnagleDeg();
 
 		if (ShootDir.x > 0 && Angle > 270)
@@ -405,6 +406,7 @@ void WeaponBazooka::ChargingRenderOn()
 void WeaponBazooka::ChargingRenderOff()
 {
 	CountingIndex = 0;
+	TimeCount_2 = 0;
 	size_t Size = ChargingRender.size();
 
 	for (int i = 0; i < Size; i++)

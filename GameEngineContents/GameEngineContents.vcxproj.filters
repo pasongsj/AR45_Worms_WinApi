@@ -37,6 +37,9 @@
     <ClInclude Include="WeaponGrenade.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponSheep.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -74,6 +77,9 @@
       <Filter>Title</Filter>
     </ClCompile>
     <ClCompile Include="WeaponGrenade.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
