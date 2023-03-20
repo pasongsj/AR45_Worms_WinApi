@@ -43,6 +43,9 @@
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerHPUI.h">
+      <Filter>Play</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -81,6 +84,11 @@
     </ClCompile>
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="WeaponSheep.cpp" />
+    <ClCompile Include="PlayerHPUI.cpp">
+      <Filter>Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

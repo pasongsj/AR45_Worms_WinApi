@@ -122,6 +122,21 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* bazOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnRight.bmp"));
 			bazOnRight->Cut(1, 8);
 		}
+		{
+			//플레이어 UI 이미지
+			GameEngineImage* BlueArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowBlue.bmp"));
+			BlueArrowImage->Cut(1, 30);
+			GameEngineImage* GreenArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowGreen.bmp"));
+			GreenArrowImage->Cut(1, 30);
+			GameEngineImage* MintArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowMint.bmp"));
+			MintArrowImage->Cut(1, 30);
+			GameEngineImage* PinkArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowPink.bmp"));
+			PinkArrowImage->Cut(1, 30);
+			GameEngineImage* RedArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowRed.bmp"));
+			RedArrowImage->Cut(1, 30);
+			GameEngineImage* YellowArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowYellow.bmp"));
+			YellowArrowImage->Cut(1, 30);
+		}
 	}
 
 }

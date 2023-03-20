@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 enum class PlayerState
 {
@@ -72,6 +73,10 @@ private:
 
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
+
+	//플레이어 UI관련 (HP, 화살표이미지)
+	NumberRenderObject HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
+
 
 	bool IsMyTurn = false; //내 턴인지 체크
 
