@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+#include "PlayerHPUI.h"
 #include "ContentsEnums.h"
 
 Player::Player() 
@@ -52,7 +53,14 @@ void Player::Start()
 		GameEngineInput::CreateKey("MoveLeft", 'A');
 	}
 
+	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
 	ChangeState(PlayerState::IDLE);
+}
+
+void Player::SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage) //HP 이미지 등을 세팅해주는 메서드
+{
+	HPUI = GetLevel()->CreateActor<PlayerHPUI>();
+	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage);
 }
 
 void Player::SetColImage(const std::string_view& _Name)
@@ -71,6 +79,7 @@ void Player::Update(float _DeltaTime)
 	GravityApplied();
 	MoveCalculation(_DeltaTime);
 
+	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
 }
 
 void Player::GravityApplied()
@@ -146,16 +155,16 @@ void Player::SetPlayerAnimationFrame(int _Frame)
 
 void Player::Render(float _DeltaTime)
 {
-	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	float4 ActorPos = GetPos() - GetLevel()->GetCameraPos();
+	//HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+	//float4 ActorPos = GetPos() - GetLevel()->GetCameraPos();
 
-	//위치 확인용
-	Rectangle(DoubleDC,
-		ActorPos.ix() - 5,
-		ActorPos.iy() - 5,
-		ActorPos.ix() + 5,
-		ActorPos.iy() + 5
-	);
+	////위치 확인용
+	//Rectangle(DoubleDC,
+	//	ActorPos.ix() - 5,
+	//	ActorPos.iy() - 5,
+	//	ActorPos.ix() + 5,
+	//	ActorPos.iy() + 5
+	//);
 }
 
 bool Player::IsPlayerAnimationEnd()

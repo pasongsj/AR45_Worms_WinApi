@@ -10,6 +10,7 @@ enum class PlayerState
 
 // 설명 : 플레이어 클래스
 class GameEngineImage;
+class PlayerHPUI;
 class Player : public GameEngineActor
 {
 public:
@@ -39,7 +40,8 @@ public:
 	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0); //플레이어 애니메이션 변경
 	void SetPlayerAnimationFrame(int _Frame); // 조준 상태일 때 프레임을 고정
 
-	PlayerState GetPlayerState() //플레이어 상태를 받아옴
+	//플레이어 상태를 받아옴
+	PlayerState GetPlayerState()
 	{
 		return StateValue;
 	}
@@ -51,7 +53,8 @@ public:
 		CanIMove = _Value;
 	}
 
-	float4 GetPlayerDir() // 무기에서 현재 플레이어의 방향을 가지고 오는 메서드 
+	// 무기에서 현재 플레이어의 방향을 가지고 오는 메서드 
+	float4 GetPlayerDir() 
 	{
 		if ("Right_" == DirString)
 		{
@@ -62,6 +65,9 @@ public:
 			return float4::Left;
 		}
 	}
+
+	//플레이어 UI의 이미지들을 특정지어주는 메서드
+	void SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage);
 
 protected:
 	void Start() override;
@@ -75,8 +81,7 @@ private:
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
 
 	//플레이어 UI관련 (HP, 화살표이미지)
-	NumberRenderObject HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
-
+	PlayerHPUI* HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
 
 	bool IsMyTurn = false; //내 턴인지 체크
 

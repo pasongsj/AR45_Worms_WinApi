@@ -15,7 +15,7 @@ public:
 	PlayerHPUI& operator=(const PlayerHPUI& _Other) = delete;
 	PlayerHPUI& operator=(PlayerHPUI&& _Other) noexcept = delete;
 
-	void SetPlayerHPUI();
+	void SetPlayerHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage);
 
 protected:
 	void Start() override;
@@ -24,8 +24,9 @@ protected:
 
 private:
 	NumberRenderObject PlayerHPNumberRender;
+	GameEngineRender* IDRender = nullptr; //아이디 이미지 렌더
 	GameEngineRender* HPBarImageRender = nullptr; // 체력 창 뒤 이미지 렌더
 	GameEngineRender* SelectPlayerRender = nullptr; // 화살표 이미지 렌더
-
+	int TestValue = 100;
 };
 

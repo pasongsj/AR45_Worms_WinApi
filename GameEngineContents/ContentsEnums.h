@@ -9,6 +9,7 @@ enum class WormsRenderOrder
 	Wave,
 	Player,
 	Weapon,
+	UI,
 
 };
 enum class WormsTitle
