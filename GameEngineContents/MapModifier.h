@@ -19,22 +19,18 @@ public:
 	MapModifier& operator=(MapModifier&& _Other) noexcept = delete;
 
 
-	void CreateHole(float4 _Pos = float4::Zero, int _Radius = 10);
+	void CreateHole(float4 _Pos, int _Radius);
 
-	inline void SetRadius(int _Radius)
-	{
-		Radius = _Radius;
-	}
+	void CreateMapModifier();
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+
 	int White	= RGB(255, 255, 255);
 	int Red		= RGB(255, 0, 0);
 	int Magenta = RGB(255, 0, 255);
-
-	int Radius = 0;
 
 };

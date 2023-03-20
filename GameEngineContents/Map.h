@@ -40,10 +40,6 @@ public:
 	HDC GetMapDC() const;
 	HDC GetColMapDC() const;
 
-	//MapModifier 객체 생성 함수
-	void CreateMapModifier();
-
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

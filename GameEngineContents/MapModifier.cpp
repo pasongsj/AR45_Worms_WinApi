@@ -32,7 +32,7 @@ void MapModifier::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
-		CreateHole(Pos);
+		CreateHole(Pos, 10);
 		return;
 	}
 }
@@ -119,4 +119,11 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		SelectObject(MapDc, OldBrush);
 		DeleteObject(MyBrush);
 	}
+}
+
+void MapModifier::CreateMapModifier()
+{
+	MainModifier = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
+	float4 MousePos = GetLevel()->GetMousePosToCamera();
+	MainModifier->SetPos(MousePos);															//액터의 위치를 나중에 수정해야 함
 }

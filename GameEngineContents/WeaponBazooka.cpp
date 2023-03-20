@@ -75,7 +75,8 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponName = "Bazooka";
 
 	BazookaExplosion = GetLevel()->CreateActor<MapModifier>();
-	BazookaExplosion->SetRadius(50);
+	MapModifier::MainModifier->MapModifier::CreateMapModifier();
+	//BazookaExplosion->SetRadius(50);
 
 	ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
 	ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End =  8, .InterTime = 0.03f , .Loop =false });
@@ -218,7 +219,7 @@ void WeaponBazooka::Explosion() //Æø¹ß
 		ExplosionAnimation->ChangeAnimation("Explosion", 0);
 
 		BazookaExplosion->SetPos(WeaponRender->GetPosition());
-		BazookaExplosion->CreateHole();
+		//BazookaExplosion->CreateHole();
 
 		isAttack = true;
 		isExplosion = true;

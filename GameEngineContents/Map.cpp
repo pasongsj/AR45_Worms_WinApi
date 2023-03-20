@@ -241,13 +241,6 @@ HDC Map::GetColMapDC() const
 	return hdc;
 }
 
-void Map::CreateMapModifier()
-{
-	MapModifier* MapMdfActor = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
-	float4 MousePos = GetLevel()->GetMousePosToCamera();
-	MapMdfActor->SetPos(MousePos);															//액터의 위치를 나중에 수정해야 함
-}
-
 void Map::Render(float _DeltaTime)
 {
 	std::string MousePosStr = "MousePosition : ";
