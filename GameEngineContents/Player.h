@@ -50,6 +50,18 @@ public:
 		CanIMove = _Value;
 	}
 
+	float4 GetPlayerDir() // 무기에서 현재 플레이어의 방향을 가지고 오는 메서드 
+	{
+		if ("Right_" == DirString)
+		{
+			return float4::Right;
+		}
+		else
+		{
+			return float4::Left;
+		}
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
