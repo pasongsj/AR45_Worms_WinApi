@@ -85,10 +85,14 @@
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="WeaponSheep.cpp" />
     <ClCompile Include="PlayerHPUI.cpp">
       <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSheep.cpp">
+      <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
