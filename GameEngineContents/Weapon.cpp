@@ -41,24 +41,45 @@ float4 Weapon::GetShootDir()
 		Height += 0.05f;
 	}
 
+	float4 PlayerDir = CurPlayer->GetPlayerDir();
+
 	// 지속적으로 마지막 방향 업데이트
-	if (GameEngineInput::IsDown("MoveRight"))
-	{
 	
-		if (false == isRightDir)
-		{
-			Height = 0.0f;
-		}
-		isRightDir = true;
-	}
-	else if (GameEngineInput::IsDown("MoveLeft"))
+	if (float4::Left == PlayerDir)
 	{
-		if (true == isRightDir)
+		if (isRightDir == true)
 		{
 			Height = 0.0f;
 		}
+
 		isRightDir = false;
 	}
+	else if (float4::Right == PlayerDir)
+	{
+		if (isRightDir == false)
+		{
+			Height = 0.0f;
+		}
+
+		isRightDir = true;
+	}
+
+	//if (GameEngineInput::IsDown("MoveRight"))
+	//{		
+	//	if (float4::Left == PlayerDir)
+	//	{
+	//		Height = 0.0f;
+	//	}
+	//	isRightDir = true;
+	//}
+	//else if (GameEngineInput::IsDown("MoveLeft"))
+	//{
+	//	if (float4::Right == PlayerDir)
+	//	{
+	//		Height = 0.0f;
+	//	}
+	//	isRightDir = false;
+	//}
 
 	ReturnDir.y = Height;
 	ReturnDir.x = static_cast<float>(isRightDir ? 1 : -1);
