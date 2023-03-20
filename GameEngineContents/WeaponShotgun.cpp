@@ -34,8 +34,8 @@ void WeaponShotgun::Start()
 
 
 	// 폭발 맵깍기 - 수정필요 : WeaponClass에서 Bomb를 관리해야 여러 액터를 만들지 않아도 됨
-	Explosion = GetLevel()->CreateActor<MapModifier>();
-	Explosion->SetRadius(BombScale.hix());
+	//Explosion = GetLevel()->CreateActor<MapModifier>();
+	//Explosion->SetRadius(BombScale.hix());
 
 	// 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
@@ -118,8 +118,9 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
 			if (true == WeaponShotgun::CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 			{
-				Explosion->SetPos(GetPos() + ShotGunCollision[i]->GetPosition()); // 폭발 범위 마젠타 색칠하기
-				Explosion->CreateHole();
+				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), 50);
+				//Explosion->SetPos(GetPos() + ShotGunCollision[i]->GetPosition()); // 폭발 범위 마젠타 색칠하기
+				//Explosion->CreateHole();
 				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
 			}
 		}

@@ -18,8 +18,8 @@ void WeaponGrenade::Start()
 {
 	// ¼ö·ùÅº ±âº» ¼³Á¤
 	isBlocked = true;
-	MoveSpeed = 1500.0f;
-	Gravity = 0.1f; //ÀÓ½Ã°ª
+	MoveSpeed = 500.0f;
+	Gravity = 0.05f;// ÀÓ½Ã°ª
 	GravityAccel = 0.0f;
 	//WindPower = 0.0f;
 	//Dmg = 0.0f;
@@ -31,8 +31,8 @@ void WeaponGrenade::Start()
 	//WeaponGrenadeInit();
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
-	Explosion = GetLevel()->CreateActor<MapModifier>();
-	Explosion->SetRadius(BombScale.hix());
+	//Explosion = GetLevel()->CreateActor<MapModifier>();
+	/*Explosion->SetRadius(BombScale.hix());*/
 
 	AllWeapons[WeaponName] = this;
 }
@@ -68,15 +68,22 @@ void WeaponGrenade::Update(float _DeltaTime)
 
 		WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 		WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
+
+		if (true == CheckCollision())
+		{
+			Dir.y = -Dir.y;
+		}
+
+		if (Timer < 0)
+		{
+			//Explosion->SetPos(GetPos() + WeaponCollision->GetPosition()); // Æø¹ß ¹üÀ§ ¸¶Á¨Å¸ »öÄ¥ÇÏ±â
+			MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+			WeaponRender->Off();
+			WeaponCollision->Off();
+			this->Off();
+		}
 	}
 
-	if (Timer < 0)
-	{
-		Explosion->SetPos(GetPos() + WeaponCollision->GetPosition()); // Æø¹ß ¹üÀ§ ¸¶Á¨Å¸ »öÄ¥ÇÏ±â
-		Explosion->CreateHole();
-		WeaponRender->Off();
-		WeaponCollision->Off();
-	}
 
 }
 

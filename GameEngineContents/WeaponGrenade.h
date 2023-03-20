@@ -30,6 +30,6 @@ private:
 	void WeaponGrenadeInit();
 	void FindCurPlayer();
 	bool isFire = false;
-	MapModifier* Explosion = nullptr;
+	//MapModifier* Explosion = nullptr;
 };
 

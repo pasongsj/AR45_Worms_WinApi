@@ -39,6 +39,6 @@ private:
 
 	void FindCurPlayer();
 
-	MapModifier* Explosion = nullptr;													// ¸Ê Æø¹ß
+	//MapModifier* Explosion = nullptr;													// ¸Ê Æø¹ß
 };
 
