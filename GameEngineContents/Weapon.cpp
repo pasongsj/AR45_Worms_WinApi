@@ -171,3 +171,56 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 
 	return false;
 }
+
+float Weapon::GetChargeTime()
+{
+	return GameEngineInput::GetPressTime("Shoot");
+}
+
+float4 Weapon::CheckCollisionSide()
+{
+	float4 ReturnValue = float4::Zero;
+	std::vector<GameEngineCollision*> CollisionList;
+
+	if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+	{
+		for (int i = 0; i < CollisionList.size(); i++)
+		{
+			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+
+			if (ColPlayer->GetIsMyTurn() == false)
+			{
+				float4 Range = (ColPlayer->GetPos() - GetPos());
+				if (abs(Range.y) < abs(Range.x))
+				{
+					ReturnValue.y += 1;
+				}
+				else if (Range.x > 0)
+				{
+					ReturnValue.x += 1;
+				}
+				else
+				{
+					ReturnValue.x -= 1;
+				}
+				return ReturnValue;
+			}
+		}
+	}
+
+	// 30 30 20,40
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ 10,0 }, RGB(255, 0, 255)))
+	{
+		ReturnValue.x += 1;
+	}
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ -10,0 }, RGB(255, 0, 255)))
+	{
+		ReturnValue.x -= 1;
+	}
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ 0,2  }, RGB(255, 0, 255)))
+	{
+		ReturnValue.y += 1;
+	}
+
+	return ReturnValue;
+}

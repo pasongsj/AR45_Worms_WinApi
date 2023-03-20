@@ -66,6 +66,9 @@ protected:
 
 	GameEngineRender* AimingLine = nullptr;
 
+	float GetChargeTime();
+	float4 CheckCollisionSide();
+
 private:
 
 	float Height = 0.0f;
