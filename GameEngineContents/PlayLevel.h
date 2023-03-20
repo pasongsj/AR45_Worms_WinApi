@@ -35,6 +35,7 @@ private:
 	float4 CurPlayerPos = float4::Zero;
 	float4 LerpCamPos = float4::Zero;
 	float fLerpRatio = 0.f;
+	float fLerpSpeed = 2.f;
 	float fCamMoveSpeed = 500.f;
 
 	float4 ScreenSize = float4::Zero;

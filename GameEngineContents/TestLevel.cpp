@@ -1,10 +1,5 @@
 #include "TestLevel.h"
-#include "WeaponBazooka.h"
-#include "Map.h"
-#include "Player.h"
-#include "WeaponShotgun.h"
-#include "WeaponGrenade.h"
-#include "ContentsEnums.h"
+#include <string_view>
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -14,6 +9,12 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+#include "WeaponBazooka.h"
+#include "Map.h"
+#include "Player.h"
+#include "WeaponShotgun.h"
+#include "WeaponGrenade.h"
+#include "ContentsEnums.h"
 
 TestLevel::TestLevel()
 {
@@ -46,7 +47,7 @@ void TestLevel::PlayerChange(float _DeltaTime)
 	}
 
 	//ChangePlayer 키가 눌렸을때
-	if (GameEngineInput::IsDown("ChangePlayer"))
+	//if (GameEngineInput::IsDown("ChangePlayer"))
 	{
 		//벡터 인덱스 증가
 		++iPlayerNumber;
@@ -58,7 +59,7 @@ void TestLevel::PlayerChange(float _DeltaTime)
 		}
 
 		//현재 플레이어의 턴 종료
-		pCurPlayer->SetIsMyTurn(false);
+		//pCurPlayer->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
 		pCurPlayer = vecAllPlayer[iPlayerNumber];
@@ -133,10 +134,8 @@ void TestLevel::Loading()
 		for (size_t i = 0; i < 2; i++)
 		{
 			int iRandxPos = 100;
-
 			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
 			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
-
 			float4 StartPos = float4{ 450,50 };
 			StartPos.x += i * iRandxPos;
 			vecAllPlayer[i]->SetPos(StartPos);
@@ -147,13 +146,19 @@ void TestLevel::Loading()
 		pCurPlayer->SetIsMyTurn(true);
 		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
 	}
+	vecAllPlayer[0]->SetName("0");
+
+	vecAllPlayer[1]->SetName("1");
 
 	CreateActor<WeaponBazooka>();
 }
 
 void TestLevel::Update(float _DeltaTime)
 {
-	PlayerChange(_DeltaTime);
+	if (false == pCurPlayer->GetIsMyTurn())
+	{
+		PlayerChange(_DeltaTime);
+	}
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
