@@ -23,6 +23,8 @@ public:
 	void ChargingRenderOn();
 	void ChargingRenderOff();
 
+	void MakeSmoke();
+
 	void Charging();
 	void firing(float _DeltaTime);
 	void Explosion();

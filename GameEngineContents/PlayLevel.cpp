@@ -98,6 +98,9 @@ void PlayLevel::ImageLoad()
 		sheepWalkRight->Cut(1, 8);
 		GameEngineImage* sheepWalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalkLeft.bmp"));
 		sheepWalkLeft->Cut(1, 8);
+		GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
+		BazSmoke->Cut(1, 64);
+
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
