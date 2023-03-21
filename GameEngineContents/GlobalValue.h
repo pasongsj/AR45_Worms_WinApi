@@ -19,4 +19,3 @@ public:
 private:
 	Player* pCurPlayer;
 };
-GlobalValue GlobalValue::gValue;
