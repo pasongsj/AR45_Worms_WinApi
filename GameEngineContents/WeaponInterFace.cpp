@@ -21,7 +21,7 @@ void WeaponInterFace::Start()
 	if (false == GameEngineInput::IsKey("RightClock"))
 	{
 		GameEngineInput::CreateKey("RightClock", VK_RBUTTON);
-
+		int a = 0;
 	
 	}
 
