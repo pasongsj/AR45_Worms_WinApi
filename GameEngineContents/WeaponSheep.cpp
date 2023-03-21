@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 WeaponSheep::WeaponSheep()
 {
@@ -23,27 +24,40 @@ void WeaponSheep::Start()
 void WeaponSheep::Update(float _DeltaTime)
 {				
 	SheepFalling(_DeltaTime);
-	SheepWalking(_DeltaTime);
+
+	if (GameEngineInput::IsDown("Shoot"))
+	{
+		isShoot = true;
+	}
+
+	if(isShoot == true)
+	{
+		SheepWalking(_DeltaTime);
+	}
+
 }		
 		
 void WeaponSheep::Render(float _DeltaTime)
 {			
-			
+	if (true == GameEngineInput::IsDown("ChangePlayer"))
+	{
+		ResetWeapon();
+	}
 }			
 			
 void WeaponSheep::ResetWeapon()
 {
-
+	SetCurPlayer();
+	isShoot = false;
+	isSet = false;
 }
 
 void WeaponSheep::WeaponSheepInit()
 {
 	SetCurPlayer();
 
-	WeaponRender = CreateRender("SheepWalk.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+	WeaponRender = CreateRender("SheepWalkRight.bmp", static_cast<int>(WormsRenderOrder::Weapon));
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
-
-	//WeaponRender->SetRotFilter("bazookaRot.bmp");
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -59,9 +73,9 @@ void WeaponSheep::WeaponSheepInit()
 
 	WeaponName = "Sheep";
 
-	//SheepExplosion = GetLevel()->CreateActor<MapModifier>();
-
-	WeaponRender->CreateAnimation({ .AnimationName = "SheepMove", .ImageName = "SheepWalk.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
+	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveRight", .ImageName = "SheepWalkRight.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
+	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveLeft", .ImageName = "SheepWalkLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
+	
 	//ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
 	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.03f , .Loop = false });
 	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
@@ -83,23 +97,18 @@ void WeaponSheep::WeaponSheepInit()
 
 void WeaponSheep::SheepFalling(float _DeltaTime)
 {
-	if (isSheepOn == false)
-	{
-		//WeaponRender->SetPosition(CurPlayer->GetPos());
-		WeaponRender->ChangeAnimation("SheepMove");
-		WeaponRender->On();
-		isSheepOn = true;
-	}
-
 
 	if (RGB(0, 0, 255) != MapCollision->GetPixelColor(GetPos() + float4::Down, RGB(0, 0, 255)))
 	{
-		MoveDir += float4::Down * 20.0f * _DeltaTime + float4{0, Gravity};
+		MoveDir += float4::Down * _DeltaTime + float4{0, Gravity};
 		Gravity += 2.0f * _DeltaTime;
+
+		isOnMap = false;
 	}
 	else
 	{
-		MoveDir += float4::Up * 20.0f *  _DeltaTime;
+		Gravity = 0;
+		isOnMap = true;
 	}	
 
 	SetMove(MoveDir);
@@ -109,5 +118,51 @@ void WeaponSheep::SheepFalling(float _DeltaTime)
 
 void WeaponSheep::SheepWalking(float _DeltaTime)
 {
+	if(isSet == false)
+	{
+		WeaponRender->On();
+		SetPos(CurPlayer->GetPos());
 
+		if (CurPlayer->GetPlayerDir() == float4::Right)
+		{
+			isDirRight = true;
+		}
+		else if (CurPlayer->GetPlayerDir() == float4::Left)
+		{
+			isDirRight = false;
+		}
+
+		isSet = true;
+	}
+
+	float4 NextPos = { 0,0 };
+
+	if (isDirRight == true)
+	{
+		NextPos = GetPos() + float4::Right * 100.0f * _DeltaTime + float4::Up * 10.0f;
+		WeaponRender->ChangeAnimation("SheepMoveRight");
+	}
+	else
+	{
+		NextPos = GetPos() + float4::Left * 100.0f * _DeltaTime + float4::Up * 10.0f;
+		WeaponRender->ChangeAnimation("SheepMoveLeft");
+	}
+
+	if (RGB(0, 0, 255) != MapCollision->GetPixelColor(NextPos, RGB(0, 0, 255)))
+	{
+		SetPos(NextPos - float4::Up * 10.0f);
+	}
+	else if(RGB(0, 0, 255) == MapCollision->GetPixelColor(NextPos, RGB(0, 0, 255)))
+	{
+
+		if (RGB(0, 0, 255) != MapCollision->GetPixelColor(NextPos + float4::Up * 10.0f, RGB(0, 0, 255)))
+		{
+			SetPos(NextPos);
+		}
+		else
+		{
+			isDirRight = !isDirRight;
+		}
+
+	}
 }

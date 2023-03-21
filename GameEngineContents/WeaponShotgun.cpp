@@ -25,7 +25,7 @@ void WeaponShotgun::Start()
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
-	BombScale = float4{ 100,100 };
+	//BombScale = float4{ 100,100 };
 	//float4 Scale = float4::Zero;	
 
 	

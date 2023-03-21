@@ -22,15 +22,6 @@ Weapon::~Weapon()
 float4 Weapon::GetShootDir()
 {
 	float4 ReturnDir = float4::Zero;
-	//if (GameEngineInput::IsKey("WeaponUp") == false)
-	//{
-	//	// 무기 방향
-	//	GameEngineInput::CreateKey("WeaponUp", 'W');
-	//	GameEngineInput::CreateKey("WeaponDown", 'S');
-	//	GameEngineInput::CreateKey("WeaponRight", 'D');
-	//	GameEngineInput::CreateKey("WeaponLeft", 'A');
-
-	//}
 
 	if (GameEngineInput::IsPress("WeaponUp") && -5.7 < Height) // 윈도우 좌표계 위로
 	{
@@ -41,6 +32,10 @@ float4 Weapon::GetShootDir()
 		Height += 0.05f;
 	}
 
+	if (nullptr == CurPlayer)
+	{
+		MsgAssert("현재 턴인 플레이어가 없습니다.");
+	}
 	float4 PlayerDir = CurPlayer->GetPlayerDir();
 
 	// 지속적으로 마지막 방향 업데이트

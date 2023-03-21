@@ -172,6 +172,6 @@ void TestLevel::Update(float _DeltaTime)
 
 void TestLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<WeaponShotgun>();
+	//CreateActor<WeaponShotgun>();
 	//CreateActor<WeaponGrenade>();
 }

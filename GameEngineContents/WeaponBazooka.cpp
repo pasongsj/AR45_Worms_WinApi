@@ -30,7 +30,10 @@ void WeaponBazooka::Update(float _DeltaTime)
 	BazookaOn();
 	BazAiming();
 
-	ShootDir = GetShootDir();
+	if(GameEngineInput::IsPress("Shoot") == false)
+	{
+		ShootDir = GetShootDir();
+	}
 
 	if (isExplosion == true && ExplosionAnimation->IsAnimationEnd() == true)
 	{
@@ -60,6 +63,9 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
 
 	WeaponRender->SetRotFilter("bazookaRot.bmp");
+	
+	BombScale = 50;
+	Dmg = 40;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -68,7 +74,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponRender->Off();
 
 	WeaponCollision->SetPosition(WeaponRender->GetPosition());
-	WeaponCollision->SetScale(WeaponRender->GetScale());
+	WeaponCollision->SetScale({100,100});
 	WeaponCollision->Off();
 
 	GetLevel()->CreateActor<MapModifier>();
@@ -138,6 +144,7 @@ void WeaponBazooka::Charging()
    		CurPlayer->SetCanIMove(false);
 		ChargingRenderOn();
 		CurPlayer->SetPlayerAnimationFrame(Bazindex);
+
 	}
 }
 
@@ -186,7 +193,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		isSet = true;
 	}
 
-	Gravity = 0.005f;
+	Gravity = 0.5f * _DeltaTime;
 
 	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
@@ -216,12 +223,14 @@ void WeaponBazooka::Explosion() //폭발
 		ExplosionAnimation->On();
 		ExplosionAnimation->ChangeAnimation("Explosion", 0);
 		
-		MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), 50);
+		MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), BombScale);
 
 		isAttack = true;
 		isExplosion = true;
 
 		CurPlayer->SetCanIMove(true);
+
+		DamageToPlayer();
 	}
 }
 
@@ -237,7 +246,7 @@ void WeaponBazooka::BazookaOn()
 		TimeCounting();
 	}
 
-	if (TimeCount >= 1.0f && isBazOn == false)
+	if (TimeCount >= 0.5f && isBazOn == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
 		TimeCount = 0;
@@ -406,5 +415,20 @@ void WeaponBazooka::ChargingRenderOff()
 	for (int i = 0; i < Size; i++)
 	{
 		ChargingRender[i]->Off();
+	}
+}
+
+
+void WeaponBazooka::DamageToPlayer()
+{
+	std::vector<GameEngineCollision*> CollisionPlayer;
+
+	//웨폰콜리전이 아니라, Hole의 콜리전이 필요함
+	if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
+	{
+		for (int i = 0; i < CollisionPlayer.size(); i++)
+		{
+			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->GetDamaged(50);
+		}
 	}
 }
