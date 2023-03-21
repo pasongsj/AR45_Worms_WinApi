@@ -1,7 +1,9 @@
 #pragma once
+#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/NumberRenderObject.h>
 
 // 설명 :
-class PlayerGetDamagedUI
+class PlayerGetDamagedUI : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -15,8 +17,11 @@ public:
 	PlayerGetDamagedUI& operator=(PlayerGetDamagedUI&& _Other) noexcept = delete;
 
 protected:
-
+	void Start() override;
+	void Update(float _DeltaTime) override;
+	
 private:
-
+	NumberRenderObject HpNumberRender; // 닳은 체력을 보여줄 넘버 렌더
+	GameEngineRender* HPImageRender = nullptr; // 닳은 체력 뒤 백그라운드 이미지 렌더
 };
 
