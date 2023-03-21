@@ -175,7 +175,7 @@ float4 MapModifier::GetStartArcPos(float4 _Pos, int _Radius)
 	int RadForY = _Radius;							//Y 좌표의 검사 범위
 	bool IsBoundary = false;						//픽셀 충돌이 일어나면 반복문을 빠져 나오기 위한 값
 	
-	//Center를 중점으로 오른쪽으로 검사
+	//Center를 중점으로 우측으로 검사
 	for (int i = 0; i <= RadForX; i++)
 	{
 		for (int i = 0; i <= RadForY; i++)
@@ -203,7 +203,7 @@ float4 MapModifier::GetStartArcPos(float4 _Pos, int _Radius)
 		}
 	}
 
-	////Center를 중점으로 왼쪽으로 검사
+	////Center를 중점으로 좌쪽으로 검사
 	//for (int i = 0; i <= RadForX; i++)
 	//{
 	//	for (int i = 0; i <= RadForY; i++)
