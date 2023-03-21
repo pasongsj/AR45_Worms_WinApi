@@ -42,7 +42,8 @@ void Map::Start()
 	ColMaps.push_back("MapCars_Ground.bmp");
 	ColMaps.push_back("MapTrain_Ground.bmp");
 
-
+	MapName = Maps[MapMode];
+	ColMapName = ColMaps[MapMode];
 
 	//입력 키 생성
 	if (false == GameEngineInput::IsKey("FreeMoveSwitch"))
@@ -67,7 +68,7 @@ void Map::Start()
 	//MapRender 생성
 	MapRender = CreateRender(WormsRenderOrder::Map);
 	//MapRender->SetImage("MapCity.bmp");
-	MapRender->SetImage(Maps[MapMode]);
+	MapRender->SetImage(MapName);
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
 	MapRender->SetPosition(MapScale.half());
 	MapRender->SetScaleToImage();
@@ -91,7 +92,7 @@ void Map::Start()
 	{
 		ColMapRender = CreateRender(WormsRenderOrder::Map);
 		//ColMapRender->SetImage("MapCity_Ground.bmp");
-		ColMapRender->SetImage(ColMaps[MapMode]);
+		ColMapRender->SetImage(ColMapName);
 		ColMapRender->SetPosition(MapScale.half());
 		ColMapRender->SetScaleToImage();
 
@@ -125,17 +126,6 @@ void Map::Start()
 
 		//Wave0->Off();
 	}
-	{
-		GameEngineRender* WaveSuf0 = CreateRender(WormsRenderOrder::Wave);
-		WaveSuf0->SetImage("Water_sprite_surfice.bmp");
-		WaveSuf0->SetPosition({ 1920.0f, 1372.0f });
-		WaveSuf0->SetScale(WaveScale);
-		WaveSuf0->CreateAnimation({ .AnimationName = "WaveSuf0",  .ImageName = "Water_sprite_surfice.bmp", .Start = 0, .End = 10 });
-		WaveSuf0->ChangeAnimation("WaveSuf0");
-
-		//Wave0->Off();
-	}
-
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
 		GameEngineRender* Wave1 = CreateRender(WormsRenderOrder::Wave);
@@ -173,6 +163,14 @@ void Map::Start()
 
 void Map::Update(float _DeltaTime)
 {
+	if (true == GameEngineInput::IsDown("LandHole"))
+	{
+		float4 Pos = GetLevel()->GetMousePosToCamera();
+		MapModifier::MainModifier->MapModifier::CreateHole(Pos, 20);
+		MapModifier::MainModifier->DrawArc(Pos, 20);
+		return;
+	}
+
 	if (true == FreeMoveState(_DeltaTime))
 	{
 		return;

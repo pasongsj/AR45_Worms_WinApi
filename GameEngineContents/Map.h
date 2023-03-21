@@ -20,12 +20,12 @@ public:
 	Map& operator=(const Map& _Other) = delete;
 	Map& operator=(Map&& _Other) noexcept = delete;
 
-	const std::string GetMapName() const
+	const std::string& GetMapName() const
 	{
 		return MapName;
 	}
 
-	const std::string GetColMapName() const
+	const std::string& GetColMapName() const
 	{
 		return ColMapName;
 	}
@@ -34,7 +34,6 @@ public:
 	{
 		return WaveBackPos;
 	}
-
 
 	//HDC를 얻어오는 함수
 	HDC GetMapDC() const;
@@ -53,15 +52,15 @@ private:
 
 	float4 WaveBackPos = { 1920.0f, 1764.0f };			//Wave BackGround 위치
 	float4 WaveAnimPos0 = { 1920.0f, 1392.0f };			//Wave Animation 위치	
-	float4 WaveAnimPos1 = { 1920.0f, 1447.0f };
-	float4 WaveAnimPos2 = { 1920.0f, 1502.0f };
-	float4 WaveAnimPos3 = { 1920.0f, 1557.0f };
+	float4 WaveAnimPos1 = { 1920.0f, 1437.0f };
+	float4 WaveAnimPos2 = { 1920.0f, 1492.0f };
+	float4 WaveAnimPos3 = { 1920.0f, 1547.0f };
 
 	float4 WaveBackScale = { 5120.0f, 744.0f };
 	float4 WaveScale = { 5120.0f, 110.0f };
 
-	std::string MapName = "MapCity.bmp";
-	std::string ColMapName = "MapCity_Ground.bmp";
+	std::string MapName = "";
+	std::string ColMapName = "";
 
 	std::vector<std::string> Maps = std::vector<std::string>();
 	std::vector<std::string> ColMaps = std::vector<std::string>();

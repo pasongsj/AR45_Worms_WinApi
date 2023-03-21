@@ -18,10 +18,14 @@ public:
 	MapModifier& operator=(const MapModifier& _Other) = delete;
 	MapModifier& operator=(MapModifier&& _Other) noexcept = delete;
 
-
+	//원형으로 땅을 깎는 함수
 	void CreateHole(float4 _Pos, int _Radius);
 
+	//MapModifier의 액터를 만드는 함수
 	void CreateMapModifier();
+
+	//건물과 맞닿은 구덩이에 선을 그리는 함수
+	void DrawArc(float4 _Pos, int _Radius);
 
 protected:
 	void Start() override;
@@ -31,6 +35,10 @@ private:
 
 	int White	= RGB(255, 255, 255);
 	int Red		= RGB(255, 0, 0);
+	int Blue	= RGB(0, 0, 255);
 	int Magenta = RGB(255, 0, 255);
+	int Cyan	= RGB(0, 255, 255);
 
+	float4 GetStartArcPos(float4 _Pos, int _Radius);
+	float4 GetEndArcPos(float4 _Pos, int _Radius);
 };
