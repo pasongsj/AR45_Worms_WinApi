@@ -27,6 +27,8 @@ public:
 	void firing(float _DeltaTime);
 	void Explosion();
 
+	void DamageToPlayer();
+
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
 	WeaponBazooka(WeaponBazooka&& _Other) noexcept = delete;
 	WeaponBazooka& operator=(const WeaponBazooka& _Other) = delete;
@@ -64,6 +66,6 @@ private:
 
 	Player* PrevPlayer = nullptr;
 
-	std::vector< GameEngineRender*> ChargingRender;
+	std::vector<GameEngineRender*> ChargingRender;
 };
 
