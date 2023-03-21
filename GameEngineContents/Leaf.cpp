@@ -23,13 +23,13 @@ void Leaf::Start()
 		Leaf->CreateAnimation({ .AnimationName = "Leaf",.ImageName = "ScatterLeaf.bmp",.Start = 0,.End = 12});
 		Leaf->ChangeAnimation("Leaf", iRand);
 	}
-	fRandPower = GameEngineRandom::MainRandom.RandomInt(7, 10);
+	fRandPower = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(7, 10));
 }
 
 void Leaf::Update(float _DeltaTime)
 {
 	MoveDir.y += fGravity * (fRandPower / 10);
-	MoveDir.x += (GlobalValue::gValue.GetWindPower()/100);
+	MoveDir.x += (GlobalValue::gValue.GetWindSpeed()/100);
 
 	SetMove(MoveDir* _DeltaTime);
 }

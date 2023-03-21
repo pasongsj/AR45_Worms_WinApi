@@ -16,17 +16,27 @@ public:
 		pCurPlayer = _pCurPlayer;
 	}
 
-	float GetWindPower()
+	float GetWindSpeed()
 	{
-		return fWindPower;
+		return fWindSpeed;
 	}
 
-	void SetWindPower(float _fWindPower)
+	void SetWindSpeed(float _fWindSpeed)
 	{
-		fWindPower = _fWindPower;
+		fWindSpeed = _fWindSpeed;
 	}
 
+	int GetWindPhase()
+	{
+		return fWindPhase;
+	}
+
+	void SetWindPhase(int _fWindPhase)
+	{
+		fWindPhase = _fWindPhase;
+	}
 private:
 	Player* pCurPlayer;
-	float fWindPower = 0.f;
+	float fWindSpeed = 0.f;
+	int fWindPhase = 0;
 };

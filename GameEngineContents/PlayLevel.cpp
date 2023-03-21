@@ -279,7 +279,8 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 			AddWind.WindPhase = GameEngineRandom::MainRandom.RandomInt(-10, 10);
 			AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase)/10.f));
 
-			GlobalValue::gValue.SetWindPower(AddWind.WindResult);
+			GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+			GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
 		}
 	}
 }
