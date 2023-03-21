@@ -21,6 +21,8 @@ public:
 	Weapon& operator=(const Weapon& _Other) = delete;
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
 
+	bool isWeaponDone = false;
+
 	float4 GetShootDir();
 	bool PressShoot();
 	bool isEndCharging();
@@ -43,10 +45,10 @@ protected:
 	float WindPower = 0.0f;							// 바람세기
 	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
 	float Charge = 0.0f;							// 차지게이지
+	int BombScale = 0;								// 폭발 범위
 
 	float4 Dir = float4::Zero;						// 무기 진행 방향
 	float4 PlayerPos = float4::Zero;				// 플레이어 위치
-	float4 BombScale = float4::Zero;				// 폭발 범위
 	//float4 Scale = float4::Zero;					// 랜더스케일
 
 	std::string WeaponName;							// 무기 이름
