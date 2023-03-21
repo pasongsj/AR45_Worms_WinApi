@@ -74,13 +74,13 @@ void Player::IdleUpdate(float _DeltatTime)
 
 	if (true == CanIMove)
 	{
-		if (true == GameEngineInput::IsPress("MoveLeft"))
+		if (true == GameEngineInput::IsDown("MoveLeft"))
 		{
 			ChangeState(PlayerState::MOVE);
 			return;
 		}
 
-		if (true == GameEngineInput::IsPress("MoveRight"))
+		if (true == GameEngineInput::IsDown("MoveRight"))
 		{
 			ChangeState(PlayerState::MOVE);
 			return;
@@ -114,11 +114,28 @@ void Player::MoveUpdate(float _DeltatTime)
 
 	if (GameEngineInput::IsPress("MoveLeft"))
 	{
-		MoveDir += float4::Left * MoveSpeed;
+		if ((LeftMoveAngle <= 1.0f && LeftMoveAngle >= -1.0f) || LeftMoveAngle >= 285.0f)
+		{
+			MoveDir += float4::Left * MoveSpeed;
+		}
+		else
+		{
+			ChangeState(PlayerState::IDLE);
+			return;
+		}
 	}
-	else if (GameEngineInput::IsPress("MoveRight"))
+	
+	if (GameEngineInput::IsPress("MoveRight"))
 	{
-		MoveDir += float4::Right * MoveSpeed;
+		if ((RightMoveAngle <= 181.0f && RightMoveAngle >= 179.0f) || RightMoveAngle <= 255.0f)
+		{
+			MoveDir += float4::Right * MoveSpeed;
+		}
+		else
+		{
+			ChangeState(PlayerState::IDLE);
+			return;
+		}
 	}
 }
 void Player::MoveEnd()

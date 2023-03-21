@@ -85,7 +85,6 @@ private:
 	int PlayerHP = 100;
 	float GetDamagedTime = 0.0f;
 
-
 	bool IsMyTurn = false; //내 턴인지 체크
 
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
@@ -93,8 +92,12 @@ private:
 
 	//이동 관련
 	std::string DirString = "Right_"; //방향
-
 	float4 MoveDir = float4::Zero; //플레이어의 이동 벡터
+	
+	void SetMoveAngle();
+	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
+	float LeftMoveAngle = 0.0f; 
+	float RightMoveAngle = 0.0f; 
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 300.0f;
