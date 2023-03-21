@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
 #include "MapModifier.h"
+#include "WeaponInterFace.h"
 //ScreenSize: { 1280, 960 }
 //BackGround_Hrz: 5120
 
@@ -163,6 +164,11 @@ void Map::Start()
 
 void Map::Update(float _DeltaTime)
 {
+	if (UItest == false)
+	{
+		WeaponInterFace* Actor = GetLevel()->CreateActor<WeaponInterFace>();
+		UItest = true;
+	}
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();

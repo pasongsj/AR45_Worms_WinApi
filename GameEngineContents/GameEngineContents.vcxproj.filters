@@ -49,6 +49,7 @@
     <ClInclude Include="PlayerGetDamagedUI.h">
       <Filter>Play\Player</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponInterFace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="PlayerGetDamagedUI.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponInterFace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

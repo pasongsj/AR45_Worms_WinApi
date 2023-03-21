@@ -37,6 +37,12 @@ void PlayLevel::ImageLoad()
 	Dir.Move("Image");
 	Dir.Move("Play");
 
+	GameEngineDirectory InterFace;
+	InterFace.MoveParentToDirectory("ContentsResources");
+	InterFace.Move("ContentsResources");
+	InterFace.Move("Image");
+	InterFace.Move("InterFace");
+
 	{
 		Dir.Move("Map");
 
@@ -166,6 +172,15 @@ void PlayLevel::ImageLoad()
 
 			//캐릭터 체력 백그라운드 이미지
 			GameEngineImage* PlayerHPBackgroundImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerHPBackground.bmp"));
+			Dir.MoveParent();
+		}
+		{
+			GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("weaponSheet.bmp"));
+
+
+
+
+
 		}
 	}
 

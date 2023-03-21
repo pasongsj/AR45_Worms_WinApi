@@ -60,6 +60,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WeaponInterFace.h" />
     <ClInclude Include="WeaponSheep.h">
       <SubType>
       </SubType>
@@ -115,6 +116,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WeaponInterFace.cpp" />
     <ClCompile Include="WeaponSheep.cpp">
       <SubType>
       </SubType>

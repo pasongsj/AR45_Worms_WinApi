@@ -71,5 +71,6 @@ private:
 
 	//카메라를 자유롭게 움직임
 	bool FreeMoveState(float _DeltaTime);
+	bool UItest = false;
 };
 

@@ -10,6 +10,7 @@ enum class WormsRenderOrder
 	Player,
 	Weapon,
 	UI,
+	WeaPonInterFace,
 
 };
 enum class WormsTitle
