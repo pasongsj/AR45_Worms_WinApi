@@ -66,6 +66,10 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
 	}
 	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
+		Image->Cut(4, 1);
+	}
+	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Under_Water.bmp"));
 	}
 	{
@@ -302,7 +306,7 @@ void PlayLevel::Loading()
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
 			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
-			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
+			vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
 			float4 StartPos = float4{ 350,50 };
 			StartPos.x *= i+1;

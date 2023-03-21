@@ -107,12 +107,19 @@ void Map::Start()
 		BackGround->SetPosition(MapScale.half());
 		BackGround->SetScaleToImage();
 	}
+	//BackGround_Mountain
+	{
+		GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
+		BackGround->SetImage("Midground.bmp");
+		BackGround->SetPosition(MountainPos);
+		BackGround->SetScale(BackScale);
+	}
 	//BackGround_Wave
 	{
 		GameEngineRender* WaveBack = CreateRender(WormsRenderOrder::BackGround);
 		WaveBack->SetImage("Under_Water.bmp");
 		WaveBack->SetPosition(WaveBackPos);
-		WaveBack->SetScale(WaveBackScale);
+		WaveBack->SetScale(BackScale);
 
 		//WaveBack->Off();
 	}
