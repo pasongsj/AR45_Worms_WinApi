@@ -50,6 +50,7 @@
       <Filter>Play\Player</Filter>
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
+    <ClInclude Include="GlobalValue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -83,7 +84,6 @@
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -100,6 +100,9 @@
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

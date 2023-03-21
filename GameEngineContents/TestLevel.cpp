@@ -15,6 +15,7 @@
 #include "WeaponShotgun.h"
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
+#include "GlobalValue.h"
 
 TestLevel::TestLevel()
 {
@@ -58,7 +59,8 @@ void TestLevel::PlayerChange(float _DeltaTime)
 		{
 			iPlayerNumber = 0;
 		}
-
+		
+		
 		//현재 플레이어의 턴 종료
 		//pCurPlayer->SetIsMyTurn(false);
 		pCurPlayer->SetIsMyTurn(false);
@@ -144,7 +146,8 @@ void TestLevel::Loading()
 		}
 
 		iPlayerNumber = 0;
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
+		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		Player* pCurPlayer = GlobalValue::gValue.GetPlayer();
 		pCurPlayer->SetIsMyTurn(true);
 		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
 	}
