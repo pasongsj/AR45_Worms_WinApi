@@ -63,12 +63,24 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WeaponHandgun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
+    <ClInclude Include="WeaponMinigun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="WeaponShotgun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WeaponUzi.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -121,12 +133,24 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WeaponHandgun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
+    <ClCompile Include="WeaponMinigun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponSheep.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="WeaponShotgun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WeaponUzi.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -18,9 +18,6 @@
     <ClInclude Include="WeaponBazooka.h">
       <Filter>Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponShotgun.h">
-      <Filter>Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
@@ -51,6 +48,18 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponHandgun.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponMinigun.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponShotgun.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponUzi.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -67,9 +76,6 @@
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="WeaponBazooka.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponShotgun.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -103,6 +109,18 @@
     <ClCompile Include="TestLevel.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponHandgun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponMinigun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponShotgun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponUzi.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -125,6 +143,9 @@
     </Filter>
     <Filter Include="Play\Player">
       <UniqueIdentifier>{9dfcc9c0-f48f-4242-913c-1ed40b1d78d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F3">
+      <UniqueIdentifier>{997e149e-9783-4176-b653-e310f1ea285d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
