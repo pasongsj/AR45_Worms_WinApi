@@ -30,6 +30,11 @@ void PlayerHPUI::Update(float _DeltaTime)
 			--CurrentValue;
 		}
 
+		if (CurrentValue < 0)
+		{
+			CurrentValue = 0;
+		}
+
 		PlayerHPNumberRender.SetValue(CurrentValue);
 	}
 
