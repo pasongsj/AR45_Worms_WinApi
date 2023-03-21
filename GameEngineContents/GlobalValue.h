@@ -21,4 +21,5 @@ private:
 
 };
 
+Player* GlobalValue::pCurPlayer = nullptr;
 GlobalValue GlobalValue::gValue;
