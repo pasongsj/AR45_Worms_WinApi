@@ -60,6 +60,9 @@
     <ClInclude Include="WeaponUzi.h">
       <Filter>Weapon\F3</Filter>
     </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -108,18 +111,6 @@
     <ClCompile Include="WeaponInterFace.cpp" />
     <ClCompile Include="TestLevel.cpp">
       <Filter>Test</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponHandgun.cpp">
-      <Filter>Weapon\F3</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponMinigun.cpp">
-      <Filter>Weapon\F3</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponShotgun.cpp">
-      <Filter>Weapon\F3</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponUzi.cpp">
-      <Filter>Weapon\F3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,13 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <vector>
 
+struct Wind
+{
+	float WindPower = 300.f;
+	int WindPhase = 0;
+	float MaxWind = 1.19f;
+	float WindResult = 0.f;
+};
 // Ό³Έν :
 class Player;
 class PlayLevel : public GameEngineLevel
@@ -46,5 +53,9 @@ private:
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
 
+
+	Wind AddWind;
+
 };
+
 

@@ -8,6 +8,7 @@
 #include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "GlobalValue.h"
+#include "Leaf.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -81,9 +82,12 @@ void PlayLevel::ImageLoad()
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite_surfice.bmp"));
 		Image->Cut(1, 11);
-
-		Dir.MoveParent();
+	} 
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
+		Image->Cut(5, 3);
 	}
+		Dir.MoveParent();
 	{
 		Dir.Move("Weapon");
 
@@ -253,6 +257,11 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		{
 			bCamMove = false;
 			fLerpRatio = 0.f;
+
+			AddWind.WindPhase = GameEngineRandom::MainRandom.RandomInt(-10, 10);
+			AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase)/10.f));
+
+			GlobalValue::gValue.SetWindPower(AddWind.WindResult);
 		}
 	}
 }
@@ -331,8 +340,18 @@ void PlayLevel::Loading()
 	//CreateActor<WeaponSheep>();
 }
 
+float ftime = 0.f;
+
 void PlayLevel::Update(float _DeltaTime)
 {
+	ftime += _DeltaTime;
+	if (ftime > 1.f)
+	{
+		Leaf* pLeaf = CreateActor<Leaf>();
+		pLeaf->SetPos({ 100,0 });
+		ftime = 0.f;
+	}
+
 	PlayerChange(_DeltaTime);
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
