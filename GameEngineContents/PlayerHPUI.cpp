@@ -23,25 +23,29 @@ void PlayerHPUI::Start()
 
 void PlayerHPUI::Update(float _DeltaTime)
 {
-	if (GetLiveTime() >= 5.0f)
+	if (this->IsUpdate())
 	{
-		if (TestValue <= 0)
+		if (CurrentValue > *HPValue)
 		{
-			TestValue = 100;
+			--CurrentValue;
 		}
 
-		PlayerHPNumberRender.SetValue(--TestValue);
+		PlayerHPNumberRender.SetValue(CurrentValue);
 	}
 
 }
 
-void PlayerHPUI::SetPlayerHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage)
+void PlayerHPUI::SetPlayerHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage, int *_PlayerHP)
 {
 	PlayerHPNumberRender.SetOwner(this);
 	PlayerHPNumberRender.SetCameraEffect(true);
 	PlayerHPNumberRender.SetImage(_HPNumberImage, { 10, 10 }, 10, RGB(255, 0, 255));
 	PlayerHPNumberRender.SetAlign(Align::Center);
-	PlayerHPNumberRender.SetValue(TestValue);
+	
+	HPValue = _PlayerHP;
+	CurrentValue = *_PlayerHP;
+	
+	PlayerHPNumberRender.SetValue(CurrentValue);
 
 	IDRender->SetImage(_NametagImage);
 	IDRender->SetScaleToImage();
@@ -56,6 +60,19 @@ void PlayerHPUI::SetPlayerHPUI(const std::string_view& _HPNumberImage, const std
 	SelectPlayerRender->CreateAnimation({ .AnimationName = "ArrowAnimation", .ImageName = _ArrowImage, .Start = 0, .End = 29, .InterTime = 0.05f });
 	SelectPlayerRender->ChangeAnimation("ArrowAnimation");
 
+	SelectPlayerRender->Off();
+}
+
+void PlayerHPUI::SetSelectPlayerRender(bool _Value)
+{
+	if (true == _Value)
+	{
+		SelectPlayerRender->On();
+	}
+	else
+	{
+		SelectPlayerRender->Off();
+	}
 }
 
 void PlayerHPUI::Render(float _DeltaTime)

@@ -5,9 +5,6 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Play</Filter>
-    </ClInclude>
     <ClInclude Include="CenterLevel.h">
       <Filter>Center</Filter>
     </ClInclude>
@@ -43,20 +40,20 @@
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Play\Player</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerHPUI.h">
-      <Filter>Play</Filter>
+      <Filter>Play\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGetDamagedUI.h">
+      <Filter>Play\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
-    <ClCompile Include="Player_State.cpp">
-      <Filter>Play</Filter>
     </ClCompile>
     <ClCompile Include="CenterLevel.cpp">
       <Filter>Center</Filter>
@@ -85,14 +82,23 @@
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHPUI.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_State.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHPUI.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGetDamagedUI.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,9 @@
     </Filter>
     <Filter Include="Test">
       <UniqueIdentifier>{5892ccdb-0504-4db6-8493-534a1f331bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Player">
+      <UniqueIdentifier>{9dfcc9c0-f48f-4242-913c-1ed40b1d78d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -51,6 +51,7 @@ void Player::Start()
 		//캐릭터 이동 및 행동
 		GameEngineInput::CreateKey("MoveRight", 'D');
 		GameEngineInput::CreateKey("MoveLeft", 'A');
+		GameEngineInput::CreateKey("TestButton", 'M');
 	}
 
 	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
@@ -60,12 +61,35 @@ void Player::Start()
 void Player::SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage) //HP 이미지 등을 세팅해주는 메서드
 {
 	HPUI = GetLevel()->CreateActor<PlayerHPUI>();
-	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage);
+	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage, &PlayerHP);
+}
+
+void Player::SetIsMyTurn(bool _Value)
+{
+	IsMyTurn = _Value;
+	HPUI->SetSelectPlayerRender(_Value);
 }
 
 void Player::SetColImage(const std::string_view& _Name)
 {
 	ColImage = GameEngineResources::GetInst().ImageFind(_Name.data());
+}
+
+void Player::Test()
+{
+	if (GameEngineInput::IsDown("TestButton"))
+	{
+		GetDamaged(5);
+	}
+}
+
+void Player::GetDamaged(int _Damage)
+{
+	if (GetDamagedTime >= 0.5f)
+	{
+		PlayerHP -= _Damage;
+		GetDamagedTime = 0.0f;
+	}
 }
 
 void Player::Update(float _DeltaTime)
@@ -79,7 +103,10 @@ void Player::Update(float _DeltaTime)
 	GravityApplied();
 	MoveCalculation(_DeltaTime);
 
+	Test();
+
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
+	GetDamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
 }
 
 void Player::GravityApplied()
