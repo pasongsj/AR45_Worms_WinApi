@@ -30,7 +30,10 @@ void WeaponBazooka::Update(float _DeltaTime)
 	BazookaOn();
 	BazAiming();
 
-	ShootDir = GetShootDir();
+	if(GameEngineInput::IsPress("Shoot") == false)
+	{
+		ShootDir = GetShootDir();
+	}
 
 	if (isExplosion == true && ExplosionAnimation->IsAnimationEnd() == true)
 	{
@@ -186,7 +189,7 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 		isSet = true;
 	}
 
-	Gravity = 0.005f;
+	Gravity = 0.5f * _DeltaTime;
 
 	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
@@ -237,7 +240,7 @@ void WeaponBazooka::BazookaOn()
 		TimeCounting();
 	}
 
-	if (TimeCount >= 1.0f && isBazOn == false)
+	if (TimeCount >= 0.5f && isBazOn == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
 		TimeCount = 0;

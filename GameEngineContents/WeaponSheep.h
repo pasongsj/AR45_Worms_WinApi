@@ -15,8 +15,6 @@ public:
 	void SheepFalling(float _DeltaTime);
 	void SheepWalking(float _DeltaTime);
 
-	float4 PullUpSheep(float4 _NextPos, float _DeltaTime);
-
 	WeaponSheep(const WeaponSheep& _Other) = delete;
 	WeaponSheep(WeaponSheep&& _Other) noexcept = delete;
 	WeaponSheep& operator=(const WeaponSheep& _Other) = delete;
@@ -30,8 +28,16 @@ protected:
 	void ResetWeapon() override;
 private:
 	MapModifier* SheepExplosion = nullptr;
-	bool isSheepOn = false;
 
+	bool isSheepOn = false;
+	bool isOnMap = false;
+	bool isDirRight = false;
+	bool isShoot = false;
+	bool isJump = true;
+	bool isJumpDirSet = false;
+	bool isSet = false;
+
+	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
 };
 
