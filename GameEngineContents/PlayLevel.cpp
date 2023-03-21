@@ -7,6 +7,7 @@
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
 #include "MapModifier.h"
+#include "GlobalValue.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -16,6 +17,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+GlobalValue GlobalValue::gValue;
 
 PlayLevel::PlayLevel() 
 {
@@ -229,13 +231,13 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		}
 
 		//현재 플레이어의 턴 종료
-		pCurPlayer->SetIsMyTurn(false);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
+		GlobalValue::GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
-		CurPlayerPos = pCurPlayer->GetPos();
+		CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
 		PrevCamPos = GetCameraPos();
 		bCamMove = true;
 	}
@@ -318,9 +320,11 @@ void PlayLevel::Loading()
 		}
 
 		iPlayerNumber = 0;
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
-		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
+
+		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
 	CreateActor<WeaponBazooka>();

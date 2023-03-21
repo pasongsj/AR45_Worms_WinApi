@@ -34,9 +34,6 @@
     <ClInclude Include="WeaponGrenade.h">
       <Filter>Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="TestLevel.h">
-      <Filter>Test</Filter>
-    </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
     <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="TestLevel.h">
+      <Filter>Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />

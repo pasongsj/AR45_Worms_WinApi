@@ -17,9 +17,6 @@ public:
 	}
 
 private:
-	static class Player* pCurPlayer;
-
+	Player* pCurPlayer;
 };
-
-Player* GlobalValue::pCurPlayer = nullptr;
 GlobalValue GlobalValue::gValue;
