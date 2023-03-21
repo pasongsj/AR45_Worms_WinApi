@@ -24,5 +24,5 @@ enum class WormsCollisionOrder
 {
 	Player,
 	Weapon,
-
+	MapModifier,
 };

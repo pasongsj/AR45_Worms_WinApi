@@ -27,6 +27,13 @@ public:
 	//건물과 맞닿은 구덩이에 선을 그리는 함수
 	void DrawArc(float4 _Pos, int _Radius);
 
+	//충돌체 하나 만들기_레벨에서 콜리전->
+
+	GameEngineCollision* GetModifierCollision()
+	{
+		return ModifierCollision;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -38,6 +45,8 @@ private:
 	int Blue	= RGB(0, 0, 255);
 	int Magenta = RGB(255, 0, 255);
 	int Cyan	= RGB(0, 255, 255);
+
+	GameEngineCollision* ModifierCollision = nullptr;				//Modifier Collision
 
 	float4 GetStartArcPos(float4 _Pos, int _Radius);
 	float4 GetEndArcPos(float4 _Pos, int _Radius);

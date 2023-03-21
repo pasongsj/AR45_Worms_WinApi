@@ -6,6 +6,7 @@
 #include "WeaponShotgun.h"
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
+#include "MapModifier.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -288,6 +289,9 @@ void PlayLevel::Loading()
 
 	{
 		Map* Actor = CreateActor<Map>();
+	}
+	{
+		MapModifier* ModifierActor  = CreateActor<MapModifier>(WormsRenderOrder::Map);
 	}
 	{
 		ScreenSize = GameEngineWindow::GetScreenSize(); 

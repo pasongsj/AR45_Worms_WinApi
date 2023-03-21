@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include "Map.h"
 #include "ContentsEnums.h"
 
@@ -26,6 +27,9 @@ void MapModifier::Start()
 		MsgAssert("MainModifier가 nullptr입니다.");
 		return;
 	}
+
+	ModifierCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::MapModifier));
+	ModifierCollision->SetDebugRenderType(CT_CirCle);
 }
 
 void MapModifier::Update(float _DeltaTime)
@@ -36,6 +40,8 @@ void MapModifier::Update(float _DeltaTime)
 
 void MapModifier::CreateHole(float4 _Pos, int _Radius)
 {
+	ModifierCollision->SetPosition(_Pos);
+
 	if (0 >= _Radius)
 	{
 		MsgAssert("반지름이 0보다 작거나 같을 수 없습니다.");
@@ -169,6 +175,7 @@ float4 MapModifier::GetStartArcPos(float4 _Pos, int _Radius)
 	int RadForY = _Radius;							//Y 좌표의 검사 범위
 	bool IsBoundary = false;						//픽셀 충돌이 일어나면 반복문을 빠져 나오기 위한 값
 	
+	//Center를 중점으로 오른쪽으로 검사
 	for (int i = 0; i <= RadForX; i++)
 	{
 		for (int i = 0; i <= RadForY; i++)
@@ -196,6 +203,34 @@ float4 MapModifier::GetStartArcPos(float4 _Pos, int _Radius)
 		}
 	}
 
+	////Center를 중점으로 왼쪽으로 검사
+	//for (int i = 0; i <= RadForX; i++)
+	//{
+	//	for (int i = 0; i <= RadForY; i++)
+	//	{
+	//		if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
+	//		{
+	//			++NextPos.y;						//다음 픽셀 충돌에서 y값을 증가시켜 한 칸 아래의 점을 검사하도록 함
+	//		}
+	//		else
+	//		{
+	//			IsBoundary = true;
+	//			break;
+	//		}
+	//	}
+
+	//	if (true == IsBoundary)
+	//	{
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		NextPos.y -= RadForY;					//y값을 처음 시작했던 원의 중점 위치로 올림
+	//		--RadForY;
+	//		--NextPos.x;
+	//	}
+	//}
+
 	return NextPos;
 }
 
@@ -208,6 +243,7 @@ float4 MapModifier::GetEndArcPos(float4 _Pos, int _Radius)
 	int RadForY = _Radius;
 	bool IsBoundary = false;
 
+	//Center를 중점으로 우측 검사
 	for (int i = 0; i <= RadForX; i++)
 	{
 		for (int i = 0; i <= RadForY; i++)
@@ -234,6 +270,34 @@ float4 MapModifier::GetEndArcPos(float4 _Pos, int _Radius)
 			++NextPos.x;
 		}
 	}
+
+	////Center를 중점으로 좌측 검사
+	//for (int i = 0; i <= RadForX; i++)
+	//{
+	//	for (int i = 0; i <= RadForY; i++)
+	//	{
+	//		if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
+	//		{
+	//			--NextPos.y;						//다음 픽셀 충돌에서 y값을 감소시켜 한 칸 위의 점을 검사하도록 함
+	//		}
+	//		else
+	//		{
+	//			IsBoundary = true;
+	//			break;
+	//		}
+	//	}
+
+	//	if (true == IsBoundary)
+	//	{
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		NextPos.y += RadForY;					//y값을 처음 시작했던 원의 중점 위치로 내림
+	//		--RadForY;\
+	//		--NextPos.x;
+	//	}
+	//}
 	
 	return NextPos;
 }
