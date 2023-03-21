@@ -214,6 +214,24 @@ void PlayLevel::KeyLoad()
 	}
 }
 
+void PlayLevel::CreateLeaf(float _DeltaTime)
+{
+	AddWind.WindTime += _DeltaTime;
+	if (AddWind.WindTime>1.f)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			float4 Pos = { 300,-100 };
+			Leaf* pLeaf = CreateActor<Leaf>();
+			Pos.x *= i;
+			Pos.x += 100.f;
+			pLeaf->SetPos(Pos);
+		}
+		AddWind.WindTime -= 1.f;
+		
+	}
+}
+
 void PlayLevel::PlayerChange(float _DeltaTime)
 {
 	//Player벡터 오류 검사
@@ -340,18 +358,10 @@ void PlayLevel::Loading()
 	//CreateActor<WeaponSheep>();
 }
 
-float ftime = 0.f;
 
 void PlayLevel::Update(float _DeltaTime)
 {
-	ftime += _DeltaTime;
-	if (ftime > 1.f)
-	{
-		Leaf* pLeaf = CreateActor<Leaf>();
-		pLeaf->SetPos({ 100,0 });
-		ftime = 0.f;
-	}
-
+	CreateLeaf(_DeltaTime);
 	PlayerChange(_DeltaTime);
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
