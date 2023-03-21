@@ -38,12 +38,11 @@ void WeaponInterFace::Start()
 	{
 		WeaponInterFaceCollision = CreateCollision(WormsRenderOrder::WeaPonInterFace);
 		WeaponInterFaceCollision->SetPosition({ 1200,400 });
-		WeaponInterFaceCollision->SetScale({ 20, 20 });
-		tetet
+		WeaponInterFaceCollision->SetScale({ 20, 20 });	
 	}
 	{
 		WeaponInterFaceCollision2 = CreateCollision(WormsRenderOrder::WeaPonInterFace);
-		WeaponInterFaceCollision2->SetPosition({ 1370,740 });
+		WeaponInterFaceCollision2->SetPosition({ 1200,400 });
 		WeaponInterFaceCollision2->SetScale({ 20, 20 });
 	}
 	{
@@ -98,6 +97,7 @@ void WeaponInterFace::Update(float _DeltaTime)
 	
 	WeaponInterFaceCollision->SetPosition({ GetLevel()->GetCameraPos().x+ 1325,GetLevel()->GetCameraPos().y+ 585 });
 	
+	WeaponInterFaceCollision2->SetPosition({ GetLevel()->GetCameraPos().x + 1355,GetLevel()->GetCameraPos().y + 585 });
 		
 	if (InterfaceMove == true)
 	{
@@ -137,5 +137,6 @@ void WeaponInterFace::Update(float _DeltaTime)
 void WeaponInterFace::Render(float _Time)
 {
 	WeaponInterFaceCollision->DebugRender();
+	WeaponInterFaceCollision2->DebugRender();
 }
 
