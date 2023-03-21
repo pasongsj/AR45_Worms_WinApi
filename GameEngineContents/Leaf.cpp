@@ -29,7 +29,7 @@ void Leaf::Start()
 void Leaf::Update(float _DeltaTime)
 {
 	MoveDir.y += fGravity * (fRandPower / 10);
-	MoveDir.x += GlobalValue::gValue.GetWindPower();
+	MoveDir.x += (GlobalValue::gValue.GetWindPower()/100);
 
 	SetMove(MoveDir* _DeltaTime);
 }

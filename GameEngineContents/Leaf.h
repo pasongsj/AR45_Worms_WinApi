@@ -20,7 +20,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	float fGravity = 300.f;
+	float fGravity = 3.f;
 	float fRandPower = 0.f;
 	float4 MoveDir = float4::Zero;
 
