@@ -12,7 +12,9 @@
 #include "Leaf.h"
 #include "WeaponHandgun.h"
 #include "WeaponUzi.h"
+#include "WeaponInterFace.h"
 #include "WeaponAirStrike.h"
+
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -21,6 +23,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
+
 
 GlobalValue GlobalValue::gValue;
 
@@ -213,13 +216,19 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* PlayerHPBackgroundImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerHPBackground.bmp"));
 			Dir.MoveParent();
 		}
+		//UI
 		{
-			GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("weaponSheet.bmp"));
-		}
-		{
-			GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("2020.bmp"));
-		}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("weaponSheet.bmp"));
+			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("2020.bmp"));
+			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("WeaponIcon.bmp"));
+			}
 
+		}
 
 
 	}
@@ -342,18 +351,31 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	SetCameraMove(MoveCam * fCamMoveSpeed * _DeltaTime);
 }
 
+
+
+
+
 void PlayLevel::Loading()
 {
+	
 	SoundLoad();
 	ImageLoad();
 	KeyLoad();
-	MouseObject* MouseObjectInst = CreateActor<MouseObject>(2); //마우스 오브젝트 생성
+	
+	
+	{
+		WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
+	}
 	{
 		Map* Actor = CreateActor<Map>();
 	}
+
+
 	{
 		MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
 	}
+	
+
 	{
 		ScreenSize = GameEngineWindow::GetScreenSize();
 
@@ -379,7 +401,7 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	//CreateActor<WeaponBazooka>();
+	CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 	CreateActor<WeaponAirStrike>();
 }
@@ -400,5 +422,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
-	CreateActor<WeaponUzi>();
+	//CreateActor<WeaponUzi>();
 }

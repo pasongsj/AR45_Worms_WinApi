@@ -5,7 +5,8 @@
 class WeaponInterFace : public GameEngineActor
 {
 public:
-	//static WeaponInterFace* miniboss;
+	static WeaponInterFace* Interface;
+	static GameEngineLevel* Value;
 
 	// constrcuter destructer
 	WeaponInterFace();
@@ -15,10 +16,9 @@ public:
 	WeaponInterFace(WeaponInterFace&& _Other) noexcept = delete;
 	WeaponInterFace& operator=(const WeaponInterFace& _Other) = delete;
 	WeaponInterFace& operator=(WeaponInterFace&& _Other) noexcept = delete;
-
-	/*void Movecalculation(float _DeltaTime);
-	void DirCheck(const std::string_view& _AnimationName);*/
-
+	
+	
+	void test();
 protected:
 
 	void Start() override;
@@ -28,6 +28,7 @@ protected:
 private:
 
 	GameEngineRender* WaeponInterface = nullptr;
+	GameEngineRender* WaeponIcon = nullptr;
 	float4 MoveDir = float4::Zero;
 	GameEngineCollision* WeaponInterFaceCollision = nullptr;
 	GameEngineCollision* WeaponInterFaceCollision2 = nullptr;
@@ -42,6 +43,6 @@ private:
 
 	Button* A = nullptr;
 
-	std::vector<Button*> b;
+	std::vector<Button*> ButtonManager;
 	bool InterfaceMove = true;
 };

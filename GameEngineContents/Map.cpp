@@ -171,11 +171,7 @@ void Map::Start()
 
 void Map::Update(float _DeltaTime)
 {
-	if (UItest == false)
-	{
-		WeaponInterFace* Actor = GetLevel()->CreateActor<WeaponInterFace>();
-		UItest = true;
-	}
+	
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();

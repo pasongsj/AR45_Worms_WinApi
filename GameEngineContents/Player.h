@@ -8,8 +8,8 @@ enum class PlayerState
 	MOVE,
 	JUMP,
 };
-
 // 설명 : 플레이어 클래스
+class Weapon;
 class GameEngineImage;
 class PlayerHPUI;
 class Player : public GameEngineActor
@@ -18,7 +18,7 @@ public:
 	// constrcuter destructer
 	Player();
 	~Player();
-
+	int a = 0;
 	// delete Function
 	Player(const Player& _Other) = delete;
 	Player(Player&& _Other) noexcept = delete;
@@ -32,6 +32,16 @@ public:
 	bool GetIsMyTurn()
 	{
 		return IsMyTurn;
+	}
+
+	void SetCurWeapon(Weapon* _Weapon)
+	{
+		CurWeapon = _Weapon;
+	}
+
+	Weapon* GetCurWeapon()
+	{
+		return CurWeapon;
 	}
 
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
@@ -75,7 +85,7 @@ protected:
 
 private:
 	void Test(); //테스트용 함수
-
+	
 	bool CanIMove = true;
 
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
@@ -127,6 +137,8 @@ private:
 	void MoveUpdate(float _DeltatTime);
 	void MoveEnd();
 
+	Weapon* CurWeapon = nullptr;
+	
 	void JumpStart();
 	void JumpUpdate(float _DeltatTime);
 	void JumpEnd();

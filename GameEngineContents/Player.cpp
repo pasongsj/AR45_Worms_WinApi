@@ -111,6 +111,20 @@ void Player::GetDamaged(int _Damage)
 
 void Player::Update(float _DeltaTime)
 {
+
+	/*switch (a)
+	{
+	case:1
+
+	case:2
+
+
+	case:3
+
+
+	default:
+		break;
+	}*/
 	MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
 	
 	if (true == IsMyTurn) //내 턴일때만 스테이트 변경

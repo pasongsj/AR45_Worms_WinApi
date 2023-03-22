@@ -15,7 +15,7 @@ class Player;
 class PlayLevel : public GameEngineLevel
 {
 public:
-	// constrcuter destructer
+	
 	PlayLevel();
 	~PlayLevel();
 
@@ -24,7 +24,7 @@ public:
 	PlayLevel(PlayLevel&& _Other) noexcept = delete;
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
-
+	
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
@@ -39,6 +39,7 @@ private:
 
 
 	bool bCamMove = false;
+	bool UI = false;
 	float4 PrevCamPos = float4::Zero;
 	float4 CurPlayerPos = float4::Zero;
 	float4 LerpCamPos = float4::Zero;
