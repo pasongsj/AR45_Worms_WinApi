@@ -33,6 +33,10 @@ public:
 	{
 		ClickPtr = _ClickPtr;
 	}
+    void SetClickCallBackEnum(void(*_ClickPtrEnum)(Button* _Btn,int _Enum))
+    {
+        ClickPtrEnum = _ClickPtrEnum;
+    }
 
 
 
@@ -96,6 +100,12 @@ public:
 		return Scale;
 	}
 
+    template<typename ENUM>
+    void SetEnum(ENUM _Enum)
+    {
+        iEnum = static_cast<int>(_Enum);
+    }
+
 	void setting(const std::string_view& _ReleaseName, const std::string_view& _HoverName, const std::string_view& _PressName,
 		float4 _Pos, float4 _Scale, int _Order, bool _EffectCam); 
 
@@ -109,7 +119,9 @@ private:
 	int PointTargetGroup = 0;
 	CollisionType ButtonCollisionType = CollisionType::CT_Rect;
 	void(*ClickPtr)(Button* _Btn) = nullptr;
+    void(*ClickPtrEnum)(Button* _Btn,int _Enum) = nullptr;
 
+    int iEnum = 0;
 	float4 Scale;
 	ButtonState State;
 	std::string CurImageName;

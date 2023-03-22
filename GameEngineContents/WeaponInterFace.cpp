@@ -10,6 +10,8 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include "WeaponBazooka.h"
 #include "WeaponGrenade.h"
+#include "WeaponClusterBomb.h"
+#include "WeaponShotgun.h"
 #include "MouseObject.h"
 #include "PlayLevel.h"
 
@@ -19,8 +21,10 @@
 WeaponInterFace*WeaponInterFace::Interface;
 GameEngineLevel* WeaponInterFace::Value;
 
-void asas(Button*a)
+//void asas(Button* a)
+void asas(Button*a, int _Enum)
 {
+    WeaponNum eNum = static_cast<WeaponNum>(_Enum);
 
 	Player* CurPlayer = GlobalValue::gValue.GetPlayer();
 	//if (CurPlayer->GetCurWeapon()->GetName() == "B")
@@ -32,8 +36,54 @@ void asas(Button*a)
 		CurPlayer->GetCurWeapon()->Death();
 
 	}
-	Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
-	CurPlayer->SetCurWeapon(NewWeapon);
+
+    switch (eNum)
+    {
+    case WeaponNum::None:
+        break;
+    case WeaponNum::Bazooka: 
+    //{
+    //    Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
+    //    CurPlayer->SetCurWeapon(NewWeapon);
+    //}
+        break;
+    case WeaponNum::HomingMissile:
+    {
+        int a = 0;
+    }
+        break;
+    case WeaponNum::Grenade: 
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponGrenade>();
+        CurPlayer->SetCurWeapon(NewWeapon);
+    }
+        break;
+    case WeaponNum::ClusterBomb:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponClusterBomb>();
+        CurPlayer->SetCurWeapon(NewWeapon);
+    }
+        break;
+    case WeaponNum::Shotgun:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponShotgun>();
+        CurPlayer->SetCurWeapon(NewWeapon);
+    }
+        break;
+    case WeaponNum::Handgun:
+        break;
+    case WeaponNum::Uzi:
+        break;
+    case WeaponNum::Minigun:
+        break;
+    case WeaponNum::Sheep:
+        break;
+    case WeaponNum::AirStrike:
+        break;
+    default:
+        break;
+    }
+        
 	/*if (CurWeapon == nullptr)
 	{
 		GameEngineActor* Weapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
@@ -81,61 +131,72 @@ void WeaponInterFace::Start()
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        button->SetEnum(WeaponNum::Bazooka);
 		ButtonManager.push_back(button);
+        button->SetClickCallBackEnum(asas);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        button->SetEnum(WeaponNum::HomingMissile);
 		ButtonManager.push_back(button);
+        button->SetClickCallBackEnum(asas);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        button->SetEnum(WeaponNum::Grenade);
 		ButtonManager.push_back(button);
+        button->SetClickCallBackEnum(asas);
+
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		ButtonManager.push_back(button);
+        button->SetEnum(WeaponNum::ClusterBomb);
+        ButtonManager.push_back(button);
+        button->SetClickCallBackEnum(asas);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		ButtonManager.push_back(button);
+        button->SetEnum(WeaponNum::Shotgun);
+        ButtonManager.push_back(button);
+        button->SetClickCallBackEnum(asas);
 	}
 
 	// 2번쨰 인터페이스 
 
-	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetClickCallBack(asas);
-		ButtonManager.push_back(button);
-	}
-	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetClickCallBack(avvv);
-		ButtonManager.push_back(button);
-	}
-	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	//	button->SetClickCallBack();
-		ButtonManager.push_back(button);
-	}
-	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	//	button->SetClickCallBack();
-		ButtonManager.push_back(button);
-	}
-	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
-	}
+	//{
+	//	Button* button = GetLevel()->CreateActor<Button>();
+	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	//	button->SetClickCallBack(asas);
+	//	ButtonManager.push_back(button);
+	//}
+	//{
+	//	Button* button = GetLevel()->CreateActor<Button>();
+	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	//	button->SetClickCallBack(avvv);
+	//	ButtonManager.push_back(button);
+	//}
+	//{
+	//	Button* button = GetLevel()->CreateActor<Button>();
+	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	////	button->SetClickCallBack();
+	//	ButtonManager.push_back(button);
+	//}
+	//{
+	//	Button* button = GetLevel()->CreateActor<Button>();
+	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	////	button->SetClickCallBack();
+	//	ButtonManager.push_back(button);
+	//}
+	//{
+	//	Button* button = GetLevel()->CreateActor<Button>();
+	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	//	//button->SetClickCallBack();
+	//	ButtonManager.push_back(button);
+	//}
 
 
 

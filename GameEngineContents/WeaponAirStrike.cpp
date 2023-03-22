@@ -60,10 +60,10 @@ void WeaponAirStrike::Attack(float _DeltaTime)
 		GameEngineInput::CreateKey("LeftMouseClick", VK_LBUTTON);
 	}
 
-	if (GameEngineInput::IsDown("LeftMouseClick") == true)
-	{
-		SetAirPlanePos();
-	}
+	//if (GameEngineInput::IsDown("LeftMouseClick") == true)
+	//{
+	//	SetAirPlanePos();
+	//}
 
 	AirPlaneMove(_DeltaTime);
 

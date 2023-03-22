@@ -49,9 +49,16 @@ void Button::Update(float _DeltaTime)
 
 	if (true == ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
 	{
-		if (true == GameEngineInput::IsUp("EngineMouseLeft") && nullptr != ClickPtr)
+		if (true == GameEngineInput::IsUp("EngineMouseLeft") && (nullptr != ClickPtr|| ClickPtrEnum != nullptr))
 		{
-			ClickPtr(this);
+            if (ClickPtrEnum!=nullptr)
+            {
+                ClickPtrEnum(this, iEnum);
+            }
+            else
+            {
+			    ClickPtr(this);
+            }
 		}
 		else if (true == GameEngineInput::IsFree("EngineMouseLeft"))
 		{
