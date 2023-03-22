@@ -14,6 +14,7 @@
 #include "WeaponUzi.h"
 #include "WeaponInterFace.h"
 #include "WeaponAirStrike.h"
+#include "WeaponMinigun.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -423,4 +424,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
+	//CreateActor<WeaponMinigun>();
 }

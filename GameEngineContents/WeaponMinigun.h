@@ -21,20 +21,18 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void Render(float _DeltaTime) override;
 
 private:
 
 	int BulletCount = 20;
+	float DelayTime = 0.05f;
 
-	std::vector <GameEngineCollision*> MinigunCollision;							// index에 해당하는 총알 콜리전
-	std::vector <float4> MinigunDir;		//수정필요								// index에 해당하는 총알 발사 방향
 	GameEngineRender* AimingLine = nullptr;
-
+	std::vector <GameEngineCollision*> MinigunCollision;							// index에 해당하는 총알 콜리전
 	std::vector<bool> isShooted;			//수정 필요								// index에 해당하는 총알이 발사되었는지
 
+	bool IsDone();
 	void WeaponMinigunInit();														// 총알 추가
-	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// 총알 이동
 	void Firing(float _DeltaTime);
 	void CheckFiring();
 

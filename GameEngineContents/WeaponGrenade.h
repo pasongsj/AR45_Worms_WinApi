@@ -28,10 +28,8 @@ protected:
 private:
 
 	void WeaponGrenadeInit();
-	//void FindCurPlayer();
-	bool isFire = false;
+
 	bool isExplosion = false;
-	//MapModifier* Explosion = nullptr;
 
 	void SetCharge(); // charge
 	void Firing(float _DeltaTime);

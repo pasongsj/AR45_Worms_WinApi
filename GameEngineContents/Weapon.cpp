@@ -103,7 +103,7 @@ void Weapon::TimeCounting()
 }
 
 
-void Weapon::SetCurPlayer() // 곧 없어질 것
+void Weapon::SetCurPlayer() // 수정완료
 {
 	Player* tmpPlayer = GlobalValue::gValue.GetPlayer();
 	if (tmpPlayer != CurPlayer)
@@ -201,4 +201,27 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 	}
 
 	return ReturnValue;
+}
+
+
+void Weapon::AttackPlayer(GameEngineCollision* _Col) // 수정필요
+{
+
+	if (nullptr == _Col)
+	{
+		MsgAssert("체크할 콜리전이 없습니다.");
+	}
+
+	// 플레이어 체크
+	std::vector<GameEngineCollision*> CollisionList;
+
+	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+	{
+		for (int i = 0; i < CollisionList.size(); i++)
+		{
+			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+			//ColPlayer에게 데미지와 날라가는 방향, 날라가는 세기 주기
+
+		}
+	}
 }

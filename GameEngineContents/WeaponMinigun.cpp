@@ -20,14 +20,14 @@ void WeaponMinigun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Minigun";
-	//EffectGravity = false;
-	//isBlocked = true;
-	MoveSpeed = 600.0f;
-	//float Dmg = 0.0f;
+	MoveSpeed = 1200.0f;
 	Dir = float4::Right;
-
+	//float Dmg = 0.0f;
+	BombScale = 30;//??
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
+	AllWeapons[WeaponName] = this;
+	WeaponNumber = static_cast<int>(WeaponNum::Minigun);
 
 
 
@@ -37,7 +37,6 @@ void WeaponMinigun::Start()
 	AimingLine->SetScale({ 20,20 });
 
 
-	AllWeapons[WeaponName] = this;
 }
 
 void WeaponMinigun::Update(float _DeltaTime)
@@ -47,37 +46,48 @@ void WeaponMinigun::Update(float _DeltaTime)
 		WeaponMinigunInit();
 	}
 
-	if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정
-	{
-		SetCurPlayer();
-		ResetWeapon();
-	}
+	SetCurPlayer();
+	//if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정 - 수정 필요함
+	//{
+	//	SetCurPlayer();
+	//	ResetWeapon();
+	//}
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
+	if (true == IsDone())
+	{
+		isWeaponDone = true;
+	}
 
+}
+
+bool WeaponMinigun::IsDone()
+{
+	for (int i = 0; i < BulletCount; i++)
+	{
+		if (true == MinigunCollision[i]->IsUpdate())
+		{
+			return false;
+		}
+
+	}
+	return true;
 }
 
 void WeaponMinigun::CheckFiring()
 {
-	if (PressShoot()) // 발사체크
+	if (false == isFire)
 	{
-		for (int i = 0; i < BulletCount; i++)
+		if (PressShoot()) // 발사체크
 		{
-			if (isShooted[i] == false)
-			{
-				isShooted[i] = true;
-				MinigunDir[i] = Dir; // 발사시 방향설정
-				break;
-			}
+			isFire = true;
 		}
-	}
-	else // 방향체크
-	{
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
+
 	}
 
 }
@@ -85,41 +95,45 @@ void WeaponMinigun::CheckFiring()
 
 void WeaponMinigun::Firing(float _DeltaTime)
 {
-	//bool isRemainBullet = false;
-	for (int i = 0; i < BulletCount; i++)
+	if (true == isFire)
 	{
-		if (true == isShooted[i] && true == MinigunCollision[i]->IsUpdate())
+		DelayTime -= _DeltaTime;
+		if (DelayTime < 0)
 		{
-			//isRemainBullet = true;
-			WeaponMove(MinigunCollision[i], _DeltaTime, MinigunDir[i]);
-
-			if (true == WeaponMinigun::CheckCollision(MinigunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+			DelayTime = 0.1f;
+			for (int i = 0; i < BulletCount; i++)
 			{
-				MapModifier::MainModifier->CreateHole(GetPos() + MinigunCollision[i]->GetPosition(), 50);
-				MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+				if (isShooted[i] == false)
+				{
+					isShooted[i] = true;
+					break;
+				}
+
+			}
+		}
+
+		for (int i = 0; i < BulletCount; i++)
+		{
+			if (true == isShooted[i] && true == MinigunCollision[i]->IsUpdate())
+			{
+				MinigunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
+				if (true == CheckCollision(MinigunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+				{
+
+					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();										  // 1. Bomb 콜리전 가져오기
+					BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());													  // 2. Bomb 콜리전 이동
+
+					AttackPlayer(BombCollision);																								  // 3. Bomb콜리전 Player Check
+
+					MapModifier::MainModifier->CreateHole(GetPos() + MinigunCollision[i]->GetPosition(), BombScale);							  // 4. 구멍 만들기
+					MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+				}
 			}
 		}
 	}
 
 }
 
-
-void WeaponMinigun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir)
-{
-	if (false == _Col->IsUpdate())
-	{
-		return;
-	}
-
-	else // 중력의 영향을 받지 않음.
-	{
-		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
-	}
-}
-
-void WeaponMinigun::Render(float _DeltaTime)
-{
-}
 
 void WeaponMinigun::WeaponMinigunInit()
 {
@@ -129,16 +143,16 @@ void WeaponMinigun::WeaponMinigunInit()
 
 	MinigunCollision.push_back(Collision);
 	isShooted.push_back(false);
-	MinigunDir.push_back(float4::Right);
-
+	DelayTime = 0.05f;
 }
 
 void WeaponMinigun::ResetWeapon()
 {
+	isFire = false;
+	DelayTime = 0.05f;
 	for (int i = 0; i < BulletCount; i++)
 	{
 		isShooted[i] = false;
-		MinigunDir[i] = float4::Right;
 		MinigunCollision[i]->SetPosition(float4::Zero);
 		MinigunCollision[i]->On();
 	}

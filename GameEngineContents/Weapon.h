@@ -32,6 +32,11 @@ public:
 		return isFire;
 	}
 
+	int GetWeaponNumber()
+	{
+		return WeaponNumber;
+	}
+
 	//virtual void ResetWeapon() {};
 protected:
 
@@ -86,11 +91,12 @@ protected:
 	bool isEndCharging();
 	void TimeCounting();
 	void SetCurPlayer();
+	void AttackPlayer(GameEngineCollision* _Col);
 
 	//virtual void Charging();
 	virtual void Firing(float _Deltatime) {}; // 날아가는거, 
 
-
+	
 private:
 
 	bool isRightDir = true;

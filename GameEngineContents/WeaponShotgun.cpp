@@ -20,30 +20,22 @@ void WeaponShotgun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
-	//EffectGravity = false;
-	//isBlocked = true;
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
-	//BombScale = float4{ 100,100 };
-	//float4 Scale = float4::Zero;	
+	BombScale = 50;
 
-	
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 
+	AllWeapons[WeaponName] = this;
+	WeaponNumber = static_cast<int>(WeaponNum::Shotgun);
 
-
-	// 폭발 맵깍기 - 수정필요 : WeaponClass에서 Bomb를 관리해야 여러 액터를 만들지 않아도 됨
-	//Explosion = GetLevel()->CreateActor<MapModifier>();
-	//Explosion->SetRadius(BombScale.hix());
 
 	// 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
 	AimingLine->SetImage("TempBomb.bmp");
 	AimingLine->SetScale({ 20,20 });
 
-
-	AllWeapons[WeaponName] = this;
 }
 
 void WeaponShotgun::Update(float _DeltaTime)
@@ -53,15 +45,34 @@ void WeaponShotgun::Update(float _DeltaTime)
 		WeaponShotgunInit();
 	}
 	
-	if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정
-	{
-		SetCurPlayer();
-		ResetWeapon();
-	}
+	SetCurPlayer();
+	//if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정 - 수정필요
+	//{
+	//	SetCurPlayer();
+	//	ResetWeapon();
+	//}
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
+	if (true == IsDone())
+	{
+		isWeaponDone = true;
+	}
+
+}
+
+bool WeaponShotgun::IsDone()
+{
+	for (int i = 0; i < BulletCount; i++)
+	{
+		if (true == ShotGunCollision[i]->IsUpdate())
+		{
+			return false;
+		}
+
+	}
+	return true;
 }
 
 void WeaponShotgun::CheckFiring()
@@ -72,6 +83,7 @@ void WeaponShotgun::CheckFiring()
 		{
 			if (isShooted[i] == false)
 			{
+				isFire = true;
 				isShooted[i] = true;
 				ShotGunDir[i] = Dir; // 발사시 방향설정
 				break;
@@ -80,10 +92,6 @@ void WeaponShotgun::CheckFiring()
 	}
 	else // 방향체크
 	{
-		/*if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn())
-		{
-			FindCurPlayer();
-		}*/
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
@@ -91,23 +99,6 @@ void WeaponShotgun::CheckFiring()
 	}
 
 }
-//
-//void WeaponShotgun::FindCurPlayer()
-//{
-//	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player); 
-//	for (int i = 0; i < PlayerList.size(); i++)
-//	{
-//		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
-//		{
-//			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
-//			break;
-//		}
-//	}
-//	if (nullptr == CurPlayer)
-//	{
-//		MsgAssert("현재플레이어를 찾지 못했습니다.");
-//	}
-//}
 
 
 void WeaponShotgun::Firing(float _DeltaTime)
@@ -122,20 +113,17 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
 			if (true == WeaponShotgun::CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 			{
-				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), 50);
-				//Explosion->SetPos(GetPos() + ShotGunCollision[i]->GetPosition()); // 폭발 범위 마젠타 색칠하기
-				//Explosion->CreateHole();
+				GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();				// 1. Bomb 콜리전 가져오기
+				BombCollision->SetPosition(GetPos() + ShotGunCollision[i]->GetPosition());							// 2. Bomb 콜리전 이동
+
+				AttackPlayer(BombCollision);																		// 3. Bomb콜리전 Player Check
+
+				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), BombScale);	// 4. 구멍 만들기
+
 				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
 			}
 		}
 	}
-
-	// 수정 필요 : 터지는 애니메이션까지 Weapon이 On되어있어야 하는지 논의 필요
-	//if (false == isRemainBullet) // 남아있는 총탄이 없다면 WeaponOff
-	//{
-	//	this->Off();
-	//	return;
-	//}
 
 }
 
@@ -152,9 +140,6 @@ void WeaponShotgun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime,float
 	}
 }
 
-void WeaponShotgun::Render(float _DeltaTime)
-{
-}
 
 void WeaponShotgun::WeaponShotgunInit()
 {
