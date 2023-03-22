@@ -36,7 +36,6 @@ public:
 protected:
 
 	//
-
 	bool isFire = false;							// 발사중인지 체크
 	bool isWeaponDone = false;
 
@@ -61,6 +60,7 @@ protected:
 	//float4 PlayerPos = float4::Zero;				// 플레이어 위치 ---> 지울거
 	int BombScale = 0;				// 폭발 범위
 
+	WeaponNum WeaponNumber;							// 무기 이름에 해당하는 Number
 	std::string WeaponName;							// 무기 이름
 
 	GameEngineImage* MapCollision = nullptr;		//충돌맵

@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "ContentsEnums.h"
-
+#include "GlobalValue.h"
 #include <time.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -105,7 +105,12 @@ void Weapon::TimeCounting()
 
 void Weapon::SetCurPlayer() // °ð ¾ø¾îÁú °Í
 {
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+	Player* tmpPlayer = GlobalValue::gValue.GetPlayer();
+	if (tmpPlayer != CurPlayer)
+	{
+		CurPlayer = tmpPlayer;
+	}
+	/*std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
 	for (int i = 0; i < PlayerList.size(); i++)
 	{
@@ -114,7 +119,7 @@ void Weapon::SetCurPlayer() // °ð ¾ø¾îÁú °Í
 			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
 			break;
 		}
-	}
+	}*/
 	if (nullptr == CurPlayer)
 	{
 		MsgAssert("???? ???? ?¡À???? ???????.");
