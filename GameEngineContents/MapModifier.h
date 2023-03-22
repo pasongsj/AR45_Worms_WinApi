@@ -24,16 +24,13 @@ public:
 	//MapModifier의 액터를 만드는 함수
 	void CreateMapModifier();
 
-	//건물과 맞닿은 구덩이에 선을 그리는 함수
-	void DrawArc(float4 _Pos, int _Radius);
 
-	//충돌체 하나 만들기_레벨에서 콜리전->
-
+	//충돌체 포인터 얻는 함수
 	GameEngineCollision* GetModifierCollision()
 	{
 		return ModifierCollision;
 	}
-
+	
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -44,10 +41,14 @@ private:
 	int Red		= RGB(255, 0, 0);
 	int Blue	= RGB(0, 0, 255);
 	int Magenta = RGB(255, 0, 255);
-	int Cyan	= RGB(0, 255, 255);
+	int LineColor	= RGB(165, 184, 223);
+
+	float4 StartArcPos = float4::Zero;
+	float4 EndArcPos = float4::Zero;
 
 	GameEngineCollision* ModifierCollision = nullptr;				//Modifier Collision
-
-	float4 GetStartArcPos(float4 _Pos, int _Radius);
-	float4 GetEndArcPos(float4 _Pos, int _Radius);
+	
+	
+	//맵의 건물과 닿은 곳에 선을 그림
+	void DrawPixel(float4 _Pos, int _Radius);
 };

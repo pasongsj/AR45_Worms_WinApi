@@ -179,8 +179,7 @@ void Map::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
-		MapModifier::MainModifier->MapModifier::CreateHole(Pos, 20);
-		MapModifier::MainModifier->DrawArc(Pos, 20);
+		MapModifier::MainModifier->CreateHole(Pos, 20);
 		return;
 	}
 

@@ -43,6 +43,11 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 
 	ModifierCollision->SetPosition(_Pos);
 
+	if (this == nullptr)
+	{
+		MsgAssert("ModifierActor가 nullptr 입니다.");
+	}
+
 	if (0 >= _Radius)
 	{
 		MsgAssert("반지름이 0보다 작거나 같을 수 없습니다.");
@@ -120,6 +125,8 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		SelectObject(MapDc, OldBrush);
 		DeleteObject(MyBrush);
 	}
+
+	DrawPixel(_Pos, _Radius);
 }
 
 void MapModifier::CreateMapModifier()
@@ -129,176 +136,53 @@ void MapModifier::CreateMapModifier()
 	MainModifier->SetPos(MousePos);															//액터의 위치를 나중에 수정해야 함
 }
 
-void MapModifier::DrawArc(float4 _Pos, int _Radius)
+
+void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 {
 	HDC MapDc = Map::MainMap->GetMapDC();
-	float4 CircleRenderPos = _Pos;
-	float4 ArcStartPos = GetStartArcPos(_Pos, _Radius);
-	float4 ArcEndPos = GetEndArcPos(_Pos, _Radius);
-	//Map에 그림
-	{
-		//선에 대한 팬 생성
-		//PS_SOLID: 선
-		HPEN MyPen = CreatePen(PS_SOLID, 3, Cyan);
-		HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
-		//단색에 대한 논리적 브러쉬를 생성
-		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Magenta);
-		//지정된 DC로 개체 선택
-		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
 
-		Arc(MapDc,
-			CircleRenderPos.ix() - _Radius,
-			CircleRenderPos.iy() - _Radius,
-			CircleRenderPos.ix() + _Radius,
-			CircleRenderPos.iy() + _Radius,
-			ArcStartPos.ix(),
-			ArcStartPos.iy(),
-			ArcEndPos.ix(),
-			ArcEndPos.iy()
-		);
-
-		//다시 기존 브러쉬 선택
-		SelectObject(MapDc, OldBrush);
-		//생성한 브러쉬 삭제
-		DeleteObject(MyBrush);
-
-		SelectObject(MapDc, OldPen);
-		DeleteObject(MyPen);
-	}
-}
-
-float4 MapModifier::GetStartArcPos(float4 _Pos, int _Radius)
-{
 	std::string ColMapName = Map::MainMap->GetColMapName();
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
-	float4 NextPos = _Pos;							//CenterPos
-	int RadForX = _Radius;							//X 좌표의 검사 범위
-	int RadForY = _Radius;							//Y 좌표의 검사 범위
-	bool IsBoundary = false;						//픽셀 충돌이 일어나면 반복문을 빠져 나오기 위한 값
-	
-	//Center를 중점으로 우측으로 검사
-	for (int i = 0; i <= RadForX; i++)
-	{
-		for (int i = 0; i <= RadForY; i++)
-		{
-			if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
-			{
-				++NextPos.y;						//다음 픽셀 충돌에서 y값을 증가시켜 한 칸 아래의 점을 검사하도록 함
-			}
-			else
-			{
-				IsBoundary = true;
-				break;
-			}
-		}
 
-		if (true == IsBoundary)
+	int lineThick = 2;
+	float Angle = 0.0f;
+
+	float4 CenterPos = _Pos;						//체크 시작점: 원의 중점
+
+	for (; Angle <= 365; ++Angle)
+	{
+		float4 CheckPos = { 0.0f, -_Radius };		//원점에서 반지름만큼 올라간 점, 각도가 변하기 전 원래 값으로 초기화
+		CheckPos.RotaitonZDeg(Angle);				//회전변환 적용
+		CheckPos += CenterPos;						//회전시킨 후 위치 변화
+
+		//충돌맵의 파란색 부분과 깎이는 부분의 원 둘레가 닿으면 색칠
+		if (Blue == ColImage->GetPixelColor(CheckPos, Magenta))
 		{
-			break;
-		}
-		else
-		{
-			NextPos.y -= RadForY;					//y값을 처음 시작했던 원의 중점 위치로 올림
-			--RadForY;
-			++NextPos.x;
+			////Map에 그림
+			{
+				//선에 대한 팬 생성
+				//PS_SOLID: 선
+				HPEN MyPen = CreatePen(PS_SOLID, 3, LineColor);
+				HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
+				//단색에 대한 논리적 브러쉬를 생성
+				HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);
+				//지정된 DC로 개체 선택
+				HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
+
+				Ellipse(MapDc,
+					CheckPos.ix() - lineThick,
+					CheckPos.iy() - lineThick,
+					CheckPos.ix() + lineThick,
+					CheckPos.iy() + lineThick);
+
+				//다시 기존 브러쉬 선택
+				SelectObject(MapDc, OldBrush);
+				//생성한 브러쉬 삭제
+				DeleteObject(MyBrush);
+
+				SelectObject(MapDc, OldPen);
+				DeleteObject(MyPen);
+			}		
 		}
 	}
-
-	////Center를 중점으로 좌쪽으로 검사
-	//for (int i = 0; i <= RadForX; i++)
-	//{
-	//	for (int i = 0; i <= RadForY; i++)
-	//	{
-	//		if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
-	//		{
-	//			++NextPos.y;						//다음 픽셀 충돌에서 y값을 증가시켜 한 칸 아래의 점을 검사하도록 함
-	//		}
-	//		else
-	//		{
-	//			IsBoundary = true;
-	//			break;
-	//		}
-	//	}
-
-	//	if (true == IsBoundary)
-	//	{
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		NextPos.y -= RadForY;					//y값을 처음 시작했던 원의 중점 위치로 올림
-	//		--RadForY;
-	//		--NextPos.x;
-	//	}
-	//}
-
-	return NextPos;
-}
-
-float4 MapModifier::GetEndArcPos(float4 _Pos, int _Radius)
-{
-	std::string ColMapName = Map::MainMap->GetColMapName();
-	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
-	float4 NextPos = _Pos;						//CenterPos
-	int RadForX = _Radius;
-	int RadForY = _Radius;
-	bool IsBoundary = false;
-
-	//Center를 중점으로 우측 검사
-	for (int i = 0; i <= RadForX; i++)
-	{
-		for (int i = 0; i <= RadForY; i++)
-		{
-			if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
-			{
-				--NextPos.y;						//다음 픽셀 충돌에서 y값을 감소시켜 한 칸 위의 점을 검사하도록 함
-			}
-			else
-			{
-				IsBoundary = true;
-				break;
-			}
-		}
-
-		if (true == IsBoundary)
-		{
-			break;
-		}
-		else
-		{
-			NextPos.y += RadForY;					//y값을 처음 시작했던 원의 중점 위치로 내림
-			--RadForY;
-			++NextPos.x;
-		}
-	}
-
-	////Center를 중점으로 좌측 검사
-	//for (int i = 0; i <= RadForX; i++)
-	//{
-	//	for (int i = 0; i <= RadForY; i++)
-	//	{
-	//		if (Blue != ColImage->GetPixelColor(NextPos, Magenta))
-	//		{
-	//			--NextPos.y;						//다음 픽셀 충돌에서 y값을 감소시켜 한 칸 위의 점을 검사하도록 함
-	//		}
-	//		else
-	//		{
-	//			IsBoundary = true;
-	//			break;
-	//		}
-	//	}
-
-	//	if (true == IsBoundary)
-	//	{
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		NextPos.y += RadForY;					//y값을 처음 시작했던 원의 중점 위치로 내림
-	//		--RadForY;\
-	//		--NextPos.x;
-	//	}
-	//}
-	
-	return NextPos;
 }
