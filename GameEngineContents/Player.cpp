@@ -29,13 +29,19 @@ void Player::Start()
 		//좌측
 		//CreatePlayerAnimation("Left_Idle", "IdleLeft.bmp", 0, 5, 0.1f);
 
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.05f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Move", .ImageName = "WalkLeft.bmp", .Start = 0, .End = 14, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_JumpReady", .ImageName = "JumpReadyLeft.bmp", .Start = 0, .End = 9, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyUp", .ImageName = "FlyupLeft.bmp", .Start = 0, .End = 1, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyDown", .ImageName = "FlydownLeft.bmp", .Start = 0, .End = 1, .InterTime = 0.03f });
 	}
 	{
 		//우측
-		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "IdleRight.bmp", .Start = 0, .End = 5, .InterTime = 0.05f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "IdleRight.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Move", .ImageName = "WalkRight.bmp", .Start = 0, .End = 14, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_JumpReady", .ImageName = "JumpReadyRight.bmp", .Start = 0, .End = 9, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyUp", .ImageName = "FlyupRight.bmp", .Start = 0, .End = 1, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyDown", .ImageName = "FlydownRight.bmp", .Start = 0, .End = 1, .InterTime = 0.03f });
 
 	}
 
@@ -52,6 +58,8 @@ void Player::Start()
 		//캐릭터 이동 및 행동
 		GameEngineInput::CreateKey("MoveRight", 'D');
 		GameEngineInput::CreateKey("MoveLeft", 'A');
+		GameEngineInput::CreateKey("Jump", 'K');
+
 		GameEngineInput::CreateKey("TestButton", 'M');
 	}
 
@@ -111,7 +119,7 @@ void Player::Update(float _DeltaTime)
 	}
 	GravityApplied();
 	MoveCalculation(_DeltaTime);
-
+	IsGroundCheck();
 	Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
@@ -130,6 +138,20 @@ void Player::MoveCalculation(float _DeltaTime)
 
 	SetMoveAngle();
 	SetMove(MoveDir * _DeltaTime);
+}
+
+void Player::IsGroundCheck()
+{
+	float4 PlayerGroundCheckPos = { GetPos().x , GetPos().y + 1 };
+
+	if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerGroundCheckPos, RGB(0, 0, 0)))
+	{
+		IsGround = true;
+	}
+	else
+	{
+		IsGround = false;
+	}
 }
 
 void Player::SetMoveAngle()
@@ -251,6 +273,10 @@ void Player::Render(float _DeltaTime)
 		std::string PlayerRightAngle = "PlayerRightAngle = ";
 		PlayerRightAngle = PlayerRightAngle + std::to_string(RightMoveAngle);
 		GameEngineLevel::DebugTextPush(PlayerRightAngle);
+
+		std::string PlayerIsGround = "PlayerIsGround = ";
+		PlayerIsGround = PlayerIsGround + std::to_string(IsGround);
+		GameEngineLevel::DebugTextPush(PlayerIsGround);
 	}
 
 }

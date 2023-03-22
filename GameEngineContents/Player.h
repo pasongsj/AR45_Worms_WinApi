@@ -6,6 +6,7 @@ enum class PlayerState
 {
 	IDLE,
 	MOVE,
+	JUMP,
 };
 
 // 설명 : 플레이어 클래스
@@ -86,7 +87,6 @@ private:
 	float GetDamagedTime = 0.0f;
 	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
 	
-	
 	bool IsMyTurn = false; //내 턴인지 체크
 
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
@@ -95,9 +95,11 @@ private:
 	//이동 관련
 	std::string DirString = "Right_"; //방향
 	float4 MoveDir = float4::Zero; //플레이어의 이동 벡터
-	
-	void SetMoveAngle();
-	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
+	bool IsGround = true; //플레이어의 지면 여부
+	void IsGroundCheck();
+	std::string_view AnimationDir = "";
+
+	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
 	float LeftMoveAngle = 0.0f; 
 	float RightMoveAngle = 0.0f; 
 
@@ -124,6 +126,10 @@ private:
 	void MoveStart();
 	void MoveUpdate(float _DeltatTime);
 	void MoveEnd();
+
+	void JumpStart();
+	void JumpUpdate(float _DeltatTime);
+	void JumpEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();

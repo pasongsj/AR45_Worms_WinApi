@@ -21,6 +21,11 @@ void Player::ChangeState(PlayerState _State)
 		MoveStart();
 		break;
 	}
+	case PlayerState::JUMP:
+	{
+		JumpStart();
+		break;
+	}
 	default:
 		break;
 	}
@@ -35,6 +40,11 @@ void Player::ChangeState(PlayerState _State)
 	case PlayerState::MOVE:
 	{
 		MoveEnd();
+		break;
+	}
+	case PlayerState::JUMP:
+	{
+		JumpEnd();
 		break;
 	}
 	default:
@@ -54,6 +64,11 @@ void Player::UpdateState(float _DeltaTime)
 	case PlayerState::MOVE:
 	{
 		MoveUpdate(_DeltaTime);
+		break;
+	}
+	case PlayerState::JUMP:
+	{
+		JumpUpdate(_DeltaTime);
 		break;
 	}
 	default:
@@ -85,7 +100,14 @@ void Player::IdleUpdate(float _DeltatTime)
 			ChangeState(PlayerState::MOVE);
 			return;
 		}
+
+		if (true == GameEngineInput::IsDown("Jump"))
+		{
+			ChangeState(PlayerState::JUMP);
+			return;
+		}
 	}
+
 }
 void Player::IdleEnd()
 {
@@ -139,6 +161,33 @@ void Player::MoveUpdate(float _DeltatTime)
 	}
 }
 void Player::MoveEnd()
+{
+
+}
+
+void Player::JumpStart()
+{
+	AnimationDir = DirString;
+	std::string AnimationName = "JumpReady";
+	std::string AnimationText = AnimationDir.data() + AnimationName;
+	AnimationRender->ChangeAnimation(AnimationText);
+}
+void Player::JumpUpdate(float _DeltatTime)
+{
+	if (AnimationRender->IsAnimationEnd())
+	{
+		std::string AnimationName = "FlyUp";
+		std::string AnimationText = AnimationDir.data() + AnimationName;
+		AnimationRender->ChangeAnimation(AnimationText);
+	}
+
+	if (true == IsGround)
+	{
+		ChangeState(PlayerState::IDLE);
+		return;
+	}
+}
+void Player::JumpEnd()
 {
 
 }
