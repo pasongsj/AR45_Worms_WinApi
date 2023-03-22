@@ -32,5 +32,10 @@ void Leaf::Update(float _DeltaTime)
 	MoveDir.x += (GlobalValue::gValue.GetWindSpeed()/100);
 
 	SetMove(MoveDir* _DeltaTime);
+
+	if (GetPos().y>1300.f)
+	{
+		this->Death();
+	}
 }
 
