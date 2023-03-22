@@ -27,6 +27,7 @@ private:
     GameEngineRender* pLWindBarHide = nullptr;
     GameEngineRender* pRWindBarHide = nullptr;
 
+    int iLastWindPhase = 0;
     float4 RHiderScale = float4::Zero;
     float4 RHiderResult = float4::Zero;
     float4 LHiderScale = float4::Zero;

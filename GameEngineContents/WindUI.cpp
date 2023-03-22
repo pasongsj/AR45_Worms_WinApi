@@ -53,10 +53,19 @@ void WindUI::Start()
 void WindUI::Update(float _Deltatime)
 {
     int WindPhase = GlobalValue::gValue.GetWindPhase();
+    if (iLastWindPhase == WindPhase)
+    {
+        return;
+    }
+    else
+    {
+        iLastWindPhase = WindPhase;
+    }
+
     if (WindPhase < 0)
     {
-        WindPhase = 10 - abs(WindPhase);
-        LHiderResult.x = LHiderScale.x * WindPhase/10;
+        int CalWindPhase = 10 - abs(WindPhase);
+        LHiderResult.x = LHiderScale.x * CalWindPhase /10;
 
         float fLCalibration = LHiderScale.x - LHiderResult.x;
         pLWindBarHide->SetScale(LHiderResult);
@@ -81,8 +90,8 @@ void WindUI::Update(float _Deltatime)
     }
     else if (WindPhase > 0)
     {
-        WindPhase = 10 - abs(WindPhase);
-        RHiderResult.x = RHiderScale.x * WindPhase / 10;
+        int CalWindPhase = 10 - abs(WindPhase);
+        RHiderResult.x = RHiderScale.x * CalWindPhase / 10;
     
         float fRCalibration = RHiderScale.x - RHiderResult.x;
         pRWindBarHide->SetScale(RHiderResult);
