@@ -61,7 +61,7 @@
     <ClInclude Include="Leaf.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h">
+    <ClInclude Include="WeaponAirStrike.h">
       <Filter>Weapon</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,11 +110,8 @@
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="Weapon.cpp">
+    <ClCompile Include="WeaponAirStrike.cpp">
       <Filter>Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponHandgun.cpp">
-      <Filter>Weapon\F3</Filter>
     </ClCompile>
     <ClCompile Include="WeaponMinigun.cpp">
       <Filter>Weapon\F3</Filter>
@@ -123,6 +120,9 @@
       <Filter>Weapon\F3</Filter>
     </ClCompile>
     <ClCompile Include="WeaponUzi.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponHandgun.cpp">
       <Filter>Weapon\F3</Filter>
     </ClCompile>
   </ItemGroup>

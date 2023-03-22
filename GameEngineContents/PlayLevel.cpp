@@ -12,6 +12,7 @@
 #include "Leaf.h"
 #include "WeaponHandgun.h"
 #include "WeaponUzi.h"
+#include "WeaponAirStrike.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -97,6 +98,8 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* bazooka = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazooka.bmp"));
 		GameEngineImage* bazookaRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazookaRot.bmp"));
 
+		GameEngineImage* Airplane = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Airplane.bmp"));
+
 		GameEngineImage* Charging = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Charging.bmp"));
 		Charging->Cut(1, 16);
 
@@ -107,6 +110,10 @@ void PlayLevel::ImageLoad()
 		sheepWalkRight->Cut(1, 8);
 		GameEngineImage* sheepWalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalkLeft.bmp"));
 		sheepWalkLeft->Cut(1, 8);
+
+		GameEngineImage* AirMissile = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirMissile.bmp"));
+		GameEngineImage* AirMissileRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirMissileRot.bmp"));
+
 		GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
 		BazSmoke->Cut(1, 64);
 
@@ -372,8 +379,9 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
+	CreateActor<WeaponAirStrike>();
 }
 
 

@@ -52,7 +52,9 @@ private:
 
 	bool isExplosion = false;
 	bool isBazOn = false;
+
 	bool isSet = false;
+
 	bool isFire = false;
 	bool isAiming = false;
 	bool isAttack = false;

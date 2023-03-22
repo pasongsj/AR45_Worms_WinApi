@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="WeaponAirStrike.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="Leaf.h">
       <SubType>
@@ -96,6 +100,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="WeaponAirStrike.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Leaf.cpp">
       <SubType>
       </SubType>

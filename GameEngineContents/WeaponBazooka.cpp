@@ -117,15 +117,10 @@ void WeaponBazooka::WeaponBazookaInit()
 	ExplosionAnimation->SetScale({ 100, 100 });
 	ExplosionAnimation->Off();
 
-	Gravity = 0.0f; //임시 설정값
-	//GravityAccel = 0.0f; //임시 설정값
+	Gravity = 10.0f; //임시 설정값
 
 	MoveSpeed = 0.0f; //임시 설정값
 
-	//EffectGravity = true;
-	//isAnimation = true;
-	//isBlocked = true;
-	//isTarget = false;
 
 	TimeCount = 0;
 
@@ -176,7 +171,8 @@ void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 
 		MoveSpeed = 100 + GetChargeTime() * 1000.0f;
-
+		
+		//Charge 로 바꿔야함
 		if (MoveSpeed < 100)
 		{
 			MoveSpeed = 100;
@@ -234,7 +230,9 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		isSet = true;
 	}
 
-	Gravity = 2.0f * _DeltaTime;
+	Gravity += 0.05f * _DeltaTime;
+	
+	float4 NextPos;
 
 	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
@@ -304,7 +302,6 @@ void WeaponBazooka::ResetWeapon()
 	WeaponCollision->SetPosition(CurPlayer->GetPos());
 
 	Gravity = 0.0f; //임시 설정값
-	//GravityAccel = 0.0f; //임시 설정값
 	WeaponRender->Off();
 	WeaponCollision->Off();
 
@@ -443,6 +440,8 @@ void WeaponBazooka::ChargingRenderOn()
 
 		CountingIndex++;
 	}
+
+
 }
 
 void WeaponBazooka::ChargingRenderOff()

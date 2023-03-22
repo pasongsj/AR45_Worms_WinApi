@@ -12,7 +12,7 @@ public:
 
 	static std::map<std::string, Weapon*> AllWeapons;
 	// constrcuter destructer
-	Weapon() ;
+	Weapon();
 	~Weapon();
 
 	// delete Function
@@ -37,9 +37,8 @@ protected:
 
 	//
 
-	bool isWeaponDone = false;
 	bool isFire = false;							// 발사중인지 체크
-
+	bool isWeaponDone = false;
 
 	// 카메라 이동과 관련된 것
 	float4 PrevCamPos = float4::Zero;
@@ -97,7 +96,7 @@ private:
 	bool isRightDir = true;
 	float Height = 0.0f;
 
-		
+
 };
 
 //타겟, 방향, 랜더, 콜리전, movespeed, 중력값, 중력 영향, 크기, 
