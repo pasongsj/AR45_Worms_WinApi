@@ -110,16 +110,7 @@ void Weapon::SetCurPlayer() // °ð ¾ø¾îÁú °Í
 	{
 		CurPlayer = tmpPlayer;
 	}
-	/*std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
-	for (int i = 0; i < PlayerList.size(); i++)
-	{
-		if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
-		{
-			CurPlayer = dynamic_cast<Player*>(PlayerList[i]);
-			break;
-		}
-	}*/
 	if (nullptr == CurPlayer)
 	{
 		MsgAssert("???? ???? ?¡À???? ???????.");
@@ -142,15 +133,15 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
 
-			if (ColPlayer->GetIsMyTurn() == false)
-			{
-				return true;
-			}
+			//if (ColPlayer->GetIsMyTurn() == false)
+			//{
+			//	return true;
+			//}
 		}
 	}
 
 	// ¸ÊÃ¼Å©
-	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(255, 0, 255))) //¸Ê¿¡ ´êÀ¸¸é »ç¶óÁü
+	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(0, 0, 255))) //¸Ê¿¡ ´êÀ¸¸é »ç¶óÁü
 	{
 		return true;
 	}

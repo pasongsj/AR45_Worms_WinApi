@@ -28,12 +28,18 @@ private:
 	void SetAirPlanePos();
 	void AirPlaneMove(float _DeltaTime);
 	void Attack(float _DeltaTime);
-	void MissileMove(float _DeltaTime);
+	void Firing(float _DeltaTime);
 	void SetMissiles();
+	void Explosion();
+	void CameraUpdate();
 
 	GameEngineRender* Airplane = nullptr;
 
 	float4 AirPlaneStartPos = { 0,0 };
+	float4 TargetPos = { 0,0 };
+
+	float4 PrevPos = { 0,0 };
+	float4 CurPos = { 0,0 };
 
 	bool isMoveRight = 0;
 	bool isHideAirPlane = false;
@@ -41,5 +47,6 @@ private:
 	float4 MiddleMissileStartPos = { 0,0 };
 
 	std::vector<GameEngineRender*> MissileList;
+	std::vector<GameEngineCollision*> MissileCollisionList;
 };
 

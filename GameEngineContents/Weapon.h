@@ -60,7 +60,7 @@ protected:
 	//float4 PlayerPos = float4::Zero;				// 플레이어 위치 ---> 지울거
 	int BombScale = 0;				// 폭발 범위
 
-	WeaponNum WeaponNumber;							// 무기 이름에 해당하는 Number
+	int WeaponNumber;							// 무기 이름에 해당하는 Number
 	std::string WeaponName;							// 무기 이름
 
 	GameEngineImage* MapCollision = nullptr;		//충돌맵
@@ -74,7 +74,7 @@ protected:
 	float CurTime = 0.0f;
 	float TimeCount = 0.0f;		
 	float TimeCount_2 = 0.0f;
-
+	float4 ScreenSize = { 0,0 };
 	//GameEngineRender* AimingLine = nullptr;
 	virtual void Init() {};
 	virtual bool CheckCollision(GameEngineCollision* _Col); // 가상화 삭제여부 추후 고민

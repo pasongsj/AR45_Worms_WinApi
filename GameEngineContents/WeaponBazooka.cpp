@@ -109,6 +109,8 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	GetLevel()->CreateActor<MapModifier>();
 
+	ScreenSize = GameEngineWindow::GetScreenSize();
+
 	WeaponName = "Bazooka";
 
 	ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
@@ -208,20 +210,11 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 		return;
 	}
 
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
-
 	if (isSet == false)
 	{
 
-		for (int i = 0; i < PlayerList.size(); i++)
-		{
-			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
-			{
-				WeaponRender->SetPosition(PlayerList[i]->GetPos() + ShootDir * 30);
-				WeaponCollision->SetPosition(PlayerList[i]->GetPos() + ShootDir * 30);
-				break;
-			}
-		}
+		WeaponRender->SetPosition(CurPlayer->GetPos() + ShootDir * 30);
+		WeaponCollision->SetPosition(CurPlayer->GetPos() + ShootDir * 30);
 
 		Dir = ShootDir;
 
@@ -475,21 +468,15 @@ void WeaponBazooka::MakeSmoke()
 {
 	TimeCounting();
 
-	if (TimeCount > 0.03)
+	if (TimeCount > 0.06)
 	{
 		float4 BaZooka = WeaponRender->GetActorPlusPos();
 
-		for (int i = 0; i < 8; i++)
-		{
-			float X = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
-			float Y = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
-
-			GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
-			Smoke->SetPosition(BaZooka + -ShootDir * float4{X, Y} + float4{0, -15});
-			Smoke->SetScale({ 60, 60 });
-			Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.01f , .Loop = false });
-			Smoke->ChangeAnimation("Smoke");
-		}
+		GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+		Smoke->SetPosition(BaZooka + float4{0, -15});
+		Smoke->SetScale({ 60, 60 });
+		Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.01f , .Loop = false });
+		Smoke->ChangeAnimation("Smoke");
 
 		TimeCount = 0;
 	}

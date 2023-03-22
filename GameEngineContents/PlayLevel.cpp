@@ -401,7 +401,7 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 	CreateActor<WeaponAirStrike>();
 }
