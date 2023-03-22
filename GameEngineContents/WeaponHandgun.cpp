@@ -99,7 +99,7 @@ void WeaponHandgun::Firing(float _DeltaTime)
 		DelayTime -= _DeltaTime;
 		if (DelayTime < 0)
 		{
-			DelayTime = 0.1f;
+			DelayTime = 0.5f;
 			for (int i = 0; i < BulletCount; i++)
 			{
 				if (isShooted[i] == false)
@@ -116,7 +116,7 @@ void WeaponHandgun::Firing(float _DeltaTime)
 			if (true == isShooted[i] && true == HandgunCollision[i]->IsUpdate())
 			{
 				HandgunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
-				if (true == WeaponHandgun::CheckCollision(HandgunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+				if (true == CheckCollision(HandgunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{
 					MapModifier::MainModifier->CreateHole(GetPos() + HandgunCollision[i]->GetPosition(), 11);
 					HandgunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
@@ -136,18 +136,17 @@ void WeaponHandgun::WeaponHandgunInit()
 	HandgunCollision.push_back(Collision);
 	isShooted.push_back(false);
 	//HandgunDir.push_back(float4::Right);
-	float DelayTime = 0.1f;
+	DelayTime = 0.5f;
 
 }
 
 void WeaponHandgun::ResetWeapon()
 {
 	isFire = false;
-	float DelayTime = 0.1f;
+	DelayTime = 0.5f;
 	for (int i = 0; i < BulletCount; i++)
 	{
 		isShooted[i] = false;
-		//HandgunDir[i] = float4::Right;
 		HandgunCollision[i]->SetPosition(float4::Zero);
 		HandgunCollision[i]->On();
 	}

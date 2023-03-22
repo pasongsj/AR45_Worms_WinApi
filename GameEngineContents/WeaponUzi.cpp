@@ -22,7 +22,7 @@ void WeaponUzi::Start()
 	WeaponName = "Uzi";
 	EffectGravity = false;
 	isBlocked = true;
-	MoveSpeed = 600.0f;
+	MoveSpeed = 1200.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
 
@@ -56,28 +56,40 @@ void WeaponUzi::Update(float _DeltaTime)
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
+	if (true == IsDone())
+	{
+		isWeaponDone = true;
+	}
+
+}
+
+bool WeaponUzi::IsDone()
+{
+	for (int i = 0; i < BulletCount; i++)
+	{
+		if (true == UziCollision[i]->IsUpdate())
+		{
+			return false;
+		}
+
+	}
+	return true;
 }
 
 void WeaponUzi::CheckFiring()
 {
-	if (PressShoot()) // 발사체크
+
+	if (false == isFire)
 	{
-		for (int i = 0; i < BulletCount; i++)
+		if (PressShoot()) // 발사체크
 		{
-			if (isShooted[i] == false)
-			{
-				isShooted[i] = true;
-				UziDir[i] = Dir; // 발사시 방향설정
-				break;
-			}
+			isFire = true;
 		}
-	}
-	else // 방향체크
-	{
 		PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
+
 	}
 
 }
@@ -85,41 +97,40 @@ void WeaponUzi::CheckFiring()
 
 void WeaponUzi::Firing(float _DeltaTime)
 {
-	//bool isRemainBullet = false;
-	for (int i = 0; i < BulletCount; i++)
-	{
-		if (true == isShooted[i] && true == UziCollision[i]->IsUpdate())
-		{
-			//isRemainBullet = true;
-			WeaponMove(UziCollision[i], _DeltaTime, UziDir[i]);
 
-			if (true == WeaponUzi::CheckCollision(UziCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+	if (true == isFire)
+	{
+		DelayTime -= _DeltaTime;
+		if (DelayTime < 0)
+		{
+			DelayTime = 0.1f;
+			for (int i = 0; i < BulletCount; i++)
 			{
-				MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), 50);
-				UziCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+				if (isShooted[i] == false)
+				{
+					isShooted[i] = true;
+					break;
+				}
+
+			}
+		}
+
+		for (int i = 0; i < BulletCount; i++)
+		{
+			if (true == isShooted[i] && true == UziCollision[i]->IsUpdate())
+			{
+				UziCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
+				if (true == CheckCollision(UziCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+				{
+					MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), 11);
+					UziCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+				}
 			}
 		}
 	}
 
 }
 
-
-void WeaponUzi::WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir)
-{
-	if (false == _Col->IsUpdate())
-	{
-		return;
-	}
-
-	if (true == EffectGravity)
-	{
-
-	}
-	else // 중력의 영향을 받지 않음.
-	{
-		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
-	}
-}
 
 void WeaponUzi::Render(float _DeltaTime)
 {
@@ -133,16 +144,18 @@ void WeaponUzi::WeaponUziInit()
 
 	UziCollision.push_back(Collision);
 	isShooted.push_back(false);
-	UziDir.push_back(float4::Right);
+	//UziDir.push_back(float4::Right);
+	DelayTime = 0.1f;
 
 }
 
 void WeaponUzi::ResetWeapon()
 {
+	isFire = false;
+	DelayTime = 0.1f;
 	for (int i = 0; i < BulletCount; i++)
 	{
 		isShooted[i] = false;
-		UziDir[i] = float4::Right;
 		UziCollision[i]->SetPosition(float4::Zero);
 		UziCollision[i]->On();
 	}

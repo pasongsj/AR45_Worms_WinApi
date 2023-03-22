@@ -10,6 +10,7 @@
 #include "GlobalValue.h"
 #include "Leaf.h"
 #include "WeaponHandgun.h"
+#include "WeaponUzi.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -356,7 +357,7 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 }
 
@@ -374,6 +375,7 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	//CreateActor<WeaponShotgun>();
+	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
+	CreateActor<WeaponUzi>();
 }

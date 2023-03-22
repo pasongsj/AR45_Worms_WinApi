@@ -28,7 +28,7 @@ private:
 	int BulletCount = 6;
 	bool isFire = false;
 
-	float DelayTime = 0.1f;
+	float DelayTime = 0.5f;
 
 	std::vector <GameEngineCollision*> HandgunCollision;							// index에 해당하는 총알 콜리전
 	//std::vector <float4> HandgunDir;		//수정필요								// index에 해당하는 총알 발사 방향

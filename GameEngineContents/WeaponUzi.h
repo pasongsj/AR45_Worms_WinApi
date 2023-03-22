@@ -26,16 +26,20 @@ protected:
 private:
 
 	int BulletCount = 10;
+	bool isFire = false;
+
+	float DelayTime = 0.1f;
 
 	std::vector <GameEngineCollision*> UziCollision;							// index에 해당하는 총알 콜리전
-	std::vector <float4> UziDir;		//수정필요								// index에 해당하는 총알 발사 방향
+	//std::vector <float4> UziDir;		//수정필요								// index에 해당하는 총알 발사 방향
 
 	std::vector<bool> isShooted;			//수정 필요								// index에 해당하는 총알이 발사되었는지
 
 	void WeaponUziInit();														// 총알 추가
-	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// 총알 이동
+	//void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// 총알 이동
 	void Firing(float _DeltaTime);
 	void CheckFiring();
 
+	bool IsDone();
 };
 
