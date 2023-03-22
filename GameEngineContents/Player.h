@@ -84,7 +84,9 @@ private:
 	PlayerHPUI* HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
 	int PlayerHP = 100;
 	float GetDamagedTime = 0.0f;
-
+	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
+	
+	
 	bool IsMyTurn = false; //내 턴인지 체크
 
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
