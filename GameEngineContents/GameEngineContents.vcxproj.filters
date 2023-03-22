@@ -70,6 +70,9 @@
     <ClInclude Include="HomingMissile.h">
       <Filter>Weapon\F1</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponClusterBomb.h">
+      <Filter>Weapon\F2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="HomingMissile.cpp">
       <Filter>Weapon\F1</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponClusterBomb.cpp">
+      <Filter>Weapon\F2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
