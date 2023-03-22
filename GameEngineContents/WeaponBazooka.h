@@ -69,5 +69,12 @@ private:
 	Player* PrevPlayer = nullptr;
 
 	std::vector<GameEngineRender*> ChargingRender;
+
+
+	float4 PrevCamPos = float4::Zero;
+	float4 CurPlayerPos = float4::Zero;
+	float4 LerpCamPos = float4::Zero;
+	float fLerpRatio = 0.f;
+	float fLerpSpeed = 2.f;
 };
 

@@ -27,10 +27,13 @@ void WeaponBazooka::Start()
 
 void WeaponBazooka::Update(float _DeltaTime)
 {
-	firing(_DeltaTime);
-	Charging();
-	BazookaOn();
-	BazAiming();
+	if(isAttack == false)
+	{
+		firing(_DeltaTime);
+		Charging();
+		BazookaOn();
+		BazAiming();
+	}
 
 	if(GameEngineInput::IsPress("Shoot") == false)
 	{
@@ -43,14 +46,33 @@ void WeaponBazooka::Update(float _DeltaTime)
 		ExplosionAnimation->Off();
 
 		isEndBazOn = false;
-
-		CurPlayer->ChangePlayerAnimation("BazOff");
 		isExplosion = false;
+
+		TimeCount = 0;
+		fLerpRatio = 0;
 	}
 
 	if (isFire == true)
 	{
+		GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		MakeSmoke();
+	}
+
+	if (isExplosion == false && isAttack == true)
+	{
+		TimeCounting();
+		if (TimeCount >= 1.0f && fLerpRatio < 1)
+		{
+			CurPlayerPos = CurPlayer->GetPos();
+			PrevCamPos = GetLevel()->GetCameraPos();
+			fLerpRatio += _DeltaTime * fLerpSpeed;
+			GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
+		}
+
+		if (fLerpRatio >= 1)
+		{
+			CurPlayer->ChangePlayerAnimation("BazOff");
+		}
 	}
 }
 
@@ -59,6 +81,7 @@ void WeaponBazooka::Render(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("ChangePlayer"))
 	{
 		CurPlayer->ChangePlayerAnimation("BazOff");
+		CurPlayer->SetCanIMove(true);
 		ResetWeapon();
 		isAttack = false;
 	}
@@ -122,11 +145,11 @@ void WeaponBazooka::CreatePlayerAnimation()
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f, false);
 		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.075f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.05f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.05f, false);
 
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 7, 0.075f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 7, 0.075f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 7, 0.05f, false);
+		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 7, 0.05f, false);
 	}
 }
 
@@ -179,6 +202,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 	if (isAiming == true && isEndCharging() == true)
 	{
+		CurPlayer->ChangePlayerAnimation("BazOff");
 		ChargingRenderOff();
 		isFire = true;
 	}
@@ -197,8 +221,8 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		{
 			if (true == dynamic_cast<Player*>(PlayerList[i])->GetIsMyTurn())
 			{
-				WeaponRender->SetPosition(PlayerList[i]->GetPos());
-				WeaponCollision->SetPosition(PlayerList[i]->GetPos());
+				WeaponRender->SetPosition(PlayerList[i]->GetPos() + ShootDir * 30);
+				WeaponCollision->SetPosition(PlayerList[i]->GetPos() + ShootDir * 30);
 				break;
 			}
 		}
@@ -210,7 +234,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		isSet = true;
 	}
 
-	Gravity = 3.0f * _DeltaTime;
+	Gravity = 2.0f * _DeltaTime;
 
 	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
@@ -245,7 +269,6 @@ void WeaponBazooka::Explosion() //폭발
 		isAttack = true;
 		isExplosion = true;
 
-		CurPlayer->SetCanIMove(true);
 
 		DamageToPlayer();
 	}
@@ -258,12 +281,12 @@ void WeaponBazooka::ChangeBazReadyAnimation()
 
 void WeaponBazooka::BazookaOn()
 {
-	if (CurPlayer->GetPlayerState() == PlayerState::IDLE && isBazOn == false && isAttack == false)
+	if (CurPlayer->GetPlayerState() == PlayerState::IDLE && isBazOn == false)
 	{
 		TimeCounting();
 	}
 
-	if (TimeCount >= 0.2f && isBazOn == false)
+	if (TimeCount >= 0.2f && isBazOn == false && isAttack == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
 		TimeCount = 0;
@@ -310,19 +333,18 @@ void WeaponBazooka::BazAiming()
 		return;
 	}
 
+	if (isFire == true)
+	{
+		return;
+	}
+
+
 	//바주카를 꺼내는 모션이 끝나고 0.5초뒤에 에임조준 애니메이션으로 변경
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
-		TimeCounting();
-
-		CurPlayer->SetPlayerAnimationFrame(5);
-
-		if (TimeCount > 0.5f) 
-		{
 			isAiming = true;
 			CurPlayer->ChangePlayerAnimation("bazAim", CurIndex);
 			TimeCount = 0;
-		}
 	}
 
 	//에임조준 에니메이션이 시작되면, 방향키를 통해 각도조절 가능
@@ -414,7 +436,7 @@ void WeaponBazooka::ChargingRenderOn()
 	
 	if (TimeCount_2 > 0.05)
 	{
-		ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ ShootDir.x * 3 * (CountingIndex + 1), ShootDir.y * 3 * (CountingIndex + 1) });
+		ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ ShootDir.x * 4 * (CountingIndex + 1), ShootDir.y * 4 * (CountingIndex + 1) });
 		ChargingRender[CountingIndex]->On();
 
 		TimeCount_2 = 0;

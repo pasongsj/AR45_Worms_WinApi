@@ -359,7 +359,7 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	//CreateActor<WeaponBazooka>();
+	CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 }
 
@@ -378,5 +378,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
-	CreateActor<WeaponUzi>();
+	//CreateActor<WeaponUzi>();
 }
