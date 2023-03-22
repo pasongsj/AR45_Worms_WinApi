@@ -102,6 +102,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WindUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WormsCore.h">
       <SubType>
       </SubType>
@@ -188,6 +192,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="WeaponUzi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WindUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>

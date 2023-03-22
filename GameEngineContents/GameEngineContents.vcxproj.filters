@@ -48,9 +48,6 @@
     <ClInclude Include="WeaponUzi.h">
       <Filter>Weapon\F3</Filter>
     </ClInclude>
-    <ClInclude Include="Leaf.h">
-      <Filter>Play\Map</Filter>
-    </ClInclude>
     <ClInclude Include="WeaponBazooka.h">
       <Filter>Weapon\F1</Filter>
     </ClInclude>
@@ -62,6 +59,16 @@
     </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon\F5</Filter>
+    </ClInclude>
+    <ClInclude Include="HomingMissile.h" />
+    <ClInclude Include="WeaponAirStrike.h" />
+    <ClInclude Include="MouseObject.h" />
+    <ClInclude Include="WeaponClusterBomb.h" />
+    <ClInclude Include="Leaf.h">
+      <Filter>Play\WindEtc</Filter>
+    </ClInclude>
+    <ClInclude Include="WindUI.h">
+      <Filter>Play\WindEtc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,11 +128,19 @@
     <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon\F5</Filter>
     </ClCompile>
-    <ClCompile Include="Leaf.cpp">
-      <Filter>Play\Map</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingMissile.cpp" />
+    <ClCompile Include="Player_Animation.cpp" />
+    <ClCompile Include="WeaponAirStrike.cpp" />
+    <ClCompile Include="MouseObject.cpp" />
+    <ClCompile Include="WeaponClusterBomb.cpp" />
+    <ClCompile Include="Leaf.cpp">
+      <Filter>Play\WindEtc</Filter>
+    </ClCompile>
+    <ClCompile Include="WindUI.cpp">
+      <Filter>Play\WindEtc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +179,9 @@
     </Filter>
     <Filter Include="Weapon\F5">
       <UniqueIdentifier>{12ee0452-325a-4b53-a3d9-4895c7a7616b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\WindEtc">
+      <UniqueIdentifier>{11c06892-4145-489c-bb05-18b64b4efa78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@
 #include "WeaponAirStrike.h"
 #include "HomingMissile.h"
 #include "WeaponMinigun.h"
+#include "WindUI.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -235,6 +236,15 @@ void PlayLevel::ImageLoad()
 			}
 
 		}
+        //WindBar UI
+        {
+        
+            GameEngineImage* WindBarAnim = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("windBar.bmp"));
+            WindBarAnim->Cut(5, 4);
+        
+            GameEngineImage* WindBarGauge = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("windGauge.bmp"));
+            GameEngineImage* WindBarHider = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("windBarHider.bmp"));
+        }
 
 
 	}
@@ -372,8 +382,11 @@ void PlayLevel::Loading()
 	{
 		WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
 	}
+    {
+        Map* Actor = CreateActor<Map>();
+    }
 	{
-		Map* Actor = CreateActor<Map>();
+        WindUI* WindUIActor = CreateActor<WindUI>();
 	}
 
 
