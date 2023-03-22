@@ -418,7 +418,7 @@ void PlayLevel::Update(float _DeltaTime)
 {
 	//CreateLeaf(_DeltaTime);
 	PlayerChange(_DeltaTime);
-	MoveCamForMouse(_DeltaTime);
+	//MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();

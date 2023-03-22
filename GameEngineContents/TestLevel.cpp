@@ -167,7 +167,7 @@ void TestLevel::Update(float _DeltaTime)
 	//}
 
 	PlayerChange(_DeltaTime);
-	MoveCamForMouse(_DeltaTime);
+	//MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();

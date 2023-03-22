@@ -32,7 +32,6 @@
       <Filter>Play\Player</Filter>
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
-    <ClInclude Include="MouseObject.h" />
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="TestLevel.h">
       <Filter>Test</Filter>
@@ -55,9 +54,6 @@
     <ClInclude Include="WeaponBazooka.h">
       <Filter>Weapon\F1</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponAirStrike.h">
-      <Filter>Weapon\F6</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -66,12 +62,6 @@
     </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon\F5</Filter>
-    </ClInclude>
-    <ClInclude Include="HomingMissile.h">
-      <Filter>Weapon\F1</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponClusterBomb.h">
-      <Filter>Weapon\F2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +97,6 @@
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
-    <ClCompile Include="Leaf.cpp" />
-    <ClCompile Include="MouseObject.cpp" />
-    <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="WeaponMinigun.cpp">
       <Filter>Weapon\F3</Filter>
     </ClCompile>
@@ -125,9 +112,6 @@
     <ClCompile Include="WeaponBazooka.cpp">
       <Filter>Weapon\F1</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponAirStrike.cpp">
-      <Filter>Weapon\F6</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -137,11 +121,11 @@
     <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon\F5</Filter>
     </ClCompile>
-    <ClCompile Include="HomingMissile.cpp">
-      <Filter>Weapon\F1</Filter>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>Play\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Player_Animation.cpp">
-      <Filter>Play\Player</Filter>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
