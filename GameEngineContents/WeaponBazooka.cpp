@@ -110,6 +110,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	GetLevel()->CreateActor<MapModifier>();
 
 	ScreenSize = GameEngineWindow::GetScreenSize();
+	WeaponNumber = static_cast<int>(WeaponNum::Bazooka);
 
 	WeaponName = "Bazooka";
 

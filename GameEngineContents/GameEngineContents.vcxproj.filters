@@ -12,9 +12,6 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>Play</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponBazooka.h">
-      <Filter>Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
@@ -24,12 +21,6 @@
     <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="TitleBack.h">
       <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponGrenade.h">
-      <Filter>Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponSheep.h">
-      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Play\Player</Filter>
@@ -61,8 +52,23 @@
     <ClInclude Include="Leaf.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponBazooka.h">
+      <Filter>Weapon\F1</Filter>
+    </ClInclude>
     <ClInclude Include="WeaponAirStrike.h">
+      <Filter>Weapon\F6</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
       <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponGrenade.h">
+      <Filter>Weapon\F2</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponSheep.h">
+      <Filter>Weapon\F5</Filter>
+    </ClInclude>
+    <ClInclude Include="HomingMissile.h">
+      <Filter>Weapon\F1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +82,6 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Play</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponBazooka.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Play\Map</Filter>
     </ClCompile>
@@ -87,12 +90,6 @@
     </ClCompile>
     <ClCompile Include="TitleBack.cpp">
       <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponGrenade.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponSheep.cpp">
-      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Play\Player</Filter>
@@ -110,9 +107,6 @@
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="WeaponAirStrike.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="WeaponMinigun.cpp">
       <Filter>Weapon\F3</Filter>
     </ClCompile>
@@ -124,6 +118,24 @@
     </ClCompile>
     <ClCompile Include="WeaponHandgun.cpp">
       <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBazooka.cpp">
+      <Filter>Weapon\F1</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAirStrike.cpp">
+      <Filter>Weapon\F6</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponGrenade.cpp">
+      <Filter>Weapon\F2</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSheep.cpp">
+      <Filter>Weapon\F5</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingMissile.cpp">
+      <Filter>Weapon\F1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +162,18 @@
     </Filter>
     <Filter Include="Weapon\F3">
       <UniqueIdentifier>{997e149e-9783-4176-b653-e310f1ea285d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F1">
+      <UniqueIdentifier>{1e7782f9-2d02-4dfb-acb1-e72793bfa6a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F6">
+      <UniqueIdentifier>{f62b037a-9724-4695-a15e-bc7418340d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F2">
+      <UniqueIdentifier>{99b989f3-1722-4751-be71-f239379cc4a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F5">
+      <UniqueIdentifier>{12ee0452-325a-4b53-a3d9-4895c7a7616b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

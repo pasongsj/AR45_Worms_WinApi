@@ -14,6 +14,7 @@
 #include "WeaponUzi.h"
 #include "WeaponInterFace.h"
 #include "WeaponAirStrike.h"
+#include "HomingMissile.h"
 #include "WeaponMinigun.h"
 
 
@@ -120,6 +121,10 @@ void PlayLevel::ImageLoad()
 
 		GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
 		BazSmoke->Cut(1, 64);
+        GameEngineImage* HomingBlue = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingBlue.bmp"));
+        GameEngineImage* HomingRed = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRed.bmp"));
+        GameEngineImage* HomingRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRot.bmp"));
+
 
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
@@ -405,6 +410,7 @@ void PlayLevel::Loading()
 	//CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 	CreateActor<WeaponAirStrike>();
+	//CreateActor<HomingMissile>();
 }
 
 

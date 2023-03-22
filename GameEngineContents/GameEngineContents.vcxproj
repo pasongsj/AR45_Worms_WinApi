@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HomingMissile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponAirStrike.h">
       <SubType>
       </SubType>
@@ -100,6 +104,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HomingMissile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponAirStrike.cpp">
       <SubType>
       </SubType>

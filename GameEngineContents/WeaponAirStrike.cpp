@@ -46,6 +46,10 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 
 	ScreenSize = GameEngineWindow::GetScreenSize();
 
+	WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
+
+    BombScale = 50;
+
 	MissileList.reserve(5);
 }
 
@@ -198,7 +202,7 @@ void WeaponAirStrike::Explosion()
 	{
 		if (MissileCollisionList[i]->GetPosition().y > 0 && MissileCollisionList[i]->IsUpdate() == true && CheckCollision(MissileCollisionList[i]) == true)
 		{
-			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), 50);
+			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), BombScale);
 			MissileCollisionList[i]->Off();
 			MissileList[i]->Off();
 		}

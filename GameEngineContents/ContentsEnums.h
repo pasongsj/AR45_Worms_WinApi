@@ -31,6 +31,7 @@ enum class WeaponNum
 {
 	None,				//무기없음
 	Bazooka,			//F1
+    HomingMissile,      //F1
 	Grenade,			//F2
 	ClusterBomb,
 	Shotgun,			//F3
