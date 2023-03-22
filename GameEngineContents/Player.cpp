@@ -1,4 +1,7 @@
 #include "Player.h"
+
+#include<iostream>
+
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEngineCore/GameEngineResources.h>
@@ -10,6 +13,7 @@
 #include "PlayerHPUI.h"
 #include "PlayerGetDamagedUI.h"
 #include "ContentsEnums.h"
+#include "Weapon.h"
 
 Player::Player() 
 {
@@ -90,22 +94,21 @@ void Player::GetDamaged(int _Damage)
 	}
 }
 
+void Player::CheckTurn()
+{
+    if (false == IsMyTurn || nullptr == CurWeapon)
+    {
+        return;
+    }
+
+    if (true == CurWeapon->IsWeaponDone())
+    {
+        IsMyTurn = false;
+    }
+}
+
 void Player::Update(float _DeltaTime)
 {
-
-	/*switch (a)
-	{
-	case:1
-
-	case:2
-
-
-	case:3
-
-
-	default:
-		break;
-	}*/
 	MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
 	
 	if (true == IsMyTurn) //내 턴일때만 스테이트 변경
@@ -115,7 +118,8 @@ void Player::Update(float _DeltaTime)
 	GravityApplied();
 	MoveCalculation(_DeltaTime);
 	IsGroundCheck();
-	Test();
+    CheckTurn();
+    Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
 	GetDamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
@@ -186,6 +190,32 @@ void Player::SetMoveAngle()
 
 	float4 RightAngleVector = GetPos() - PlayerRightPos;
 	RightMoveAngle = RightAngleVector.NormalizeReturn().GetAnagleDeg();
+}
+
+bool Player::ReturnCanIMove(PlayerAngleDir _Dir)
+{
+    if (PlayerAngleDir::Left == _Dir)
+    {
+        if ((LeftMoveAngle <= 1.0f && LeftMoveAngle >= -1.0f) || LeftMoveAngle >= 270 + AngleLimit)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if ((RightMoveAngle <= 181.0f && RightMoveAngle >= 179.0f) || RightMoveAngle <= 270 - AngleLimit)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
@@ -272,6 +302,36 @@ void Player::Render(float _DeltaTime)
 		std::string PlayerIsGround = "PlayerIsGround = ";
 		PlayerIsGround = PlayerIsGround + std::to_string(IsGround);
 		GameEngineLevel::DebugTextPush(PlayerIsGround);
+
+        if (nullptr != CurWeapon)
+        {
+            std::string PlayerCurWeapon = "PlayerCurWeapon = ";
+            PlayerCurWeapon = PlayerCurWeapon + std::to_string(CurWeapon->GetWeaponNumber());
+            GameEngineLevel::DebugTextPush(PlayerCurWeapon);
+        }
+
+        std::string PlayerStateText = "PlayerState = ";
+
+        switch (StateValue)
+        {
+        case PlayerState::IDLE:
+            PlayerStateText = PlayerStateText + "IDLE 상태";
+            break;
+        case PlayerState::MOVE:
+            PlayerStateText = PlayerStateText + "MOVE 상태";
+            break;
+        case PlayerState::JUMP:
+            PlayerStateText = PlayerStateText + "JUMP 상태";
+            break;
+        case PlayerState::EQUIPWEAPON:
+            PlayerStateText = PlayerStateText + "EQUIPWEAPON 상태";
+            break;
+        default:
+            PlayerStateText = PlayerStateText + "UNKNOWN 상태";
+            break;
+        }
+
+        GameEngineLevel::DebugTextPush(PlayerStateText);
 	}
 
 }

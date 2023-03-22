@@ -26,6 +26,11 @@ void Player::ChangeState(PlayerState _State)
 		JumpStart();
 		break;
 	}
+    case PlayerState::EQUIPWEAPON:
+    {
+        EquipWeaponStart();
+        break;
+    }
 	default:
 		break;
 	}
@@ -47,6 +52,11 @@ void Player::ChangeState(PlayerState _State)
 		JumpEnd();
 		break;
 	}
+    case PlayerState::EQUIPWEAPON:
+    {
+        EquipWeaponEnd();
+        break;
+    }
 	default:
 		break;
 	}
@@ -71,6 +81,11 @@ void Player::UpdateState(float _DeltaTime)
 		JumpUpdate(_DeltaTime);
 		break;
 	}
+    case PlayerState::EQUIPWEAPON:
+    {
+        EquipWeaponUpdate(_DeltaTime);
+        break;
+    }
 	default:
 		break;
 	}
@@ -79,9 +94,13 @@ void Player::UpdateState(float _DeltaTime)
 void Player::IdleStart()
 {
 	DirCheck("Idle");
+    StateCalTime = 0.0f;
+
 }
 void Player::IdleUpdate(float _DeltatTime)
 {
+    StateCalTime += _DeltatTime;
+
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
 	{
 		return;
@@ -91,14 +110,20 @@ void Player::IdleUpdate(float _DeltatTime)
 	{
 		if (true == GameEngineInput::IsDown("MoveLeft"))
 		{
-			ChangeState(PlayerState::MOVE);
-			return;
+            if (true == ReturnCanIMove(PlayerAngleDir::Left))
+            {
+                ChangeState(PlayerState::MOVE);
+                return;
+            }
 		}
 
 		if (true == GameEngineInput::IsDown("MoveRight"))
 		{
-			ChangeState(PlayerState::MOVE);
-			return;
+            if (true == ReturnCanIMove(PlayerAngleDir::Right))
+            {
+                ChangeState(PlayerState::MOVE);
+                return;
+            }
 		}
 
 		if (true == GameEngineInput::IsDown("Jump"))
@@ -107,6 +132,12 @@ void Player::IdleUpdate(float _DeltatTime)
 			return;
 		}
 	}
+
+    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 3.0f)
+    {
+        ChangeState(PlayerState::EQUIPWEAPON);
+        return;
+    }
 
 }
 void Player::IdleEnd()
@@ -136,7 +167,7 @@ void Player::MoveUpdate(float _DeltatTime)
 
 	if (GameEngineInput::IsPress("MoveLeft"))
 	{
-		if ((LeftMoveAngle <= 1.0f && LeftMoveAngle >= -1.0f) || LeftMoveAngle >= 285.0f)
+		if (true == ReturnCanIMove(PlayerAngleDir::Left))
 		{
 			MoveDir += float4::Left * MoveSpeed;
 		}
@@ -149,7 +180,7 @@ void Player::MoveUpdate(float _DeltatTime)
 	
 	if (GameEngineInput::IsPress("MoveRight"))
 	{
-		if ((RightMoveAngle <= 181.0f && RightMoveAngle >= 179.0f) || RightMoveAngle <= 255.0f)
+		if (true == ReturnCanIMove(PlayerAngleDir::Right))
 		{
 			MoveDir += float4::Right * MoveSpeed;
 		}
@@ -190,4 +221,17 @@ void Player::JumpUpdate(float _DeltatTime)
 void Player::JumpEnd()
 {
 
+}
+
+void Player::EquipWeaponStart()
+{
+    //현재 무기 애니메이션으로 변경
+}
+void Player::EquipWeaponUpdate(float _DeltatTime)
+{
+
+}
+void Player::EquipWeaponEnd()
+{
+    //장비한 무기 애니메이션용 각도 리셋
 }

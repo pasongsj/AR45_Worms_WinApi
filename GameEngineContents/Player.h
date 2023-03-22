@@ -7,7 +7,15 @@ enum class PlayerState
 	IDLE,
 	MOVE,
 	JUMP,
+    EQUIPWEAPON,
 };
+
+enum class PlayerAngleDir
+{
+    Left,
+    Right,
+};
+
 // 설명 : 플레이어 클래스
 class Weapon;
 class GameEngineImage;
@@ -98,6 +106,7 @@ private:
 	float GetDamagedTime = 0.0f;
 	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
 	
+    void CheckTurn();
 	bool IsMyTurn = false; //내 턴인지 체크
 
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
@@ -110,9 +119,11 @@ private:
 	void IsGroundCheck();
 	std::string_view AnimationDir = "";
 
+    bool ReturnCanIMove(PlayerAngleDir _Dir);
 	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
 	float LeftMoveAngle = 0.0f; 
 	float RightMoveAngle = 0.0f; 
+    const float AngleLimit = 15.0f; //각도 제한용 상수
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 300.0f;
@@ -126,6 +137,8 @@ private:
 	//플레이어 스테이트 관련	
 	void ChangeState(PlayerState _State);
 	void UpdateState(float _Time);
+
+    float StateCalTime = 0.0f; //스테이트 내에서 시간 계산이 필요할 때
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;
@@ -143,6 +156,10 @@ private:
 	void JumpStart();
 	void JumpUpdate(float _DeltatTime);
 	void JumpEnd();
+
+    void EquipWeaponStart();
+    void EquipWeaponUpdate(float _DeltatTime);
+    void EquipWeaponEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
