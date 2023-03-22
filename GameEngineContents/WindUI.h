@@ -21,10 +21,16 @@ protected:
     void Start() override;
     void Update(float _Deltatime) override;
 
-
 private:
     GameEngineRender* pLAnim = nullptr;
     GameEngineRender* pRAnim = nullptr;
+    GameEngineRender* pLWindBarHide = nullptr;
+    GameEngineRender* pRWindBarHide = nullptr;
+
+    float4 RHiderScale = float4::Zero;
+    float4 RHiderResult = float4::Zero;
+    float4 LHiderScale = float4::Zero;
+    float4 LHiderResult = float4::Zero;
 
 };
 

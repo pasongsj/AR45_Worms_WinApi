@@ -436,6 +436,10 @@ void PlayLevel::Update(float _DeltaTime)
 	{
 		DebugRenderSwitch();
 	}
+
+    float4 WindPhase = float4{ static_cast<float>(GlobalValue::gValue.GetWindPhase()) ,0.f};
+    std::string windstring = WindPhase.ToString();
+    DebugTextPush(windstring);
 }
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
