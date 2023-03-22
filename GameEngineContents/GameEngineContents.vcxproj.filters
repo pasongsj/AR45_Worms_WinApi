@@ -140,8 +140,8 @@
     <ClCompile Include="HomingMissile.cpp">
       <Filter>Weapon\F1</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponClusterBomb.cpp">
-      <Filter>Weapon\F2</Filter>
+    <ClCompile Include="Player_Animation.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

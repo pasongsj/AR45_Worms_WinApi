@@ -88,6 +88,7 @@ private:
 	
 	bool CanIMove = true;
 
+    void CreateAnimation();
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
 

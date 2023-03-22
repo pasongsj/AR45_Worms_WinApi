@@ -112,6 +112,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Player_Animation.cpp" />
     <ClCompile Include="WeaponAirStrike.cpp">
       <SubType>
       </SubType>
