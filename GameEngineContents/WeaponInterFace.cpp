@@ -21,13 +21,12 @@ void WeaponInterFace::Start()
 	if (false == GameEngineInput::IsKey("RightClock"))
 	{
 		GameEngineInput::CreateKey("RightClock", VK_RBUTTON);
-		int a = 0;
-	
+		
 	}
-
-
+	Button*A  = GetLevel()->CreateActor<Button>();
+	A -> setting("2020.bmp", "weaponSheet.bmp", "2020.bmp", { 500,500 }, { 100,100 }, static_cast<int>(5), false);
+	b.push_back(A);
 	{
-		//WaeponInterface = CreateRender(WormsRenderOrder::WeaPonInterFace);
 		WaeponInterface = CreateRender(2);
 		WaeponInterface->SetImage("weaponSheet.Bmp");
 		WaeponInterface->SetPosition({ 1370,740 });
@@ -87,18 +86,32 @@ void WeaponInterFace::Start()
 	}
 
 
-
+	
 
 	
 }
 
 void WeaponInterFace::Update(float _DeltaTime)
 {
+	GameEngineWindow::GetMousePosition();
+
 	
+	
+	//NewCharBtn
+	/*Button* NewCharBtn = GetLevel()->CreateActor<Button>();
+	NewCharBtn->setting(_Name.second, _Name.second, _Name.second, { 0,0 }, BtnScale, static_cast<int>(VSRenderOrder::LastUI), false);
+	NewCharBtn->GetButtonRender()->SetImage(_Name.second);
+	NewCharBtn->GetButtonRender()->EffectCameraOn();
+	Items[_Name.first] = (NewCharBtn);
+	NewCharBtn->Off();*/
+
+
 	WeaponInterFaceCollision->SetPosition({ GetLevel()->GetCameraPos().x+ 1325,GetLevel()->GetCameraPos().y+ 585 });
 	
 	WeaponInterFaceCollision2->SetPosition({ GetLevel()->GetCameraPos().x + 1355,GetLevel()->GetCameraPos().y + 585 });
 		
+
+
 	if (InterfaceMove == true)
 	{
 		

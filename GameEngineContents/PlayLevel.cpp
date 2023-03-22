@@ -7,7 +7,7 @@
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
 #include "MapModifier.h"
-
+#include "MouseObject.h"
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -179,14 +179,15 @@ void PlayLevel::ImageLoad()
 		}
 		{
 			GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("weaponSheet.bmp"));
-
-
-
-
-
 		}
-	}
+		{
+			GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("2020.bmp"));
+		}
 
+
+
+	}
+	
 }
 
 void PlayLevel::KeyLoad()
@@ -286,7 +287,7 @@ void PlayLevel::Loading()
 	SoundLoad();
 	ImageLoad();
 	KeyLoad();
-
+	MouseObject* MouseObjectInst = CreateActor<MouseObject>(2); //마우스 오브젝트 생성
 	{
 		Map* Actor = CreateActor<Map>();
 	}
@@ -322,6 +323,12 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
+	
+	
+
+
+
+
 	PlayerChange(_DeltaTime);
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))

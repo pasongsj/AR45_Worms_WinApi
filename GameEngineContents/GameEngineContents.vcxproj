@@ -23,6 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MouseObject.h" />
     <ClInclude Include="PlayerGetDamagedUI.h">
       <SubType>
       </SubType>
@@ -79,6 +80,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="PlayerGetDamagedUI.cpp">
       <SubType>
       </SubType>

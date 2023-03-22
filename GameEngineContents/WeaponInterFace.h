@@ -1,5 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/Button.h>
+#include <vector>
 class WeaponInterFace : public GameEngineActor
 {
 public:
@@ -38,8 +40,8 @@ private:
 	GameEngineCollision* WeaponInterFaceCollision9 = nullptr;
 	GameEngineCollision* WeaponInterFaceCollision10 = nullptr;
 
+	Button* A = nullptr;
 
-
-
+	std::vector<Button*> b;
 	bool InterfaceMove = true;
 };

@@ -50,6 +50,7 @@
       <Filter>Play\Player</Filter>
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
+    <ClInclude Include="MouseObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -100,6 +101,7 @@
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
+    <ClCompile Include="MouseObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
