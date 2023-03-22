@@ -2,6 +2,14 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <vector>
 
+struct Wind
+{
+	float	WindPower	= 300.f;
+	int		WindPhase	= 0;
+	float	MaxWind		= 1.19f;
+	float	WindResult	= 0.f;
+	float	WindTime	= 0.f;
+};
 // Ό³Έν :
 class Player;
 class PlayLevel : public GameEngineLevel
@@ -26,7 +34,7 @@ protected:
 
 private:
 	int iPlayerNumber = -1;
-	Player* pCurPlayer = nullptr;
+	//Player* pCurPlayer = nullptr;
 	std::vector<Player*> vecAllPlayer;
 
 
@@ -42,9 +50,14 @@ private:
 	void SoundLoad();
 	void ImageLoad();
 	void KeyLoad();
+	void CreateLeaf(float _DeltaTime);
 
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
 
+
+	Wind AddWind;
+
 };
+
 

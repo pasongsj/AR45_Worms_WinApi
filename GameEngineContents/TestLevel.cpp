@@ -15,6 +15,7 @@
 #include "WeaponShotgun.h"
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
+#include "GlobalValue.h"
 
 TestLevel::TestLevel()
 {
@@ -58,16 +59,16 @@ void TestLevel::PlayerChange(float _DeltaTime)
 		{
 			iPlayerNumber = 0;
 		}
-
+		
+		
 		//현재 플레이어의 턴 종료
-		//pCurPlayer->SetIsMyTurn(false);
-		pCurPlayer->SetIsMyTurn(false);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
+		GlobalValue::GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
-		CurPlayerPos = pCurPlayer->GetPos();
+		CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
 		PrevCamPos = GetCameraPos();
 		bCamMove = true;
 	}
@@ -144,9 +145,12 @@ void TestLevel::Loading()
 		}
 
 		iPlayerNumber = 0;
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
-		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
+
+		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
+
 	}
 	vecAllPlayer[0]->SetName("0");
 

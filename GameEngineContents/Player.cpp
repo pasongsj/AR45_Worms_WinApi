@@ -8,6 +8,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 #include "PlayerHPUI.h"
+#include "PlayerGetDamagedUI.h"
 #include "ContentsEnums.h"
 
 Player::Player() 
@@ -28,13 +29,13 @@ void Player::Start()
 		//좌측
 		//CreatePlayerAnimation("Left_Idle", "IdleLeft.bmp", 0, 5, 0.1f);
 
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Move", .ImageName = "WalkLeft.bmp", .Start = 0, .End = 14, .InterTime = 0.1f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "IdleLeft.bmp", .Start = 0, .End = 5, .InterTime = 0.05f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Move", .ImageName = "WalkLeft.bmp", .Start = 0, .End = 14, .InterTime = 0.03f });
 	}
 	{
 		//우측
-		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "IdleRight.bmp", .Start = 0, .End = 5, .InterTime = 0.1f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Right_Move", .ImageName = "WalkRight.bmp", .Start = 0, .End = 14, .InterTime = 0.1f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "IdleRight.bmp", .Start = 0, .End = 5, .InterTime = 0.05f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Move", .ImageName = "WalkRight.bmp", .Start = 0, .End = 14, .InterTime = 0.03f });
 
 	}
 
@@ -60,6 +61,8 @@ void Player::Start()
 
 void Player::SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage) //HP 이미지 등을 세팅해주는 메서드
 {
+	PlayerHPNumberImageStringView = _HPNumberImage;
+
 	HPUI = GetLevel()->CreateActor<PlayerHPUI>();
 	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage, &PlayerHP);
 }
@@ -89,6 +92,12 @@ void Player::GetDamaged(int _Damage)
 	{
 		PlayerHP -= _Damage;
 		GetDamagedTime = 0.0f;
+		
+		PlayerGetDamagedUI* DamagedUI = GetLevel()->CreateActor<PlayerGetDamagedUI>();
+		DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, _Damage);
+
+		float4 DamagedUIPos = { HPUI->GetPos().x, HPUI->GetPos().y - 20.0f };
+		DamagedUI->SetPos(DamagedUIPos);
 	}
 }
 
@@ -119,7 +128,47 @@ void Player::MoveCalculation(float _DeltaTime)
 	float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
 	NextPos = PullUpCharacter(NextPos, _DeltaTime);
 
+	SetMoveAngle();
 	SetMove(MoveDir * _DeltaTime);
+}
+
+void Player::SetMoveAngle()
+{
+	float4 PlayerLeftPos = { GetPos().x - 5, GetPos().y };
+	float4 PlayerRightPos = { GetPos().x + 5, GetPos().y };
+
+	if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+	{
+		while (true)
+		{
+			PlayerLeftPos = { PlayerLeftPos.x, PlayerLeftPos.y - 1 };
+
+			if (RGB(0, 0, 255) != ColImage->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+			{
+				break;
+			}
+		}
+	}
+
+	if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+	{
+		while (true)
+		{
+			PlayerRightPos = { PlayerRightPos.x, PlayerRightPos.y - 1 };
+
+			if (RGB(0, 0, 255) != ColImage->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+			{
+				break;
+			}
+		}
+
+	}
+
+	float4 LeftAngleVector = GetPos() - PlayerLeftPos;
+	LeftMoveAngle = LeftAngleVector.NormalizeReturn().GetAnagleDeg();
+
+	float4 RightAngleVector = GetPos() - PlayerRightPos;
+	RightMoveAngle = RightAngleVector.NormalizeReturn().GetAnagleDeg();
 }
 
 float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
@@ -192,6 +241,18 @@ void Player::Render(float _DeltaTime)
 	//	ActorPos.ix() + 5,
 	//	ActorPos.iy() + 5
 	//);
+
+	if (true == IsMyTurn)
+	{
+		std::string PlayerLeftAngle = "PlayerLeftAngle = ";
+		PlayerLeftAngle = PlayerLeftAngle + std::to_string(LeftMoveAngle);
+		GameEngineLevel::DebugTextPush(PlayerLeftAngle);
+
+		std::string PlayerRightAngle = "PlayerRightAngle = ";
+		PlayerRightAngle = PlayerRightAngle + std::to_string(RightMoveAngle);
+		GameEngineLevel::DebugTextPush(PlayerRightAngle);
+	}
+
 }
 
 bool Player::IsPlayerAnimationEnd()

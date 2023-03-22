@@ -39,7 +39,7 @@ void WeaponInterFace::Start()
 	{
 		WeaponInterFaceCollision = CreateCollision(WormsRenderOrder::WeaPonInterFace);
 		WeaponInterFaceCollision->SetPosition({ 1200,400 });
-		WeaponInterFaceCollision->SetScale({ 20, 20 });	
+		WeaponInterFaceCollision->SetScale({ 20, 20 });
 	}
 	{
 		WeaponInterFaceCollision2 = CreateCollision(WormsRenderOrder::WeaPonInterFace);

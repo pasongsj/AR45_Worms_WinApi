@@ -8,6 +8,11 @@
 #include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "MouseObject.h"
+#include "GlobalValue.h"
+#include "Leaf.h"
+#include "WeaponHandgun.h"
+#include "WeaponUzi.h"
+
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -16,6 +21,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 
+GlobalValue GlobalValue::gValue;
 
 PlayLevel::PlayLevel() 
 {
@@ -66,6 +72,10 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
 	}
 	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
+		Image->Cut(4, 1);
+	}
+	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Under_Water.bmp"));
 	}
 	{
@@ -75,9 +85,12 @@ void PlayLevel::ImageLoad()
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite_surfice.bmp"));
 		Image->Cut(1, 11);
-
-		Dir.MoveParent();
+	} 
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
+		Image->Cut(5, 3);
 	}
+		Dir.MoveParent();
 	{
 		Dir.Move("Weapon");
 
@@ -94,6 +107,9 @@ void PlayLevel::ImageLoad()
 		sheepWalkRight->Cut(1, 8);
 		GameEngineImage* sheepWalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalkLeft.bmp"));
 		sheepWalkLeft->Cut(1, 8);
+		GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
+		BazSmoke->Cut(1, 64);
+
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
@@ -202,6 +218,24 @@ void PlayLevel::KeyLoad()
 	}
 }
 
+void PlayLevel::CreateLeaf(float _DeltaTime)
+{
+	AddWind.WindTime += _DeltaTime;
+	if (AddWind.WindTime>1.f)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			float4 Pos = { 300,-100 };
+			Leaf* pLeaf = CreateActor<Leaf>();
+			Pos.x *= i;
+			Pos.x += 100.f;
+			pLeaf->SetPos(Pos);
+		}
+		AddWind.WindTime -= 1.f;
+		
+	}
+}
+
 void PlayLevel::PlayerChange(float _DeltaTime)
 {
 	//Player벡터 오류 검사
@@ -223,13 +257,13 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		}
 
 		//현재 플레이어의 턴 종료
-		pCurPlayer->SetIsMyTurn(false);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
+		GlobalValue::GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
-		CurPlayerPos = pCurPlayer->GetPos();
+		CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
 		PrevCamPos = GetCameraPos();
 		bCamMove = true;
 	}
@@ -245,6 +279,12 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		{
 			bCamMove = false;
 			fLerpRatio = 0.f;
+
+			AddWind.WindPhase = GameEngineRandom::MainRandom.RandomInt(-10, 10);
+			AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase)/10.f));
+
+			GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+			GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
 		}
 	}
 }
@@ -303,7 +343,7 @@ void PlayLevel::Loading()
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
 			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
-			vecAllPlayer[i]->SetColImage("MapCity_Ground.bmp");
+			vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
 			float4 StartPos = float4{ 350,50 };
 			StartPos.x *= i+1;
@@ -312,23 +352,20 @@ void PlayLevel::Loading()
 		}
 
 		iPlayerNumber = 0;
-		pCurPlayer = vecAllPlayer[iPlayerNumber];
-		pCurPlayer->SetIsMyTurn(true);
-		SetCameraPos(pCurPlayer->GetPos() - ScreenSize.half());
+
+		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+
+		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
-	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponBazooka>();
 	//CreateActor<WeaponSheep>();
 }
 
+
 void PlayLevel::Update(float _DeltaTime)
 {
-	
-	
-
-
-
-
 	PlayerChange(_DeltaTime);
 	MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
@@ -339,6 +376,7 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	//CreateActor<WeaponShotgun>();
+	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
+	CreateActor<WeaponUzi>();
 }

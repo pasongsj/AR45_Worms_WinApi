@@ -26,7 +26,7 @@ protected:
 
 private:
 	int iPlayerNumber = -1;
-	Player* pCurPlayer = nullptr;
+	//Player* pCurPlayer = nullptr;
 	std::vector<Player*> vecAllPlayer;
 
 

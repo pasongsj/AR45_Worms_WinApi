@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="Leaf.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapModifier.h">
       <SubType>
       </SubType>
@@ -33,8 +38,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
-      <SubType>
-      </SubType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="WeaponBazooka.h">
       <SubType>
@@ -61,12 +68,24 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WeaponHandgun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
+    <ClInclude Include="WeaponMinigun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="WeaponShotgun.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WeaponUzi.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -76,6 +95,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Leaf.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapModifier.cpp">
       <SubType>
       </SubType>
@@ -90,8 +113,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
-      <SubType>
-      </SubType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="WeaponBazooka.cpp">
       <SubType>
@@ -118,12 +143,24 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WeaponHandgun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
+    <ClCompile Include="WeaponMinigun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponSheep.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="WeaponShotgun.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WeaponUzi.cpp">
       <SubType>
       </SubType>
     </ClCompile>

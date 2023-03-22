@@ -9,6 +9,8 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 WeaponBazooka::WeaponBazooka()
 {
 }
@@ -45,6 +47,11 @@ void WeaponBazooka::Update(float _DeltaTime)
 		CurPlayer->ChangePlayerAnimation("BazOff");
 		isExplosion = false;
 	}
+
+	if (isFire == true)
+	{
+		MakeSmoke();
+	}
 }
 
 void WeaponBazooka::Render(float _DeltaTime)
@@ -65,7 +72,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponRender->SetRotFilter("bazookaRot.bmp");
 	
 	BombScale = 50;
-	Dmg = 40;
+	Dmg = 50;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -74,7 +81,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponRender->Off();
 
 	WeaponCollision->SetPosition(WeaponRender->GetPosition());
-	WeaponCollision->SetScale({100,100});
+	WeaponCollision->SetScale({30,30});
 	WeaponCollision->Off();
 
 	GetLevel()->CreateActor<MapModifier>();
@@ -90,7 +97,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	Gravity = 0.0f; //임시 설정값
 	GravityAccel = 0.0f; //임시 설정값
 
-	MoveSpeed = 1500.0f; //임시 설정값
+	MoveSpeed = 0.0f; //임시 설정값
 
 	EffectGravity = true;
 	isAnimation = true;
@@ -145,6 +152,16 @@ void WeaponBazooka::Charging()
 		ChargingRenderOn();
 		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 
+		MoveSpeed = 100 + GetChargeTime() * 1000.0f;
+
+		if (MoveSpeed < 100)
+		{
+			MoveSpeed = 100;
+		}
+		else if (MoveSpeed > 900)
+		{
+			MoveSpeed = 900;
+		}
 	}
 }
 
@@ -193,12 +210,12 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 		isSet = true;
 	}
 
-	Gravity = 0.5f * _DeltaTime;
+	Gravity = 3.0f * _DeltaTime;
 
 	Dir += {Dir.x, Dir.y + Gravity};
 	Dir.Normalize();
 
-	WeaponRender->SetAngle(-Dir.GetAnagleDeg() - 45);
+	WeaponRender->SetAngle(-Dir.GetAnagleDeg());
 	WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 	WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
 
@@ -246,7 +263,7 @@ void WeaponBazooka::BazookaOn()
 		TimeCounting();
 	}
 
-	if (TimeCount >= 0.5f && isBazOn == false)
+	if (TimeCount >= 0.2f && isBazOn == false)
 	{
 		CurPlayer->ChangePlayerAnimation("BazOn");
 		TimeCount = 0;
@@ -428,7 +445,31 @@ void WeaponBazooka::DamageToPlayer()
 	{
 		for (int i = 0; i < CollisionPlayer.size(); i++)
 		{
-			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->GetDamaged(50);
+			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->GetDamaged(Dmg);
 		}
+	}
+}
+
+void WeaponBazooka::MakeSmoke()
+{
+	TimeCounting();
+
+	if (TimeCount > 0.03)
+	{
+		float4 BaZooka = WeaponRender->GetActorPlusPos();
+
+		for (int i = 0; i < 8; i++)
+		{
+			float X = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
+			float Y = GameEngineRandom::MainRandom.RandomFloat(-5, 5);
+
+			GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+			Smoke->SetPosition(BaZooka + -ShootDir * float4{X, Y} + float4{0, -15});
+			Smoke->SetScale({ 60, 60 });
+			Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.01f , .Loop = false });
+			Smoke->ChangeAnimation("Smoke");
+		}
+
+		TimeCount = 0;
 	}
 }
