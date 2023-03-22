@@ -26,3 +26,19 @@ enum class WormsCollisionOrder
 	Weapon,
 	MapModifier,
 };
+
+enum class WeaponNum
+{
+	None,				//무기없음
+	Bazooka,			//F1
+	Grenade,			//F2
+	ClusterBomb,
+	Shotgun,			//F3
+	Handgun,
+	Uzi,
+	Minigun,
+	Sheep,				//F5
+	AirStrike,			//F6
+
+
+};
