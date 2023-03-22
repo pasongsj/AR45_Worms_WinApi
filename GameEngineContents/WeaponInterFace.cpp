@@ -21,8 +21,8 @@
 WeaponInterFace*WeaponInterFace::Interface;
 GameEngineLevel* WeaponInterFace::Value;
 
-//void asas(Button* a)
-void asas(Button*a, int _Enum)
+//void asas(Button* a) // 수정 전 코드
+void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가능
 {
     WeaponNum eNum = static_cast<WeaponNum>(_Enum);
 
@@ -131,7 +131,7 @@ void WeaponInterFace::Start()
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-        button->SetEnum(WeaponNum::Bazooka);
+        button->SetEnum(WeaponNum::Bazooka); //SetEnum으로 새로만든 ButtonCallbackEnum에 Enum세팅되게끔만들기.
 		ButtonManager.push_back(button);
         button->SetClickCallBackEnum(asas);
 	}
@@ -167,36 +167,36 @@ void WeaponInterFace::Start()
 
 	// 2번쨰 인터페이스 
 
-	//{
-	//	Button* button = GetLevel()->CreateActor<Button>();
-	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	//	button->SetClickCallBack(asas);
-	//	ButtonManager.push_back(button);
-	//}
-	//{
-	//	Button* button = GetLevel()->CreateActor<Button>();
-	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	//	button->SetClickCallBack(avvv);
-	//	ButtonManager.push_back(button);
-	//}
-	//{
-	//	Button* button = GetLevel()->CreateActor<Button>();
-	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	////	button->SetClickCallBack();
-	//	ButtonManager.push_back(button);
-	//}
-	//{
-	//	Button* button = GetLevel()->CreateActor<Button>();
-	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	////	button->SetClickCallBack();
-	//	ButtonManager.push_back(button);
-	//}
-	//{
-	//	Button* button = GetLevel()->CreateActor<Button>();
-	//	button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-	//	//button->SetClickCallBack();
-	//	ButtonManager.push_back(button);
-	//}
+	{
+		Button* button = GetLevel()->CreateActor<Button>();
+		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+		//button->SetClickCallBack(asas);
+		ButtonManager.push_back(button);
+	}
+	{
+		Button* button = GetLevel()->CreateActor<Button>();
+		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+		//button->SetClickCallBack(avvv);
+		ButtonManager.push_back(button);
+	}
+	{
+		Button* button = GetLevel()->CreateActor<Button>();
+		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	    //button->SetClickCallBack();
+		ButtonManager.push_back(button);
+	}
+	{
+		Button* button = GetLevel()->CreateActor<Button>();
+		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+	    //button->SetClickCallBack();
+		ButtonManager.push_back(button);
+	}
+	{
+		Button* button = GetLevel()->CreateActor<Button>();
+		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+		//button->SetClickCallBack();
+		ButtonManager.push_back(button);
+	}
 
 
 
