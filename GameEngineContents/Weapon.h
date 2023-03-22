@@ -21,59 +21,80 @@ public:
 	Weapon& operator=(const Weapon& _Other) = delete;
 	Weapon& operator=(Weapon&& _Other) noexcept = delete;
 
-	bool isWeaponDone = false;
 
+	bool IsWeaponDone() // 무기사용이 끝났는지 
+	{
+		return isWeaponDone;
+	}
+
+	bool IsFiring() // 지금 발사중인지 bool값
+	{
+		return isFire;
+	}
+
+	//virtual void ResetWeapon() {};
+protected:
+
+	//
+
+	bool isWeaponDone = false;
+	bool isFire = false;							// 발사중인지 체크
+
+
+	// 카메라 이동과 관련된 것
+	float4 PrevCamPos = float4::Zero;
+	float4 CurPlayerPos = float4::Zero;
+	float4 LerpCamPos = float4::Zero;
+	float fLerpRatio = 0.f;
+	float fLerpSpeed = 2.f;
+
+
+	float MoveSpeed = 0.0f;							// 무기속력
+	float Gravity = 0.0f;							// 중력
+	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
+	float Charge = 0.0f;							// 차지게이지
+
+	// GlobalValue에서 가져올 것
+	float fWindSpeed = 0.f;
+	int fWindPhase = 0;
+
+	float4 Dir = float4::Zero;						// 무기 진행 방향
+	//float4 PlayerPos = float4::Zero;				// 플레이어 위치 ---> 지울거
+	int BombScale = 0;				// 폭발 범위
+
+	std::string WeaponName;							// 무기 이름
+
+	GameEngineImage* MapCollision = nullptr;		//충돌맵
+
+	//GameEngineRender* WeaponRender = nullptr;		//렌더
+	//GameEngineCollision* WeaponCollision = nullptr;	//콜리전
+
+	Player* CurPlayer = nullptr;
+	float Timer = 0.0f;								// 타이머
+	float PrevTime = 0.0f;
+	float CurTime = 0.0f;
+	float TimeCount = 0.0f;		
+	float TimeCount_2 = 0.0f;
+
+	//GameEngineRender* AimingLine = nullptr;
+	virtual void Init() {};
+	virtual bool CheckCollision(GameEngineCollision* _Col); // 가상화 삭제여부 추후 고민
+
+	float GetChargeTime();
+	float4 CheckCollisionSide(GameEngineCollision* _Col);
 	float4 GetShootDir();
 	bool PressShoot();
 	bool isEndCharging();
 	void TimeCounting();
 	void SetCurPlayer();
 
-	virtual void ResetWeapon() {};
-	virtual bool CheckCollision(GameEngineCollision* _Col = nullptr);
-protected:
+	//virtual void Charging();
+	virtual void Firing(float _Deltatime) {}; // 날아가는거, 
 
-	//
-	bool EffectGravity = true;						// 중력영향
-	bool isAnimation = false;						// 애니메이션
-	bool isBlocked = false;							// 지형 통과여부
-	bool isTarget = false;							// 타겟 설정 여부
 
-	float MoveSpeed = 0.0f;							// 무기속력
-	float Gravity = 0.0f;							// 중력
-	float GravityAccel = 0.0f;						// 중력가속도
-	float WindPower = 0.0f;							// 바람세기
-	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
-	float Charge = 0.0f;							// 차지게이지
-
-	float4 Dir = float4::Zero;						// 무기 진행 방향
-	float4 PlayerPos = float4::Zero;				// 플레이어 위치
-	int BombScale = 0;				// 폭발 범위
-	//float4 Scale = float4::Zero;					// 랜더스케일
-
-	std::string WeaponName;							// 무기 이름
-
-	GameEngineImage* MapCollision = nullptr;		//충돌맵
-
-	GameEngineRender* WeaponRender = nullptr;		//렌더
-	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
-
-	Player* CurPlayer = nullptr;
-
-	float PrevTime = 0.0f;
-	float CurTime = 0.0f;
-	float Timer = 0.0f;								// 타이머
-	float TimeCount = 0.0f;		
-	float TimeCount_2 = 0.0f;
-
-	GameEngineRender* AimingLine = nullptr;
-
-	float GetChargeTime();
-	float4 CheckCollisionSide();
-
-	bool isRightDir = true;
 private:
 
+	bool isRightDir = true;
 	float Height = 0.0f;
 
 		

@@ -59,23 +59,6 @@ float4 Weapon::GetShootDir()
 		isRightDir = true;
 	}
 
-	//if (GameEngineInput::IsDown("MoveRight"))
-	//{		
-	//	if (float4::Left == PlayerDir)
-	//	{
-	//		Height = 0.0f;
-	//	}
-	//	isRightDir = true;
-	//}
-	//else if (GameEngineInput::IsDown("MoveLeft"))
-	//{
-	//	if (float4::Right == PlayerDir)
-	//	{
-	//		Height = 0.0f;
-	//	}
-	//	isRightDir = false;
-	//}
-
 	ReturnDir.y = Height;
 	ReturnDir.x = static_cast<float>(isRightDir ? 1 : -1);
 
@@ -86,11 +69,6 @@ float4 Weapon::GetShootDir()
 
 bool Weapon::PressShoot()
 {
-	/*if (GameEngineInput::IsKey("Shoot") == false)
-	{
-		GameEngineInput::CreateKey("Shoot", VK_SPACE);
-	}*/
-
 	if (GameEngineInput::IsDown("Shoot")) // 상하
 	{
 		return true;
@@ -125,7 +103,7 @@ void Weapon::TimeCounting()
 }
 
 
-void Weapon::SetCurPlayer()
+void Weapon::SetCurPlayer() // 곧 없어질 것
 {
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
@@ -147,8 +125,10 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 {
 	if (nullptr == _Col)
 	{
-		_Col = WeaponCollision;
+		MsgAssert("체크할 콜리전이 없습니다.");
 	}
+
+	// 플레이어 체크
 	std::vector<GameEngineCollision*> CollisionList;
 
 	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
@@ -163,10 +143,13 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 			}
 		}
 	}
+
+	// 맵체크
 	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(255, 0, 255))) //맵에 닿으면 사라짐
 	{
 		return true;
 	}
+	// 맵 밖으로 나갔는지 체크
 
 	return false;
 }
@@ -176,12 +159,12 @@ float Weapon::GetChargeTime()
 	return GameEngineInput::GetPressTime("Shoot");
 }
 
-float4 Weapon::CheckCollisionSide()
+float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 {
 	float4 ReturnValue = float4::Zero;
 	std::vector<GameEngineCollision*> CollisionList;
 
-	if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+	if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
@@ -208,15 +191,15 @@ float4 Weapon::CheckCollisionSide()
 	}
 
 	// 30 30 20,40
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ 10,0 }, RGB(255, 0, 255)))
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 10,0 }, RGB(255, 0, 255)))
 	{
 		ReturnValue.x += 1;
 	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ -10,0 }, RGB(255, 0, 255)))
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -10,0 }, RGB(255, 0, 255)))
 	{
 		ReturnValue.x -= 1;
 	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(WeaponCollision->GetActorPlusPos() + float4{ 0,2  }, RGB(255, 0, 255)))
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,2  }, RGB(255, 0, 255)))
 	{
 		ReturnValue.y += 1;
 	}

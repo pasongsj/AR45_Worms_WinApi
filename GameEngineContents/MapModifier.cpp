@@ -40,6 +40,7 @@ void MapModifier::Update(float _DeltaTime)
 
 void MapModifier::CreateHole(float4 _Pos, int _Radius)
 {
+
 	ModifierCollision->SetPosition(_Pos);
 
 	if (0 >= _Radius)

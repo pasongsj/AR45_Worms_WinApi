@@ -83,13 +83,13 @@ void WeaponSheep::WeaponSheepInit()
 	//ExplosionAnimation->Off();
 
 	Gravity = 0.0f; //임시 설정값
-	GravityAccel = 0.0f; //임시 설정값
+	//GravityAccel = 0.0f; //임시 설정값
 
 	MoveSpeed = 1500.0f; //임시 설정값
 
-	EffectGravity = true;
-	isAnimation = true;
-	isBlocked = true;
+	//EffectGravity = true;
+	//isAnimation = true;
+	//isBlocked = true;
 	//isTarget = false;
 
 	TimeCount = 0;

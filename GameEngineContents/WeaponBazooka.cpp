@@ -118,14 +118,14 @@ void WeaponBazooka::WeaponBazookaInit()
 	ExplosionAnimation->Off();
 
 	Gravity = 0.0f; //임시 설정값
-	GravityAccel = 0.0f; //임시 설정값
+	//GravityAccel = 0.0f; //임시 설정값
 
 	MoveSpeed = 0.0f; //임시 설정값
 
-	EffectGravity = true;
-	isAnimation = true;
-	isBlocked = true;
-	isTarget = false;
+	//EffectGravity = true;
+	//isAnimation = true;
+	//isBlocked = true;
+	//isTarget = false;
 
 	TimeCount = 0;
 
@@ -154,7 +154,7 @@ void WeaponBazooka::CreatePlayerAnimation()
 }
 
 
-void WeaponBazooka::Charging()
+void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 {
 	if (CurPlayer->GetPlayerState() != PlayerState::IDLE)
 	{
@@ -243,7 +243,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 	WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 	WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
 
-	if (CheckCollision() == true)
+	if (CheckCollision(WeaponCollision) == true)
 	{
 		Explosion();
 		ResetWeapon();
@@ -252,7 +252,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 void WeaponBazooka::Explosion() //폭발
 {
-	if (CheckCollision() == false /*발사되었는지 아닌지도 bool값으로 만들어서 조건에 넣어야함*/)
+	if (CheckCollision(WeaponCollision) == false /*발사되었는지 아닌지도 bool값으로 만들어서 조건에 넣어야함*/)
 	{
 		return;
 	}
@@ -304,7 +304,7 @@ void WeaponBazooka::ResetWeapon()
 	WeaponCollision->SetPosition(CurPlayer->GetPos());
 
 	Gravity = 0.0f; //임시 설정값
-	GravityAccel = 0.0f; //임시 설정값
+	//GravityAccel = 0.0f; //임시 설정값
 	WeaponRender->Off();
 	WeaponCollision->Off();
 

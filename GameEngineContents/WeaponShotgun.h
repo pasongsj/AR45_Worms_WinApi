@@ -16,7 +16,7 @@ public:
 	WeaponShotgun& operator=(const WeaponShotgun& _Other) = delete;
 	WeaponShotgun& operator=(WeaponShotgun&& _Other) noexcept = delete;
 
-	void ResetWeapon() override;
+	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -29,6 +29,8 @@ private:
 
 	std::vector <GameEngineCollision*> ShotGunCollision;							// index에 해당하는 총알 콜리전
 	std::vector <float4> ShotGunDir;												// index에 해당하는 총알 발사 방향
+	GameEngineRender* AimingLine = nullptr;
+
 
 	std::vector<bool> isShooted;													// index에 해당하는 총알이 발사되었는지
 

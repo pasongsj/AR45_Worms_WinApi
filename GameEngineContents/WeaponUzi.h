@@ -16,7 +16,7 @@ public:
 	WeaponUzi& operator=(const WeaponUzi& _Other) = delete;
 	WeaponUzi& operator=(WeaponUzi&& _Other) noexcept = delete;
 
-	void ResetWeapon() override;
+	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -32,6 +32,7 @@ private:
 
 	std::vector <GameEngineCollision*> UziCollision;							// index에 해당하는 총알 콜리전
 	//std::vector <float4> UziDir;		//수정필요								// index에 해당하는 총알 발사 방향
+	GameEngineRender* AimingLine = nullptr;
 
 	std::vector<bool> isShooted;			//수정 필요								// index에 해당하는 총알이 발사되었는지
 

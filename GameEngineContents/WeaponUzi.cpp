@@ -20,8 +20,8 @@ void WeaponUzi::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Uzi";
-	EffectGravity = false;
-	isBlocked = true;
+	//EffectGravity = false;
+	//isBlocked = true;
 	MoveSpeed = 1200.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
@@ -85,7 +85,7 @@ void WeaponUzi::CheckFiring()
 		{
 			isFire = true;
 		}
-		PlayerPos = CurPlayer->GetPos();
+		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동

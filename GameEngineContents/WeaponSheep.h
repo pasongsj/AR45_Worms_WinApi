@@ -25,7 +25,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
-	void ResetWeapon() override;
+	void ResetWeapon();
 private:
 	MapModifier* SheepExplosion = nullptr;
 
@@ -39,5 +39,8 @@ private:
 
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
+
+	GameEngineRender* WeaponRender = nullptr;		//·»´õ
+	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
 };
 

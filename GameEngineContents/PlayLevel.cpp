@@ -391,5 +391,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
-	//CreateActor<WeaponUzi>();
+	CreateActor<WeaponUzi>();
 }

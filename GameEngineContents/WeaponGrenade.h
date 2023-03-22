@@ -16,7 +16,7 @@ public:
 	WeaponGrenade& operator=(const WeaponGrenade& _Other) = delete;
 	WeaponGrenade& operator=(WeaponGrenade&& _Other) noexcept = delete;
 	
-	void ResetWeapon() override;
+	void ResetWeapon();
 
 protected:
 
@@ -33,7 +33,11 @@ private:
 	bool isExplosion = false;
 	//MapModifier* Explosion = nullptr;
 
-	void SetCharge();
+	void SetCharge(); // charge
 	void Firing(float _DeltaTime);
+
+	GameEngineRender* WeaponRender = nullptr;		//·»´õ
+	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
+
 };
 

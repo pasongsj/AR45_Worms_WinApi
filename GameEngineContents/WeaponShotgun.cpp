@@ -20,8 +20,8 @@ void WeaponShotgun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
-	EffectGravity = false;
-	isBlocked = true;
+	//EffectGravity = false;
+	//isBlocked = true;
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
@@ -84,7 +84,7 @@ void WeaponShotgun::CheckFiring()
 		{
 			FindCurPlayer();
 		}*/
-		PlayerPos = CurPlayer->GetPos();
+		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
@@ -146,11 +146,6 @@ void WeaponShotgun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime,float
 	{
 		return;
 	}
-
-	if (true == EffectGravity)
-	{
-
-	}
 	else // 중력의 영향을 받지 않음.
 	{
 		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
@@ -182,9 +177,4 @@ void WeaponShotgun::ResetWeapon()
 		ShotGunCollision[i]->SetPosition(float4::Zero);
 		ShotGunCollision[i]->On();
 	}
-	if (CurPlayer == nullptr)
-	{
-		return;
-	}
-	isRightDir = ((CurPlayer->GetPlayerDir().x == 1.0f) ? true : false);
 }

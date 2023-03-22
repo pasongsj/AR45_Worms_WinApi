@@ -17,10 +17,10 @@ WeaponGrenade::~WeaponGrenade()
 void WeaponGrenade::Start()
 {
 	// 수류탄 기본 설정 -- 상수값 조정 필요
-	isBlocked = true;
+	//isBlocked = true;
 	MoveSpeed = 700.0f; // 임시값
 	Gravity = 1.0f;// 임시값
-	GravityAccel = 0.0f;
+	//GravityAccel = 0.0f;
 	//WindPower = 0.0f;
 	//Dmg = 0.0f;
 	Timer = 2.0f;// 임시값
@@ -65,7 +65,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
 	if (false == isFire) // 발사하기 전
 	{
 		SetCharge(); // 차징포인트 계산
-		PlayerPos = CurPlayer->GetPos();
+		float4 PlayerPos = CurPlayer->GetPos();
 		Dir = GetShootDir() * Charge;
 		SetPos(PlayerPos);
 		if (isEndCharging() == true) // 발사체크
@@ -87,27 +87,29 @@ void WeaponGrenade::Firing(float _DeltaTime)
 			WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
 			WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
 
-			if (Dir.x * CheckCollisionSide().x > 0) // 방향이 달라
+
+			float4 CheckedCol = CheckCollisionSide(WeaponCollision);
+			if (Dir.x * CheckedCol.x > 0) // 방향이 달라
 			{
 				WeaponRender->SetMove(-Dir * MoveSpeed * _DeltaTime);
 				WeaponCollision->SetMove(-Dir * MoveSpeed * _DeltaTime);
 
-				Dir.x = -Dir.x * 0.5;										  //  x값은 마찰고려값
-				Dir.y = -Dir.y * 0.25;
+				Dir.x = -Dir.x * 0.5f;										  //  x값은 마찰고려값
+				Dir.y = -Dir.y * 0.25f;
 			}
 
-			else if (Dir.x * CheckCollisionSide().x < 0 || CheckCollisionSide().x == 0 && CheckCollisionSide().y > 0)// 방향이 같아 or 좌우 이동x
+			else if (Dir.x * CheckedCol.x < 0 || CheckedCol.x == 0 && CheckedCol.y > 0)// 방향이 같아 or 좌우 이동x
 			{
 				WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
 				WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
-				Dir.x = Dir.x * 0.5;
-				Dir.y = -Dir.y * 0.25;
+				Dir.x = Dir.x * 0.5f;
+				Dir.y = -Dir.y * 0.25f;
 			}
 		}
 	}
 }
 
-void WeaponGrenade::SetCharge()
+void WeaponGrenade::SetCharge() // Charging으로 함수이름 통일
 {
 	if (Charge > GetChargeTime())
 	{
@@ -141,11 +143,11 @@ void WeaponGrenade::ResetWeapon()
 
 	WeaponCollision->On();
 	WeaponCollision->SetPosition(float4::Zero);
-	if (CurPlayer == nullptr)
-	{
-		return;
-	}
-	isRightDir = ((CurPlayer->GetPlayerDir().x == 1.0f) ? true : false);
+	//if (CurPlayer == nullptr)
+	//{
+	//	return;
+	//}
+	//isRightDir = ((CurPlayer->GetPlayerDir().x == 1.0f) ? true : false);
 
 }
 

@@ -46,6 +46,7 @@
     <ClInclude Include="WeaponBazooka.h">
       <SubType>
       </SubType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CenterLevel.h">
       <SubType>
@@ -121,6 +122,7 @@
     <ClCompile Include="WeaponBazooka.cpp">
       <SubType>
       </SubType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CenterLevel.cpp">
       <SubType>

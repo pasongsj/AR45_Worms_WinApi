@@ -16,7 +16,7 @@ public:
 	WeaponHandgun& operator=(const WeaponHandgun& _Other) = delete;
 	WeaponHandgun& operator=(WeaponHandgun&& _Other) noexcept = delete;
 
-	void ResetWeapon() override;
+	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -31,6 +31,7 @@ private:
 	float DelayTime = 0.5f;
 
 	std::vector <GameEngineCollision*> HandgunCollision;							// index에 해당하는 총알 콜리전
+	GameEngineRender* AimingLine = nullptr;
 	//std::vector <float4> HandgunDir;		//수정필요								// index에 해당하는 총알 발사 방향
 
 	std::vector<bool> isShooted;			//수정 필요								// index에 해당하는 총알이 발사되었는지

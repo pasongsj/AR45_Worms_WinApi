@@ -15,17 +15,19 @@ public:
 	void CreatePlayerAnimation();
 
 	void ChangeBazReadyAnimation();
-	void BazookaOn();
+
+
+	void BazookaOn();				//changeAnimation
 	void BazookaOff();
 	void BazAiming();
 
-	void ChargingRenderInit();
+	void ChargingRenderInit();	//조준선 랜더
 	void ChargingRenderOn();
 	void ChargingRenderOff();
 
-	void MakeSmoke();
+	void MakeSmoke();			//날라갈 때 무기 뒤에 스모크
 
-	void Charging();
+	void Charging();			
 	void firing(float _DeltaTime);
 	void Explosion();
 
@@ -41,7 +43,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
-	void ResetWeapon() override;
+	void ResetWeapon();
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 
@@ -76,5 +78,7 @@ private:
 	float4 LerpCamPos = float4::Zero;
 	float fLerpRatio = 0.f;
 	float fLerpSpeed = 2.f;
+	GameEngineRender* WeaponRender = nullptr;		//렌더
+	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 };
 

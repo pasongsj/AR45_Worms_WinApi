@@ -20,8 +20,8 @@ void WeaponMinigun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Minigun";
-	EffectGravity = false;
-	isBlocked = true;
+	//EffectGravity = false;
+	//isBlocked = true;
 	MoveSpeed = 600.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
@@ -74,7 +74,7 @@ void WeaponMinigun::CheckFiring()
 	}
 	else // 방향체크
 	{
-		PlayerPos = CurPlayer->GetPos();
+		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
@@ -111,10 +111,6 @@ void WeaponMinigun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime, floa
 		return;
 	}
 
-	if (true == EffectGravity)
-	{
-
-	}
 	else // 중력의 영향을 받지 않음.
 	{
 		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
