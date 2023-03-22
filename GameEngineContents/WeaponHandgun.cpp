@@ -55,7 +55,23 @@ void WeaponHandgun::Update(float _DeltaTime)
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
+	if (true == IsDone())
+	{
+		isWeaponDone = true;
+	}
+}
 
+bool WeaponHandgun::IsDone()
+{
+	for (int i = 0; i < BulletCount; i++)
+	{
+		if (true == HandgunCollision[i]->IsUpdate())
+		{
+			return false;
+		}
+
+	}
+	return true;
 }
 
 void WeaponHandgun::CheckFiring()
@@ -65,15 +81,6 @@ void WeaponHandgun::CheckFiring()
 		if (PressShoot()) // 발사체크
 		{
 			isFire = true;
-			//for (int i = 0; i < BulletCount; i++)
-			//{
-			//	if (isShooted[i] == false)
-			//	{
-			//		isShooted[i] = true;
-			//		HandgunDir[i] = Dir; // 발사시 방향설정
-			//		break;
-			//	}
-			//}
 		}
 		PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
@@ -89,14 +96,26 @@ void WeaponHandgun::Firing(float _DeltaTime)
 {
 	if (true == isFire)
 	{
-		//bool isRemainBullet = false;
+		DelayTime -= _DeltaTime;
+		if (DelayTime < 0)
+		{
+			DelayTime = 0.1f;
+			for (int i = 0; i < BulletCount; i++)
+			{
+				if (isShooted[i] == false)
+				{
+					isShooted[i] = true;
+					break;
+				}
+
+			}
+		}
+
 		for (int i = 0; i < BulletCount; i++)
 		{
 			if (true == isShooted[i] && true == HandgunCollision[i]->IsUpdate())
 			{
-				//isRemainBullet = true;
-				WeaponMove(HandgunCollision[i], _DeltaTime, Dir);
-
+				HandgunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
 				if (true == WeaponHandgun::CheckCollision(HandgunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{
 					MapModifier::MainModifier->CreateHole(GetPos() + HandgunCollision[i]->GetPosition(), 11);
@@ -105,30 +124,8 @@ void WeaponHandgun::Firing(float _DeltaTime)
 			}
 		}
 	}
-
 }
 
-
-void WeaponHandgun::WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir)
-{
-	if (false == _Col->IsUpdate())
-	{
-		return;
-	}
-
-	if (true == EffectGravity)
-	{
-
-	}
-	else // 중력의 영향을 받지 않음.
-	{
-		_Col->SetMove(_Dir * _DeltaTime * MoveSpeed);
-	}
-}
-
-void WeaponHandgun::Render(float _DeltaTime)
-{
-}
 
 void WeaponHandgun::WeaponHandgunInit()
 {
@@ -139,12 +136,14 @@ void WeaponHandgun::WeaponHandgunInit()
 	HandgunCollision.push_back(Collision);
 	isShooted.push_back(false);
 	//HandgunDir.push_back(float4::Right);
+	float DelayTime = 0.1f;
 
 }
 
 void WeaponHandgun::ResetWeapon()
 {
 	isFire = false;
+	float DelayTime = 0.1f;
 	for (int i = 0; i < BulletCount; i++)
 	{
 		isShooted[i] = false;

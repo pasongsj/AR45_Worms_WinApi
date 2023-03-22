@@ -9,6 +9,7 @@
 #include "MapModifier.h"
 #include "GlobalValue.h"
 #include "Leaf.h"
+#include "WeaponHandgun.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
