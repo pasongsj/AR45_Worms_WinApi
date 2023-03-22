@@ -23,11 +23,11 @@
 
 GlobalValue GlobalValue::gValue;
 
-PlayLevel::PlayLevel() 
+PlayLevel::PlayLevel()
 {
 }
 
-PlayLevel::~PlayLevel() 
+PlayLevel::~PlayLevel()
 {
 }
 
@@ -85,12 +85,12 @@ void PlayLevel::ImageLoad()
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite_surfice.bmp"));
 		Image->Cut(1, 11);
-	} 
+	}
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
 		Image->Cut(5, 3);
 	}
-		Dir.MoveParent();
+	Dir.MoveParent();
 	{
 		Dir.Move("Weapon");
 
@@ -124,7 +124,7 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
 			IdleLeft->Cut(1, 6);
 			GameEngineImage* WalkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WalkLeft.bmp"));
-			WalkLeft->Cut(1, 15);			
+			WalkLeft->Cut(1, 15);
 			GameEngineImage* bazAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazAimLeft.bmp"));
 			bazAimLeft->Cut(1, 32);
 			GameEngineImage* bazOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffLeft.bmp"));
@@ -166,7 +166,7 @@ void PlayLevel::ImageLoad()
 			RedArrowImage->Cut(1, 30);
 			GameEngineImage* YellowArrowImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerSelectArrowYellow.bmp"));
 			YellowArrowImage->Cut(1, 30);
-			
+
 			//캐릭터 체력 렌더 이미지
 			GameEngineImage* BlueNumberImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BlueNumberRender.bmp"));
 			BlueNumberImage->Cut(10, 1);
@@ -221,7 +221,7 @@ void PlayLevel::KeyLoad()
 void PlayLevel::CreateLeaf(float _DeltaTime)
 {
 	AddWind.WindTime += _DeltaTime;
-	if (AddWind.WindTime>1.f)
+	if (AddWind.WindTime > 1.f)
 	{
 		for (int i = 0; i < 10; i++)
 		{
@@ -232,7 +232,7 @@ void PlayLevel::CreateLeaf(float _DeltaTime)
 			pLeaf->SetPos(Pos);
 		}
 		AddWind.WindTime -= 1.f;
-		
+
 	}
 }
 
@@ -281,7 +281,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 			fLerpRatio = 0.f;
 
 			AddWind.WindPhase = GameEngineRandom::MainRandom.RandomInt(-10, 10);
-			AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase)/10.f));
+			AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
 
 			GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
 			GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
@@ -296,7 +296,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	float4 DistancePos = CurMousePos - CurCamPos;
 	float4 MoveCam = float4::Zero;
 
-	if (DistancePos.x>500.f)
+	if (DistancePos.x > 500.f)
 	{
 		MoveCam += float4::Right;
 	}
@@ -304,7 +304,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	{
 		MoveCam += float4::Left;
 	}
-	if (DistancePos.y< -350.f)
+	if (DistancePos.y < -350.f)
 	{
 		MoveCam += float4::Up;
 	}
@@ -312,14 +312,14 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	{
 		MoveCam += float4::Down;
 	}
-	
-	if (MoveCam.ix() == 0&& MoveCam.iy()==0)
+
+	if (MoveCam.ix() == 0 && MoveCam.iy() == 0)
 	{
 		return;
 	}
-	
+
 	MoveCam.Normalize();
-	SetCameraMove(MoveCam * fCamMoveSpeed *_DeltaTime);
+	SetCameraMove(MoveCam * fCamMoveSpeed * _DeltaTime);
 }
 
 void PlayLevel::Loading()
@@ -332,10 +332,10 @@ void PlayLevel::Loading()
 		Map* Actor = CreateActor<Map>();
 	}
 	{
-		MapModifier* ModifierActor  = CreateActor<MapModifier>(WormsRenderOrder::Map);
+		MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
 	}
 	{
-		ScreenSize = GameEngineWindow::GetScreenSize(); 
+		ScreenSize = GameEngineWindow::GetScreenSize();
 
 		vecAllPlayer.reserve(8);
 		for (size_t i = 0; i < 8; i++)
@@ -346,7 +346,7 @@ void PlayLevel::Loading()
 			vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
 			float4 StartPos = float4{ 350,50 };
-			StartPos.x *= i+1;
+			StartPos.x *= i + 1;
 			StartPos.x += iRandxPos;
 			vecAllPlayer[i]->SetPos(StartPos);
 		}
