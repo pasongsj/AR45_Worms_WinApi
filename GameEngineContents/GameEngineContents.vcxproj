@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllPlayerHpUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HomingMissile.h">
       <SubType>
       </SubType>
@@ -116,6 +120,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllPlayerHpUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HomingMissile.cpp">
       <SubType>
       </SubType>

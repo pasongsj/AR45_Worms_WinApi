@@ -25,12 +25,6 @@
     <ClInclude Include="Player.h">
       <Filter>Play\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHPUI.h">
-      <Filter>Play\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerGetDamagedUI.h">
-      <Filter>Play\Player</Filter>
-    </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
     <ClInclude Include="GlobalValue.h" />
     <ClInclude Include="TestLevel.h">
@@ -79,6 +73,15 @@
     <ClInclude Include="WeaponTorch.h">
       <Filter>Weapon\F7</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerGetDamagedUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHPUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AllPlayerHpUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -104,12 +107,6 @@
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player_State.cpp">
-      <Filter>Play\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHPUI.cpp">
-      <Filter>Play\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerGetDamagedUI.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
@@ -162,6 +159,15 @@
     <ClCompile Include="WeaponTorch.cpp">
       <Filter>Weapon\F7</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerHPUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGetDamagedUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AllPlayerHpUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -205,6 +211,9 @@
     </Filter>
     <Filter Include="Weapon\F7">
       <UniqueIdentifier>{6a77a253-e678-40f6-bbee-1983de46a695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Player\PlayerUI">
+      <UniqueIdentifier>{68498ee4-a358-49f4-ae97-5d21e0252703}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
