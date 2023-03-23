@@ -7,7 +7,6 @@
 #include "WeaponGrenade.h"
 #include "ContentsEnums.h"
 #include "MapModifier.h"
-#include "MouseObject.h"
 #include "GlobalValue.h"
 #include "Leaf.h"
 #include "WeaponHandgun.h"
@@ -235,8 +234,23 @@ void PlayLevel::ImageLoad()
 			{
 				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("WeaponIcon.bmp"));
 			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("bazookaUI.bmp"));
+			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("clusterUI.bmp"));
+			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("grenadeUI.bmp"));
+			}
+			{
+				GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("shotgunUI.bmp"));
+			}
+
 
 		}
+
+
         //WindBar UI
         {
         

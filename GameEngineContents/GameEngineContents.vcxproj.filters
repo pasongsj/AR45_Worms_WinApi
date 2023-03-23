@@ -62,7 +62,10 @@
     </ClInclude>
     <ClInclude Include="HomingMissile.h" />
     <ClInclude Include="WeaponAirStrike.h" />
-    <ClInclude Include="MouseObject.h" />
+    <ClInclude Include="
+               
+                 
+               .h" />
     <ClInclude Include="Leaf.h">
       <Filter>Play\WindEtc</Filter>
     </ClInclude>
@@ -135,7 +138,12 @@
     </ClCompile>
     <ClCompile Include="HomingMissile.cpp" />
     <ClCompile Include="WeaponAirStrike.cpp" />
-    <ClCompile Include="MouseObject.cpp" />
+    <ClCompile Include="
+               
+               
+               
+               
+               .cpp" />
     <ClCompile Include="Leaf.cpp">
       <Filter>Play\WindEtc</Filter>
     </ClCompile>

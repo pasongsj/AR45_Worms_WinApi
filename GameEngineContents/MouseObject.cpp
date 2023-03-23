@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
-
+#include "ContentsEnums.h"
 MouseObject::MouseObject() 
 {
 }
@@ -14,7 +14,7 @@ MouseObject::~MouseObject()
 void MouseObject::Start() 
 {
 //	MouseRender = CreateRender();
-	MouseCollision = CreateCollision();
+	MouseCollision = CreateCollision(WormsCollisionOrder::WeaPonInterFace);
 
 	/*if (nullptr == MouseRender)
 	{

@@ -1,6 +1,6 @@
 #include "Button.h"
 #include <GameEnginePlatform/GameEngineInput.h>
-
+#include <GameEnginePlatform/GameEngineWindow.h>
 Button::Button() 
 {
 	State = ButtonState::Release;
@@ -41,16 +41,28 @@ void Button::SetScale(float4 _Scale)
 void Button::SetCollisionOrder(int _Order)
 {
 	ButtonCollision->SetOrder(_Order);
+
+
 }
 
 void Button::Update(float _DeltaTime)
 {
+	
+
+
 	State = ButtonState::Release;
+
+	if (true != ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
+	{
+		State = ButtonState::Release;
+	}
+
 
 	if (true == ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
 	{
 		if (true == GameEngineInput::IsUp("EngineMouseLeft") && (nullptr != ClickPtr|| ClickPtrEnum != nullptr))
 		{
+			
             if (ClickPtrEnum!=nullptr)
             {
                 ClickPtrEnum(this, iEnum);
@@ -91,6 +103,16 @@ void Button::Update(float _DeltaTime)
 		ButtonRender->SetScale(Scale);
 		break;
 	case ButtonState::Hover:
+
+	{
+		float4 MousePoisition = GameEngineWindow::GetMousePosition();
+		float4 ActorPos = ButtonCollision->GetActorPlusPos();
+
+		if (true == ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
+		{
+
+		}
+
 		CurImageName = HoverImageName;
 		ButtonRender->SetImage(HoverImageName);
 		if (-1 != HoverIndex)
@@ -99,6 +121,7 @@ void Button::Update(float _DeltaTime)
 		}
 		ButtonRender->SetScale(Scale);
 		break;
+	}
 	default:
 		break;
 	}

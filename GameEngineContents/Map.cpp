@@ -151,12 +151,12 @@ void Map::Start()
 void Map::Update(float _DeltaTime)
 {
 	
-	if (true == GameEngineInput::IsDown("LandHole"))
+	/*if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
 		MapModifier::MainModifier->CreateHole(Pos, 20);
 		return;
-	}
+	}*/
 
 	if (true == FreeMoveState(_DeltaTime))
 	{

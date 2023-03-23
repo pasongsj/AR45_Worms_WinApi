@@ -25,6 +25,7 @@ enum class WormsCollisionOrder
 	Player,
 	Weapon,
 	MapModifier,
+	WeaPonInterFace
 };
 
 enum class WeaponNum

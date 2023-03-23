@@ -132,9 +132,12 @@ bool GameEngineCollision::Collision(const CollisionCheckParameter& _Parameter)
 		{
 			MsgAssert("아직 충돌함수를 만들지 않은 충돌 타입입니다");
 		}
+		CollisionData left = GetCollisionData();
+		CollisionData Right = OtherCollision->GetCollisionData();
 
 		if (true == ColFunctionPtr[Type][OtherType](GetCollisionData(), OtherCollision->GetCollisionData()))
 		{
+
 			return true;
 		}
 	}

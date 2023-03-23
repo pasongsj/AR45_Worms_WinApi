@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include <GameEngineCore/Button.h>
 #include <vector>
+#include <GameEngineCore/Button.h>
 class WeaponInterFace : public GameEngineActor
 {
 public:
@@ -18,7 +18,7 @@ public:
 	WeaponInterFace& operator=(WeaponInterFace&& _Other) noexcept = delete;
 	
 	
-	void test();
+	
 protected:
 
 	void Start() override;
@@ -28,21 +28,15 @@ protected:
 private:
 
 	GameEngineRender* WaeponInterface = nullptr;
-	GameEngineRender* WaeponIcon = nullptr;
+	
+	GameEngineRender* bazooka = nullptr;
+	GameEngineRender* cluster = nullptr;
+	GameEngineRender* grenade = nullptr;
+	GameEngineRender* shotgun = nullptr;
+
+
+
 	float4 MoveDir = float4::Zero;
-	GameEngineCollision* WeaponInterFaceCollision = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision2 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision3 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision4 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision5 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision6 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision7 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision8 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision9 = nullptr;
-	GameEngineCollision* WeaponInterFaceCollision10 = nullptr;
-
-	Button* A = nullptr;
-
 	std::vector<Button*> ButtonManager;
 	bool InterfaceMove = true;
 };

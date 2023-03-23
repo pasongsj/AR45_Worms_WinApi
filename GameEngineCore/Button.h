@@ -39,7 +39,6 @@ public:
     }
 
 
-
 	void SetTargetCollisionGroup(int _PointTargetGroup);
 
 	void SetButtonCollisionType(CollisionType _ButtonCollisionType)
