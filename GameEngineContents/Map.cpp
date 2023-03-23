@@ -73,6 +73,7 @@ void Map::Start()
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
 	MapRender->SetPosition(MapScale.half());
 	MapRender->SetScaleToImage();
+    MapRender->Off();
 
 	
 	//맵 위치 확인을 위한 테스트용 원---------삭제할 예정
@@ -113,6 +114,8 @@ void Map::Start()
 		BackGround->SetImage("Midground.bmp");
 		BackGround->SetPosition(MountainPos);
 		BackGround->SetScale(BackScale);
+
+        BackGround->Off();
 	}
 	//BackGround_Wave
 	{
@@ -120,6 +123,15 @@ void Map::Start()
 		WaveBack->SetImage("Under_Water.bmp");
 		WaveBack->SetPosition(WaveBackPos);
 		WaveBack->SetScale(BackScale);
+
+        HDC hdc = WaveBack->GetImage()->GetImageDC();
+        int r = 50;
+
+        Ellipse(hdc,
+            WaveBackPos.ix() - r,
+            WaveBackPos.iy() - r,
+            WaveBackPos.ix() + r,
+            WaveBackPos.iy() + r);
 
 		//WaveBack->Off();
 	}
@@ -132,7 +144,7 @@ void Map::Start()
 		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave0->ChangeAnimation("Wave0");
 
-		//Wave0->Off();
+		Wave0->Off();
 	}
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//Animation을 시작할 랜덤한 인덱스
 	{
@@ -143,7 +155,7 @@ void Map::Start()
 		Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave1->ChangeAnimation("Wave1", RandIdx);
 
-		//Wave1->Off();
+		Wave1->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -154,7 +166,7 @@ void Map::Start()
 		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave2->ChangeAnimation("Wave2", RandIdx);
 
-		//Wave2->Off();
+		Wave2->Off();
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -165,7 +177,7 @@ void Map::Start()
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave3->ChangeAnimation("Wave3", RandIdx);
 
-		//Wave3->Off();
+		Wave3->Off();
 	}	
 }
 
@@ -250,6 +262,6 @@ HDC Map::GetColMapDC() const
 void Map::Render(float _DeltaTime)
 {
 	std::string MousePosStr = "MousePosition : ";
-	MousePosStr += GetLevel()->GetMousePos().ToString();
+	MousePosStr += GetLevel()->GetMousePosToCamera().ToString();
 	GameEngineLevel::DebugTextPush(MousePosStr);
 }

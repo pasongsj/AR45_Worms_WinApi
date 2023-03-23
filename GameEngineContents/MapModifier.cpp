@@ -46,6 +46,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 	if (this == nullptr)
 	{
 		MsgAssert("ModifierActor가 nullptr 입니다.");
+        return;
 	}
 
 	if (0 >= _Radius)
@@ -126,6 +127,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		DeleteObject(MyBrush);
 	}
 
+    //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
 	DrawPixel(_Pos, _Radius);
 }
 
