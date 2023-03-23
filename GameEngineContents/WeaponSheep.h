@@ -11,11 +11,6 @@ public:
 	WeaponSheep();
 	~WeaponSheep();
 
-	void WeaponSheepInit();
-	void SheepFalling(float _DeltaTime);
-	void SheepWalking(float _DeltaTime);
-    void CheckMoveAngle();
-
 	WeaponSheep(const WeaponSheep& _Other) = delete;
 	WeaponSheep(WeaponSheep&& _Other) noexcept = delete;
 	WeaponSheep& operator=(const WeaponSheep& _Other) = delete;
@@ -28,6 +23,14 @@ protected:
 
 	void ResetWeapon();
 private:
+
+    void WeaponSheepInit();
+    void SheepFalling(float _DeltaTime);
+    void SheepWalking(float _DeltaTime);
+    void CheckMoveAngle();
+    bool CanIMove();
+    void Explosion();
+
 	MapModifier* SheepExplosion = nullptr;
 
 	bool isSheepOn = false;

@@ -437,7 +437,7 @@ void PlayLevel::Loading()
 	}
 
 	//CreateActor<WeaponBazooka>();
-	//CreateActor<WeaponSheep>();
+	CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
 	//CreateActor<HomingMissile>();
 }

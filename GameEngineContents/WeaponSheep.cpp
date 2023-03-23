@@ -23,8 +23,6 @@ void WeaponSheep::Start()
 
 void WeaponSheep::Update(float _DeltaTime)
 {				
-	SheepFalling(_DeltaTime);
-
     CheckMoveAngle();
 
 	if (GameEngineInput::IsDown("Shoot"))
@@ -34,6 +32,11 @@ void WeaponSheep::Update(float _DeltaTime)
 
 	if(isShoot == true)
 	{
+        if (GameEngineInput::IsDown("Shoot"))
+        {
+            Explosion();
+        }
+
 		SheepWalking(_DeltaTime);
 	}
 
@@ -85,14 +88,8 @@ void WeaponSheep::WeaponSheepInit()
 	//ExplosionAnimation->Off();
 
 	Gravity = 0.0f; //임시 설정값
-	//GravityAccel = 0.0f; //임시 설정값
 
 	MoveSpeed = 1500.0f; //임시 설정값
-
-	//EffectGravity = true;
-	//isAnimation = true;
-	//isBlocked = true;
-	//isTarget = false;
 
 	TimeCount = 0;
 }
@@ -109,6 +106,16 @@ void WeaponSheep::SheepFalling(float _DeltaTime)
 	}
 	else
 	{
+        for (int i = 0; ; i++)
+        {
+            MoveDir += {0, -1};
+
+            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(GetPos() + MoveDir, RGB(0, 0, 255)))
+            {
+                break;
+            }
+        }
+
 		Gravity = 0;
 		isOnMap = true;
 	}	
@@ -141,64 +148,61 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
 
 	if (isDirRight == true)
 	{
-		NextPos = GetPos() + float4::Right * 100.0f * _DeltaTime + float4::Up * 10.0f;
+		NextPos = GetPos() + float4::Right * 100.0f * _DeltaTime;
 		WeaponRender->ChangeAnimation("SheepMoveRight");
 	}
 	else if (isDirRight == false)
 	{
-		NextPos = GetPos() + float4::Left * 100.0f * _DeltaTime + float4::Up * 10.0f;
+		NextPos = GetPos() + float4::Left * 100.0f * _DeltaTime;
 		WeaponRender->ChangeAnimation("SheepMoveLeft");
 	}
 
+
 	if (RGB(0, 0, 255) != MapCollision->GetPixelColor(NextPos, RGB(0, 0, 255)))
 	{
-		SetPos(NextPos - float4::Up * 10.0f);
+		SetPos(NextPos);
+        SheepFalling(_DeltaTime);
 	}
 	else if(RGB(0, 0, 255) == MapCollision->GetPixelColor(NextPos, RGB(0, 0, 255)))
 	{
-
-		if (RGB(0, 0, 255) != MapCollision->GetPixelColor(NextPos + float4::Up * 10.0f, RGB(0, 0, 255)))
-		{
-			SetPos(NextPos);
-		}
+        if (true == CanIMove())
+        {
+            SetPos(NextPos);
+            SheepFalling(_DeltaTime);
+        }
+        else
+        {
+            isDirRight = !isDirRight;
+        }
 	}
-
-    if (isDirRight == true && RightMoveAngle < 240)
-    {
-        isDirRight = false;
-    }
-    else if (isDirRight == false && LeftMoveAngle > 300)
-    {
-         isDirRight = true;
-    }
 }
 
 
 void WeaponSheep::CheckMoveAngle()
 {
-    float4 PlayerLeftPos = { GetPos().x - 5, GetPos().y };
-    float4 PlayerRightPos = { GetPos().x + 5, GetPos().y };
+    float4 SheepLeftPos = { GetPos().x - 5, GetPos().y };
+    float4 SheepRightPos = { GetPos().x + 5, GetPos().y };
 
-    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(SheepLeftPos, RGB(0, 0, 0)))
     {
         while (true)
         {
-            PlayerLeftPos = { PlayerLeftPos.x, PlayerLeftPos.y - 1 };
+            SheepLeftPos = { SheepLeftPos.x, SheepLeftPos.y - 1 };
 
-            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(SheepLeftPos, RGB(0, 0, 0)))
             {
                 break;
             }
         }
     }
 
-    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(SheepRightPos, RGB(0, 0, 0)))
     {
         while (true)
         {
-            PlayerRightPos = { PlayerRightPos.x, PlayerRightPos.y - 1 };
+            SheepRightPos = { SheepRightPos.x, SheepRightPos.y - 1 };
 
-            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(SheepRightPos, RGB(0, 0, 0)))
             {
                 break;
             }
@@ -206,9 +210,43 @@ void WeaponSheep::CheckMoveAngle()
 
     }
 
-    float4 LeftAngleVector = GetPos() - PlayerLeftPos;
+    float4 LeftAngleVector = GetPos() - SheepLeftPos;
     LeftMoveAngle = LeftAngleVector.NormalizeReturn().GetAnagleDeg();
 
-    float4 RightAngleVector = GetPos() - PlayerRightPos;
+    float4 RightAngleVector = GetPos() - SheepRightPos;
     RightMoveAngle = RightAngleVector.NormalizeReturn().GetAnagleDeg();
+}
+
+bool WeaponSheep::CanIMove()
+{
+   
+    if (isDirRight == false)
+    {
+        if ((LeftMoveAngle <= 1.0f && LeftMoveAngle >= -1.0f) || LeftMoveAngle >= 270 + 30)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if ((RightMoveAngle <= 181.0f && RightMoveAngle >= 179.0f) || RightMoveAngle <= 270 - 30)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }  
+}
+
+void WeaponSheep::Explosion()
+{
+    MapModifier::MainModifier->CreateHole(GetPos(), 50);
+    WeaponRender->Off();
+    WeaponCollision->Off();
 }
