@@ -12,7 +12,6 @@ public:
 	~WeaponBazooka();
 
 	void WeaponBazookaInit();
-	void CreatePlayerAnimation();
 
 	void ChangeBazReadyAnimation();
 

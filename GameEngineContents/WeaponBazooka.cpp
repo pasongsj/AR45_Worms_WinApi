@@ -22,7 +22,6 @@ WeaponBazooka::~WeaponBazooka()
 void WeaponBazooka::Start()
 {
 	WeaponBazookaInit();
-	CreatePlayerAnimation();
 }
 
 void WeaponBazooka::Update(float _DeltaTime)
@@ -132,23 +131,6 @@ void WeaponBazooka::WeaponBazookaInit()
 	ChargingRenderInit();
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
-}
-
-void WeaponBazooka::CreatePlayerAnimation()
-{
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
-
-	for (int i = 0; i < PlayerList.size(); i++)
-	{
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazAim", "bazAimLeft.bmp", 0, 31, 0.1f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazAim", "bazAimRight.bmp", 0, 31, 0.1f, false);
-
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOff", "bazOffLeft.bmp", 0, 6, 0.05f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOff", "bazOffRight.bmp", 0, 6, 0.05f, false);
-
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Left_bazOn", "bazOnLeft.bmp", 0, 7, 0.05f, false);
-		dynamic_cast<Player*>(PlayerList[i])->CreatePlayerAnimation("Right_bazOn", "bazOnRight.bmp", 0, 7, 0.05f, false);
-	}
 }
 
 
