@@ -151,7 +151,7 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 
 	float4 CenterPos = _Pos;						//체크 시작점: 원의 중점
 
-	for (; Angle <= 365; ++Angle)
+	for (; Angle <= 365; Angle+=0.5f)
 	{
 		float4 CheckPos = { 0.0f, -_Radius };		//원점에서 반지름만큼 올라간 점, 각도가 변하기 전 원래 값으로 초기화
 		CheckPos.RotaitonZDeg(Angle);				//회전변환 적용
