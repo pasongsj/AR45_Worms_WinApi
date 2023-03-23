@@ -22,7 +22,18 @@ void WeaponSheep::Start()
 }
 
 void WeaponSheep::Update(float _DeltaTime)
-{				
+{		
+    if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
+    {
+        if (test >= 1)
+        {
+            //CurPlayer->SetPlayerAnimationFrame(3);
+        }
+
+        //test++;
+        CurPlayer->ChangePlayerAnimation("GrenadeOn");
+    }
+
     CheckMoveAngle();
 
 	if (GameEngineInput::IsDown("Shoot"))
@@ -36,10 +47,8 @@ void WeaponSheep::Update(float _DeltaTime)
         {
             Explosion();
         }
-
 		SheepWalking(_DeltaTime);
 	}
-
 }		
 		
 void WeaponSheep::Render(float _DeltaTime)

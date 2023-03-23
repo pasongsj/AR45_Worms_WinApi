@@ -1,6 +1,7 @@
 #include "PlayLevel.h"
 #include "WeaponSheep.h"
 #include "WeaponBazooka.h"
+#include "WeaponTorch.h"
 #include "Map.h"
 #include "Player.h"
 #include "WeaponShotgun.h"
@@ -144,17 +145,58 @@ void PlayLevel::ImageLoad()
 			WalkLeft->Cut(1, 15);		
 			GameEngineImage* JumpReadyLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("JumpReadyLeft.bmp"));
 			JumpReadyLeft->Cut(1, 10);
+
 			GameEngineImage* FlyUpLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupLeft.bmp"));
 			FlyUpLeft->Cut(1, 2);
 			GameEngineImage* FlyDownLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlydownLeft.bmp"));
 			FlyDownLeft->Cut(1, 2);
-			WalkLeft->Cut(1, 15);
+
 			GameEngineImage* bazAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazAimLeft.bmp"));
 			bazAimLeft->Cut(1, 32);
 			GameEngineImage* bazOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOffLeft.bmp"));
 			bazOffLeft->Cut(1, 7);
 			GameEngineImage* bazOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnLeft.bmp"));
 			bazOnLeft->Cut(1, 8);
+
+            GameEngineImage* sheepOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepOffLeft.bmp"));
+            sheepOffLeft->Cut(1, 10);
+            GameEngineImage* sheepOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepOnLeft.bmp"));
+            sheepOnLeft->Cut(1, 10);
+
+            GameEngineImage* AirStrikeOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirStrikeOffLeft.bmp"));
+            AirStrikeOffLeft->Cut(1, 10);
+            GameEngineImage* AirStrikeOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirStrikeOnLeft.bmp"));
+            AirStrikeOnLeft->Cut(1, 10);
+
+            GameEngineImage* homingAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingAimLeft.bmp"));
+            homingAimLeft->Cut(1, 32);
+            GameEngineImage* homingOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingOffLeft.bmp"));
+            homingOffLeft->Cut(1, 7);
+            GameEngineImage* homingOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingOnLeft.bmp"));
+            homingOnLeft->Cut(1, 7);
+
+            GameEngineImage* GrenadeAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeAimLeft.bmp"));
+            GrenadeAimLeft->Cut(1, 32);
+            GameEngineImage* GrenadeOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeOffLeft.bmp"));
+            GrenadeOffLeft->Cut(1, 10);
+            GameEngineImage* GrenadeOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeOnLeft.bmp"));
+            GrenadeOnLeft->Cut(1, 10);
+
+            GameEngineImage* TorchFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchFireLeft.bmp"));
+            TorchFireLeft->Cut(1, 15);
+            GameEngineImage* TorchOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOffLeft.bmp"));
+            TorchOffLeft->Cut(1, 15);
+            GameEngineImage* TorchOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOnLeft.bmp"));
+            TorchOnLeft->Cut(1, 15);
+
+            GameEngineImage* UziAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziAimLeft.bmp"));
+            UziAimLeft->Cut(1, 32);
+            GameEngineImage* UziFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziFireLeft.bmp"));
+            UziFireLeft->Cut(1, 32);
+            GameEngineImage* UziOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOffLeft.bmp"));
+            UziOffLeft->Cut(1, 10);
+            GameEngineImage* UziOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnLeft.bmp"));
+            UziOnLeft->Cut(1, 10);
 
 		}
 
@@ -176,6 +218,47 @@ void PlayLevel::ImageLoad()
 			bazOffRight->Cut(1, 7);
 			GameEngineImage* bazOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazOnRight.bmp"));
 			bazOnRight->Cut(1, 8);
+
+            GameEngineImage* sheepOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepOffRight.bmp"));
+            sheepOffRight->Cut(1, 10);
+            GameEngineImage* sheepOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepOnRight.bmp"));
+            sheepOnRight->Cut(1, 10);
+
+            GameEngineImage* AirStrikeOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirStrikeOffRight.bmp"));
+            AirStrikeOffRight->Cut(1, 10);
+            GameEngineImage* AirStrikeOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirStrikeOnRight.bmp"));
+            AirStrikeOnRight->Cut(1, 10);
+
+            GameEngineImage* homingAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingAimRight.bmp"));
+            homingAimRight->Cut(1, 32);
+            GameEngineImage* homingOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingOffRight.bmp"));
+            homingOffRight->Cut(1, 7);
+            GameEngineImage* homingOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("homingOnRight.bmp"));
+            homingOnRight->Cut(1, 7);
+
+            GameEngineImage* GrenadeAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeAimRight.bmp"));
+            GrenadeAimRight->Cut(1, 32);
+            GameEngineImage* GrenadeOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeOffRight.bmp"));
+            GrenadeOffRight->Cut(1,10);
+            GameEngineImage* GrenadeOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeOnRight.bmp"));
+            GrenadeOnRight->Cut(1, 10);
+
+            GameEngineImage* TorchFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchFireRight.bmp"));
+            TorchFireRight->Cut(1, 15);
+            GameEngineImage* TorchOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOffRight.bmp"));
+            TorchOffRight->Cut(1, 15);
+            GameEngineImage* TorchOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOnRight.bmp"));
+            TorchOnRight->Cut(1, 15);
+
+
+            GameEngineImage* UziAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziAimRight.bmp"));
+            UziAimRight->Cut(1, 32);
+            GameEngineImage* UziFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziFireRight.bmp"));
+            UziFireRight->Cut(1, 32);
+            GameEngineImage* UziOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOffRight.bmp"));
+            UziOffRight->Cut(1, 10);
+            GameEngineImage* UziOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnRight.bmp"));
+            UziOnRight->Cut(1, 10);
 		}
 		Dir.MoveParent();
 	}
@@ -440,6 +523,7 @@ void PlayLevel::Loading()
 	CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
 	//CreateActor<HomingMissile>();
+	//CreateActor<WeaponTorch>();
 }
 
 

@@ -33,4 +33,72 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Right_bazOn", .ImageName = "bazOnRight.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
     }
 
+    //양
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOff", .ImageName = "SheepOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOff", .ImageName = "SheepOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOn", .ImageName = "SheepOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOn", .ImageName = "SheepOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
+
+    //에어스트라이크
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_AirStrikeOff", .ImageName = "AirStrikeOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_AirStrikeOff", .ImageName = "AirStrikeOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_AirStrikeOn", .ImageName = "AirStrikeOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_AirStrikeOn", .ImageName = "AirStrikeOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
+
+    //호밍미사일
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingAim", .ImageName = "HomingAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingAim", .ImageName = "HomingAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOff", .ImageName = "HomingOffLeft.bmp",.Start = 0, .End = 7, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOff", .ImageName = "HomingOffRight.bmp",.Start = 0, .End = 7, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOn", .ImageName = "HomingOnLeft.bmp",.Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOn", .ImageName = "HomingOnRight.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
+    }
+
+    //그레네이드 ( 수류탄 )
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeAim", .ImageName = "GrenadeAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeAim", .ImageName = "GrenadeAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeOff", .ImageName = "GrenadeOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeOff", .ImageName = "GrenadeOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeOn", .ImageName = "GrenadeOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeOn", .ImageName = "GrenadeOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
+
+    //토치
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchFire", .ImageName = "TorchFireLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchFire", .ImageName = "TorchFireRight.bmp",.Start = 0, .End =14, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOff", .ImageName = "TorchOffLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOff", .ImageName = "TorchOffRight.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOn", .ImageName = "TorchOnLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOn", .ImageName = "TorchOnRight.bmp", .Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
+    }
+
+    //우지
+    {
+        AnimationRender->CreateAnimation({.AnimationName = "Left_UziFire", .ImageName = "UziFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({.AnimationName = "Right_UziFire", .ImageName = "UziFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+       
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_UziAim", .ImageName = "UziAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_UziAim", .ImageName = "UziAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+       
+        AnimationRender->CreateAnimation({.AnimationName = "Left_UziOff", .ImageName = "UziOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({.AnimationName = "Right_UziOff", .ImageName = "UziOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({.AnimationName = "Left_UziOn", .ImageName = "UziOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({.AnimationName = "Right_UziOn", .ImageName = "UziOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
 }

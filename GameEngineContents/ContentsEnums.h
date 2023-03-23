@@ -41,6 +41,6 @@ enum class WeaponNum
 	Minigun,
 	Sheep,				//F5
 	AirStrike,			//F6
-
+    Torch,              //F7
 
 };

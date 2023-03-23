@@ -41,6 +41,8 @@ private:
 	bool isJumpDirSet = false;
 	bool isSet = false;
 
+    int test = 0;
+
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
 
