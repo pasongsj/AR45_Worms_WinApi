@@ -109,6 +109,7 @@ void Weapon::SetCurPlayer() // 수정완료
 	if (tmpPlayer != CurPlayer)
 	{
 		CurPlayer = tmpPlayer;
+        GetShootDir();
 	}
 
 	if (nullptr == CurPlayer)
@@ -166,7 +167,7 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
 
-			if (ColPlayer->GetIsMyTurn() == false)
+			//if (ColPlayer->GetIsMyTurn() == false)
 			{
 				float4 Range = (ColPlayer->GetPos() - GetPos());
 				if (abs(Range.y) < abs(Range.x))

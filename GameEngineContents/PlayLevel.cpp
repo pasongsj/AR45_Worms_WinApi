@@ -17,6 +17,7 @@
 #include "HomingMissile.h"
 #include "WeaponMinigun.h"
 #include "WindUI.h"
+#include "WeaponClusterBomb.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -448,4 +449,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
+    //CreateActor<WeaponClusterBomb>();
 }
