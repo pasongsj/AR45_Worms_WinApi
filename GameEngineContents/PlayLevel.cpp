@@ -18,6 +18,7 @@
 #include "WeaponMinigun.h"
 #include "WindUI.h"
 #include "WeaponClusterBomb.h"
+#include "AllPlayerHpUI.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -344,7 +345,22 @@ void PlayLevel::ImageLoad()
             GameEngineImage* WindBarHider = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("windBarHider.bmp"));
         }
         {
-            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("windBarHider.bmp"));
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarB.bmp"));
+        }
+        {
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarG.bmp"));
+        }
+        {
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarP.bmp"));
+        }
+        {
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarR.bmp"));
+        }
+        {
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarS.bmp"));
+        }
+        {
+            GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarY.bmp"));
         }
 
 
@@ -412,6 +428,8 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 
 	CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
 	PrevCamPos = GetCameraPos();
+
+    AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
 	bCamMove = true;
     }
 
@@ -500,15 +518,15 @@ void PlayLevel::Loading()
 	{
 		ScreenSize = GameEngineWindow::GetScreenSize();
 
-		vecAllPlayer.reserve(8);
-		for (size_t i = 0; i < 8; i++)
+		vecAllPlayer.reserve(6);
+		for (size_t i = 0; i < 6; i++)
 		{
 			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
 			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
 			vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
-			float4 StartPos = float4{ 350,50 };
+			float4 StartPos = float4{ 400,50 };
 			StartPos.x *= i + 1;
 			StartPos.x += iRandxPos;
 			vecAllPlayer[i]->SetPos(StartPos);
@@ -522,6 +540,9 @@ void PlayLevel::Loading()
 		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 	}
 
+    {
+        AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
+    }
 	//CreateActor<WeaponBazooka>();
 	CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();

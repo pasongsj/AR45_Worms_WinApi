@@ -52,6 +52,11 @@ public:
 		return CurWeapon;
 	}
 
+    int GetPlayerHP()
+    {
+        return PlayerHP;
+    }
+
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
 	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0); //플레이어 애니메이션 변경
 	void SetPlayerAnimationFrame(int _Frame); // 조준 상태일 때 프레임을 고정
