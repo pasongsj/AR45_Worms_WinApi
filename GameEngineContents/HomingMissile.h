@@ -27,9 +27,16 @@ private:
     void Aiming();
     void Charging();
     void Firing(float _DeltaTime);
-    
+    void Explosion();
+
+    bool isHoming = false;
+    bool isAttack = false;
+    bool isFire = false;
 
     GameEngineRender* WeaponRender = nullptr;
     GameEngineCollision* WeaponCollision = nullptr;
+
+    float4 TargetPos = { 0, 0 };
+    float Accel = 0;
 };
 

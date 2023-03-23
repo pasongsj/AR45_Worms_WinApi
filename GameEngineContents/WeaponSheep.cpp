@@ -25,6 +25,8 @@ void WeaponSheep::Update(float _DeltaTime)
 {				
 	SheepFalling(_DeltaTime);
 
+    CheckMoveAngle();
+
 	if (GameEngineInput::IsDown("Shoot"))
 	{
 		isShoot = true;
@@ -142,7 +144,7 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
 		NextPos = GetPos() + float4::Right * 100.0f * _DeltaTime + float4::Up * 10.0f;
 		WeaponRender->ChangeAnimation("SheepMoveRight");
 	}
-	else
+	else if (isDirRight == false)
 	{
 		NextPos = GetPos() + float4::Left * 100.0f * _DeltaTime + float4::Up * 10.0f;
 		WeaponRender->ChangeAnimation("SheepMoveLeft");
@@ -159,10 +161,54 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
 		{
 			SetPos(NextPos);
 		}
-		else
-		{
-			isDirRight = !isDirRight;
-		}
-
 	}
+
+    if (isDirRight == true && RightMoveAngle < 240)
+    {
+        isDirRight = false;
+    }
+    else if (isDirRight == false && LeftMoveAngle > 300)
+    {
+         isDirRight = true;
+    }
+}
+
+
+void WeaponSheep::CheckMoveAngle()
+{
+    float4 PlayerLeftPos = { GetPos().x - 5, GetPos().y };
+    float4 PlayerRightPos = { GetPos().x + 5, GetPos().y };
+
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+    {
+        while (true)
+        {
+            PlayerLeftPos = { PlayerLeftPos.x, PlayerLeftPos.y - 1 };
+
+            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(PlayerLeftPos, RGB(0, 0, 0)))
+            {
+                break;
+            }
+        }
+    }
+
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+    {
+        while (true)
+        {
+            PlayerRightPos = { PlayerRightPos.x, PlayerRightPos.y - 1 };
+
+            if (RGB(0, 0, 255) != MapCollision->GetPixelColor(PlayerRightPos, RGB(0, 0, 0)))
+            {
+                break;
+            }
+        }
+
+    }
+
+    float4 LeftAngleVector = GetPos() - PlayerLeftPos;
+    LeftMoveAngle = LeftAngleVector.NormalizeReturn().GetAnagleDeg();
+
+    float4 RightAngleVector = GetPos() - PlayerRightPos;
+    RightMoveAngle = RightAngleVector.NormalizeReturn().GetAnagleDeg();
 }

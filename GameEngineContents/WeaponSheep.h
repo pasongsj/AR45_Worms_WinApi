@@ -14,6 +14,7 @@ public:
 	void WeaponSheepInit();
 	void SheepFalling(float _DeltaTime);
 	void SheepWalking(float _DeltaTime);
+    void CheckMoveAngle();
 
 	WeaponSheep(const WeaponSheep& _Other) = delete;
 	WeaponSheep(WeaponSheep&& _Other) noexcept = delete;
@@ -39,6 +40,9 @@ private:
 
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
+
+    float LeftMoveAngle = 0;
+    float RightMoveAngle = 0;
 
 	GameEngineRender* WeaponRender = nullptr;		//·»´õ
 	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
