@@ -290,9 +290,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
 
-	//ChangePlayer 키가 눌렸을때
-	if (GameEngineInput::IsDown("ChangePlayer"))
-	{
+	
 		//벡터 인덱스 증가
 		++iPlayerNumber;
 
@@ -306,13 +304,13 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
 		//다음 플레이어가 현재 플레이어가됨
-		GlobalValue::GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
 		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
 		CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
 		PrevCamPos = GetCameraPos();
 		bCamMove = true;
-	}
+	
 
 	//플레이어가 변경되었다면
 	if (bCamMove)
@@ -431,16 +429,22 @@ void PlayLevel::Loading()
 void PlayLevel::Update(float _DeltaTime)
 {
 	//CreateLeaf(_DeltaTime);
-	PlayerChange(_DeltaTime);
+    // 
+    //ChangePlayer 키가 눌렸을때
+    if (GameEngineInput::IsDown("ChangePlayer"))
+    {
+        PlayerChange(_DeltaTime);
+    }
+    else if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn())
+    {
+        PlayerChange(_DeltaTime);
+    }
+   
 	//MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
 	{
 		DebugRenderSwitch();
 	}
-
-    float4 WindPhase = float4{ static_cast<float>(GlobalValue::gValue.GetWindPhase()) ,0.f};
-    std::string windstring = WindPhase.ToString();
-    DebugTextPush(windstring);
 }
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
