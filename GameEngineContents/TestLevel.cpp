@@ -146,10 +146,10 @@ void TestLevel::Loading()
 
 		iPlayerNumber = 0;
 
-		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+		//GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
 
-		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
-		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
+		//GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+		//SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
 
 	}
 	vecAllPlayer[0]->SetName("0");
