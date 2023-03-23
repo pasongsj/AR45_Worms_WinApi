@@ -290,27 +290,30 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
 
-	
-		//벡터 인덱스 증가
-		++iPlayerNumber;
+    if (GameEngineInput::IsDown("ChangePlayer"))
+    {
+        
+    
+	//벡터 인덱스 증가
+	++iPlayerNumber;
 
-		//초과시 0
-		if (vecAllPlayer.size() == iPlayerNumber)
-		{
-			iPlayerNumber = 0;
-		}
+	//초과시 0
+	if (vecAllPlayer.size() == iPlayerNumber)
+	{
+		iPlayerNumber = 0;
+	}
 
-		//현재 플레이어의 턴 종료
-		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
+	//현재 플레이어의 턴 종료
+	GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
-		//다음 플레이어가 현재 플레이어가됨
-		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
-		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+	//다음 플레이어가 현재 플레이어가됨
+	GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+	GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
-		CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
-		PrevCamPos = GetCameraPos();
-		bCamMove = true;
-	
+	CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
+	PrevCamPos = GetCameraPos();
+	bCamMove = true;
+    }
 
 	//플레이어가 변경되었다면
 	if (bCamMove)
@@ -431,14 +434,10 @@ void PlayLevel::Update(float _DeltaTime)
 	//CreateLeaf(_DeltaTime);
     // 
     //ChangePlayer 키가 눌렸을때
-    if (GameEngineInput::IsDown("ChangePlayer"))
-    {
-        PlayerChange(_DeltaTime);
-    }
-    else if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn())
-    {
-        PlayerChange(_DeltaTime);
-    }
+    
+    
+    PlayerChange(_DeltaTime);
+    
    
 	//MoveCamForMouse(_DeltaTime);
 	if (GameEngineInput::IsDown("DebugCollision"))
