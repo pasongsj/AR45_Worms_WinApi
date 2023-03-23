@@ -118,6 +118,8 @@ private:
 	bool IsGround = true; //플레이어의 지면 여부
 	void IsGroundCheck();
 	std::string_view AnimationDir = "";
+    void MoveCalculation(float _DeltaTime);
+    bool NextPosWallCheck(float4 _NextPos);
 
     bool ReturnCanIMove(PlayerAngleDir _Dir);
 	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
@@ -126,10 +128,10 @@ private:
     const float AngleLimit = 15.0f; //각도 제한용 상수
 
 	float MoveSpeed = 50.0f;
-	float Gravity = 300.0f;
+	float Gravity = 50.0f;
 
 	void GravityApplied();
-	void MoveCalculation(float _DeltaTime);
+
 	float4 PullUpCharacter(float4 _NextPos, float _DeltaTime); //플레이어가 colimage상 아래로 들어가 있다면,MoveDir을 위로 끌어올림
 
 	GameEngineImage* ColImage = nullptr; //이동 등에 사용될 colimage
@@ -139,6 +141,7 @@ private:
 	void UpdateState(float _Time);
 
     float StateCalTime = 0.0f; //스테이트 내에서 시간 계산이 필요할 때
+    bool StateCalBool = true;
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;

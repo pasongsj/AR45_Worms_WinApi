@@ -109,20 +109,30 @@ void Player::CheckTurn()
 
 void Player::Update(float _DeltaTime)
 {
-	MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
-	
-	if (true == IsMyTurn) //내 턴일때만 스테이트 변경
-	{
-		UpdateState(_DeltaTime);
-	}
-	GravityApplied();
+	//MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
+    UpdateState(_DeltaTime);
+
+    GravityApplied();
 	MoveCalculation(_DeltaTime);
-	IsGroundCheck();
+	
+    IsGroundCheck();
     CheckTurn();
     Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
 	GetDamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
+}
+
+bool Player::NextPosWallCheck(float4 _NextPos)
+{
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 0)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Player::GravityApplied()
@@ -278,7 +288,7 @@ void Player::SetPlayerAnimationFrame(int _Frame)
 
 void Player::Render(float _DeltaTime)
 {
-	//HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
+	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 	//float4 ActorPos = GetPos() - GetLevel()->GetCameraPos();
 
 	////위치 확인용
@@ -302,6 +312,19 @@ void Player::Render(float _DeltaTime)
 		std::string PlayerIsGround = "PlayerIsGround = ";
 		PlayerIsGround = PlayerIsGround + std::to_string(IsGround);
 		GameEngineLevel::DebugTextPush(PlayerIsGround);
+
+        float4 NextPos = (GetPos() + MoveDir * _DeltaTime) - GetLevel()->GetCameraPos();
+
+        Rectangle(DoubleDC,
+            NextPos.ix() - 5,
+            NextPos.iy() - 5,
+            NextPos.ix() + 5,
+            NextPos.iy() + 5
+        );
+
+        std::string NexPosWallCheck = "NexPosWallCheck = ";
+        NexPosWallCheck = NexPosWallCheck + std::to_string(NextPosWallCheck(NextPos));
+        GameEngineLevel::DebugTextPush(NexPosWallCheck);
 
         if (nullptr != CurWeapon)
         {

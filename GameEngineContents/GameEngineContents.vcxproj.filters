@@ -134,7 +134,6 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="HomingMissile.cpp" />
-    <ClCompile Include="Player_Animation.cpp" />
     <ClCompile Include="WeaponAirStrike.cpp" />
     <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="Leaf.cpp">
@@ -145,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="WeaponClusterBomb.cpp">
       <Filter>Weapon\F2</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Animation.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
