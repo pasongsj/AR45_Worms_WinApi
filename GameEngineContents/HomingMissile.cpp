@@ -79,7 +79,7 @@ void HomingMissile::HomingMissileInit()
 
     Gravity = 0.0f; //임시 설정값
 
-    MoveSpeed = 500.0f; //임시 설정값
+    MoveSpeed = 900.0f; //임시 설정값
 
     SetCurPlayer();
 }
@@ -100,24 +100,58 @@ void HomingMissile::Firing(float _DeltaTime)
     //WeaponRender->SetMove({Dir.x * 500.0f * _DeltaTime, (Dir.y + Gravity) * 500.0f * _DeltaTime });
     //WeaponCollision->SetMove({ Dir.x * 500.0f * _DeltaTime, (Dir.y + Gravity) * 500.0f * _DeltaTime });
 
-    if(isHoming == false)
+    if(isHoming == false && isHomingSet == false)
     {
         MoveSpeed -= Accel;
         Accel += 10.0f * _DeltaTime;
 
         WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
         WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
-        
+      
+        PrevAngle += 1080.0f * _DeltaTime;
+
+        WeaponRender->SetAngle(PrevAngle);
+
         if (MoveSpeed < 0)
         {
+            PrevDir = Dir;
+
             Dir = TargetPos - WeaponRender->GetPosition();
             Dir.Normalize();
 
             Accel = 0;
-            isHoming = true;
+
+            TargetAngle = Dir.GetAnagleDeg();
+
+            isHomingSet = true;
         }
     }
-    else if(isHoming == true)
+
+    else if (isHoming == false && isHomingSet == true)
+    {
+        int PrevNum = PrevAngle / 360 ;
+        int TargetNum = TargetAngle / 360;
+        float PrevAngleRM = PrevAngle - PrevNum * 360;
+        float TargetAngleRM = TargetAngle - TargetNum * 360;
+
+        if (PrevAngleRM < TargetAngleRM)
+        {
+            PrevAngle -= 1080.0f * _DeltaTime;
+        }
+        else
+        {
+            PrevAngle = TargetAngle;
+
+            WeaponRender->SetImage("HomingBlue.bmp");
+            WeaponRender->SetRotFilter("HomingRot.bmp");
+
+            isHoming = true;
+        }
+
+        WeaponRender->SetAngle(-PrevAngle);
+    }
+
+    else if(isHoming == true && isHomingSet == true)
     {
 
         MoveSpeed += Accel;
@@ -126,13 +160,15 @@ void HomingMissile::Firing(float _DeltaTime)
         WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
         WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
 
+        TargetAngle = -Dir.GetAnagleDeg();
+
         if (CheckCollision(WeaponCollision) == true)
         {
             Explosion();
         }
-    }
 
-    WeaponRender->SetAngle(-Dir.GetAnagleDeg());
+        WeaponRender->SetAngle(TargetAngle);
+    }
 }
 
 void HomingMissile::Aiming()
@@ -150,6 +186,7 @@ void HomingMissile::Aiming()
     if(GameEngineInput::IsPress("WeaponUp") == true)
     {
         Dir = GetShootDir();
+        PrevAngle = Dir.GetAnagleDeg();
     }
 }
 

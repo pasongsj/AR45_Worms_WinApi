@@ -30,13 +30,19 @@ private:
     void Explosion();
 
     bool isHoming = false;
+    bool isHomingSet = false;
     bool isAttack = false;
     bool isFire = false;
+
+    float4 PrevDir = { 0,0 };
 
     GameEngineRender* WeaponRender = nullptr;
     GameEngineCollision* WeaponCollision = nullptr;
 
     float4 TargetPos = { 0, 0 };
     float Accel = 0;
+
+    float PrevAngle = 0;
+    float TargetAngle = 0;
 };
 

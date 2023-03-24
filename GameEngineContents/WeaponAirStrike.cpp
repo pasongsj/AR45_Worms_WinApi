@@ -26,6 +26,11 @@ void WeaponAirStrike::Start()
 
 void WeaponAirStrike::Update(float _DeltaTime)
 {
+    if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
+    {
+        CurPlayer->ChangePlayerAnimation("AirStrikeOn");
+    }
+
 	Attack(_DeltaTime);
 	CameraUpdate();
 }
@@ -149,7 +154,7 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 		}
 	}
 
-	Dir += float4{ 0, Gravity };
+	Dir += float4{0, Gravity};
 
 	for (int i = 0; i < MissileList.size(); i++)
 	{

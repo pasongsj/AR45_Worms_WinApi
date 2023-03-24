@@ -142,7 +142,7 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 	}
 
 	// ¸ÊÃ¼Å©
-	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(0, 0, 255))) //¸Ê¿¡ ´êÀ¸¸é »ç¶óÁü
+	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(0, 0, 255)) && _Col->GetActorPlusPos().y > 0) //¸Ê¿¡ ´êÀ¸¸é »ç¶óÁü
 	{
 		return true;
 	}

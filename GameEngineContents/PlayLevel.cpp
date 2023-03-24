@@ -547,9 +547,9 @@ void PlayLevel::Loading()
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
     }
 	//CreateActor<WeaponBazooka>();
-	CreateActor<WeaponSheep>();
+	//CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-	//CreateActor<HomingMissile>();
+	CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
 }
 
