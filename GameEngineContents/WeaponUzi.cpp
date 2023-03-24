@@ -46,13 +46,21 @@ void WeaponUzi::Update(float _DeltaTime)
 		WeaponUziInit();
 	}
 	SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+    SetAimFrameIndex();
 
+    if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+    {
+        float Ratio = 6 * _DeltaTime;
+        AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+        CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
+    }
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
 	if (true == IsDone())
 	{
 		isWeaponDone = true;
+        //GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동
 	}
 
 }
@@ -83,9 +91,61 @@ void WeaponUzi::CheckFiring()
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
 		AimingLine->SetPosition(Dir * 100); // 조준선 이동
+        //if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+        //{
+        //    CurPlayer->ChangePlayerAnimation("UziAim",15);
+        //}
 
 	}
 
+}
+
+void WeaponUzi::SetAimFrameIndex()
+{
+    float Angle = Dir.GetAnagleDeg();
+
+
+    int NewIndex = 0;
+    if (Dir.x > 0 && Angle > 270)
+    {
+        Angle = Angle - 360;
+    }
+
+    else if (Dir.x < 0)
+    {
+        Angle = 180 - Angle;
+    }
+
+    NewIndex = Angle / 5 + 15;
+
+    if (NewIndex < 0)
+    {
+        NewIndex = 0;
+    }
+    NextAimIndex = NewIndex;
+
+    /*else if (Bazindex > CurIndex)
+    {
+        TimeCounting();
+
+        if (TimeCount >= 0.01f)
+        {
+            ++CurIndex;
+            CurPlayer->SetPlayerAnimationFrame(CurIndex);
+            TimeCount = 0;
+        }
+    }
+    else if (Bazindex < CurIndex)
+    {
+        TimeCounting();
+
+        if (TimeCount >= 0.01f)
+        {
+            --CurIndex;
+            CurPlayer->SetPlayerAnimationFrame(CurIndex);
+            TimeCount = 0;
+        }
+    }*/
 }
 
 

@@ -92,8 +92,8 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({.AnimationName = "Left_UziFire", .ImageName = "UziFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
         AnimationRender->CreateAnimation({.AnimationName = "Right_UziFire", .ImageName = "UziFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
        
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_UziAim", .ImageName = "UziAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_UziAim", .ImageName = "UziAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_UziAim", .ImageName = "UziAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_UziAim", .ImageName = "UziAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
        
         AnimationRender->CreateAnimation({.AnimationName = "Left_UziOff", .ImageName = "UziOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
         AnimationRender->CreateAnimation({.AnimationName = "Right_UziOff", .ImageName = "UziOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });

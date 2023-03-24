@@ -180,6 +180,9 @@
     <ClCompile Include="MainTitleLevel.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="MainTitleBack.cpp" />
+    <ClCompile Include="PlayerWeaponState.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

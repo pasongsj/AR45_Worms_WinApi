@@ -135,7 +135,7 @@ void Player::IdleUpdate(float _DeltatTime)
 		}
 	}
 
-    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 3.0f)
+    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 2.0f)
     {
         ChangeState(PlayerState::EQUIPWEAPON);
         return;
@@ -261,15 +261,15 @@ void Player::JumpEnd()
 
 }
 
-void Player::EquipWeaponStart()
-{
-    //현재 무기 애니메이션으로 변경
-}
-void Player::EquipWeaponUpdate(float _DeltatTime)
-{
-
-}
-void Player::EquipWeaponEnd()
-{
-    //장비한 무기 애니메이션용 각도 리셋
-}
+//void Player::EquipWeaponStart()
+//{
+//    //현재 무기 애니메이션으로 변경
+//}
+//void Player::EquipWeaponUpdate(float _DeltatTime)
+//{
+//
+//}
+//void Player::EquipWeaponEnd()
+//{
+//    //장비한 무기 애니메이션용 각도 리셋
+//}

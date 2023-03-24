@@ -141,6 +141,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerWeaponState.cpp" />
     <ClCompile Include="Player_Animation.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="WeaponAirStrike.cpp">
