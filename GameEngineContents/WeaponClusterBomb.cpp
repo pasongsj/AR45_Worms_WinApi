@@ -3,8 +3,9 @@
 #include "MapModifier.h"
 #include "ContentsEnums.h"
 #include <GameEngineCore/GameEngineResources.h>
-
+#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 WeaponClusterBomb::WeaponClusterBomb()
 {
@@ -57,24 +58,9 @@ void WeaponClusterBomb::Update(float _DeltaTime)
     {
         WeaponClusterBombInit();
     }
-    SetCurPlayer();
+    SetCurPlayer();// 플레이어 전환버튼 때문에 추가
 
     Firing(_DeltaTime);
-    // 폭발 체크
-    if (Timer < 0 && isExplosion == false)
-    {
-        GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-        BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-
-        AttackPlayer(BombCollision);
-
-        MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
-        isExplosion = true;
-        WeaponRender->Off();
-        WeaponCollision->Off();
-        ClusterOn(WeaponRender->GetPosition());
-    }
-
     ClusterFiring(_DeltaTime);
 
     if (true == isDone())
@@ -87,6 +73,8 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 {
     if (true == isExplosion)
     {
+        // 클러스터 카메라 이동 
+        GetLevel()->SetCameraPos(ClusterRender[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
         for (int i = 0;i < ClusterRender.size();i++)
         {
             if (false == ClusterCollision[i]->IsUpdate())
@@ -100,11 +88,11 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
             if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
             {
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-                BombCollision->SetPosition(GetPos() + ClusterCollision[i]->GetPosition());
+                BombCollision->SetPosition(ClusterCollision[i]->GetActorPlusPos());
 
-                AttackPlayer(BombCollision);
+                //AttackPlayer(BombCollision);
 
-                MapModifier::MainModifier->CreateHole(GetPos() + ClusterCollision[i]->GetPosition(), 60);
+                MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), 60);
                 ClusterRender[i]->Off();
                 ClusterCollision[i]->Off();
             }
@@ -135,6 +123,9 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
 
     else // 발사 중
     {
+        // 카메라 이동
+        GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+
         Timer -= _DeltaTime;
         if (false == isExplosion)// && true == isFire)
         {
@@ -164,6 +155,21 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
                 Dir.x = Dir.x * 0.5f;
                 Dir.y = -Dir.y * 0.25f;
             }
+        }
+
+        //타이머 체크 -> 큰 폭발 체크
+        if (Timer < 0 && isExplosion == false)
+        {
+            GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
+            BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+
+            AttackPlayer(BombCollision);
+
+            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+            isExplosion = true;
+            WeaponRender->Off();
+            WeaponCollision->Off();
+            ClusterOn(WeaponRender->GetPosition());
         }
     }
 }

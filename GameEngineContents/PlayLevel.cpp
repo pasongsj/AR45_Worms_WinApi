@@ -571,9 +571,10 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	//CreateActor<WeaponHandgun>();
+	CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
     //CreateActor<WeaponClusterBomb>();
+    //CreateActor<WeaponShotgun>();
 }

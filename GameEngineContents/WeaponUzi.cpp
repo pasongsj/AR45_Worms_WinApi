@@ -3,7 +3,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-//#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 #include "MapModifier.h"
 #include "Player.h"
@@ -45,12 +45,7 @@ void WeaponUzi::Update(float _DeltaTime)
 	{
 		WeaponUziInit();
 	}
-	SetCurPlayer();
-	//if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정
-	//{
-	//	SetCurPlayer();
-	//	ResetWeapon();
-	//}
+	SetCurPlayer();// 플레이어 전환버튼 때문에 추가
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
@@ -99,6 +94,7 @@ void WeaponUzi::Firing(float _DeltaTime)
 
 	if (true == isFire)
 	{
+        GetLevel()->SetCameraPos(UziCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		DelayTime -= _DeltaTime;
 		if (DelayTime < 0)
 		{

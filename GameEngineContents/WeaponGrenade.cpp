@@ -2,6 +2,8 @@
 #include "ContentsEnums.h"
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
+
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include "Player.h"
 #include "MapModifier.h"
 
@@ -43,22 +45,9 @@ void WeaponGrenade::Update(float _DeltaTime)
 	{
 		WeaponGrenadeInit();
 	}
-	SetCurPlayer();
+	SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
 
 	Firing(_DeltaTime);
-	// 폭발 체크
-	if (Timer < 0 && isExplosion == false)
-	{
-		GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-		BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-
-		AttackPlayer(BombCollision);
-
-		MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
-		isExplosion = true;
-		WeaponRender->Off();
-		WeaponCollision->Off();
-	}
 
 }
 
@@ -85,6 +74,9 @@ void WeaponGrenade::Firing(float _DeltaTime)
 
 	else // 발사 중
 	{
+        // 카메라 이동
+        GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+
 		Timer -= _DeltaTime;
 		if (false == isExplosion)// && true == isFire)
 		{
@@ -115,6 +107,20 @@ void WeaponGrenade::Firing(float _DeltaTime)
 				Dir.y = -Dir.y * 0.25f;
 			}
 		}
+
+        // 폭발 체크
+        if (Timer < 0 && isExplosion == false)
+        {
+            GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
+            BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+
+            AttackPlayer(BombCollision);
+
+            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+            isExplosion = true;
+            WeaponRender->Off();
+            WeaponCollision->Off();
+        }
 	}
 }
 

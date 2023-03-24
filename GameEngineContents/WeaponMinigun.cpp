@@ -3,8 +3,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-//#include <GameEnginePlatform/GameEngineInput.h>
-
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include "MapModifier.h"
 #include "Player.h"
 
@@ -44,17 +43,12 @@ void WeaponMinigun::Update(float _DeltaTime)
 	while (BulletCount > MinigunCollision.size()) // 총탄 개수만큼 WeaponInit
 	{
 		WeaponMinigunInit();
+        SetCurPlayer();
 	}
-
-	SetCurPlayer();
-	//if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정 - 수정 필요함
-	//{
-	//	SetCurPlayer();
-	//	ResetWeapon();
-	//}
 
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
+
 	if (true == IsDone())
 	{
 		isWeaponDone = true;
@@ -97,6 +91,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
 {
 	if (true == isFire)
 	{
+        GetLevel()->SetCameraPos(MinigunCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		DelayTime -= _DeltaTime;
 		if (DelayTime < 0)
 		{

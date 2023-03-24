@@ -3,7 +3,8 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-//#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 #include "MapModifier.h"
 #include "Player.h"
@@ -20,7 +21,7 @@ void WeaponShotgun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
-	MoveSpeed = 600.0f;
+	MoveSpeed = 1000.0f;
 	//float Dmg = 0.0f;
 	Dir = float4::Right;
 	BombScale = 50;
@@ -44,14 +45,8 @@ void WeaponShotgun::Update(float _DeltaTime)
 	{
 		WeaponShotgunInit();
 	}
+	SetCurPlayer();// 플레이어 전환버튼 때문에 추가
 	
-	SetCurPlayer();
-	//if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정 - 수정필요
-	//{
-	//	SetCurPlayer();
-	//	ResetWeapon();
-	//}
-
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
@@ -77,7 +72,7 @@ bool WeaponShotgun::IsDone()
 
 void WeaponShotgun::CheckFiring()
 {
-	if (PressShoot()) // 발사체크
+	if (true == GameEngineInput::IsDown("Shoot")) // 발사체크
 	{
 		for (int i = 0; i < BulletCount; i++)
 		{
@@ -108,6 +103,7 @@ void WeaponShotgun::Firing(float _DeltaTime)
 	{
 		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate())
 		{
+            GetLevel()->SetCameraPos(ShotGunCollision[i]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 			//isRemainBullet = true;
 			WeaponMove(ShotGunCollision[i], _DeltaTime, ShotGunDir[i]);
 
@@ -121,6 +117,10 @@ void WeaponShotgun::Firing(float _DeltaTime)
 				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), BombScale);	// 4. 구멍 만들기
 
 				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+                if (i+1 < BulletCount)
+                {
+                    GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half());
+                }
 			}
 		}
 	}
