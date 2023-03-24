@@ -18,6 +18,12 @@ void TitleBack::Start()
 	InTro->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y});
 	InTro->SetScale(GameEngineWindow::GetScreenSize());
 
+    backGround = CreateRender("backGround.bmp", WormsTitle::Finish);
+    backGround->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y });
+    backGround->SetScale(GameEngineWindow::GetScreenSize());
+    backGround->SetAlpha(0);
+    backGround->Off();
+
 	InTroBackGround = CreateRender("BackGround.bmp", WormsTitle::IntroBackGround);
 	InTroBackGround->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y  });
 	InTroBackGround->SetScale(GameEngineWindow::GetScreenSize());
@@ -37,12 +43,7 @@ void TitleBack::Start()
 	TitleAnimation = CreateRender(WormsTitle::Intro);
 	TitleAnimation->SetPosition({ GameEngineWindow::GetScreenSize().half().x-100,GameEngineWindow::GetScreenSize().half().y - 300 });
 	TitleAnimation->SetScale({ 200,200 });
-	TitleAnimation->CreateAnimation({ .AnimationName = "TitleAnimation", 
-		
-		
-		
-		
-		.ImageName = "TitleLogo_Actor.bmp", .Start = 0, .End = 4, .InterTime = 0.1f,.Loop = false ,.FrameIndex{0,1,2,3,4,3,2,1,0} });
+	TitleAnimation->CreateAnimation({ .AnimationName = "TitleAnimation", .ImageName = "TitleLogo_Actor.bmp", .Start = 0, .End = 4, .InterTime = 0.1f,.Loop = false ,.FrameIndex{0,1,2,3,4,3,2,1,0} });
 	TitleAnimation->ChangeAnimation("TitleAnimation");
 	TitleAnimation->Off(); 
 
@@ -236,6 +237,24 @@ void TitleBack::Update(float _DeltaTime)
 			N->On();
 		}
 	}
+    if (WriteTime > 5.0)
+    {
+        if (GameEngineInput::IsAnyKey())
+        {
+            finialCheck = true;
+            backGround->On();
+        }
+    }
+    if(finialCheck ==true)
+    {
+        BlackAlpha += 200 * _DeltaTime;
+        backGround->SetAlpha(BlackAlpha);
 
+
+    }
+    if (BlackAlpha > 254)
+    {
+
+    }
 
 }

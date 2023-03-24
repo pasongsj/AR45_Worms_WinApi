@@ -27,10 +27,13 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MainTitleBack.h" />
+    <ClInclude Include="MainTitleLevel.h" />
     <ClInclude Include="MapObject.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Star.h" />
     <ClInclude Include="WeaponAirStrike.h">
       <SubType>
       </SubType>
@@ -132,11 +135,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MainTitleBack.cpp" />
+    <ClCompile Include="MainTitleLevel.cpp" />
     <ClCompile Include="MapObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Player_Animation.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="WeaponAirStrike.cpp">
       <SubType>
       </SubType>

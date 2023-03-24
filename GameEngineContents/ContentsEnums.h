@@ -19,7 +19,16 @@ enum class WormsTitle
 	IntroBackGround,
 	Intro,
 	WhiteBackGround,
-	Write
+	Write,
+    Finish
+};
+enum class WormsMainTitle
+{
+    BackGround,
+    Star,
+    Select,
+    BlackBackGround,
+
 };
 enum class WormsCollisionOrder
 {

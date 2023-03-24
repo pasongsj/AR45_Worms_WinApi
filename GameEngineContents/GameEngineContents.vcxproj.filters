@@ -85,6 +85,9 @@
     <ClInclude Include="MapObject.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="MainTitleLevel.h" />
+    <ClInclude Include="Star.h" />
+    <ClInclude Include="MainTitleBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -174,6 +177,9 @@
     <ClCompile Include="MapObject.cpp">
       <Filter>Play\Map</Filter>
     </ClCompile>
+    <ClCompile Include="MainTitleLevel.cpp" />
+    <ClCompile Include="Star.cpp" />
+    <ClCompile Include="MainTitleBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

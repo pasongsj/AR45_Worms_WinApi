@@ -1,11 +1,7 @@
 #pragma once
 
 #include <GameEngineCore/GameEngineActor.h>
-enum class TiTleState
-{
-	Title,
-	TitleStop
-};
+
 
 class TitleBack : public GameEngineActor
 {
@@ -34,6 +30,9 @@ private:
 	GameEngineRender* TitleAnimation = nullptr;
 	GameEngineRender* TitleAnimationStop = nullptr;
 	GameEngineRender* WhiteBackGround = nullptr;
+    GameEngineRender* backGround = nullptr;
+
+
 
 	GameEngineRender* A = nullptr;
 	GameEngineRender* R = nullptr;
@@ -53,6 +52,8 @@ private:
 	float AnimationWhiteTime = 0; 
 	float WhiteColor = 0;
 	float WriteTime = 0;
+    float BlackAlpha = 0;
+    bool finialCheck = false;
 	bool IntroCheck = false;
 	bool TitleCheck = false;
 	bool WriteCheck = false;
