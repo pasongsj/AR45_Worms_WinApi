@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 WeaponSheep::WeaponSheep()
 {
@@ -25,17 +26,15 @@ void WeaponSheep::Update(float _DeltaTime)
 {		
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
     {
-        if (test >= 1)
+        if(isShoot == false)
         {
-            //CurPlayer->SetPlayerAnimationFrame(3);
+            CurPlayer->ChangePlayerAnimation("SheepOn");
         }
-
-        //test++;
-        CurPlayer->ChangePlayerAnimation("GrenadeOn");
     }
 
+    //앞뒤 경사각 수시로 기록
     CheckMoveAngle();
-
+    
 	if (GameEngineInput::IsDown("Shoot"))
 	{
 		isShoot = true;
@@ -47,7 +46,15 @@ void WeaponSheep::Update(float _DeltaTime)
         {
             Explosion();
         }
-		SheepWalking(_DeltaTime);
+
+        if(isJump == true)
+        {
+            SheepJump(_DeltaTime);
+        }
+        else
+        {
+            SheepWalking(_DeltaTime);
+        }
 	}
 }		
 		
@@ -108,8 +115,8 @@ void WeaponSheep::SheepFalling(float _DeltaTime)
 
 	if (RGB(0, 0, 255) != MapCollision->GetPixelColor(GetPos() + float4::Down, RGB(0, 0, 255)))
 	{
-		MoveDir += float4::Down * _DeltaTime + float4{0, Gravity};
-		Gravity += 2.0f * _DeltaTime;
+		Gravity += 300.0f * _DeltaTime;
+		MoveDir += float4{0, Gravity}*_DeltaTime;
 
 		isOnMap = false;
 	}
@@ -150,6 +157,8 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
 			isDirRight = false;
 		}
 
+        CurPlayer->ChangePlayerAnimation("SheepOff");
+
 		isSet = true;
 	}
 
@@ -184,6 +193,16 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
             isDirRight = !isDirRight;
         }
 	}
+
+    if(isOnMap == true)
+    {
+        int Num = GameEngineRandom::MainRandom.RandomInt(0, 10);
+
+        if (Num == 0)
+        {
+            isJump = true;
+        }
+    }
 }
 
 
@@ -258,4 +277,50 @@ void WeaponSheep::Explosion()
     MapModifier::MainModifier->CreateHole(GetPos(), 50);
     WeaponRender->Off();
     WeaponCollision->Off();
+}
+
+void WeaponSheep::SheepJump(float _DeltaTime)
+{
+    if (isSet == false)
+    {
+        WeaponRender->On();
+        SetPos(CurPlayer->GetPos());
+
+        if (CurPlayer->GetPlayerDir() == float4::Right)
+        {
+            isDirRight = true;
+        }
+        else if (CurPlayer->GetPlayerDir() == float4::Left)
+        {
+            isDirRight = false;
+        }
+
+        CurPlayer->ChangePlayerAnimation("SheepOff");
+
+        isSet = true;
+    }
+
+    float4 NextPos;
+    JumpGravity += 500.0f * _DeltaTime;
+
+    if (isDirRight == true)
+    {
+        NextPos = GetPos() + float4{ 100.0f, -200.0f + JumpGravity } *_DeltaTime;
+        WeaponRender->ChangeAnimation("SheepMoveRight");
+    }
+    else if (isDirRight == false)
+    {
+        NextPos = GetPos() + float4{ -100.0f, -200.0f + JumpGravity } *_DeltaTime;
+        WeaponRender->ChangeAnimation("SheepMoveLeft");
+    }
+
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(NextPos, RGB(0, 0, 255)))
+    {
+        isJump = false;
+        JumpGravity = 0;
+    }
+    else
+    {
+        SetPos(NextPos);
+    }
 }

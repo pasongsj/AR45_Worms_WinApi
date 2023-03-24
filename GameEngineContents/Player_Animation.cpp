@@ -35,11 +35,11 @@ void Player::CreateAnimation()
 
     //양
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOff", .ImageName = "SheepOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOff", .ImageName = "SheepOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOff", .ImageName = "SheepOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.025f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOff", .ImageName = "SheepOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.025f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOn", .ImageName = "SheepOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOn", .ImageName = "SheepOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_SheepOn", .ImageName = "SheepOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.025f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_SheepOn", .ImageName = "SheepOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.025f, .Loop = false });
     }
 
     //에어스트라이크

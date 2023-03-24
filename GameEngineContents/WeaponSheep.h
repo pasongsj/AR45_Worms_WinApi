@@ -30,6 +30,7 @@ private:
     void CheckMoveAngle();
     bool CanIMove();
     void Explosion();
+    void SheepJump(float _DeltaTime);
 
 	MapModifier* SheepExplosion = nullptr;
 
@@ -48,6 +49,8 @@ private:
 
     float LeftMoveAngle = 0;
     float RightMoveAngle = 0;
+
+    float JumpGravity = 0.0f;
 
 	GameEngineRender* WeaponRender = nullptr;		//·»´õ
 	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü
