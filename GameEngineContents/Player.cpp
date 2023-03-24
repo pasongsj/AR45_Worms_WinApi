@@ -75,16 +75,16 @@ void Player::Test()
 {
 	if (GameEngineInput::IsDown("TestButton"))
 	{
-		GetDamaged(5);
+		Damaged(5);
 	}
 }
 
-void Player::GetDamaged(int _Damage)
+void Player::Damaged(int _Damage)
 {
-	if (GetDamagedTime >= 0.5f)
+	if (DamagedTime >= 0.5f)
 	{
 		PlayerHP -= _Damage;
-		GetDamagedTime = 0.0f;
+		DamagedTime = 0.0f;
 		
 		PlayerGetDamagedUI* DamagedUI = GetLevel()->CreateActor<PlayerGetDamagedUI>();
 		DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, _Damage);
@@ -120,7 +120,7 @@ void Player::Update(float _DeltaTime)
     Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
-	GetDamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
+	DamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
 }
 
 bool Player::NextPosWallCheck(float4 _NextPos)

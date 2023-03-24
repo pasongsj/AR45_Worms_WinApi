@@ -150,10 +150,12 @@ void Player::IdleEnd()
 void Player::MoveStart()
 {
 	DirCheck("Move");
+    StateCalTime = 0.0f;
 }
 void Player::MoveUpdate(float _DeltatTime)
 {
     MoveDir = float4::Zero;
+
 
 	//동시에 누르면 진행하지 않음
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
@@ -169,6 +171,21 @@ void Player::MoveUpdate(float _DeltatTime)
 		return;
 	}
 
+    if (false == IsGround)
+    {
+        StateCalTime += _DeltatTime;
+    }
+    else
+    {
+        StateCalTime = 0.0f;
+    }
+
+    if (StateCalTime >= 0.2f)
+    {
+        //땅이 없는 상태로 0.2초 이동함
+        ChangeState(PlayerState::IDLE);
+        return;
+    }
 
     if (GameEngineInput::IsPress("MoveLeft"))
     {

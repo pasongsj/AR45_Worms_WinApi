@@ -442,7 +442,7 @@ void WeaponBazooka::DamageToPlayer()
 	{
 		for (int i = 0; i < CollisionPlayer.size(); i++)
 		{
-			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->GetDamaged(Dmg);
+			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
 		}
 	}
 }
