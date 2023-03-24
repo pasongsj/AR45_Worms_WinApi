@@ -50,7 +50,6 @@ private:
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 
-
     float4 WaveStartPos = { 1920.0f, 1392.0f };         //Wave BackGround 시작 위치
 	float4 MountainPos = { 1920.0f, 1264.0f };          //Mountain BackGround 위치
 	float4 WaveBackPos = { 1920.0f, 1764.0f };			//Wave BackGround 위치
@@ -59,8 +58,8 @@ private:
 	float4 WaveAnimPos2 = { 1920.0f, 1492.0f };
 	float4 WaveAnimPos3 = { 1920.0f, 1547.0f };
 
-	float4 BackScale = { 5120.0f, 744.0f };
-	float4 WaveScale = { 5120.0f, 110.0f };
+	float4 BackScale = { 5120.0f, 744.0f };             //sky의 크기
+	float4 WaveScale = { 5120.0f, 110.0f };             //Wave의 크기
 
 	std::string MapName = "";
 	std::string ColMapName = "";

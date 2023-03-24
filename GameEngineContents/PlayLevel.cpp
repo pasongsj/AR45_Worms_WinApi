@@ -62,46 +62,44 @@ void PlayLevel::ImageLoad()
 	{
 		Dir.Move("Map");
 
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCity.bmp"));
-		GameEngineImage* ColImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCity_Ground.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapBooks.bmp"));
-		GameEngineImage* ColImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapBooks_Ground.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCars.bmp"));
-		GameEngineImage* ColImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCars_Ground.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain.bmp"));
-		GameEngineImage* ColImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain_Ground.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
-		Image->Cut(4, 1);
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Under_Water.bmp"));
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite.bmp"));
-		Image->Cut(1, 11);
-	}
-	{
-		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite_surfice.bmp"));
-		Image->Cut(1, 11);
+        //Map & ColMap
+		GameEngineImage* MapImage1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCity.bmp"));
+		GameEngineImage* ColMapImage1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCity_Ground.bmp"));
+	
+		GameEngineImage* MapImage2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapBooks.bmp"));
+        GameEngineImage* ColMapImage2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapBooks_Ground.bmp"));
+
+		GameEngineImage* MapImage3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCars.bmp"));
+		GameEngineImage* ColMapImage3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapCars_Ground.bmp"));
+
+		GameEngineImage* MapImage4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain.bmp"));
+		GameEngineImage* ColMapImage4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain_Ground.bmp"));
+
+        //BackGround
+		GameEngineImage* sky = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
+	
+		GameEngineImage* Mountain = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
+        Mountain->Cut(4, 1);
+
+		GameEngineImage* Water = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Under_Water.bmp"));
+
+		GameEngineImage* Wave = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Water_sprite.bmp"));
+        Wave->Cut(1, 11);
+
+        //Map Objects
+        GameEngineImage* MapObj1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject1.bmp"));
+        GameEngineImage* MapObjCol1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject1_Col.bmp"));
+
+        GameEngineImage* MapObj2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject2.bmp"));
+        GameEngineImage* MapObjCol2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject2_Col.bmp"));
+
+        GameEngineImage* MapObj3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject3.bmp"));
+        GameEngineImage* MapObjCol3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapObject3_Col.bmp"));
 	}
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
 		Image->Cut(5, 3);
 	}
-    {
-        GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TrachCan.bmp"));
-    }
 	Dir.MoveParent();
 	{
 		Dir.Move("Weapon");

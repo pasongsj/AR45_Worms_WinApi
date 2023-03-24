@@ -105,36 +105,9 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		DeleteObject(MyPen);
 	}
 
-
-	//테스트 코드-------삭제 예정
-	{
-
-		HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Red);
-		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);
-
-		int r = 5;
-
-		Ellipse(MapDc,
-			CircleRenderPos.ix() - r,
-			CircleRenderPos.iy() - r,
-			CircleRenderPos.ix() + r,
-			CircleRenderPos.iy() + r);
-
-		SelectObject(MapDc, OldBrush);
-		DeleteObject(MyBrush);
-	}
-
     //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
 	DrawPixel(_Pos, _Radius);
 }
-
-void MapModifier::CreateMapModifier()
-{
-	MainModifier = GetLevel()->CreateActor<MapModifier>(WormsRenderOrder::Map);
-	float4 MousePos = GetLevel()->GetMousePosToCamera();
-	MainModifier->SetPos(MousePos);
-}
-
 
 void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 {
@@ -144,13 +117,14 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
 
 	int lineThick = 2;
-    float Angle = 0.0f;
+    float Radius = static_cast<float>(_Radius);
+    float Angle = 260.0f;
 
 	float4 CenterPos = _Pos;						                                        //체크 시작점: 원의 중점
 
-	for (; Angle < 370; ++Angle)
+	for (; Angle < 370.0f; ++Angle)
 	{
-		float4 CheckPos = { 0.0f, -_Radius };		                                        //원점에서 반지름만큼 올라간 점, 각도가 변하기 전 원래 값으로 초기화
+		float4 CheckPos = { 0.0f, -Radius };		                                        //원점에서 반지름만큼 올라간 점, 각도가 변하기 전 원래 값으로 초기화
 		CheckPos.RotaitonZDeg(Angle);				                                        //회전변환 적용
 		CheckPos += CenterPos;						                                        //회전시킨 후 위치 변화
 
@@ -191,6 +165,14 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 				DeleteObject(MyPen);
 			}		
 		}
+        else
+        {
+            Rectangle(MapDc,
+                CheckPos.ix() - 1,
+                CheckPos.iy() - 1,
+                CheckPos.ix() + 1,
+                CheckPos.iy() + 1);
+        }
 	}
 }
 

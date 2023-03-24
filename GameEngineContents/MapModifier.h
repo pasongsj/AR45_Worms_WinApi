@@ -20,9 +20,6 @@ public:
 	//원형으로 땅을 깎는 함수
 	void CreateHole(float4 _Pos, int _Radius);
 
-	//MapModifier의 액터를 만드는 함수
-	void CreateMapModifier();
-
     /*void CleanLineColor();*/
 
 	//충돌체 포인터 얻는 함수
@@ -49,8 +46,6 @@ private:
 	GameEngineCollision* ModifierCollision = nullptr;				//Modifier Collision
 	
 	
-	//맵의 건물과 닿은 곳에 선을 그림
+	//맵의 건물과 닿은 곳에 구분선을 넣는 함수
 	void DrawPixel(float4 _Pos, int _Radius);
-
-
 };

@@ -146,8 +146,8 @@ void Map::Start()
 
 	}	
 
-    //MapObject* Object1 = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
-    //Object1->SetPos({ 300.0f, 300.0f });
+    MapObject* Object1 = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+    Object1->SetPos({ 295.0f, 500.0f });
 }
 
 void Map::Update(float _DeltaTime)
