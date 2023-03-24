@@ -129,7 +129,9 @@ void PlayLevel::ImageLoad()
         GameEngineImage* HomingRed = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRed.bmp"));
         GameEngineImage* HomingRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRot.bmp"));
 
-
+        GameEngineImage* fire = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Fire.bmp"));
+        GameEngineImage* marker = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("marker.bmp"));
+        marker->Cut(1, 10);
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
@@ -260,7 +262,8 @@ void PlayLevel::ImageLoad()
             GameEngineImage* UziOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOffRight.bmp"));
             UziOffRight->Cut(1, 10);
             GameEngineImage* UziOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnRight.bmp"));
-            UziOnRight->Cut(1, 10);
+            UziOnRight->Cut(1, 10);            
+            
 		}
 		Dir.MoveParent();
 	}
@@ -544,10 +547,10 @@ void PlayLevel::Loading()
     {
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
     }
-	//CreateActor<WeaponBazooka>();
-	//CreateActor<WeaponSheep>();
+    //CreateActor<WeaponBazooka>();
+    CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-	CreateActor<HomingMissile>();
+	//CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
 }
 

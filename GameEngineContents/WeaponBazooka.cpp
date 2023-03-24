@@ -119,7 +119,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	ExplosionAnimation->SetScale({ 100, 100 });
 	ExplosionAnimation->Off();
 
-	Gravity = 10.0f; //임시 설정값
+	Gravity = 20.0f; //임시 설정값
 
 	MoveSpeed = 0.0f; //임시 설정값
 
@@ -155,16 +155,16 @@ void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 		ChargingRenderOn();
 		CurPlayer->SetPlayerAnimationFrame(Bazindex);
 
-		MoveSpeed = 100 + GetChargeTime() * 1000.0f;
-		
+		MoveSpeed = 300 + GetChargeTime() * 1000.0f;
+
 		//Charge 로 바꿔야함
-		if (MoveSpeed < 100)
+		if (MoveSpeed < 300)
 		{
-			MoveSpeed = 100;
+			MoveSpeed = 300;
 		}
-		else if (MoveSpeed > 900)
+		else if (MoveSpeed > 2000)
 		{
-			MoveSpeed = 900;
+			MoveSpeed = 2000;
 		}
 	}
 }
@@ -195,27 +195,30 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 	if (isSet == false)
 	{
-
 		WeaponRender->SetPosition(CurPlayer->GetPos() + ShootDir * 30);
 		WeaponCollision->SetPosition(CurPlayer->GetPos() + ShootDir * 30);
 
 		Dir = ShootDir;
+        Dir.Normalize();
 
 		WeaponRender->On();
 		WeaponCollision->On();
 		isSet = true;
 	}
-
-	Gravity += 0.05f * _DeltaTime;
 	
-	float4 NextPos;
+    
+    Gravity += 10.0f * _DeltaTime;
 
-	Dir += {Dir.x, Dir.y + Gravity};
-	Dir.Normalize();
+    CurPos = WeaponRender->GetPosition();
+    NextPos = CurPos + (Dir * MoveSpeed + float4{0, Gravity}) * _DeltaTime;
+
+    Dir = NextPos - CurPos;
+    Dir.Normalize();
 
 	WeaponRender->SetAngle(-Dir.GetAnagleDeg());
-	WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
-	WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
+
+	WeaponRender->SetPosition(NextPos);
+	WeaponCollision->SetPosition(NextPos);    
 
 	if (CheckCollision(WeaponCollision) == true)
 	{
@@ -377,6 +380,7 @@ void WeaponBazooka::BazAiming()
 		isBazOn = false;
 		CurIndex = 16;
 	}
+
 }
 
 void WeaponBazooka::ChargingRenderInit()
@@ -451,16 +455,32 @@ void WeaponBazooka::MakeSmoke()
 {
 	TimeCounting();
 
-	if (TimeCount > 0.06)
+	if (TimeCount > 0.03)
 	{
 		float4 BaZooka = WeaponRender->GetActorPlusPos();
 
 		GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
 		Smoke->SetPosition(BaZooka + float4{0, -15});
 		Smoke->SetScale({ 60, 60 });
-		Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.01f , .Loop = false });
+		Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.0001f , .Loop = false });
 		Smoke->ChangeAnimation("Smoke");
 
 		TimeCount = 0;
 	}
+}
+
+void WeaponBazooka::TimeCounting()
+{
+    if (isTimeSet = false)
+    {
+        PrevTime = clock();
+        isTimeSet = true;
+    }
+
+    CurTime = clock();
+
+    TimeCount += (CurTime - PrevTime) / 1000;
+    TimeCount_2 += (CurTime - PrevTime) / 1000;
+
+    PrevTime = CurTime;
 }

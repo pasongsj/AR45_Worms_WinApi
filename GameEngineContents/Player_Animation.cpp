@@ -23,8 +23,8 @@ void Player::CreateAnimation()
 
     //바주카                            
     {  
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazAim", .ImageName = "bazAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazAim", .ImageName = "bazAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazAim", .ImageName = "bazAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazAim", .ImageName = "bazAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_bazOff", .ImageName = "bazOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_bazOff", .ImageName = "bazOffRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
@@ -53,14 +53,14 @@ void Player::CreateAnimation()
 
     //호밍미사일
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingAim", .ImageName = "HomingAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingAim", .ImageName = "HomingAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingAim", .ImageName = "HomingAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingAim", .ImageName = "HomingAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOff", .ImageName = "HomingOffLeft.bmp",.Start = 0, .End = 7, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOff", .ImageName = "HomingOffRight.bmp",.Start = 0, .End = 7, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOff", .ImageName = "HomingOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOff", .ImageName = "HomingOffRight.bmp",.Start = 0, .End = 6, .InterTime = 0.1f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOn", .ImageName = "HomingOnLeft.bmp",.Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOn", .ImageName = "HomingOnRight.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOn", .ImageName = "HomingOnLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOn", .ImageName = "HomingOnRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
     }
 
     //그레네이드 ( 수류탄 )

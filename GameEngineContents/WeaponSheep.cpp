@@ -3,9 +3,12 @@
 #include "Player.h"
 #include "MapModifier.h"
 
+#include <cmath>
+
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineImage.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -24,6 +27,11 @@ void WeaponSheep::Start()
 
 void WeaponSheep::Update(float _DeltaTime)
 {		
+    if (isShoot == true && GameEngineInput::IsDown("Shoot"))
+    {
+        Explosion();
+    }
+
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
     {
         if(isShoot == false)
@@ -40,14 +48,10 @@ void WeaponSheep::Update(float _DeltaTime)
 		isShoot = true;
 	}
 
-	if(isShoot == true)
+	if(isShoot == true && isExplosion == false)
 	{
-        if (GameEngineInput::IsDown("Shoot"))
-        {
-            Explosion();
-        }
 
-        if(isJump == true)
+        if (isJump == true)
         {
             SheepJump(_DeltaTime);
         }
@@ -56,6 +60,13 @@ void WeaponSheep::Update(float _DeltaTime)
             SheepWalking(_DeltaTime);
         }
 	}
+
+    CameraUpdate(_DeltaTime);
+
+    //if(isExplosion == true)
+    //{
+    //    DebrisMove(_DeltaTime);
+    //}
 }		
 		
 void WeaponSheep::Render(float _DeltaTime)
@@ -97,6 +108,7 @@ void WeaponSheep::WeaponSheepInit()
 	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveRight", .ImageName = "SheepWalkRight.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
 	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveLeft", .ImageName = "SheepWalkLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
 	
+    ScreenSize = GameEngineWindow::GetScreenSize();
 	//ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
 	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.03f , .Loop = false });
 	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
@@ -105,7 +117,7 @@ void WeaponSheep::WeaponSheepInit()
 
 	Gravity = 0.0f; //임시 설정값
 
-	MoveSpeed = 1500.0f; //임시 설정값
+	MoveSpeed = 200.0f; //임시 설정값
 
 	TimeCount = 0;
 }
@@ -166,12 +178,12 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
 
 	if (isDirRight == true)
 	{
-		NextPos = GetPos() + float4::Right * 100.0f * _DeltaTime;
+		NextPos = GetPos() + float4::Right * MoveSpeed * _DeltaTime;
 		WeaponRender->ChangeAnimation("SheepMoveRight");
 	}
 	else if (isDirRight == false)
 	{
-		NextPos = GetPos() + float4::Left * 100.0f * _DeltaTime;
+		NextPos = GetPos() + float4::Left * MoveSpeed * _DeltaTime;
 		WeaponRender->ChangeAnimation("SheepMoveLeft");
 	}
 
@@ -277,6 +289,13 @@ void WeaponSheep::Explosion()
     MapModifier::MainModifier->CreateHole(GetPos(), 50);
     WeaponRender->Off();
     WeaponCollision->Off();
+
+    //for(int i =0; i<15; i++)
+    //{
+    //    CreateDebris();
+    //}
+
+    isExplosion = true;
 }
 
 void WeaponSheep::SheepJump(float _DeltaTime)
@@ -305,12 +324,12 @@ void WeaponSheep::SheepJump(float _DeltaTime)
 
     if (isDirRight == true)
     {
-        NextPos = GetPos() + float4{ 100.0f, -200.0f + JumpGravity } *_DeltaTime;
+        NextPos = GetPos() + float4{ MoveSpeed, -MoveSpeed + JumpGravity } *_DeltaTime;
         WeaponRender->ChangeAnimation("SheepMoveRight");
     }
     else if (isDirRight == false)
     {
-        NextPos = GetPos() + float4{ -100.0f, -200.0f + JumpGravity } *_DeltaTime;
+        NextPos = GetPos() + float4{ -MoveSpeed, -MoveSpeed + JumpGravity } *_DeltaTime;
         WeaponRender->ChangeAnimation("SheepMoveLeft");
     }
 
@@ -324,3 +343,86 @@ void WeaponSheep::SheepJump(float _DeltaTime)
         SetPos(NextPos);
     }
 }
+
+void WeaponSheep::TimeCounting(float *TimeCount)
+{
+    if (*TimeCount == 0)
+    {
+        PrevTime = clock() - 1;
+    }
+
+    CurTime = clock();
+
+    *TimeCount += (CurTime - PrevTime) / 1000.0f;
+
+    PrevTime = CurTime;
+}
+
+void WeaponSheep::CameraUpdate(float _DeltaTime)
+{
+    if (isExplosion == false)
+    {
+        GetLevel()->SetCameraPos(GetPos() - ScreenSize.half());
+    }
+    else if(isExplosion == true)
+    {
+        TimeCounting(&TimeCount);
+
+        if (TimeCount >= 2.0f && fLerpRatio < 1)
+        {
+            CurPlayerPos = CurPlayer->GetPos();
+            PrevCamPos = GetLevel()->GetCameraPos();
+            fLerpRatio += _DeltaTime * fLerpSpeed;
+            GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
+        }
+        else if (fLerpRatio >= 1)
+        {
+            isWeaponDone = true;
+        }
+    }
+}
+
+//void WeaponSheep::DebrisMove(float _DeltaTime)
+//{
+//
+//    DebrisGravity += 50.0f * _DeltaTime;
+//
+//    for(int i = 0; i< 15; i++)
+//    {
+//        
+//        if (DebrisCountList[i] < 0)
+//        {
+//            DebrisList[i]->Off();
+//            continue;
+//        }
+//
+//        DebrisList[i]->SetMove((DebrisDirList[i] * DebrisMoveSpeed + float4{0, DebrisGravity}) * _DeltaTime );
+//
+//        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(DebrisList[i]->GetActorPlusPos(), RGB(0, 0, 255)))
+//        {
+//            MapModifier::MainModifier->CreateHole(DebrisList[i]->GetActorPlusPos(), DebrisList[i]->GetScale().x);
+//            DebrisCountList[i]--;
+//        }
+//
+//    }
+//
+//    MoveCount++;
+//}
+//
+//void WeaponSheep::CreateDebris()
+//{
+//    DebrisMoveSpeed = 100.0f;
+//    GameEngineRender* Debris = CreateRender("fire.bmp", WormsRenderOrder::Weapon);
+//    float Scale = GameEngineRandom::MainRandom.RandomInt(2, 10);
+//    Debris->SetScale({ Scale ,Scale });
+//
+//    float Xdir = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
+//    float Ydir = GameEngineRandom::MainRandom.RandomFloat(0.3, 1);
+//
+//    int Count = GameEngineRandom::MainRandom.RandomInt(1, 3);
+//    
+//    DebrisList.push_back(Debris);
+//    DebrisDirList.push_back({ Xdir , Ydir });
+//    DebrisCountList.push_back(Count);
+//
+//}

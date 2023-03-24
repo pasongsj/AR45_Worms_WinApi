@@ -92,15 +92,6 @@ bool Weapon::isEndCharging() //????????? ?????? ??¡?? ???? ?????? ???? ?????? ?
 	return false;
 }
 
-void Weapon::TimeCounting()
-{
-	CurTime = clock();
-
-	TimeCount += (CurTime - PrevTime) / 1000;
-	TimeCount_2 += (CurTime - PrevTime) / 1000;
-
-	PrevTime = CurTime;
-}
 
 
 void Weapon::SetCurPlayer() // 수정완료
@@ -134,10 +125,10 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
 
-			//if (ColPlayer->GetIsMyTurn() == false)
-			//{
-			//	return true;
-			//}
+			if (ColPlayer->GetIsMyTurn() == false)
+			{
+				return true;
+			}
 		}
 	}
 

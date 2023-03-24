@@ -31,6 +31,10 @@ private:
     bool CanIMove();
     void Explosion();
     void SheepJump(float _DeltaTime);
+    void TimeCounting(float* TimeCount);
+    void CameraUpdate(float _DeltaTime);
+    void CreateDebris();
+    void DebrisMove(float _DeltaTime);
 
 	MapModifier* SheepExplosion = nullptr;
 
@@ -41,8 +45,12 @@ private:
 	bool isJump = true;
 	bool isJumpDirSet = false;
 	bool isSet = false;
-
+    bool isExplosion = false;
+    bool isTimeSet = false;
     int test = 0;
+
+    float TimeCount = 0.0f;
+    float TimeCount_2 = 0.0f;
 
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
@@ -51,6 +59,14 @@ private:
     float RightMoveAngle = 0;
 
     float JumpGravity = 0.0f;
+
+    float DebrisGravity = 0.0f;
+    float DebrisMoveSpeed = 0.0f;
+    int MoveCount = 0;
+
+    std::vector<GameEngineRender*> DebrisList;
+    std::vector<float4> DebrisDirList;
+    std::vector<int> DebrisCountList;
 
 	GameEngineRender* WeaponRender = nullptr;		//·»´õ
 	GameEngineCollision* WeaponCollision = nullptr;	//ÄÝ¸®Àü

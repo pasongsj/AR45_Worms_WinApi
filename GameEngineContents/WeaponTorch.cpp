@@ -3,6 +3,8 @@
 #include "ContentsEnums.h"
 #include "Player.h"
 
+#include <ctime>
+
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -58,6 +60,24 @@ void WeaponTorch::TorchOn()
     if (TimeCount >= 0.1f)
     {
         TimeCount = 0;
-        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos(), 10);
+        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 10 , -10 }, 10);
+        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 10 , -10 }, 10);
+        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 20 , -10 }, 10);
     }
+}
+
+void WeaponTorch::TimeCounting()
+{
+    if (isTimeSet = false)
+    {
+        PrevTime = clock();
+        isTimeSet = true;
+    }
+
+    CurTime = clock();
+
+    TimeCount += (CurTime - PrevTime) / 1000;
+    TimeCount_2 += (CurTime - PrevTime) / 1000;
+
+    PrevTime = CurTime;
 }

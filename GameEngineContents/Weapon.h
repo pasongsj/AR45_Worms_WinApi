@@ -77,8 +77,6 @@ protected:
 	float Timer = 0.0f;								// ≈∏¿Ã∏”
 	float PrevTime = 0.0f;
 	float CurTime = 0.0f;
-	float TimeCount = 0.0f;		
-	float TimeCount_2 = 0.0f;
 	float4 ScreenSize = { 0,0 };
 	//GameEngineRender* AimingLine = nullptr;
 	virtual void Init() {};
@@ -89,7 +87,6 @@ protected:
 	float4 GetShootDir();
 	bool PressShoot();
 	bool isEndCharging();
-	void TimeCounting();
 	void SetCurPlayer();
 	void AttackPlayer(GameEngineCollision* _Col);
 

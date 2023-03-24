@@ -29,7 +29,7 @@ public:
 	void Charging();			
 	void firing(float _DeltaTime);
 	void Explosion();
-
+    void TimeCounting();
 	void DamageToPlayer();
 
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
@@ -59,6 +59,10 @@ private:
 	bool isAttack = false;
 
 	bool isEndBazOn = false;
+    bool isTimeSet = false;
+
+    float TimeCount = 0.0f;
+    float TimeCount_2 = 0.0f;
 
 	int Bazindex = 0;
 	int CurIndex = 16;
@@ -68,6 +72,9 @@ private:
 	float4 ShootDir = { 0,0 };
 
 	float4 StartDir = { 0,0 };
+
+    float4 CurPos = { 0,0 };
+    float4 NextPos = { 0,0 };
 
 	Player* PrevPlayer = nullptr;
 

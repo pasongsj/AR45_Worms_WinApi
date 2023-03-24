@@ -26,7 +26,12 @@ protected:
 private:
     void TorchInit();
     void TorchOn();
+    void TimeCounting();
 
     bool isAttack = false;
+    bool isTimeSet = false;
+
+    float TimeCount = 0.0f;
+    float TimeCount_2 = 0.0f;
 };
 
