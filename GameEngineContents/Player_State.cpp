@@ -150,12 +150,9 @@ void Player::IdleEnd()
 void Player::MoveStart()
 {
 	DirCheck("Move");
-    StateCalTime = 0.0f;
 }
 void Player::MoveUpdate(float _DeltatTime)
 {
-    MoveDir = float4::Zero;
-
 
 	//동시에 누르면 진행하지 않음
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
@@ -173,25 +170,18 @@ void Player::MoveUpdate(float _DeltatTime)
 
     if (false == IsGround)
     {
-        StateCalTime += _DeltatTime;
-    }
-    else
-    {
-        StateCalTime = 0.0f;
-    }
-
-    if (StateCalTime >= 0.2f)
-    {
-        //땅이 없는 상태로 0.2초 이동함
         ChangeState(PlayerState::IDLE);
         return;
     }
+
+
 
     if (GameEngineInput::IsPress("MoveLeft"))
     {
         if (true == ReturnCanIMove(PlayerAngleDir::Left))
         {
-            MoveDir += float4::Left * MoveSpeed;
+            MoveDir = float4::Left * MoveSpeed;
+            MoveDir += float4::Down * Gravity;
         }
         else
         {
@@ -204,7 +194,8 @@ void Player::MoveUpdate(float _DeltatTime)
     {
         if (true == ReturnCanIMove(PlayerAngleDir::Right))
         {
-            MoveDir += float4::Right * MoveSpeed;
+            MoveDir = float4::Right * MoveSpeed;
+            MoveDir += float4::Down * Gravity;
         }
         else
         {
@@ -250,17 +241,16 @@ void Player::JumpUpdate(float _DeltatTime)
 	{
         if ("Right_" == DirString)
         {
-            MoveDir = (float4::Up + float4::Right) * 500.0f;
+            MoveDir += (float4::Up + float4::Right) * 150.0f;
         }
         else
         {
-            MoveDir = (float4::Up + float4::Left) * 500.0f;
+            MoveDir += (float4::Up + float4::Left) * 150.0f;
         }
        
 		std::string AnimationName = "FlyUp";
 		std::string AnimationText = AnimationDir.data() + AnimationName;
 		AnimationRender->ChangeAnimation(AnimationText);
-
 
         StateCalBool = false;
 	}

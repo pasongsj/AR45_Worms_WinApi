@@ -133,9 +133,9 @@ private:
     const float AngleLimit = 15.0f; //각도 제한용 상수
 
 	float MoveSpeed = 50.0f;
-	float Gravity = 50.0f;
+	float Gravity = 500.0f;
 
-	void GravityApplied();
+	void GravityApplied(float _DeltaTime);
 
 	float4 PullUpCharacter(float4 _NextPos, float _DeltaTime); //플레이어가 colimage상 아래로 들어가 있다면,MoveDir을 위로 끌어올림
 

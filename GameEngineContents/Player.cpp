@@ -111,8 +111,7 @@ void Player::Update(float _DeltaTime)
 {
 	//MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
     UpdateState(_DeltaTime);
-
-    GravityApplied();
+    GravityApplied(_DeltaTime);
 	MoveCalculation(_DeltaTime);
 	
     IsGroundCheck();
@@ -135,9 +134,9 @@ bool Player::NextPosWallCheck(float4 _NextPos)
     }
 }
 
-void Player::GravityApplied()
+void Player::GravityApplied(float _DeltaTime)
 {
-	MoveDir += (float4::Down * Gravity);
+	MoveDir += (float4::Down * Gravity * _DeltaTime);
 }
 
 void Player::MoveCalculation(float _DeltaTime)
@@ -254,7 +253,15 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 void Player::DirCheck(const std::string_view& _AnimationName, int _CurIndex)
 {
 	std::string PrevDirString = DirString;
-	AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
+
+    if (PlayerState::EQUIPWEAPON == StateValue)
+    {
+        AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
+    }
+    else
+    {
+        AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
+    }
 
 	if (GameEngineInput::IsPress("MoveLeft"))
 	{
