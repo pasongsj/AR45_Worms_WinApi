@@ -3,7 +3,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include "MapModifier.h"
 
-// 설명 :
+// 설명 : 맵관련 기능
 class Map : public GameEngineActor
 {
 public:
@@ -46,13 +46,13 @@ protected:
 
 private:
 	bool IsColMap = false;								//픽셀 충돌맵의 랜더링 여부
-	
+
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 
 
-    float4 WaveStartPos = { 1920.0f, 1392.0f };
-	float4 MountainPos = { 1920.0f, 1264.0f };
+    float4 WaveStartPos = { 1920.0f, 1392.0f };         //Wave BackGround 시작 위치
+	float4 MountainPos = { 1920.0f, 1264.0f };          //Mountain BackGround 위치
 	float4 WaveBackPos = { 1920.0f, 1764.0f };			//Wave BackGround 위치
 	float4 WaveAnimPos0 = { 1920.0f, 1392.0f };			//Wave Animation 위치	
 	float4 WaveAnimPos1 = { 1920.0f, 1437.0f };

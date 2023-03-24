@@ -6,6 +6,7 @@ enum class WormsRenderOrder
 	Intro,
 	BackGround,
 	Map,
+    MapObject,
 	Wave,
 	Player,
 	Weapon,

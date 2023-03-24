@@ -82,6 +82,9 @@
     <ClInclude Include="AllPlayerHpUI.h">
       <Filter>Play\Player\PlayerUI</Filter>
     </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="AllPlayerHpUI.cpp">
       <Filter>Play\Player\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Play\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

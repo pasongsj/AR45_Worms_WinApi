@@ -99,6 +99,9 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
 		Image->Cut(5, 3);
 	}
+    {
+        GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TrachCan.bmp"));
+    }
 	Dir.MoveParent();
 	{
 		Dir.Move("Weapon");

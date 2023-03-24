@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
 #include "MapModifier.h"
+#include "MapObject.h"
 #include "WeaponInterFace.h"
 //ScreenSize: { 1280, 960 }
 //BackGround_Hrz: 5120
@@ -68,7 +69,6 @@ void Map::Start()
 
 	//MapRender 持失
 	MapRender = CreateRender(WormsRenderOrder::Map);
-	//MapRender->SetImage("MapCity.bmp");
 	MapRender->SetImage(MapName);
 	float4 MapScale = MapRender->GetImage()->GetImageScale();
 	MapRender->SetPosition(MapScale.half());
@@ -77,7 +77,6 @@ void Map::Start()
 	//ColMapRender 持失
 	{
 		ColMapRender = CreateRender(WormsRenderOrder::Map);
-		//ColMapRender->SetImage("MapCity_Ground.bmp");
 		ColMapRender->SetImage(ColMapName);
 		ColMapRender->SetPosition(MapScale.half());
 		ColMapRender->SetScaleToImage();
@@ -146,17 +145,23 @@ void Map::Start()
 		Wave3->ChangeAnimation("Wave3", RandIdx);
 
 	}	
+
+    //MapObject* Object1 = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+    //Object1->SetPos({ 300.0f, 300.0f });
 }
 
 void Map::Update(float _DeltaTime)
 {
 	
-	/*if (true == GameEngineInput::IsDown("LandHole"))
+	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
 		MapModifier::MainModifier->CreateHole(Pos, 20);
+
 		return;
-	}*/
+	}
+
+  
 
 	if (true == FreeMoveState(_DeltaTime))
 	{
