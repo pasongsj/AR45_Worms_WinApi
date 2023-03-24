@@ -19,12 +19,10 @@ void AllPlayerHpUI::SetAllPlayerHP()
 {
     std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
-    iPlayer0HP = dynamic_cast<Player*>(PlayerList[0])->GetPlayerHP();
-    iPlayer1HP = dynamic_cast<Player*>(PlayerList[1])->GetPlayerHP();
-    iPlayer2HP = dynamic_cast<Player*>(PlayerList[2])->GetPlayerHP();
-    iPlayer3HP = dynamic_cast<Player*>(PlayerList[3])->GetPlayerHP();
-    iPlayer4HP = dynamic_cast<Player*>(PlayerList[4])->GetPlayerHP();
-    iPlayer5HP = dynamic_cast<Player*>(PlayerList[5])->GetPlayerHP();
+    for (size_t i = 0; i < 6; i++)
+    {
+        vecPlayerCurHp[i] = dynamic_cast<Player*>(PlayerList[i])->GetPlayerHP();
+    }
 
     bSetHP = true;
 }
@@ -32,46 +30,43 @@ void AllPlayerHpUI::SetAllPlayerHP()
 void AllPlayerHpUI::Start()
 {
     AllHpUI = this;
-    float4 ScreenSize = GameEngineWindow::GetScreenSize();
 
     std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 
-    iPlayer0HP = dynamic_cast<Player*>(PlayerList[0])->GetPlayerHP();
-    iPlayer1HP = dynamic_cast<Player*>(PlayerList[1])->GetPlayerHP();
-    iPlayer2HP = dynamic_cast<Player*>(PlayerList[2])->GetPlayerHP();
-    iPlayer3HP = dynamic_cast<Player*>(PlayerList[3])->GetPlayerHP();
-    iPlayer4HP = dynamic_cast<Player*>(PlayerList[4])->GetPlayerHP();
-    iPlayer5HP = dynamic_cast<Player*>(PlayerList[5])->GetPlayerHP();
+    for (size_t i = 0; i < 6; i++)
+    {
+        vecPlayerHpBar.push_back(CreateRender(WormsRenderOrder::UI));
+        vecPlayerCurHp.push_back(dynamic_cast<Player*>(PlayerList[i])->GetPlayerHP());
+    }
+    float4 rStartPos = StartPos;
+    vecPlayerHpBar[0]->SetImageToScaleToImage("BottomHPbarB.bmp");
+    vecPlayerHpBar[0]->EffectCameraOff();
+    vecPlayerHpBar[0]->SetPosition(rStartPos);
+    rStartPos.y += 17.f;
 
-    pPlayer0 = CreateRender(WormsRenderOrder::UI);
-    pPlayer0->SetImageToScaleToImage("BottomHPbarB.bmp");
-    pPlayer0->EffectCameraOff();
-    pPlayer0->SetPosition({ ScreenSize.hx(),850.f });
+    vecPlayerHpBar[1]->SetImageToScaleToImage("BottomHPbarG.bmp");
+    vecPlayerHpBar[1]->EffectCameraOff();
+    vecPlayerHpBar[1]->SetPosition(rStartPos);
+    rStartPos.y += 17.f;
 
-    pPlayer1 = CreateRender(WormsRenderOrder::UI);
-    pPlayer1->SetImageToScaleToImage("BottomHPbarG.bmp");
-    pPlayer1->EffectCameraOff();
-    pPlayer1->SetPosition({ ScreenSize.hx(),867.f });
+    vecPlayerHpBar[2]->SetImageToScaleToImage("BottomHPbarP.bmp");
+    vecPlayerHpBar[2]->EffectCameraOff();
+    vecPlayerHpBar[2]->SetPosition(rStartPos);
+    rStartPos.y += 17.f;
 
-    pPlayer2 = CreateRender(WormsRenderOrder::UI);
-    pPlayer2->SetImageToScaleToImage("BottomHPbarP.bmp");
-    pPlayer2->EffectCameraOff();
-    pPlayer2->SetPosition({ ScreenSize.hx(),884.f });
+    vecPlayerHpBar[3]->SetImageToScaleToImage("BottomHPbarR.bmp");
+    vecPlayerHpBar[3]->EffectCameraOff();
+    vecPlayerHpBar[3]->SetPosition(rStartPos);
+    rStartPos.y += 17.f;
 
-    pPlayer3 = CreateRender(WormsRenderOrder::UI);
-    pPlayer3->SetImageToScaleToImage("BottomHPbarR.bmp");
-    pPlayer3->EffectCameraOff();
-    pPlayer3->SetPosition({ ScreenSize.hx(),901.f });
+    vecPlayerHpBar[4]->SetImageToScaleToImage("BottomHPbarS.bmp");
+    vecPlayerHpBar[4]->EffectCameraOff();
+    vecPlayerHpBar[4]->SetPosition(rStartPos);
+    rStartPos.y += 17.f;
 
-    pPlayer4 = CreateRender(WormsRenderOrder::UI);
-    pPlayer4->SetImageToScaleToImage("BottomHPbarS.bmp");
-    pPlayer4->EffectCameraOff();
-    pPlayer4->SetPosition({ ScreenSize.hx(),918.f });
-
-    pPlayer5 = CreateRender(WormsRenderOrder::UI);
-    pPlayer5->SetImageToScaleToImage("BottomHPbarY.bmp");
-    pPlayer5->EffectCameraOff();
-    pPlayer5->SetPosition({ ScreenSize.hx(),935.f });
+    vecPlayerHpBar[5]->SetImageToScaleToImage("BottomHPbarY.bmp");
+    vecPlayerHpBar[5]->EffectCameraOff();
+    vecPlayerHpBar[5]->SetPosition(rStartPos);
 
 }
 
@@ -80,21 +75,45 @@ void AllPlayerHpUI::Update(float _DeltaTime)
 
     if (true == bSetHP)
     {
-        float fHpRatio0 = static_cast<float>(iPlayer0HP)  /100.f;
-        float fHpRatio1 = static_cast<float>(iPlayer1HP)  /100.f;
-        float fHpRatio2 = static_cast<float>(iPlayer2HP)  /100.f;
-        float fHpRatio3 = static_cast<float>(iPlayer3HP)  /100.f;
-        float fHpRatio4 = static_cast<float>(iPlayer4HP)  /100.f;
-        float fHpRatio5 = static_cast<float>(iPlayer5HP)  /100.f;
+        //for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
+        //{
+        //    vecPlayerCurHp[vecPlayerCurHp.size() - i-1] = 100 - i;
+        //}
+        for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
+        {
+            for (size_t j = 1; j < vecPlayerCurHp.size() - i; j++)
+            {
+                if (vecPlayerCurHp[j] > vecPlayerCurHp[j - 1])
+                {
+                    int iTemp = vecPlayerCurHp[j];
+                    vecPlayerCurHp[j] = vecPlayerCurHp[j - 1];
+                    vecPlayerCurHp[j - 1] = iTemp;
 
-        pPlayer0->SetScale({ 200 * fHpRatio0,17 });
-        pPlayer1->SetScale({ 200 * fHpRatio1,17 });
-        pPlayer2->SetScale({ 200 * fHpRatio2,17 });
-        pPlayer3->SetScale({ 200 * fHpRatio3,17 });
-        pPlayer4->SetScale({ 200 * fHpRatio4,17 });
-        pPlayer5->SetScale({ 200 * fHpRatio5,17 });
 
+                    GameEngineRender* pTemp = vecPlayerHpBar[j];
+                    vecPlayerHpBar[j] = vecPlayerHpBar[j - 1];
+                    vecPlayerHpBar[j - 1] = pTemp;
+                }
+            }
+        }
         bSetHP = false;
+        bSort = true;
     }
+    if (true==bSort)
+    {
+        float4 rStartPos = StartPos;        
+    
+        for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
+        {
+            float fHpRatio = vecPlayerCurHp[i] / 100.f;
+            vecPlayerHpBar[i]->SetPosition(rStartPos);
+            vecPlayerHpBar[i]->SetScale({ 200 * fHpRatio ,17 });
+            rStartPos.y += 17.f;
+        }
+
+        bSort = false;
+    }
+
+    
 }
 

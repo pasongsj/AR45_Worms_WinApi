@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <vector>
 
 // 설명 :
 class GameEngineRender;
@@ -23,21 +24,18 @@ protected:
     void Start() override;
     void Update(float _DeltaTime) override;
 
-private:
-    GameEngineRender* pPlayer0 = nullptr;
-    GameEngineRender* pPlayer1 = nullptr;
-    GameEngineRender* pPlayer2 = nullptr;
-    GameEngineRender* pPlayer3 = nullptr;
-    GameEngineRender* pPlayer4 = nullptr;
-    GameEngineRender* pPlayer5 = nullptr;
 
-    int iPlayer0HP = 0;
-    int iPlayer1HP = 0;
-    int iPlayer2HP = 0;
-    int iPlayer3HP = 0;
-    int iPlayer4HP = 0;
-    int iPlayer5HP = 0;
+    // 개편 필요. 렌더벡터와 HP벡터를 만든후 HP비교를 통해 HP벡터의 순서를 변경하면 렌더또한 순서를 동일하게 변경해서
+    // 러프를 통해 위치값을 변경해야함. 위치값은 초기지점을 y를 850.f 로 두고 반복문을통해 17.f씩 더함
+    // Scale이 줄어드는것 또한 순차적으로 줄어들어야한다(?)
+
+private:
+    std::vector<GameEngineRender*> vecPlayerHpBar;
+    std::vector<int> vecPlayerCurHp;
+    float4 StartPos = { 640.f,850.f };
 
     bool bSetHP = false;
+    bool bSort = false;
+
 };
 
