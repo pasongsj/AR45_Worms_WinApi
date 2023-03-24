@@ -69,7 +69,7 @@ float4 Weapon::GetShootDir()
 
 bool Weapon::PressShoot()
 {
-	if (GameEngineInput::IsDown("Shoot")) // 상하
+	if (GameEngineInput::IsPress("Shoot")) // 상하
 	{
 		return true;
 	}

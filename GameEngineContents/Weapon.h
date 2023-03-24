@@ -65,7 +65,7 @@ protected:
 	//float4 PlayerPos = float4::Zero;				// 플레이어 위치 ---> 지울거
 	int BombScale = 0;				// 폭발 범위
 
-	int WeaponNumber;							// 무기 이름에 해당하는 Number
+	int WeaponNumber = 0;							// 무기 이름에 해당하는 Number
 	std::string WeaponName;							// 무기 이름
 
 	GameEngineImage* MapCollision = nullptr;		//충돌맵

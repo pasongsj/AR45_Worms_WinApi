@@ -34,6 +34,8 @@ private:
 	void SetCharge(); // charge
 	void Firing(float _DeltaTime);
 
+    GameEngineRender* AimingLine = nullptr;
+
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 

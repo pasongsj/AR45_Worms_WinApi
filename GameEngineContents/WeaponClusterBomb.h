@@ -31,6 +31,8 @@ private:
     void Firing(float _DeltaTime);
     void ResetWeapon();
 
+    GameEngineRender* AimingLine = nullptr;
+
     GameEngineRender* WeaponRender = nullptr;		        //·»´õ
     GameEngineCollision* WeaponCollision = nullptr;	        //ÄÝ¸®Àü
 

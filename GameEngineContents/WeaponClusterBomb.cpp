@@ -17,10 +17,10 @@ WeaponClusterBomb::~WeaponClusterBomb()
 void WeaponClusterBomb::Start()
 {
     // 수류탄 기본 설정 -- 상수값 조정 필요
-    MoveSpeed = 700.0f; // 임시값
+    MoveSpeed = 1000.0f; // 임시값
     Gravity = 1.0f;// 임시값
     //Dmg = 0.0f;
-    Timer = 1.0f;// 임시값
+    Timer = 2.0f;// 임시값
     Dir = float4::Right;
     BombScale = 120;
     WeaponName = "Grenade";
@@ -44,6 +44,11 @@ void WeaponClusterBomb::Start()
     AllWeapons[WeaponName] = this;
     WeaponNumber = static_cast<int>(WeaponNum::Grenade);
 
+    // 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
+    AimingLine = CreateRender(WormsRenderOrder::Weapon);
+    AimingLine->SetImage("TempBomb.bmp");
+    AimingLine->SetScale({ 20,20 });
+
 }
 
 void WeaponClusterBomb::Update(float _DeltaTime)
@@ -53,11 +58,6 @@ void WeaponClusterBomb::Update(float _DeltaTime)
         WeaponClusterBombInit();
     }
     SetCurPlayer();
-    //if (nullptr == CurPlayer || false == CurPlayer->GetIsMyTurn()) // 플레이어 재설정
-    //{
-    //	SetCurPlayer();
-    //	ResetWeapon();
-    //}
 
     Firing(_DeltaTime);
     // 폭발 체크
@@ -118,7 +118,8 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
     if (false == isFire) // 발사하기 전
     {
         float4 PlayerPos = CurPlayer->GetPos();
-        Dir = GetShootDir() * Charge;
+        Dir = GetShootDir();
+        AimingLine->SetPosition(Dir * 100); // 조준선 이동
         SetPos(PlayerPos);
         if (true == PressShoot())
         {
@@ -126,6 +127,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
         }
         if (isEndCharging() == true) // 발사체크
         {
+            Dir *= Charge;
             isFire = true;
         }
 
@@ -138,15 +140,18 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
         {
             Dir.y = Dir.y + Gravity * _DeltaTime; // dt동안 중력의 영향
 
-            WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
-            WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
+            WeaponRender->SetMove(Dir * MoveSpeed  * _DeltaTime);
+            WeaponCollision->SetMove(Dir * MoveSpeed  * _DeltaTime);
 
-
+            if (Timer > 2.0f - 0.1f)
+            {
+                return;
+            }
             float4 CheckedCol = CheckCollisionSide(WeaponCollision);
             if (Dir.x * CheckedCol.x > 0) // 방향이 달라
             {
-                WeaponRender->SetMove(-Dir * MoveSpeed * _DeltaTime);
-                WeaponCollision->SetMove(-Dir * MoveSpeed * _DeltaTime);
+                WeaponRender->SetMove(-Dir * MoveSpeed  * _DeltaTime);
+                WeaponCollision->SetMove(-Dir * MoveSpeed  * _DeltaTime);
 
                 Dir.x = -Dir.x * 0.5f;										  //  x값은 마찰고려값
                 Dir.y = -Dir.y * 0.25f;
@@ -154,8 +159,8 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
 
             else if (Dir.x * CheckedCol.x < 0 || CheckedCol.x == 0 && CheckedCol.y > 0)// 방향이 같아 or 좌우 이동x
             {
-                WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
-                WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
+                WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed  * _DeltaTime });
+                WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed  * _DeltaTime });
                 Dir.x = Dir.x * 0.5f;
                 Dir.y = -Dir.y * 0.25f;
             }
@@ -169,13 +174,13 @@ void WeaponClusterBomb::SetCharge() // Charging으로 함수이름 통일
     {
         return;
     }
-    if (GetChargeTime() > 2.0f) // 최대 2배 차징
+    if (GetChargeTime() > 1.5f) // 최대 2배 차징
     {
-        Charge = 2.0f;
+        Charge = 1.5f;
     }
-    else if (GetChargeTime() < 1.0f)
+    else if (GetChargeTime() < 0.5f)
     {
-        Charge = 1.0f;
+        Charge = 0.5f;
     }
     else {
         Charge = GetChargeTime();
@@ -187,7 +192,7 @@ void WeaponClusterBomb::ResetWeapon()
 
     isFire = false;
     isExplosion = false;
-    Timer = 1.0f;
+    Timer = 2.0f;
     if (nullptr == WeaponRender)
     {
         return;
