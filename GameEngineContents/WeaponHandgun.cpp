@@ -56,6 +56,7 @@ void WeaponHandgun::Update(float _DeltaTime)
 	if (true == IsDone())
 	{
 		isWeaponDone = true;
+        GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
 	}
 }
 

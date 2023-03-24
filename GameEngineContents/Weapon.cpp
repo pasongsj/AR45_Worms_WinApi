@@ -141,6 +141,11 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 		return true;
 	}
 	// ¸Ê ¹ÛÀ¸·Î ³ª°¬´ÂÁö Ã¼Å©
+    float4 _Pos = _Col->GetPosition();
+    if (!(-640 <= _Pos.x && _Pos.x < 4480 && -743 <= _Pos.y && _Pos.y < 1310))
+    {
+        return true;
+    }
 
 	return false;
 }

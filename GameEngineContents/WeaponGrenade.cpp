@@ -120,6 +120,8 @@ void WeaponGrenade::Firing(float _DeltaTime)
             isExplosion = true;
             WeaponRender->Off();
             WeaponCollision->Off();
+            isWeaponDone = true;
+            GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
         }
 	}
 }
