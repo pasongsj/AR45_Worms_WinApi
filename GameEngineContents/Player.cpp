@@ -110,9 +110,10 @@ void Player::CheckTurn()
 void Player::Update(float _DeltaTime)
 {
 	//MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
+    PlayerPixelCheck();
     UpdateState(_DeltaTime);
     GravityApplied(_DeltaTime);
-	MoveCalculation(_DeltaTime);
+    MoveCalculation(_DeltaTime);
 	
     IsGroundCheck();
     CheckTurn();
@@ -160,6 +161,55 @@ void Player::IsGroundCheck()
 	{
 		IsGround = false;
 	}
+}
+
+bool LeftPixelCheck = false;
+bool RightPixelCheck = false;
+bool UpPixelCheck = false;
+bool DownPixelCheck = false;
+
+void Player::PlayerPixelCheck()
+{
+    float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
+    float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
+    float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
+    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
+    {
+        LeftPixelCheck = true;
+    }
+    else
+    {
+        LeftPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightPixel, RGB(0, 0, 0)))
+    {
+        RightPixelCheck = true;
+    }
+    else
+    {
+        RightPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerUpPixel, RGB(0, 0, 0)))
+    {
+        UpPixelCheck = true;
+    }
+    else
+    {
+        UpPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerDownPixel, RGB(0, 0, 0)))
+    {
+        DownPixelCheck = true;
+    }
+    else
+    {
+        DownPixelCheck = false;
+    }
 }
 
 void Player::SetMoveAngle()
@@ -233,6 +283,8 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 	{
 		return _NextPos;
 	}
+
+    float4 NextMoveDir = MoveDir;
 
 	while (true)
 	{
@@ -329,9 +381,40 @@ void Player::Render(float _DeltaTime)
             NextPos.iy() + 5
         );
 
-        std::string NexPosWallCheck = "NexPosWallCheck = ";
-        NexPosWallCheck = NexPosWallCheck + std::to_string(NextPosWallCheck(NextPos));
-        GameEngineLevel::DebugTextPush(NexPosWallCheck);
+        float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
+        float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
+        float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
+        float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+
+        PlayerLeftPixel -= GetLevel()->GetCameraPos();
+        PlayerRightPixel -= GetLevel()->GetCameraPos();
+        PlayerUpPixel -= GetLevel()->GetCameraPos();
+        PlayerDownPixel -= GetLevel()->GetCameraPos();
+
+        Rectangle(DoubleDC,
+            PlayerLeftPixel.ix() - 1,
+            PlayerLeftPixel.iy() - 1,
+            PlayerLeftPixel.ix() + 1,
+            PlayerLeftPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerRightPixel.ix() - 1,
+            PlayerRightPixel.iy() - 1,
+            PlayerRightPixel.ix() + 1,
+            PlayerRightPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerUpPixel.ix() - 1,
+            PlayerUpPixel.iy() - 1,
+            PlayerUpPixel.ix() + 1,
+            PlayerUpPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerDownPixel.ix() - 1,
+            PlayerDownPixel.iy() - 1,
+            PlayerDownPixel.ix() + 1,
+            PlayerDownPixel.iy() + 1
+        );
 
         if (nullptr != CurWeapon)
         {

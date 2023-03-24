@@ -130,7 +130,14 @@ private:
 	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
 	float LeftMoveAngle = 0.0f; 
 	float RightMoveAngle = 0.0f; 
-    const float AngleLimit = 15.0f; //각도 제한용 상수
+    const float AngleLimit = 5.0f; //각도 제한용 상수
+
+    void PlayerPixelCheck();
+    bool LeftPixelCheck = false;
+    bool RightPixelCheck = false;
+    bool UpPixelCheck = false;
+    bool DownPixelCheck = false;
+
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;

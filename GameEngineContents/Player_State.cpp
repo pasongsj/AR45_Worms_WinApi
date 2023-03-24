@@ -97,11 +97,11 @@ void Player::IdleStart()
     StateCalTime = 0.0f;
     MoveDir = float4::Zero;
 
-
 }
 void Player::IdleUpdate(float _DeltatTime)
 {
     StateCalTime += _DeltatTime;
+
 
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
 	{
@@ -150,6 +150,8 @@ void Player::IdleEnd()
 void Player::MoveStart()
 {
 	DirCheck("Move");
+
+    StateCalTime = 0.0f;
 }
 void Player::MoveUpdate(float _DeltatTime)
 {
@@ -170,11 +172,18 @@ void Player::MoveUpdate(float _DeltatTime)
 
     if (false == IsGround)
     {
+        StateCalTime += _DeltatTime;
+    }
+    else
+    {
+        StateCalTime = 0.0f;
+    }
+
+    if (StateCalTime > 0.1f)
+    {
         ChangeState(PlayerState::IDLE);
         return;
     }
-
-
 
     if (GameEngineInput::IsPress("MoveLeft"))
     {
@@ -219,27 +228,40 @@ void Player::JumpStart()
 	std::string AnimationName = "JumpReady";
 	std::string AnimationText = AnimationDir.data() + AnimationName;
 	AnimationRender->ChangeAnimation(AnimationText);
-
+  
+    StateCalTime = 0.0f;
     StateCalBool = true;
 }
 void Player::JumpUpdate(float _DeltatTime)
 {
-    if (true == IsGround && StateCalBool == false)
+    if (true == IsGround && StateCalBool == false && StateCalTime > 0.5f)
     {
         ChangeState(PlayerState::IDLE);
         return;
     }
 
-    float4 NextPos = MoveDir * _DeltatTime;
+    StateCalTime += _DeltatTime;
 
-    if (true == NextPosWallCheck(NextPos))
+    if (true == LeftPixelCheck && "Left_" == AnimationDir)
     {
-        MoveDir = { -MoveDir.x, MoveDir.y };
+        AnimationDir = "Right_";
+        MoveDir = { (-MoveDir.x * 0.8f), (MoveDir.y * 0.8f) };
+    }
+
+    if (true == RightPixelCheck && "Right_" == AnimationDir)
+    {
+        AnimationDir = "Left_";
+        MoveDir = { (-MoveDir.x * 0.8f), (MoveDir.y * 0.8f) };
+    }
+
+    if (true == UpPixelCheck)
+    {
+        MoveDir = {( MoveDir.x * 0.8f), ( - MoveDir.y * 0.8f)};
     }
 
 	if (true == AnimationRender->IsAnimationEnd() && true == StateCalBool)
 	{
-        if ("Right_" == DirString)
+        if ("Right_" == AnimationDir)
         {
             MoveDir += (float4::Up + float4::Right) * 150.0f;
         }
@@ -258,7 +280,7 @@ void Player::JumpUpdate(float _DeltatTime)
 }
 void Player::JumpEnd()
 {
-
+    MoveDir = float4::Zero;
 }
 
 //void Player::EquipWeaponStart()
