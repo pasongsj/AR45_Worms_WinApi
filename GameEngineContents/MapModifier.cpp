@@ -118,7 +118,7 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 
 	int lineThick = 2;
     float Radius = static_cast<float>(_Radius);
-    float Angle = 260.0f;
+    float Angle = 0.0f;
 
 	float4 CenterPos = _Pos;						                                        //체크 시작점: 원의 중점
 
@@ -129,15 +129,15 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 		CheckPos += CenterPos;						                                        //회전시킨 후 위치 변화
 
 
-		//충돌맵의 파란색 부분과 깎이는 부분의 원 둘레가 닿으면 색칠
-        DWORD color = ColImage->GetPixelColor(CheckPos, Magenta);
+		////충돌맵의 파란색 부분과 깎이는 부분의 원 둘레가 닿으면 색칠
+  //      DWORD color = ColImage->GetPixelColor(CheckPos, Magenta);
 
-        //문제점 262 ~279도->Magenta로 확인
-        int R = GetRValue(color);
-        int G = GetGValue(color);
-        int B = GetBValue(color);
+  //      //문제점 262 ~279도->Magenta로 확인
+  //      int R = GetRValue(color);
+  //      int G = GetGValue(color);
+  //      int B = GetBValue(color);
 
-        int a = 10;
+  //      int a = 10;
 
 		if (Blue == ColImage->GetPixelColor(CheckPos, Magenta))
 		{
@@ -165,14 +165,14 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 				DeleteObject(MyPen);
 			}		
 		}
-        else
+        /*else
         {
             Rectangle(MapDc,
                 CheckPos.ix() - 1,
                 CheckPos.iy() - 1,
                 CheckPos.ix() + 1,
                 CheckPos.iy() + 1);
-        }
+        }*/
 	}
 }
 

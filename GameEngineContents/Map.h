@@ -53,10 +53,11 @@ private:
     float4 WaveStartPos = { 1920.0f, 1392.0f };         //Wave BackGround 시작 위치
 	float4 MountainPos = { 1920.0f, 1264.0f };          //Mountain BackGround 위치
 	float4 WaveBackPos = { 1920.0f, 1764.0f };			//Wave BackGround 위치
-	float4 WaveAnimPos0 = { 1920.0f, 1392.0f };			//Wave Animation 위치	
-	float4 WaveAnimPos1 = { 1920.0f, 1437.0f };
-	float4 WaveAnimPos2 = { 1920.0f, 1492.0f };
-	float4 WaveAnimPos3 = { 1920.0f, 1547.0f };
+    float4 WaveAnimPos0 = { 1920.0f, 1347.0f };			//Wave Animation 위치	
+	float4 WaveAnimPos1 = { 1920.0f, 1392.0f };
+	float4 WaveAnimPos2 = { 1920.0f, 1437.0f };
+	float4 WaveAnimPos3 = { 1920.0f, 1482.0f };
+	float4 WaveAnimPos4 = { 1920.0f, 1527.0f };
 
 	float4 BackScale = { 5120.0f, 744.0f };             //sky의 크기
 	float4 WaveScale = { 5120.0f, 110.0f };             //Wave의 크기

@@ -106,15 +106,15 @@ void Map::Start()
 		WaveBack->SetScale(BackScale);
 	}
 	//Wave Animation
-	{
-		GameEngineRender* Wave0 = CreateRender(WormsRenderOrder::Wave);
-		Wave0->SetImage("Water_sprite.bmp");
-		Wave0->SetPosition(WaveAnimPos0);
-		Wave0->SetScale(WaveScale);
-		Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
-		Wave0->ChangeAnimation("Wave0");
+    {
+        GameEngineRender* Wave0 = CreateRender(WormsRenderOrder::BackGround);
+        Wave0->SetImage("Water_sprite.bmp");
+        Wave0->SetPosition(WaveAnimPos0);
+        Wave0->SetScale(WaveScale);
+        Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+        Wave0->ChangeAnimation("Wave0");
 
-	}
+    }
 	int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//AnimationÀ» ½ÃÀÛÇÒ ·£´ýÇÑ ÀÎµ¦½º
 	{
 		GameEngineRender* Wave1 = CreateRender(WormsRenderOrder::Wave);
@@ -125,7 +125,7 @@ void Map::Start()
 		Wave1->ChangeAnimation("Wave1", RandIdx);
 
 	}
-	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
+    RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
 		GameEngineRender* Wave2 = CreateRender(WormsRenderOrder::Wave);
 		Wave2->SetImage("Water_sprite.bmp");
@@ -133,7 +133,6 @@ void Map::Start()
 		Wave2->SetScale(WaveScale);
 		Wave2->CreateAnimation({ .AnimationName = "Wave2",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave2->ChangeAnimation("Wave2", RandIdx);
-
 	}
 	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
 	{
@@ -144,10 +143,25 @@ void Map::Start()
 		Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
 		Wave3->ChangeAnimation("Wave3", RandIdx);
 
-	}	
+	}
+	RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
+	{
+		GameEngineRender* Wave4 = CreateRender(WormsRenderOrder::Wave);
+		Wave4->SetImage("Water_sprite.bmp");
+		Wave4->SetPosition(WaveAnimPos4);
+		Wave4->SetScale(WaveScale);
+		Wave4->CreateAnimation({ .AnimationName = "Wave4",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
+		Wave4->ChangeAnimation("Wave4", RandIdx);
+
+	}
+    
 
     MapObject* Object1 = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
-    Object1->SetPos({ 295.0f, 500.0f });
+    float4 pos = Object1->GetRandomPos();
+    Object1->SetPos(pos);
+
+    MapObject* Object2 = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+    Object2->SetPos(Object2->GetRandomPos());
 }
 
 void Map::Update(float _DeltaTime)

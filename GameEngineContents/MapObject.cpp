@@ -1,8 +1,9 @@
 #include "MapObject.h"
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineRender.h>
+//#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include "Map.h"
@@ -18,14 +19,16 @@ MapObject::~MapObject()
 
 void MapObject::Start()
 {
-    //TestRender = CreateRender(WormsRenderOrder::MapObject);
-    //TestRender->SetImage("MapObject1.bmp");
-    //TestRender->SetPosition(GetPos());
-    //TestRender->SetScaleToImage();
+    Objects.push_back("MapObject1.bmp");
+    Objects.push_back("MapObject2.bmp");
+    Objects.push_back("MapObject3.bmp");
+    ColObjects.push_back("MapObject1_Col.bmp");
+    ColObjects.push_back("MapObject2_Col.bmp");
+    ColObjects.push_back("MapObject3_Col.bmp");
 
-    ObjScale = GameEngineResources::GetInst().ImageFind("MapObject1.bmp")->GetImageScale();
-   
 
+    RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 2);
+    ObjScale = GameEngineResources::GetInst().ImageFind(Objects[RandIdx])->GetImageScale();
 }
 
 void MapObject::Update(float _DeltaTime)
@@ -46,17 +49,16 @@ void MapObject::MergeMap()
         return;
     }
 
-    float4 CheckPos = float4::Zero;
+    float4 CheckPos = float4::Zero;                //오브젝트 이미지에서 픽셀 체크할 위치
 
-    float4 RealPos = GetPos();
+    float4 RealPos = GetPos();                     //실제 맵에 대응되는 위치
     RealPos -= ObjScale.half();
 
     HDC ColMapDc = Map::MainMap->GetColMapDC();
     HDC MapDc = Map::MainMap->GetMapDC();
 
-    //ObjectImgaeName 변수로 만들 예정
-    GameEngineImage* ColObjImage = GameEngineResources::GetInst().ImageFind("MapObject1_Col.bmp");
-    GameEngineImage* ObjImage = GameEngineResources::GetInst().ImageFind("MapObject1.bmp");
+    GameEngineImage* ObjImage = GameEngineResources::GetInst().ImageFind(Objects[RandIdx]);
+    GameEngineImage* ColObjImage = GameEngineResources::GetInst().ImageFind(ColObjects[RandIdx]);
 
     std::string ColMapName = Map::MainMap->GetColMapName();
     GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
@@ -65,15 +67,15 @@ void MapObject::MergeMap()
     {
         for (CheckPos.x = 0.0f; CheckPos.x < ObjScale.x; ++CheckPos.x)
         {
-            //Obj의 충돌이미지가 파란색이면 맵에서의 해당 위치에 생을 씌움
+            //Obj의 충돌이미지가 파란색이면 맵에서의 해당 위치에 색을 넣음
             if (Blue == ColObjImage->GetPixelColor(CheckPos, Magenta))
             {
-                //충돌맵에서 해당 지점이 파란색이 아닐 때만 맵에 그려야 함
+                //충돌맵에서 해당 지점이 파란색이 아닐 때만 맵에 오브젝트를 그림
                 if (Blue != ColImage->GetPixelColor(RealPos, Magenta))
                 {
                     DWORD Color = ObjImage->GetPixelColor(CheckPos, Magenta);
-                    SetPixel(MapDc, RealPos.x, RealPos.y, Color);                   //기존 맵에 그림
-                    SetPixel(ColMapDc, RealPos.x, RealPos.y, Blue);                 //충돌 맵에 그림
+                    SetPixel(MapDc, RealPos.ix(), RealPos.iy(), Color);                   //기존 맵에 그림
+                    SetPixel(ColMapDc, RealPos.ix(), RealPos.iy(), Blue);                 //충돌 맵에 그림
                 }                
             }
             ++RealPos.x;
@@ -82,18 +84,105 @@ void MapObject::MergeMap()
         RealPos.x -= ObjScale.x;
         ++RealPos.y;
     }
-    Death();
+
+    Death();           //맵 합성이 끝나면 오브젝트의 액터를 삭제
 }
 
-std::vector<float4> MapObject::GetRandomPos()
+void MapObject::MakeRandomPosSets()
 {
-    std::vector<float4> RandPosSets = std::vector<float4>();
+    RandPosSets.clear();
 
- 
-    return RandPosSets;
+    float4 StartGridPos = { 200.0f, 0.0f };
+
+    float4 Scale = GameEngineResources::GetInst().ImageFind(Objects[RandIdx])->GetImageScale();
+    float4 Boundary = { 3537.0f, 1120.0f };
+
+    std::string ColMapName = Map::MainMap->GetColMapName();
+    GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
+
+    int B_Count = 0;
+    int M_Count = 0;
+
+    for (; StartGridPos.y < Boundary.y; StartGridPos.y += Scale.y)
+    {
+        for (StartGridPos.x = 200.0f; StartGridPos.x < Boundary.x; StartGridPos.x+=Scale.x)
+        {
+            float4 Center        = StartGridPos + Scale.half();
+            float4 CenterDown    = {Center.x, Center.y + Scale.hy()};
+            float4 LeftDown      = {CenterDown.x - Scale.hx(), CenterDown.y};
+            float4 RightDown     = { CenterDown.x + Scale.hx(), CenterDown.y };
+            float4 CenterUp      = { Center.x, Center.y - Scale.hy() };
+            float4 LeftUp        = { CenterUp.x - Scale.hx(), CenterUp.y };
+            float4 RightUp       = { CenterUp.x + Scale.hx(), CenterUp.y };
+
+            if (Blue == ColImage->GetPixelColor(CenterDown, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+            if (Blue == ColImage->GetPixelColor(LeftDown, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+            if (Blue == ColImage->GetPixelColor(RightDown, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+           
+            if (Blue == ColImage->GetPixelColor(CenterUp, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+            if (Blue == ColImage->GetPixelColor(LeftUp, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+            if (Blue == ColImage->GetPixelColor(RightUp, Magenta))
+            {
+                ++B_Count;
+            }
+            else
+            {
+                ++M_Count;
+            }
+
+            if (2 <= B_Count && 2 <= M_Count && Blue != ColImage->GetPixelColor(Center, Magenta))
+            {
+                RandPosSets.push_back(Center);
+            }
+
+            B_Count = 0;
+            M_Count = 0;
+        }
+    }
+
 }
 
-float4 MapObject::SetObjPosRand()
+float4 MapObject::GetRandomPos()
 {
-    return float4::Zero;
+   MakeRandomPosSets();
+
+    int Size = static_cast<int>(RandPosSets.size());
+    int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, Size - 1);
+
+    return RandPosSets[RandIdx];
 }
