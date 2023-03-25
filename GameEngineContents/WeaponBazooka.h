@@ -32,6 +32,9 @@ public:
     void TimeCounting();
 	void DamageToPlayer();
 
+    void DebrisAnimation(float _DeltaTime);
+    void DebrisInit();
+
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
 	WeaponBazooka(WeaponBazooka&& _Other) noexcept = delete;
 	WeaponBazooka& operator=(const WeaponBazooka& _Other) = delete;
@@ -46,9 +49,23 @@ protected:
 private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 
-	//MapModifier* BazookaExplosion = nullptr;
-	GameEngineRender* ExplosionAnimation = nullptr;
+    //렌더, 애니메이션 
+	GameEngineRender* ExplosionCircle = nullptr;
+	GameEngineRender* ExplosionElipse = nullptr;
+	GameEngineRender* PootTextAnimation = nullptr;
 
+    std::vector<GameEngineRender*> Sparks;
+    std::vector<GameEngineRender*> Smokes;
+
+    std::vector<float4> SparksDir;
+    std::vector<float4> SmokesDir;
+
+    bool isDebrisSet = false;
+    float DebrisGravity = false;
+
+    std::vector<GameEngineRender*> ChargingRender;
+
+    //기능
 	bool isExplosion = false;
 	bool isBazOn = false;
 
@@ -78,7 +95,6 @@ private:
 
 	Player* PrevPlayer = nullptr;
 
-	std::vector<GameEngineRender*> ChargingRender;
 
 
 	float4 PrevCamPos = float4::Zero;
@@ -86,6 +102,7 @@ private:
 	float4 LerpCamPos = float4::Zero;
 	float fLerpRatio = 0.f;
 	float fLerpSpeed = 2.f;
+
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 };

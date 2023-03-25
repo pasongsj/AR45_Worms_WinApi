@@ -109,11 +109,6 @@ void PlayLevel::ImageLoad()
 
 		GameEngineImage* Airplane = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Airplane.bmp"));
 
-		GameEngineImage* Charging = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Charging.bmp"));
-		Charging->Cut(1, 16);
-
-		GameEngineImage* circle50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle50.bmp"));
-		circle50->Cut(1, 9);
 
 		GameEngineImage* sheepWalkRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalkRight.bmp"));
 		sheepWalkRight->Cut(1, 8);
@@ -123,8 +118,7 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* AirMissile = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirMissile.bmp"));
 		GameEngineImage* AirMissileRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirMissileRot.bmp"));
 
-		GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
-		BazSmoke->Cut(1, 64);
+
         GameEngineImage* HomingBlue = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingBlue.bmp"));
         GameEngineImage* HomingRed = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRed.bmp"));
         GameEngineImage* HomingRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HomingRot.bmp"));
@@ -135,6 +129,43 @@ void PlayLevel::ImageLoad()
 
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
+
+
+        //무기 효과
+        Dir.Move("Effect");
+        {
+		    GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
+		    BazSmoke->Cut(1, 64);
+
+            GameEngineImage* Charging = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Charging.bmp"));
+            Charging->Cut(1, 16);
+
+            GameEngineImage* circle50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle50.bmp"));
+            circle50->Cut(1, 9);
+
+            GameEngineImage* elipse50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("elipse50.bmp"));
+            elipse50->Cut(1, 20);
+
+            GameEngineImage* Smoke50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Smoke50.bmp"));
+            Smoke50->Cut(1, 28);
+
+            GameEngineImage* Smoke100 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Smoke100.bmp"));
+            Smoke100->Cut(1, 28);
+
+            GameEngineImage* Poot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Poot.bmp"));
+            Poot->Cut(1, 18);
+
+            GameEngineImage* Spark1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Spark1.bmp"));
+            Spark1->Cut(1, 32);
+
+            GameEngineImage* Spark2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Spark2.bmp"));
+            Spark2->Cut(1, 32);
+
+
+
+            Dir.MoveParent();
+        }
+
 
 		Dir.MoveParent();
 	}
@@ -548,9 +579,9 @@ void PlayLevel::Loading()
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
     }
     //CreateActor<WeaponBazooka>();
-    CreateActor<WeaponSheep>();
+    //CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-	//CreateActor<HomingMissile>();
+    CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
 }
 

@@ -36,6 +36,7 @@ float4 Weapon::GetShootDir()
 	{
 		MsgAssert("현재 플레이어를 찾을 수 없습니다.");
 	}
+
 	float4 PlayerDir = CurPlayer->GetPlayerDir();
 
 	if (float4::Left == PlayerDir)

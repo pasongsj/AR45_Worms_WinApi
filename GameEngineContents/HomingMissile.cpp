@@ -31,7 +31,7 @@ void HomingMissile::Start()
 
 void HomingMissile::Update(float _DeltaTime)
 {
-    if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
+    if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
         if (isAiming == false)
         {
