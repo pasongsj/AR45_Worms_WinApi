@@ -96,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="LobbyLevel.h" />
     <ClInclude Include="Lobby.h" />
+    <ClInclude Include="PlayerGrave.h">
+      <Filter>Play\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="LobbyLevel.cpp" />
     <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="PlayerGrave.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

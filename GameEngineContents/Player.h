@@ -8,6 +8,8 @@ enum class PlayerState
 	MOVE,
 	JUMP,
     EQUIPWEAPON,
+    Dead,
+    Win
 };
 
 enum class PlayerAngleDir
@@ -26,7 +28,7 @@ public:
 	// constrcuter destructer
 	Player();
 	~Player();
-	int a = 0;
+
 	// delete Function
 	Player(const Player& _Other) = delete;
 	Player(Player&& _Other) noexcept = delete;
@@ -75,6 +77,11 @@ public:
 		CanIMove = _Value;
 	}
 
+    bool GetIsAlive()
+    {
+        return IsAlive;
+    }
+
 	// 무기에서 현재 플레이어의 방향을 가지고 오는 메서드 
 	float4 GetPlayerDir() 
 	{
@@ -99,21 +106,31 @@ protected:
 private:
 	void Test(); //테스트용 함수
 	
-	bool CanIMove = true;
-
     void CreateAnimation();
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
 
+    //플레이어 스테이터스 관련 (HP,움직일 수 있는지,생존여부)
+    bool CanIMove = true;
+    int PlayerHP = 100;
+    bool IsAlive = true;
+    void CheckAlive();
+    void TestChangeDeadState();
+
+    void CheckTurn();
+    bool IsMyTurn = false; //내 턴인지 체크
+
+    Weapon* CurWeapon = nullptr; //현재 무기
+
+    void PlayerDead(); //플레이어 죽은 이후 실행하는 함수
+    void SetGraveObject(GameEngineImage* _ColImage, const std::string_view& _GraveImage);
+    std::string_view PlayerGraveImageStringView;
+
 	//플레이어 UI관련 (HP, 화살표이미지)
 	PlayerHPUI* HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
-	int PlayerHP = 100;
 	float DamagedTime = 0.0f;
 	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
 	
-    void CheckTurn();
-	bool IsMyTurn = false; //내 턴인지 체크
-
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
 	void DirCheck(const std::string_view& _AnimationName, int _CurIndex = 0);
 
@@ -122,7 +139,7 @@ private:
 	float4 MoveDir = float4::Zero; //플레이어의 이동 벡터
 	bool IsGround = true; //플레이어의 지면 여부
 	void IsGroundCheck();
-	std::string_view AnimationDir = "";
+	std::string AnimationDir = "";
     void MoveCalculation(float _DeltaTime);
     bool NextPosWallCheck(float4 _NextPos);
 
@@ -137,12 +154,13 @@ private:
     bool RightPixelCheck = false;
     bool UpPixelCheck = false;
     bool DownPixelCheck = false;
-
+    bool LeftUpPixelCheck = false;
+    bool RightUpPixelCheck = false;
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
 
-	void GravityApplied(float _DeltaTime);
+	void GravityApplied(float _DeltaTime); //중력적용
 
 	float4 PullUpCharacter(float4 _NextPos, float _DeltaTime); //플레이어가 colimage상 아래로 들어가 있다면,MoveDir을 위로 끌어올림
 
@@ -154,6 +172,7 @@ private:
 
     float StateCalTime = 0.0f; //스테이트 내에서 시간 계산이 필요할 때
     bool StateCalBool = true;
+    bool StateCalBool2 = true;
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;
@@ -166,8 +185,6 @@ private:
 	void MoveUpdate(float _DeltatTime);
 	void MoveEnd();
 
-	Weapon* CurWeapon = nullptr;
-	
 	void JumpStart();
 	void JumpUpdate(float _DeltatTime);
 	void JumpEnd();
@@ -175,6 +192,14 @@ private:
     void EquipWeaponStart();
     void EquipWeaponUpdate(float _DeltatTime);
     void EquipWeaponEnd();
+
+    void DeadStart();
+    void DeadUpdate(float _DeltatTime);
+    void DeadEnd();
+
+    void WinStart();
+    void WinUpdate(float _DeltatTime);
+    void WinEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();

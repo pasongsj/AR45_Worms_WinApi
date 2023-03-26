@@ -31,6 +31,16 @@ void Player::ChangeState(PlayerState _State)
         EquipWeaponStart();
         break;
     }
+    case PlayerState::Dead:
+    {
+        DeadStart();
+        break;
+    }
+    case PlayerState::Win:
+    {
+        WinStart();
+        break;
+    }
 	default:
 		break;
 	}
@@ -55,6 +65,16 @@ void Player::ChangeState(PlayerState _State)
     case PlayerState::EQUIPWEAPON:
     {
         EquipWeaponEnd();
+        break;
+    }
+    case PlayerState::Dead:
+    {
+        DeadEnd();
+        break;
+    }
+    case PlayerState::Win:
+    {
+        WinEnd();
         break;
     }
 	default:
@@ -86,6 +106,16 @@ void Player::UpdateState(float _DeltaTime)
         EquipWeaponUpdate(_DeltaTime);
         break;
     }
+    case PlayerState::Dead:
+    {
+        DeadUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::Win:
+    {
+        WinUpdate(_DeltaTime);
+        break;
+    }
 	default:
 		break;
 	}
@@ -95,13 +125,17 @@ void Player::IdleStart()
 {
 	DirCheck("Idle");
     StateCalTime = 0.0f;
-    MoveDir = float4::Zero;
+   
 
 }
 void Player::IdleUpdate(float _DeltatTime)
 {
     StateCalTime += _DeltatTime;
 
+    if (true == IsGround)
+    {
+        MoveDir = float4::Zero;
+    }
 
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
 	{
@@ -172,6 +206,7 @@ void Player::MoveUpdate(float _DeltatTime)
 
     if (false == IsGround)
     {
+        MoveDir.y = 0.0f;
         StateCalTime += _DeltatTime;
     }
     else
@@ -179,8 +214,9 @@ void Player::MoveUpdate(float _DeltatTime)
         StateCalTime = 0.0f;
     }
 
-    if (StateCalTime > 0.1f)
+    if (StateCalTime > 0.05f)
     {
+        MoveDir = float4::Zero;
         ChangeState(PlayerState::IDLE);
         return;
     }
@@ -231,10 +267,11 @@ void Player::JumpStart()
   
     StateCalTime = 0.0f;
     StateCalBool = true;
+    StateCalBool2 = true;
 }
 void Player::JumpUpdate(float _DeltatTime)
 {
-    if (true == IsGround && StateCalBool == false && StateCalTime > 0.5f)
+    if (true == IsGround && StateCalBool == false && StateCalTime > 0.3f)
     {
         ChangeState(PlayerState::IDLE);
         return;
@@ -242,26 +279,37 @@ void Player::JumpUpdate(float _DeltatTime)
 
     StateCalTime += _DeltatTime;
 
-    if (true == LeftPixelCheck && "Left_" == AnimationDir)
-    {
-        AnimationDir = "Right_";
-        MoveDir = { (-MoveDir.x * 0.8f), (MoveDir.y * 0.8f) };
-    }
-
-    if (true == RightPixelCheck && "Right_" == AnimationDir)
-    {
-        AnimationDir = "Left_";
-        MoveDir = { (-MoveDir.x * 0.8f), (MoveDir.y * 0.8f) };
-    }
+    float testvalue = 0.5f;
 
     if (true == UpPixelCheck)
     {
-        MoveDir = {( MoveDir.x * 0.8f), ( - MoveDir.y * 0.8f)};
+        MoveDir = { 0, (-MoveDir.y) };
     }
+    else if (true == LeftPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+    }
+    else if (true == RightPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+    }
+    else if (true == LeftUpPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+    }
+    else if (true == RightUpPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+    }
+
 
 	if (true == AnimationRender->IsAnimationEnd() && true == StateCalBool)
 	{
-        if ("Right_" == AnimationDir)
+        if ("Right_" == DirString)
         {
             MoveDir += (float4::Up + float4::Right) * 150.0f;
         }
@@ -277,10 +325,61 @@ void Player::JumpUpdate(float _DeltatTime)
         StateCalBool = false;
 	}
 
+    if (StateCalTime >= 1.0f && true == StateCalBool2)
+    {
+        std::string AnimationName = "FlyDown";
+        std::string AnimationText = AnimationDir.data() + AnimationName;
+        AnimationRender->ChangeAnimation(AnimationText);
+
+        StateCalBool2 = false;
+    }
 }
 void Player::JumpEnd()
 {
     MoveDir = float4::Zero;
+}
+
+void Player::DeadStart()
+{
+    AnimationDir = DirString;
+
+    std::string AnimationName = "Die";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+}
+
+void Player::DeadUpdate(float _DeltatTime)
+{
+    MoveDir = float4::Zero;
+
+    if (AnimationRender->IsAnimationEnd())
+    {
+        PlayerDead();
+    }
+}
+
+void Player::DeadEnd()
+{
+
+}
+
+void Player::WinStart()
+{
+    AnimationDir = DirString;
+
+    std::string AnimationName = "Win";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+}
+
+void Player::WinUpdate(float _DeltatTime)
+{
+    MoveDir = float4::Zero;
+}
+
+void Player::WinEnd()
+{
+
 }
 
 //void Player::EquipWeaponStart()

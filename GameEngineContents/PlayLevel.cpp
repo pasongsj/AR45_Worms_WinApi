@@ -172,6 +172,21 @@ void PlayLevel::ImageLoad()
 	{
 		Dir.Move("Player");
 		Dir.Move("Image");
+        {
+            //Grave 이미지
+            GameEngineImage* Grave1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave1.bmp"));
+            Grave1->Cut(1, 20);
+            GameEngineImage* Grave2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave2.bmp"));
+            Grave2->Cut(1, 20);
+            GameEngineImage* Grave3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave3.bmp"));
+            Grave3->Cut(1, 20);
+            GameEngineImage* Grave4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave4.bmp"));
+            Grave4->Cut(1, 20);
+            GameEngineImage* Grave5 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave5.bmp"));
+            Grave5->Cut(1, 20);
+            GameEngineImage* Grave6 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave6.bmp"));
+            Grave6->Cut(1, 20);
+        }
 		{
 			//Left 플레이어 이미지
 			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
@@ -180,6 +195,10 @@ void PlayLevel::ImageLoad()
 			WalkLeft->Cut(1, 15);		
 			GameEngineImage* JumpReadyLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("JumpReadyLeft.bmp"));
 			JumpReadyLeft->Cut(1, 10);
+            GameEngineImage* DieLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DieLeft.bmp"));
+            DieLeft->Cut(1, 60);
+            GameEngineImage* WinLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WinLeft.bmp"));
+            WinLeft->Cut(1, 14);
 
 			GameEngineImage* FlyUpLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupLeft.bmp"));
 			FlyUpLeft->Cut(1, 2);
@@ -243,6 +262,10 @@ void PlayLevel::ImageLoad()
 			WalkRight->Cut(1, 15);
 			GameEngineImage* JumpReadyRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("JumpReadyRight.bmp"));
 			JumpReadyRight->Cut(1, 10);
+            GameEngineImage* DieRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DieRight.bmp"));
+            DieRight->Cut(1, 60);
+            GameEngineImage* WinRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WinRight.bmp"));
+            WinRight->Cut(1, 14);
 			GameEngineImage* FlyUpRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupRight.bmp"));
 			FlyUpRight->Cut(1, 2);
 			GameEngineImage* FlyDownRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlydownRight.bmp"));
@@ -293,8 +316,7 @@ void PlayLevel::ImageLoad()
             GameEngineImage* UziOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOffRight.bmp"));
             UziOffRight->Cut(1, 10);
             GameEngineImage* UziOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnRight.bmp"));
-            UziOnRight->Cut(1, 10);            
-            
+            UziOnRight->Cut(1, 10);                       
 		}
 		Dir.MoveParent();
 	}

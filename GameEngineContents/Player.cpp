@@ -14,6 +14,7 @@
 #include "PlayerGetDamagedUI.h"
 #include "ContentsEnums.h"
 #include "Weapon.h"
+#include "PlayerGrave.h"
 
 Player::Player() 
 {
@@ -48,6 +49,8 @@ void Player::Start()
 		GameEngineInput::CreateKey("TestButton", 'M');
 	}
 
+    PlayerGraveImageStringView = "Grave1.bmp";
+
 	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
 	ChangeState(PlayerState::IDLE);
 }
@@ -73,10 +76,28 @@ void Player::SetColImage(const std::string_view& _Name)
 
 void Player::Test()
 {
-	if (GameEngineInput::IsDown("TestButton"))
+	if (GameEngineInput::IsDown("TestButton") && IsMyTurn == true)
 	{
-		Damaged(5);
+		Damaged(100);
+        //ChangeState(PlayerState::Win);
 	}
+}
+
+void Player::CheckAlive()
+{
+    if (PlayerHP <= 0)
+    {
+        TestChangeDeadState();
+    }
+}
+
+void Player::TestChangeDeadState()
+{
+    if (true == IsAlive)
+    {
+        ChangeState(PlayerState::Dead);
+        IsAlive = false;
+    }
 }
 
 void Player::Damaged(int _Damage)
@@ -115,24 +136,14 @@ void Player::Update(float _DeltaTime)
     GravityApplied(_DeltaTime);
     MoveCalculation(_DeltaTime);
 	
+    CheckAlive();
+
     IsGroundCheck();
     CheckTurn();
     Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
 	DamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
-}
-
-bool Player::NextPosWallCheck(float4 _NextPos)
-{
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 0)))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 void Player::GravityApplied(float _DeltaTime)
@@ -146,7 +157,13 @@ void Player::MoveCalculation(float _DeltaTime)
 	NextPos = PullUpCharacter(NextPos, _DeltaTime);
 
 	SetMoveAngle();
-	SetMove(MoveDir * _DeltaTime);
+
+    if (PlayerState::IDLE == StateValue && true == IsGround)
+    {
+        return;
+    }
+    SetMove(MoveDir * _DeltaTime);
+
 }
 
 void Player::IsGroundCheck()
@@ -163,17 +180,14 @@ void Player::IsGroundCheck()
 	}
 }
 
-bool LeftPixelCheck = false;
-bool RightPixelCheck = false;
-bool UpPixelCheck = false;
-bool DownPixelCheck = false;
-
 void Player::PlayerPixelCheck()
 {
     float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
     float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
     float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
     float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+    float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
+    float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
 
     if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
     {
@@ -209,6 +223,24 @@ void Player::PlayerPixelCheck()
     else
     {
         DownPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftUpPixel, RGB(0, 0, 0)))
+    {
+        LeftUpPixelCheck = true;
+    }
+    else
+    {
+        LeftUpPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightUpPixel, RGB(0, 0, 0)))
+    {
+        RightUpPixelCheck = true;
+    }
+    else
+    {
+        RightUpPixelCheck = false;
     }
 }
 
@@ -443,10 +475,46 @@ void Player::Render(float _DeltaTime)
             PlayerStateText = PlayerStateText + "UNKNOWN 상태";
             break;
         }
-
         GameEngineLevel::DebugTextPush(PlayerStateText);
+
+        std::string LeftPixelCheckString = "LeftPixelCheck = ";
+        LeftPixelCheckString = LeftPixelCheckString + std::to_string(LeftPixelCheck);
+        GameEngineLevel::DebugTextPush(LeftPixelCheckString);
+
+        std::string RightPixelCheckString = "RightPixelCheck = ";
+        RightPixelCheckString = RightPixelCheckString + std::to_string(RightPixelCheck);
+        GameEngineLevel::DebugTextPush(RightPixelCheckString);
+
+        std::string UpPixelCheckString = "UpPixelCheck = ";
+        UpPixelCheckString = UpPixelCheckString + std::to_string(UpPixelCheck);
+        GameEngineLevel::DebugTextPush(UpPixelCheckString);
+
+        std::string DownPixelCheckString = "DownPixelCheck = ";
+        DownPixelCheckString = DownPixelCheckString + std::to_string(DownPixelCheck);
+        GameEngineLevel::DebugTextPush(DownPixelCheckString);
+
+        std::string LeftUpPixelCheckString = "LeftUpPixelCheck = ";
+        LeftUpPixelCheckString = LeftUpPixelCheckString + std::to_string(LeftUpPixelCheck);
+        GameEngineLevel::DebugTextPush(LeftUpPixelCheckString);
+
+        std::string RightUpPixelCheckString = "RightUpPixelCheck = ";
+        RightUpPixelCheckString = RightUpPixelCheckString + std::to_string(RightUpPixelCheck);
+        GameEngineLevel::DebugTextPush(RightUpPixelCheckString);
 	}
 
+}
+
+void Player::PlayerDead()
+{
+    Off();
+    HPUI->Off();
+    SetGraveObject(ColImage, PlayerGraveImageStringView);
+}
+
+void Player::SetGraveObject(GameEngineImage* _ColImage, const std::string_view& _GraveImage)
+{
+    PlayerGrave* GraveObject = GetLevel()->CreateActor<PlayerGrave>();
+    GraveObject->SetPlayerGrave(_GraveImage, GetPos());
 }
 
 bool Player::IsPlayerAnimationEnd()

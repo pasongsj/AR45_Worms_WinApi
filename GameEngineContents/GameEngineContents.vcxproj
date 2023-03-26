@@ -35,6 +35,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayerGrave.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Star.h" />
     <ClInclude Include="WeaponAirStrike.h">
       <SubType>
@@ -142,6 +146,10 @@
     <ClCompile Include="MainTitleBack.cpp" />
     <ClCompile Include="MainTitleLevel.cpp" />
     <ClCompile Include="MapObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerGrave.cpp">
       <SubType>
       </SubType>
     </ClCompile>

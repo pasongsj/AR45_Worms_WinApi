@@ -42,7 +42,6 @@ void PlayerHPUI::Update(float _DeltaTime)
 
 void PlayerHPUI::SetPlayerHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage, int *_PlayerHP)
 {
-
 	PlayerHPNumberRender.SetOwner(this);
 	PlayerHPNumberRender.SetCameraEffect(true);
 	PlayerHPNumberRender.SetImage(_HPNumberImage, { 10, 10 }, 10, RGB(255, 0, 255));
