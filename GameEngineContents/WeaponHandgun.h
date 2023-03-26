@@ -36,6 +36,9 @@ private:
 	void Firing(float _DeltaTime);
 	void CheckFiring();
 
+    float AimIndex = 15;
+    int NextAimIndex = 15;
+    void SetAimFrameIndex();
 
 };
 

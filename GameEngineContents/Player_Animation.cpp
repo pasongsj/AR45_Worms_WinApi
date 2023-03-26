@@ -120,4 +120,49 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_ClusterBombOn", .ImageName = "ClusterBombOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_ClusterBombOn", .ImageName = "ClusterBombOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
     }
+
+    // ±ÇÃÑ(ÇÚµå°Ç)
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunFire", .ImageName = "HandgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunFire", .ImageName = "HandgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunAim", .ImageName = "HandgunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunAim", .ImageName = "HandgunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunOff", .ImageName = "HandgunOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunOff", .ImageName = "HandgunOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunOn", .ImageName = "HandgunOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunOn", .ImageName = "HandgunOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
+
+    // ¹Ì´Ï°Ç
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunFire", .ImageName = "MinigunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunFire", .ImageName = "MinigunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunAim", .ImageName = "MinigunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunAim", .ImageName = "MinigunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunOff", .ImageName = "MinigunOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunOff", .ImageName = "MinigunOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunOn", .ImageName = "MinigunOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunOn", .ImageName = "MinigunOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
+
+    // ¼¦°Ç
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunFire", .ImageName = "ShotgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunFire", .ImageName = "ShotgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunAim", .ImageName = "ShotgunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunAim", .ImageName = "ShotgunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunOff", .ImageName = "ShotgunOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunOff", .ImageName = "ShotgunOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunOn", .ImageName = "ShotgunOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunOn", .ImageName = "ShotgunOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
 }

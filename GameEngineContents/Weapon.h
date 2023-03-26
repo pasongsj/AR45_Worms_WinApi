@@ -37,6 +37,11 @@ public:
 		return WeaponNumber;
 	}
 
+    std::string GetWeaponName()
+    {
+        return WeaponName;
+    }
+
 	//virtual void ResetWeapon() {};
 protected:
 

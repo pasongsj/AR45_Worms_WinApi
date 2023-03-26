@@ -24,14 +24,15 @@ void WeaponClusterBomb::Start()
     Timer = 2.0f;// 임시값
     Dir = float4::Right;
     BombScale = 120;
-    WeaponName = "Grenade";
+    WeaponName = "ClusterBomb";
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
 
     for (int i = 0;i < 6;i++)
     {
         GameEngineRender* NewClusterRender = CreateRender("bazooka.bmp",WormsRenderOrder::Weapon);
-        NewClusterRender->SetScaleToImage();
+        NewClusterRender->SetScale({ 50,50 });
+        NewClusterRender->SetRotFilter("bazookaRot.bmp");
 
         GameEngineCollision* NewClusterCollision = CreateCollision(WormsCollisionOrder::Weapon);
         NewClusterCollision->SetScale(NewClusterRender->GetScale());
@@ -93,6 +94,8 @@ void WeaponClusterBomb::Update(float _DeltaTime)
     {
         isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+        // 추후 삭제 필요
+        CurPlayer->SetCurWeapon(nullptr);
         this->Death();
     }
 }
@@ -136,6 +139,8 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
                 continue;
             }
             ClusterDir[i].y = ClusterDir[i].y + Gravity * 10 * _DeltaTime;
+
+            ClusterRender[i]->SetAngle(ClusterDir[i].GetAnagleDeg());
             ClusterRender[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
             ClusterCollision[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
 
@@ -270,7 +275,8 @@ void WeaponClusterBomb::WeaponClusterBombInit()
 {
     WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
     WeaponRender->SetImage("Grenade.bmp");
-    WeaponRender->SetScale({ 10,20 }); // 임시 설정 값 
+    WeaponRender->SetRotFilter("GrenadeRot.bmp");
+    WeaponRender->SetScale({ 15,25 }); // 임시 설정 값 
 
     WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
     WeaponCollision->SetScale(WeaponRender->GetScale());

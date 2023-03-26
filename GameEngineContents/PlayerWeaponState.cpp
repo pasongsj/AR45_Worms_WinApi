@@ -4,28 +4,32 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 void Player::EquipWeaponStart()
 {
-    int WeaponNumber = CurWeapon->GetWeaponNumber();
-
-    switch (WeaponNumber)
+    if (nullptr == CurWeapon || CurWeapon->GetWeaponNumber() == static_cast<int>(WeaponNum::None))
     {
-    case static_cast<int>(WeaponNum::Uzi):
-    {
-        DirCheck("UziOn");
-        break;
+        return;
     }
-    case static_cast<int>(WeaponNum::Grenade):
-    {
-        DirCheck("GrenadeOn");
-        break;
-    }
-    case static_cast<int>(WeaponNum::ClusterBomb):
-    {
-        DirCheck("ClusterBombOn"); // 딜레이 업데이트 필요
-        break;
-    }
-    default:
-        break;
-    }
+    std::string _Name = CurWeapon->GetWeaponName() + "On";
+    DirCheck(_Name);
+    //switch (WeaponNumber)
+    //{
+    //case static_cast<int>(WeaponNum::Uzi):
+    //{
+    //    DirCheck("UziOn");
+    //    break;
+    //}
+    //case static_cast<int>(WeaponNum::Grenade):
+    //{
+    //    DirCheck("GrenadeOn");
+    //    break;
+    //}
+    //case static_cast<int>(WeaponNum::ClusterBomb):
+    //{
+    //    DirCheck("ClusterBombOn"); // 딜레이 업데이트 필요
+    //    break;
+    //}
+    //default:
+    //    break;
+    //}
     //현재 무기 애니메이션으로 변경
 }
 void Player::EquipWeaponUpdate(float _DeltatTime)
@@ -74,27 +78,29 @@ void Player::EquipWeaponUpdate(float _DeltatTime)
 }
 void Player::EquipWeaponEnd()
 {
-    int WeaponNumber = CurWeapon->GetWeaponNumber();
+    std::string _Name = CurWeapon->GetWeaponName() + "Off";
+    DirCheck(_Name);
+    //int WeaponNumber = CurWeapon->GetWeaponNumber();
 
-    switch (WeaponNumber)
-    {
-    case static_cast<int>(WeaponNum::Uzi):
-    {
-        DirCheck("UziOff"); // 딜레이 업데이트 필요
-        break;
-    }
-    case static_cast<int>(WeaponNum::Grenade):
-    {
-        DirCheck("GrenadeOff"); // 딜레이 업데이트 필요
-        break;
-    }
-    case static_cast<int>(WeaponNum::ClusterBomb):
-    {
-        DirCheck("ClusterBombOff"); // 딜레이 업데이트 필요
-        break;
-    }
-    default:
-        break;
-    }
+    //switch (WeaponNumber)
+    //{
+    //case static_cast<int>(WeaponNum::Uzi):
+    //{
+    //    DirCheck("UziOff"); // 딜레이 업데이트 필요
+    //    break;
+    //}
+    //case static_cast<int>(WeaponNum::Grenade):
+    //{
+    //    DirCheck("GrenadeOff"); // 딜레이 업데이트 필요
+    //    break;
+    //}
+    //case static_cast<int>(WeaponNum::ClusterBomb):
+    //{
+    //    DirCheck("ClusterBombOff"); // 딜레이 업데이트 필요
+    //    break;
+    //}
+    //default:
+    //    break;
+    //}
     //장비한 무기 애니메이션용 각도 리셋
 }

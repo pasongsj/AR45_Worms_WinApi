@@ -131,6 +131,7 @@ void PlayLevel::ImageLoad()
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AimingLineRot.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeRot.bmp"));
 
 
         //무기 효과
@@ -263,6 +264,33 @@ void PlayLevel::ImageLoad()
             GameEngineImage* ClusterBombOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOnLeft.bmp"));
             ClusterBombOnLeft->Cut(1, 10);
 
+            GameEngineImage* HandgunAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunAimLeft.bmp"));
+            HandgunAimLeft->Cut(1, 32);
+            GameEngineImage* HandgunFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunFireLeft.bmp"));
+            HandgunFireLeft->Cut(1, 32);
+            GameEngineImage* HandgunOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunOffLeft.bmp"));
+            HandgunOffLeft->Cut(1, 10);
+            GameEngineImage* HandgunOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunOnLeft.bmp"));
+            HandgunOnLeft->Cut(1, 10);
+
+            GameEngineImage* MinigunAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunAimLeft.bmp"));
+            MinigunAimLeft->Cut(1, 32);
+            GameEngineImage* MinigunFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunFireLeft.bmp"));
+            MinigunFireLeft->Cut(1, 32);
+            GameEngineImage* MinigunOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunOffLeft.bmp"));
+            MinigunOffLeft->Cut(1, 10);
+            GameEngineImage* MinigunOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunOnLeft.bmp"));
+            MinigunOnLeft->Cut(1, 10);
+
+            GameEngineImage* ShotgunAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunAimLeft.bmp"));
+            ShotgunAimLeft->Cut(1, 32);
+            GameEngineImage* ShotgunFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunFireLeft.bmp"));
+            ShotgunFireLeft->Cut(1, 32);
+            GameEngineImage* ShotgunOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOffLeft.bmp"));
+            ShotgunOffLeft->Cut(1, 10);
+            GameEngineImage* ShotgunOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOnLeft.bmp"));
+            ShotgunOnLeft->Cut(1, 10);
+
 		}
 
 		{
@@ -338,6 +366,33 @@ void PlayLevel::ImageLoad()
             ClusterBombOffRight->Cut(1, 10);
             GameEngineImage* ClusterBombOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOnRight.bmp"));
             ClusterBombOnRight->Cut(1, 10);
+
+            GameEngineImage* HandgunAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunAimRight.bmp"));
+            HandgunAimRight->Cut(1, 32);
+            GameEngineImage* HandgunFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunFireRight.bmp"));
+            HandgunFireRight->Cut(1, 32);
+            GameEngineImage* HandgunOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunOffRight.bmp"));
+            HandgunOffRight->Cut(1, 10);
+            GameEngineImage* HandgunOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("HandgunOnRight.bmp"));
+            HandgunOnRight->Cut(1, 10);
+
+            GameEngineImage* MinigunAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunAimRight.bmp"));
+            MinigunAimRight->Cut(1, 32);
+            GameEngineImage* MinigunFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunFireRight.bmp"));
+            MinigunFireRight->Cut(1, 32);
+            GameEngineImage* MinigunOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunOffRight.bmp"));
+            MinigunOffRight->Cut(1, 10);
+            GameEngineImage* MinigunOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MinigunOnRight.bmp"));
+            MinigunOnRight->Cut(1, 10);
+
+            GameEngineImage* ShotgunAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunAimRight.bmp"));
+            ShotgunAimRight->Cut(1, 32);
+            GameEngineImage* ShotgunFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunFireRight.bmp"));
+            ShotgunFireRight->Cut(1, 32);
+            GameEngineImage* ShotgunOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOffRight.bmp"));
+            ShotgunOffRight->Cut(1, 10);
+            GameEngineImage* ShotgunOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOnRight.bmp"));
+            ShotgunOnRight->Cut(1, 10);
 		}
 		Dir.MoveParent();
 	}
@@ -652,6 +707,6 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
-    CreateActor<WeaponClusterBomb>();
+    //CreateActor<WeaponClusterBomb>();
     //CreateActor<WeaponShotgun>();
 }

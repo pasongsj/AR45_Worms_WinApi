@@ -46,37 +46,42 @@ void WeaponUzi::Update(float _DeltaTime)
 	{
 		WeaponUziInit();
 	}
-	SetCurPlayer();// 플레이어 전환버튼 때문에 추가
-    SetAimFrameIndex();
-
-    if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
+    if (false == isFire)
     {
-        float Ratio = 6 * _DeltaTime;
-        AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
-        CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
-        AimingLine->On();
-        AimingLine->SetPosition(Dir * 200); // 조준선 이동
-        if (Dir.x > 0)
+        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        SetAimFrameIndex();
+
+        if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
         {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
+            float Ratio = 6 * _DeltaTime;
+            AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+            CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
+            AimingLine->On();
+            AimingLine->SetPosition(Dir * 200); // 조준선 이동
+            if (Dir.x > 0)
+            {
+                AimingLine->SetAngle(Dir.GetAnagleDeg());
+            }
+            else
+            {
+                AimingLine->SetAngle(-Dir.GetAnagleDeg());
+            }
         }
         else
         {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
+            AimingLine->Off();
         }
+	    CheckFiring(); // 방향체크, 발사 체크
     }
-    else
-    {
-        AimingLine->Off();
-    }
-	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
 	if (true == IsDone())
 	{
 		isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
-        this->Death(); // 수정필요
+        // 추후 삭제 필요
+        CurPlayer->SetCurWeapon(nullptr);
+        this->Death();
 	}
 
 }

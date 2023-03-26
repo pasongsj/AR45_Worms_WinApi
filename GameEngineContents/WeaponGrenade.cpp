@@ -138,6 +138,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
 		{
 			Dir.y = Dir.y + Gravity * _DeltaTime; // dt동안 중력의 영향
 
+            WeaponRender->SetAngle(Dir.GetAnagleDeg());
 			WeaponRender->SetMove(Dir * MoveSpeed  * _DeltaTime);
 			WeaponCollision->SetMove(Dir * MoveSpeed *_DeltaTime);
 
@@ -178,7 +179,9 @@ void WeaponGrenade::Firing(float _DeltaTime)
             WeaponCollision->Off();
             isWeaponDone = true;
             GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
-            this->Death(); // 수정필요
+            // 추후 삭제 필요
+            CurPlayer->SetCurWeapon(nullptr);
+            this->Death();
         }
 	}
 }
@@ -224,7 +227,8 @@ void WeaponGrenade::WeaponGrenadeInit()
 {
 	WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
 	WeaponRender->SetImage("Grenade.bmp");
-	WeaponRender->SetScale({ 10,20 }); // 임시 설정 값 
+    WeaponRender->SetRotFilter("GrenadeRot.bmp");
+	WeaponRender->SetScale({ 15,25 }); // 임시 설정 값 
 
 	WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
 	WeaponCollision->SetScale(WeaponRender->GetScale());

@@ -34,7 +34,8 @@ void WeaponHandgun::Start()
 
 	// 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
-	AimingLine->SetImage("TempBomb.bmp");
+    AimingLine->SetImage("AimingLine.bmp");
+    AimingLine->SetRotFilter("AimingLineRot.bmp");
 	AimingLine->SetScale({ 20,20 });
 
 
@@ -47,9 +48,33 @@ void WeaponHandgun::Update(float _DeltaTime)
 	{
 		WeaponHandgunInit();
 	}
-	SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
+    if (false == isFire)
+    {
+        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        SetAimFrameIndex();
 
-	CheckFiring(); // 방향체크, 발사 체크
+        if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
+        {
+            float Ratio = 6 * _DeltaTime;
+            AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+            CurPlayer->ChangePlayerAnimation("HandgunAim", static_cast<int>(AimIndex));
+            AimingLine->On();
+            AimingLine->SetPosition(Dir * 200); // 조준선 이동
+            if (Dir.x > 0)
+            {
+                AimingLine->SetAngle(Dir.GetAnagleDeg());
+            }
+            else
+            {
+                AimingLine->SetAngle(-Dir.GetAnagleDeg());
+            }
+        }
+        else
+        {
+            AimingLine->Off();
+        }
+        CheckFiring(); // 방향체크, 발사 체크
+    }
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
 
     // 모든 총알발사되어 터졌는지 체크
@@ -57,7 +82,36 @@ void WeaponHandgun::Update(float _DeltaTime)
 	{
 		isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
-	}
+        // 추후 삭제 필요
+        CurPlayer->SetCurWeapon(nullptr);
+        this->Death();
+    }
+}
+
+void WeaponHandgun::SetAimFrameIndex()
+{
+    float Angle = Dir.GetAnagleDeg();
+
+
+    int NewIndex = 0;
+    if (Dir.x > 0 && Angle > 270)
+    {
+        Angle = Angle - 360;
+    }
+
+    else if (Dir.x < 0)
+    {
+        Angle = 180 - Angle;
+    }
+
+    NewIndex = Angle / 5 + 15;
+
+    if (NewIndex < 0)
+    {
+        NewIndex = 0;
+    }
+    NextAimIndex = NewIndex;
+
 }
 
 bool WeaponHandgun::IsDone()
@@ -84,7 +138,6 @@ void WeaponHandgun::CheckFiring()
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
-		AimingLine->SetPosition(Dir * 100); // 조준선 이동
 
 	}
 
