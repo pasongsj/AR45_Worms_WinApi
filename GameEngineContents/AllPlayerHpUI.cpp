@@ -78,7 +78,7 @@ void AllPlayerHpUI::Start()
 
     for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
     {
-        vecMixNum.push_back(i);
+        vecMixNum.push_back(static_cast<int>(i));
         vecLastPos.push_back(rStartPos);
         rStartPos.y += 17.f;
     }
