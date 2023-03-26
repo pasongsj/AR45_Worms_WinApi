@@ -32,7 +32,7 @@ void MainTitleBack::Start()
    UpTitle->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y-340 });
    UpTitle->SetScale({ 640, 212 });
 
-
+   int a = 0;
    MainPlay = CreateRender("MainPlay.bmp", WormsMainTitle::Select);
    MainPlay->SetPosition({ 400,400});
    MainPlay->SetScale({ 480,300 });
