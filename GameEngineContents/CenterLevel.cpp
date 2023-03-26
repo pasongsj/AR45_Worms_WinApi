@@ -33,7 +33,10 @@ void CenterLevel::Loading()
     {
         GameEngineInput::CreateKey("Number4", '4');
     }
-
+    if (false == GameEngineInput::IsKey("Number5"))
+    {
+        GameEngineInput::CreateKey("Number5", '5');
+    }
 }
 
 void CenterLevel::Update(float _DeltaTime)
@@ -54,6 +57,10 @@ void CenterLevel::Update(float _DeltaTime)
     {
         GameEngineCore::GetInst()->ChangeLevel("MainTitle");
     }
+    if (GameEngineInput::IsDown("Number5"))
+    {
+        GameEngineCore::GetInst()->ChangeLevel("Lobby");
+    }
 	std::string TitleLevel = "TitleLevel Key : Number1";
 	DebugTextPush(TitleLevel);
 	std::string PlayLevel = "PlayLevel Key : Number2";
@@ -62,6 +69,9 @@ void CenterLevel::Update(float _DeltaTime)
 	DebugTextPush(TestLevel);
     std::string MainTitleLevel = "MainTitleLevel Key : Number4";
     DebugTextPush(MainTitleLevel);
+
+    std::string LobbyLevel = "LobbyLevel Key : Number5";
+    DebugTextPush(LobbyLevel);
 
 }
 

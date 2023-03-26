@@ -27,6 +27,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Lobby.h" />
+    <ClInclude Include="LobbyLevel.h" />
     <ClInclude Include="MainTitleBack.h" />
     <ClInclude Include="MainTitleLevel.h" />
     <ClInclude Include="MapObject.h">
@@ -135,6 +137,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="LobbyLevel.cpp" />
     <ClCompile Include="MainTitleBack.cpp" />
     <ClCompile Include="MainTitleLevel.cpp" />
     <ClCompile Include="MapObject.cpp">

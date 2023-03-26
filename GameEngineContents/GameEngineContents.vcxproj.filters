@@ -85,9 +85,17 @@
     <ClInclude Include="MapObject.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
-    <ClInclude Include="MainTitleLevel.h" />
-    <ClInclude Include="Star.h" />
-    <ClInclude Include="MainTitleBack.h" />
+    <ClInclude Include="MainTitleBack.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MainTitleLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyLevel.h" />
+    <ClInclude Include="Lobby.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -177,12 +185,20 @@
     <ClCompile Include="MapObject.cpp">
       <Filter>Play\Map</Filter>
     </ClCompile>
-    <ClCompile Include="MainTitleLevel.cpp" />
-    <ClCompile Include="Star.cpp" />
-    <ClCompile Include="MainTitleBack.cpp" />
     <ClCompile Include="PlayerWeaponState.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
+    <ClCompile Include="MainTitleBack.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MainTitleLevel.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyLevel.cpp" />
+    <ClCompile Include="Lobby.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

@@ -6,6 +6,7 @@
 #include "PlayLevel.h"
 #include "TestLevel.h"
 #include "MainTitleLevel.h"
+#include "LobbyLevel.h"
 void WormsCore::Start()
 {
 	GameEngineWindow::SettingWindowSize({ 1280, 960 });
@@ -15,7 +16,7 @@ void WormsCore::Start()
 	CreateLevel<PlayLevel>("Play");
 	CreateLevel<TestLevel>("Test");
     CreateLevel<MainTitleLevel>("MainTitle");
-
+    CreateLevel<LobbyLevel>("Lobby");
 	ChangeLevel("Center");
 }
 
