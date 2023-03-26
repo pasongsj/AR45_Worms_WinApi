@@ -16,7 +16,17 @@ public:
 		pCurPlayer = _pCurPlayer;
 	}
 
-	float GetWindSpeed()
+    std::vector<Player*> GetAllPlayer() const
+    {
+        return vecAllPlayerG;
+    }
+
+    void SetAllPlayer(std::vector<Player*> _pAllPlayer)
+    {
+        vecAllPlayerG = _pAllPlayer;
+    }
+
+	float GetWindSpeed() const
 	{
 		return fWindSpeed;
 	}
@@ -26,7 +36,7 @@ public:
 		fWindSpeed = _fWindSpeed;
 	}
 
-	int GetWindPhase()
+	int GetWindPhase() const
 	{
 		return fWindPhase;
 	}
@@ -37,6 +47,7 @@ public:
 	}
 private:
 	Player* pCurPlayer;
+    std::vector<Player*> vecAllPlayerG;
 	float fWindSpeed = 0.f;
 	int fWindPhase = 0;
 };

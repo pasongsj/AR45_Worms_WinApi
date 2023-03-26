@@ -664,6 +664,7 @@ void PlayLevel::Loading()
 			StartPos.x += iRandxPos;
 			vecAllPlayer[i]->SetPos(StartPos);
 		}
+        GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
 		iPlayerNumber = 0;
 

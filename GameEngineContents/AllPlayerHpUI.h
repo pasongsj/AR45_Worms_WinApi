@@ -30,9 +30,13 @@ protected:
     // Scale이 줄어드는것 또한 순차적으로 줄어들어야한다(?)
 
 private:
+    std::vector<int> vecMixNum;
     std::vector<GameEngineRender*> vecPlayerHpBar;
     std::vector<int> vecPlayerCurHp;
+    std::vector<float4> vecLastPos;
     float4 StartPos = { 640.f,850.f };
+
+    float fLerpRatio = 0.f;
 
     bool bSetHP = false;
     bool bSort = false;

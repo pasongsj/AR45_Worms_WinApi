@@ -17,13 +17,18 @@ AllPlayerHpUI::~AllPlayerHpUI()
 
 void AllPlayerHpUI::SetAllPlayerHP()
 {
-    std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+    std::vector<Player*> PlayerList = GlobalValue::gValue.GetAllPlayer();
 
-    for (size_t i = 0; i < 6; i++)
+    for (size_t i = 0; i < PlayerList.size(); i++)
     {
-        vecPlayerCurHp[i] = dynamic_cast<Player*>(PlayerList[i])->GetPlayerHP();
+        for (size_t j = 0; j < PlayerList.size(); j++)
+        {
+            if (vecMixNum[j]==static_cast<int>(i))
+            {
+                vecPlayerCurHp[j] =PlayerList[i]->GetPlayerHP();
+            }
+        }
     }
-
     bSetHP = true;
 }
 
@@ -31,12 +36,12 @@ void AllPlayerHpUI::Start()
 {
     AllHpUI = this;
 
-    std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
+    std::vector<Player*> PlayerList = GlobalValue::gValue.GetAllPlayer();
 
-    for (size_t i = 0; i < 6; i++)
+    for (size_t i = 0; i < PlayerList.size(); i++)
     {
         vecPlayerHpBar.push_back(CreateRender(WormsRenderOrder::UI));
-        vecPlayerCurHp.push_back(dynamic_cast<Player*>(PlayerList[i])->GetPlayerHP());
+        vecPlayerCurHp.push_back(PlayerList[i]->GetPlayerHP());
     }
     float4 rStartPos = StartPos;
     vecPlayerHpBar[0]->SetImageToScaleToImage("BottomHPbarB.bmp");
@@ -68,6 +73,15 @@ void AllPlayerHpUI::Start()
     vecPlayerHpBar[5]->EffectCameraOff();
     vecPlayerHpBar[5]->SetPosition(rStartPos);
 
+    rStartPos = StartPos;
+
+    for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
+    {
+        vecMixNum.push_back(i);
+        vecLastPos.push_back(rStartPos);
+        rStartPos.y += 17.f;
+    }
+
 }
 
 void AllPlayerHpUI::Update(float _DeltaTime)
@@ -77,8 +91,9 @@ void AllPlayerHpUI::Update(float _DeltaTime)
     {
         //for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
         //{
-        //    vecPlayerCurHp[vecPlayerCurHp.size() - i-1] = 100 - i;
+        //    vecPlayerCurHp[vecPlayerCurHp.size() - i-1] -=i;
         //}
+        //vecPlayerCurHp[0] -= 1;
         for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
         {
             for (size_t j = 1; j < vecPlayerCurHp.size() - i; j++)
@@ -88,6 +103,15 @@ void AllPlayerHpUI::Update(float _DeltaTime)
                     int iTemp = vecPlayerCurHp[j];
                     vecPlayerCurHp[j] = vecPlayerCurHp[j - 1];
                     vecPlayerCurHp[j - 1] = iTemp;
+
+                    iTemp = vecMixNum[j];
+                    vecMixNum[j] = vecMixNum[j - 1];
+                    vecMixNum[j - 1] = iTemp;
+
+
+                    float4 f4Temp = vecLastPos[j];
+                    vecLastPos[j] = vecLastPos[j - 1];
+                    vecLastPos[j - 1] = f4Temp;
 
 
                     GameEngineRender* pTemp = vecPlayerHpBar[j];
@@ -101,17 +125,38 @@ void AllPlayerHpUI::Update(float _DeltaTime)
     }
     if (true==bSort)
     {
-        float4 rStartPos = StartPos;        
-    
+        float4 rStartPos = StartPos;
+       
+        fLerpRatio += _DeltaTime;
+
+
         for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
         {
+            float4 LerpCamPos = float4::Zero;
+
+            
             float fHpRatio = vecPlayerCurHp[i] / 100.f;
-            vecPlayerHpBar[i]->SetPosition(rStartPos);
+            float4 end = LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio);
+            vecPlayerHpBar[i]->SetPosition(LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio));
             vecPlayerHpBar[i]->SetScale({ 200 * fHpRatio ,17 });
-            rStartPos.y += 17.f;
         }
 
-        bSort = false;
+        if (fLerpRatio>=1.f)
+        {
+            bSort = false;
+
+            for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
+            {
+                vecLastPos[i] = vecPlayerHpBar[i]->GetPosition();
+
+                //if (0 >= vecPlayerCurHp[i])
+                //{
+                //    vecPlayerHpBar[i]->Off();
+                //}
+            }
+
+            fLerpRatio = 0.f;
+        }
     }
 
     
