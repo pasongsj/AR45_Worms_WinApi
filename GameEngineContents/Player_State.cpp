@@ -7,6 +7,7 @@ void Player::ChangeState(PlayerState _State)
 	PlayerState PrevState = StateValue;
 
 	StateValue = NextState;
+    PrevStateValue = PrevState;
 
 	//상태가 변했을 때, 끝날 때 필요한 코드, 시작할 때 필요한 코드를 출력하기 위함
 	switch (NextState)
@@ -39,6 +40,16 @@ void Player::ChangeState(PlayerState _State)
     case PlayerState::Win:
     {
         WinStart();
+        break;
+    }
+    case PlayerState::FlyDown:
+    {
+        FlyDownStart();
+        break;
+    }
+    case PlayerState::FacePlant:
+    {
+        FacePlantStart();
         break;
     }
 	default:
@@ -75,6 +86,16 @@ void Player::ChangeState(PlayerState _State)
     case PlayerState::Win:
     {
         WinEnd();
+        break;
+    }
+    case PlayerState::FlyDown:
+    {
+        FlyDownEnd();
+        break;
+    }
+    case PlayerState::FacePlant:
+    {
+        FacePlantEnd();
         break;
     }
 	default:
@@ -114,6 +135,16 @@ void Player::UpdateState(float _DeltaTime)
     case PlayerState::Win:
     {
         WinUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::FlyDown:
+    {
+        FlyDownUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::FacePlant:
+    {
+        FacePlantUpdate(_DeltaTime);
         break;
     }
 	default:
@@ -216,8 +247,7 @@ void Player::MoveUpdate(float _DeltatTime)
 
     if (StateCalTime > 0.05f)
     {
-        MoveDir = float4::Zero;
-        ChangeState(PlayerState::IDLE);
+        ChangeState(PlayerState::FlyDown);
         return;
     }
 
@@ -325,18 +355,28 @@ void Player::JumpUpdate(float _DeltatTime)
         StateCalBool = false;
 	}
 
-    if (StateCalTime >= 1.0f && true == StateCalBool2)
+    if (StateCalTime >= 0.7f && true == StateCalBool2)
     {
-        std::string AnimationName = "FlyDown";
+        std::string AnimationName = "FlyLink";
         std::string AnimationText = AnimationDir.data() + AnimationName;
         AnimationRender->ChangeAnimation(AnimationText);
 
         StateCalBool2 = false;
     }
+
+    if (AnimationRender->IsAnimationEnd() && false == StateCalBool2)
+    {
+        //std::string AnimationName = "FlyDown";
+        //std::string AnimationText = AnimationDir.data() + AnimationName;
+        //AnimationRender->ChangeAnimation(AnimationText);
+
+        ChangeState(PlayerState::FlyDown);
+        return;
+    }
 }
 void Player::JumpEnd()
 {
-    MoveDir = float4::Zero;
+
 }
 
 void Player::DeadStart()
@@ -378,6 +418,62 @@ void Player::WinUpdate(float _DeltatTime)
 }
 
 void Player::WinEnd()
+{
+
+}
+
+void Player::FlyDownStart()
+{
+    AnimationDir = DirString;
+
+    std::string AnimationName = "FlyDown";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+}
+
+void Player::FlyDownUpdate(float _DeltatTime)
+{
+    if (PlayerState::JUMP == PrevStateValue)
+    {
+        if (true == IsGround)
+        {
+            //이후 슬라이딩으로
+            ChangeState(PlayerState::IDLE);
+            return;
+        }
+    }
+    else if (PlayerState::MOVE == PrevStateValue)
+    {
+        MoveDir.x = 0.0f;
+
+        if (true == IsGround)
+        {
+            ChangeState(PlayerState::FacePlant);
+            return;
+        }
+    }
+
+}
+
+void Player::FlyDownEnd()
+{
+}
+
+void Player::FacePlantStart()
+{
+    AnimationRender->ChangeAnimation("FacePlant");
+}
+
+void Player::FacePlantUpdate(float _DeltatTime)
+{
+    if (AnimationRender->IsAnimationEnd())
+    {
+        ChangeState(PlayerState::IDLE);
+        return;
+    }
+}
+
+void Player::FacePlantEnd()
 {
 
 }

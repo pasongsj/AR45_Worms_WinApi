@@ -48,7 +48,7 @@ void PlayerGrave::MoveCalculation(float _DeltaTime)
     float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
     NextPos = PullUpObject(NextPos, _DeltaTime);
 
-    if (true == DownPixelCheck && JumpTime > 2)
+    if (true == DownPixelCheck && JumpTime >= 3)
     {
         return;
     }
@@ -111,7 +111,7 @@ void PlayerGrave::GravePixelCheck()
 
 void PlayerGrave::DirCheck()
 {
-    if (JumpTime >= 2)
+    if (JumpTime >= 3)
     {
         return;
     }

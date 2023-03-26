@@ -158,10 +158,18 @@ void Player::MoveCalculation(float _DeltaTime)
 
 	SetMoveAngle();
 
-    if (PlayerState::IDLE == StateValue && true == IsGround)
+    if (true == IsGround)
     {
-        return;
+        //움직이는 상태가 아니면 리턴함 중력으로 인해 점점 떨어지는 버그를 수정하기 위해
+        if (PlayerState::Dead == StateValue ||
+            PlayerState::IDLE == StateValue ||
+            PlayerState::EQUIPWEAPON == StateValue ||
+            PlayerState::Win == StateValue )
+        {
+            return;
+        }
     }
+
     SetMove(MoveDir * _DeltaTime);
 
 }
@@ -404,14 +412,14 @@ void Player::Render(float _DeltaTime)
 		PlayerIsGround = PlayerIsGround + std::to_string(IsGround);
 		GameEngineLevel::DebugTextPush(PlayerIsGround);
 
-        float4 NextPos = (GetPos() + MoveDir * _DeltaTime) - GetLevel()->GetCameraPos();
+        //float4 NextPos = (GetPos() + MoveDir * _DeltaTime) - GetLevel()->GetCameraPos();
 
-        Rectangle(DoubleDC,
-            NextPos.ix() - 5,
-            NextPos.iy() - 5,
-            NextPos.ix() + 5,
-            NextPos.iy() + 5
-        );
+        //Rectangle(DoubleDC,
+        //    NextPos.ix() - 5,
+        //    NextPos.iy() - 5,
+        //    NextPos.ix() + 5,
+        //    NextPos.iy() + 5
+        //);
 
         float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
         float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };

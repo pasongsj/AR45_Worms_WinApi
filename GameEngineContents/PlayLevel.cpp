@@ -190,6 +190,11 @@ void PlayLevel::ImageLoad()
             GameEngineImage* Grave6 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grave6.bmp"));
             Grave6->Cut(1, 20);
         }
+        {
+            //플레이어 이미지
+            GameEngineImage* FacePlant = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FacePlant.bmp"));
+            FacePlant->Cut(1, 49);
+        }
 		{
 			//Left 플레이어 이미지
 			GameEngineImage* IdleLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("IdleLeft.bmp"));
@@ -205,6 +210,8 @@ void PlayLevel::ImageLoad()
 
 			GameEngineImage* FlyUpLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupLeft.bmp"));
 			FlyUpLeft->Cut(1, 2);
+            GameEngineImage* FlyLinkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyLinkLeft.bmp"));
+            FlyLinkLeft->Cut(1, 7);
 			GameEngineImage* FlyDownLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlydownLeft.bmp"));
 			FlyDownLeft->Cut(1, 2);
 
@@ -307,6 +314,8 @@ void PlayLevel::ImageLoad()
             WinRight->Cut(1, 14);
 			GameEngineImage* FlyUpRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupRight.bmp"));
 			FlyUpRight->Cut(1, 2);
+            GameEngineImage* FlyLinkRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyLinkRight.bmp"));
+            FlyLinkRight->Cut(1, 7);
 			GameEngineImage* FlyDownRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlydownRight.bmp"));
 			FlyDownRight->Cut(1, 2);
 			GameEngineImage* bazAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazAimRight.bmp"));

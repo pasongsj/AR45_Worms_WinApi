@@ -8,8 +8,17 @@ enum class PlayerState
 	MOVE,
 	JUMP,
     EQUIPWEAPON,
+
     Dead,
-    Win
+    Win,
+
+    FlyDown,
+    //구현예정
+    FacePlant,
+
+    FlyAway,
+    Sliding,
+
 };
 
 enum class PlayerAngleDir
@@ -147,7 +156,7 @@ private:
 	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
 	float LeftMoveAngle = 0.0f; 
 	float RightMoveAngle = 0.0f; 
-    const float AngleLimit = 5.0f; //각도 제한용 상수
+    const float AngleLimit = 7.0f; //각도 제한용 상수
 
     void PlayerPixelCheck();
     bool LeftPixelCheck = false;
@@ -176,6 +185,7 @@ private:
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;
+    PlayerState PrevStateValue = PlayerState::IDLE;
 
 	void IdleStart();
 	void IdleUpdate(float _DeltatTime);
@@ -200,6 +210,14 @@ private:
     void WinStart();
     void WinUpdate(float _DeltatTime);
     void WinEnd();
+
+    void FlyDownStart();
+    void FlyDownUpdate(float _DeltatTime);
+    void FlyDownEnd();
+
+    void FacePlantStart();
+    void FacePlantUpdate(float _DeltatTime);
+    void FacePlantEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
