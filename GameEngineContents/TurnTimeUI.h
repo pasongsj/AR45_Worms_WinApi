@@ -1,5 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/NumberRenderObject.h>
+
+class Player;
 class NumberRenderObject;
 class TurnTimeUI : public GameEngineActor
 {
@@ -19,6 +22,10 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
+    NumberRenderObject pTimeRender;
+    GameEngineRender* pTimeEdgeRender = nullptr;
+    Player* pCurPlayer = nullptr;
 
+    float fTurnTime = 46.f;
 };
 

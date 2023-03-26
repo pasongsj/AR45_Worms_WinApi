@@ -35,7 +35,7 @@ void PlayerHPUI::Update(float _DeltaTime)
 			CurrentValue = 0;
 		}
 
-		PlayerHPNumberRender.SetValue(CurrentValue);
+		PlayerHPNumberRender.SetValue(CurrentValue);    
 	}
 
 }

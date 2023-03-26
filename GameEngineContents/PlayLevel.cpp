@@ -19,6 +19,7 @@
 #include "WindUI.h"
 #include "WeaponClusterBomb.h"
 #include "AllPlayerHpUI.h"
+#include "TurnTimeUI.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -505,6 +506,32 @@ void PlayLevel::ImageLoad()
             GameEngineImage* PlayerHPbar = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("BottomHPbarY.bmp"));
         }
 
+        // Time UI
+        {
+
+            GameEngineImage* TimeNum = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerNum.bmp"));
+            TimeNum->Cut(5, 2);
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowB.bmp"));
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowG.bmp"));
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowP.bmp"));
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowR.bmp"));
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowS.bmp"));
+        }
+        {
+            GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowY.bmp"));
+        }
+
+
 
 	}
 	
@@ -685,6 +712,7 @@ void PlayLevel::Loading()
 
     {
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
+        TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
     }
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponSheep>();
