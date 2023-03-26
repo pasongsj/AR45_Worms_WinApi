@@ -105,4 +105,19 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({.AnimationName = "Left_UziOn", .ImageName = "UziOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({.AnimationName = "Right_UziOn", .ImageName = "UziOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
     }
+
+    // Å¬·¯½ºÅÍ ÆøÅº
+    { 
+        //AnimationRender->CreateAnimation({ .AnimationName = "Left_ClusterBombFire", .ImageName = "ClusterBombFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        //AnimationRender->CreateAnimation({ .AnimationName = "Right_ClusterBombFire", .ImageName = "ClusterBombFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ClusterBombAim", .ImageName = "ClusterBombAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ClusterBombAim", .ImageName = "ClusterBombAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ClusterBombOff", .ImageName = "ClusterBombOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ClusterBombOff", .ImageName = "ClusterBombOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ClusterBombOn", .ImageName = "ClusterBombOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ClusterBombOn", .ImageName = "ClusterBombOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    }
 }

@@ -48,9 +48,6 @@
     <ClInclude Include="Weapon.h">
       <Filter>Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponGrenade.h">
-      <Filter>Weapon\F2</Filter>
-    </ClInclude>
     <ClInclude Include="WeaponSheep.h">
       <Filter>Weapon\F5</Filter>
     </ClInclude>
@@ -99,6 +96,9 @@
     <ClInclude Include="PlayerGrave.h">
       <Filter>Play\Player</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponGrenade.h">
+      <Filter>Weapon\F2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -144,9 +144,6 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponGrenade.cpp">
-      <Filter>Weapon\F2</Filter>
     </ClCompile>
     <ClCompile Include="WeaponSheep.cpp">
       <Filter>Weapon\F5</Filter>
@@ -204,6 +201,9 @@
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="PlayerGrave.cpp">
       <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponGrenade.cpp">
+      <Filter>Weapon\F2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

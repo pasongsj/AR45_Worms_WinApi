@@ -13,6 +13,16 @@ void Player::EquipWeaponStart()
         DirCheck("UziOn");
         break;
     }
+    case static_cast<int>(WeaponNum::Grenade):
+    {
+        DirCheck("GrenadeOn");
+        break;
+    }
+    case static_cast<int>(WeaponNum::ClusterBomb):
+    {
+        DirCheck("ClusterBombOn"); // 딜레이 업데이트 필요
+        break;
+    }
     default:
         break;
     }
@@ -54,7 +64,11 @@ void Player::EquipWeaponUpdate(float _DeltatTime)
             }
         }
     }
-
+    if (true == CurWeapon->IsFiring())
+    {
+        ChangeState(PlayerState::IDLE);
+        return;
+    }
 
 
 }
@@ -67,6 +81,16 @@ void Player::EquipWeaponEnd()
     case static_cast<int>(WeaponNum::Uzi):
     {
         DirCheck("UziOff"); // 딜레이 업데이트 필요
+        break;
+    }
+    case static_cast<int>(WeaponNum::Grenade):
+    {
+        DirCheck("GrenadeOff"); // 딜레이 업데이트 필요
+        break;
+    }
+    case static_cast<int>(WeaponNum::ClusterBomb):
+    {
+        DirCheck("ClusterBombOff"); // 딜레이 업데이트 필요
         break;
     }
     default:

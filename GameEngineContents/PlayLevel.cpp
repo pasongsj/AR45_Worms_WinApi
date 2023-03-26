@@ -127,6 +127,8 @@ void PlayLevel::ImageLoad()
         GameEngineImage* marker = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("marker.bmp"));
         marker->Cut(1, 10);
 
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AimingLine.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AimingLineRot.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
 
@@ -252,6 +254,15 @@ void PlayLevel::ImageLoad()
             GameEngineImage* UziOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnLeft.bmp"));
             UziOnLeft->Cut(1, 10);
 
+            GameEngineImage* ClusterBombAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombAimLeft.bmp"));
+            ClusterBombAimLeft->Cut(1, 32);
+            //GameEngineImage* ClusterBombFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombFireLeft.bmp"));
+            //ClusterBombFireLeft->Cut(1, 32);
+            GameEngineImage* ClusterBombOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOffLeft.bmp"));
+            ClusterBombOffLeft->Cut(1, 10);
+            GameEngineImage* ClusterBombOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOnLeft.bmp"));
+            ClusterBombOnLeft->Cut(1, 10);
+
 		}
 
 		{
@@ -316,7 +327,17 @@ void PlayLevel::ImageLoad()
             GameEngineImage* UziOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOffRight.bmp"));
             UziOffRight->Cut(1, 10);
             GameEngineImage* UziOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziOnRight.bmp"));
-            UziOnRight->Cut(1, 10);                       
+            UziOnRight->Cut(1, 10);        
+
+
+            GameEngineImage* ClusterBombAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombAimRight.bmp"));
+            ClusterBombAimRight->Cut(1, 32);
+            //GameEngineImage* ClusterBombFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombFireRight.bmp"));
+            //ClusterBombireRight->Cut(1, 32);
+            GameEngineImage* ClusterBombOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOffRight.bmp"));
+            ClusterBombOffRight->Cut(1, 10);
+            GameEngineImage* ClusterBombOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterBombOnRight.bmp"));
+            ClusterBombOnRight->Cut(1, 10);
 		}
 		Dir.MoveParent();
 	}
@@ -603,7 +624,7 @@ void PlayLevel::Loading()
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-    CreateActor<HomingMissile>();
+    //CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
 }
 
@@ -631,6 +652,6 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
-    //CreateActor<WeaponClusterBomb>();
+    CreateActor<WeaponClusterBomb>();
     //CreateActor<WeaponShotgun>();
 }

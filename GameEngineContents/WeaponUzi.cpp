@@ -33,8 +33,9 @@ void WeaponUzi::Start()
 
 	// 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
-	AimingLine->SetImage("TempBomb.bmp");
-	AimingLine->SetScale({ 20,20 });
+	AimingLine->SetImage("AimingLine.bmp");
+    AimingLine->SetRotFilter("AimingLineRot.bmp");
+	AimingLine->SetScale({ 30,30  });
 
 
 }
@@ -48,11 +49,25 @@ void WeaponUzi::Update(float _DeltaTime)
 	SetCurPlayer();// 플레이어 전환버튼 때문에 추가
     SetAimFrameIndex();
 
-    if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+    if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
     {
         float Ratio = 6 * _DeltaTime;
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
         CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
+        AimingLine->On();
+        AimingLine->SetPosition(Dir * 200); // 조준선 이동
+        if (Dir.x > 0)
+        {
+            AimingLine->SetAngle(Dir.GetAnagleDeg());
+        }
+        else
+        {
+            AimingLine->SetAngle(-Dir.GetAnagleDeg());
+        }
+    }
+    else
+    {
+        AimingLine->Off();
     }
 	CheckFiring(); // 방향체크, 발사 체크
 	Firing(_DeltaTime); // 총알이 지정된 속도로 날아가고 폭발하게 함
@@ -61,6 +76,7 @@ void WeaponUzi::Update(float _DeltaTime)
 	{
 		isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+        this->Death(); // 수정필요
 	}
 
 }
@@ -90,11 +106,8 @@ void WeaponUzi::CheckFiring()
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
 		Dir = GetShootDir(); // 방향 조정
-		AimingLine->SetPosition(Dir * 100); // 조준선 이동
-        //if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
-        //{
-        //    CurPlayer->ChangePlayerAnimation("UziAim",15);
-        //}
+		//AimingLine->SetPosition(Dir * 100); // 조준선 이동
+        //AimingLine->SetAngle(Dir.GetAnagleDeg());
 
 	}
 
@@ -124,35 +137,13 @@ void WeaponUzi::SetAimFrameIndex()
     }
     NextAimIndex = NewIndex;
 
-    /*else if (Bazindex > CurIndex)
-    {
-        TimeCounting();
-
-        if (TimeCount >= 0.01f)
-        {
-            ++CurIndex;
-            CurPlayer->SetPlayerAnimationFrame(CurIndex);
-            TimeCount = 0;
-        }
-    }
-    else if (Bazindex < CurIndex)
-    {
-        TimeCounting();
-
-        if (TimeCount >= 0.01f)
-        {
-            --CurIndex;
-            CurPlayer->SetPlayerAnimationFrame(CurIndex);
-            TimeCount = 0;
-        }
-    }*/
 }
 
 
 void WeaponUzi::Firing(float _DeltaTime)
 {
 
-	if (true == isFire)
+	if (true == isFire && false == isWeaponDone)
 	{
         GetLevel()->SetCameraPos(UziCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		DelayTime -= _DeltaTime;

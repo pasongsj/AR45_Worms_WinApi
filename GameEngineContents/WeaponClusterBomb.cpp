@@ -43,11 +43,12 @@ void WeaponClusterBomb::Start()
     }
     ClusterOff();
     AllWeapons[WeaponName] = this;
-    WeaponNumber = static_cast<int>(WeaponNum::Grenade);
+    WeaponNumber = static_cast<int>(WeaponNum::ClusterBomb);
 
     // 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
-    AimingLine->SetImage("TempBomb.bmp");
+    AimingLine->SetImage("AimingLine.bmp");
+    AimingLine->SetRotFilter("AimingLineRot.bmp");
     AimingLine->SetScale({ 20,20 });
 
 }
@@ -58,7 +59,32 @@ void WeaponClusterBomb::Update(float _DeltaTime)
     {
         WeaponClusterBombInit();
     }
-    SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+
+    if (false == isFire)
+    {
+        SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
+        SetAimFrameIndex();
+        if (false == isFire && AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+        {
+            float Ratio = 6 * _DeltaTime;
+            AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+            CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
+            AimingLine->On();
+            AimingLine->SetPosition(Dir * 200); // 조준선 이동
+            if (Dir.x > 0)
+            {
+                AimingLine->SetAngle(Dir.GetAnagleDeg());
+            }
+            else
+            {
+                AimingLine->SetAngle(-Dir.GetAnagleDeg());
+            }
+        }
+        else
+        {
+            AimingLine->Off();
+        }
+    }
 
     Firing(_DeltaTime);
     ClusterFiring(_DeltaTime);
@@ -67,7 +93,34 @@ void WeaponClusterBomb::Update(float _DeltaTime)
     {
         isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+        this->Death();
     }
+}
+
+void WeaponClusterBomb::SetAimFrameIndex()
+{
+    float Angle = Dir.GetAnagleDeg();
+
+
+    int NewIndex = 0;
+    if (Dir.x > 0 && Angle > 270)
+    {
+        Angle = Angle - 360;
+    }
+
+    else if (Dir.x < 0)
+    {
+        Angle = 180 - Angle;
+    }
+
+    NewIndex = Angle / 5 + 15;
+
+    if (NewIndex < 0)
+    {
+        NewIndex = 0;
+    }
+    NextAimIndex = NewIndex;
+
 }
 
 void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
@@ -118,6 +171,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
         {
             Dir *= Charge;
             isFire = true;
+            WeaponRender->On();
         }
 
     }
@@ -216,12 +270,12 @@ void WeaponClusterBomb::WeaponClusterBombInit()
 {
     WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
     WeaponRender->SetImage("Grenade.bmp");
-    WeaponRender->SetScale({ 20,40 }); // 임시 설정 값 
+    WeaponRender->SetScale({ 10,20 }); // 임시 설정 값 
 
     WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
     WeaponCollision->SetScale(WeaponRender->GetScale());
     isFire = false;
-    ResetWeapon();
+    WeaponRender->Off();
 }
 
 

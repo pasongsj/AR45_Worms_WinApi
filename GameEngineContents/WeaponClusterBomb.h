@@ -47,7 +47,11 @@ private:
     void ClusterOff();
 
     float4 DropDir = float4::Zero;
-
     bool isDone();
+
+
+    float AimIndex = 15;
+    int NextAimIndex = 15;
+    void SetAimFrameIndex();
 };
 

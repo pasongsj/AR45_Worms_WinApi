@@ -39,5 +39,10 @@ private:
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
+
+    float AimIndex = 15;
+    int NextAimIndex = 15;
+    void SetAimFrameIndex();
+
 };
 
