@@ -40,6 +40,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Star.h" />
+    <ClInclude Include="TurnTimeUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WeaponAirStrike.h">
       <SubType>
       </SubType>
@@ -156,6 +160,10 @@
     <ClCompile Include="PlayerWeaponState.cpp" />
     <ClCompile Include="Player_Animation.cpp" />
     <ClCompile Include="Star.cpp" />
+    <ClCompile Include="TurnTimeUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WeaponAirStrike.cpp">
       <SubType>
       </SubType>

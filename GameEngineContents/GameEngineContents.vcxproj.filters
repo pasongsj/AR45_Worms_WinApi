@@ -99,6 +99,9 @@
     <ClInclude Include="WeaponGrenade.h">
       <Filter>Weapon\F2</Filter>
     </ClInclude>
+    <ClInclude Include="TurnTimeUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -204,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="WeaponGrenade.cpp">
       <Filter>Weapon\F2</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnTimeUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

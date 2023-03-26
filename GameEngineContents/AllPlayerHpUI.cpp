@@ -26,6 +26,7 @@ void AllPlayerHpUI::SetAllPlayerHP()
             if (vecMixNum[j]==static_cast<int>(i))
             {
                 vecPlayerCurHp[j] =PlayerList[i]->GetPlayerHP();
+                continue;
             }
         }
     }
@@ -89,11 +90,7 @@ void AllPlayerHpUI::Update(float _DeltaTime)
 
     if (true == bSetHP)
     {
-        //for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
-        //{
-        //    vecPlayerCurHp[vecPlayerCurHp.size() - i-1] -=i;
-        //}
-        //vecPlayerCurHp[0] -= 1;
+        
         for (size_t i = 0; i < vecPlayerCurHp.size(); i++)
         {
             for (size_t j = 1; j < vecPlayerCurHp.size() - i; j++)
@@ -138,7 +135,7 @@ void AllPlayerHpUI::Update(float _DeltaTime)
             float fHpRatio = vecPlayerCurHp[i] / 100.f;
             float4 end = LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio);
             vecPlayerHpBar[i]->SetPosition(LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio));
-            vecPlayerHpBar[i]->SetScale({ 200 * fHpRatio ,17 });
+            vecPlayerHpBar[i]->SetScale({ 200 -(200*(1-fHpRatio)* fLerpRatio) ,17 });
         }
 
         if (fLerpRatio>=1.f)
@@ -148,11 +145,11 @@ void AllPlayerHpUI::Update(float _DeltaTime)
             for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
             {
                 vecLastPos[i] = vecPlayerHpBar[i]->GetPosition();
+                if (vecPlayerCurHp[i] <=0)
+                {
+                    vecPlayerHpBar[i]->Off();
+                }
 
-                //if (0 >= vecPlayerCurHp[i])
-                //{
-                //    vecPlayerHpBar[i]->Off();
-                //}
             }
 
             fLerpRatio = 0.f;
