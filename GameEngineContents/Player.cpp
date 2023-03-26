@@ -49,7 +49,7 @@ void Player::Start()
 		GameEngineInput::CreateKey("TestButton", 'M');
 	}
 
-    PlayerGraveImageStringView = "Grave1.bmp";
+    PlayerGraveImageStringView = "Grave5.bmp";
 
 	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
 	ChangeState(PlayerState::IDLE);
@@ -508,13 +508,13 @@ void Player::PlayerDead()
 {
     Off();
     HPUI->Off();
-    SetGraveObject(ColImage, PlayerGraveImageStringView);
+    SetGraveObject(PlayerGraveImageStringView);
 }
 
-void Player::SetGraveObject(GameEngineImage* _ColImage, const std::string_view& _GraveImage)
+void Player::SetGraveObject(const std::string_view& _GraveImage)
 {
     PlayerGrave* GraveObject = GetLevel()->CreateActor<PlayerGrave>();
-    GraveObject->SetPlayerGrave(_GraveImage, GetPos());
+    GraveObject->SetPlayerGrave(_GraveImage, ColImage ,GetPos());
 }
 
 bool Player::IsPlayerAnimationEnd()

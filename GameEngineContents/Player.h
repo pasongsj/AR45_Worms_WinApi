@@ -123,7 +123,7 @@ private:
     Weapon* CurWeapon = nullptr; //현재 무기
 
     void PlayerDead(); //플레이어 죽은 이후 실행하는 함수
-    void SetGraveObject(GameEngineImage* _ColImage, const std::string_view& _GraveImage);
+    void SetGraveObject(const std::string_view& _GraveImage);
     std::string_view PlayerGraveImageStringView;
 
 	//플레이어 UI관련 (HP, 화살표이미지)
