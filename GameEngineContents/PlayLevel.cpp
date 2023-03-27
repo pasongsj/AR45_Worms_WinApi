@@ -721,6 +721,7 @@ void PlayLevel::Loading()
 	CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
+    GlobalValue::gValue.SetPlayLevel(this);
 }
 
 

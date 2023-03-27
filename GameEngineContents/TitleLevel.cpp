@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "TitleBack.h"
+#include "PlayLevel.h"
 
 
 TitleLevel::TitleLevel() 
@@ -82,4 +83,8 @@ void TitleLevel::Loading()
 void TitleLevel::Update(float _DeltaTime)
 {
 
+}
+
+void TitleLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
 }

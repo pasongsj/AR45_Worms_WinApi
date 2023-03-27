@@ -2,6 +2,15 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <vector>
 
+struct LevelSetting
+{
+    float fTime;
+    int iPlayerHp;
+    int iPlayerSet;
+    bool bTernRandom;
+    bool bDeathMatch;
+    bool bMousePosPlayerSet;
+};
 struct Wind
 {
 	float	WindPower	= 300.f;
@@ -24,6 +33,11 @@ public:
 	PlayLevel(PlayLevel&& _Other) noexcept = delete;
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
+
+    void SetLevelSetting(LevelSetting _set)
+    {
+        LevelSet = _set;
+    }
 	
 protected:
 	void Loading() override;
@@ -56,6 +70,7 @@ private:
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
 
+    LevelSetting LevelSet = {};
 
 	Wind AddWind;
 
