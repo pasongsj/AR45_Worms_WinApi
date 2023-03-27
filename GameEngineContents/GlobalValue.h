@@ -65,3 +65,15 @@ private:
 
     PlayLevel* pPlayLevel = nullptr;
 };
+
+
+
+struct LevelSetting
+{
+    float fTime;
+    int iPlayerHp;
+    int iPlayerSet;
+    bool bTernRandom;
+    bool bDeathMatch;
+    bool bMousePosPlayerSet;
+};

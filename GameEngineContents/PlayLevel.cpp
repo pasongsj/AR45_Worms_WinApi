@@ -577,30 +577,28 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	}
 
     if (GameEngineInput::IsDown("ChangePlayer"))
-    {
-        
-    
-	//벡터 인덱스 증가
-	++iPlayerNumber;
+    {       
+        //벡터 인덱스 증가
+        ++iPlayerNumber;
 
-	//초과시 0
-	if (vecAllPlayer.size() == iPlayerNumber)
-	{
-		iPlayerNumber = 0;
-	}
+        //초과시 0
+        if (vecAllPlayer.size() == iPlayerNumber)
+        {
+            iPlayerNumber = 0;
+        }
 
-	//현재 플레이어의 턴 종료
-	GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
+        //현재 플레이어의 턴 종료
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
-	//다음 플레이어가 현재 플레이어가됨
-	GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
-	GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+        //다음 플레이어가 현재 플레이어가됨
+        GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
 
-	CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
-	PrevCamPos = GetCameraPos();
+        CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
+        PrevCamPos = GetCameraPos();
 
-    AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
-	bCamMove = true;
+        AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
+        bCamMove = true;
     }
 
 	//플레이어가 변경되었다면
@@ -669,15 +667,12 @@ void PlayLevel::Loading()
 	KeyLoad();
 	
 	
-	{
+	/*{
 		WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
-	}
+	}*/
     {
         Map* Actor = CreateActor<Map>();
     }
-	{
-        WindUI* WindUIActor = CreateActor<WindUI>();
-	}
 
 
 	{
@@ -685,41 +680,38 @@ void PlayLevel::Loading()
 	}
 	
 
-	{
-		ScreenSize = GameEngineWindow::GetScreenSize();
+    /*{
+        ScreenSize = GameEngineWindow::GetScreenSize();
 
-		vecAllPlayer.reserve(6);
-		for (size_t i = 0; i < 6; i++)
-		{
-			int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
+        vecAllPlayer.reserve(6);
+        for (size_t i = 0; i < 6; i++)
+        {
+            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
-			vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
-			vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
+            vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
+            vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
-			float4 StartPos = float4{ 400,50 };
-			StartPos.x *= i + 1;
-			StartPos.x += iRandxPos;
-			vecAllPlayer[i]->SetPos(StartPos);
-		}
+            float4 StartPos = float4{ 400,50 };
+            StartPos.x *= i + 1;
+            StartPos.x += iRandxPos;
+            vecAllPlayer[i]->SetPos(StartPos);
+        }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
-		iPlayerNumber = 0;
+        iPlayerNumber = 0;
 
-		GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+        GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
 
-		GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
-		SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
-	}
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+        SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
+    }*/
 
-    {
-        AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
-        TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
-    }
+   
 
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-    CreateActor<HomingMissile>();
+    //CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
     GlobalValue::gValue.SetPlayLevel(this);
 }
@@ -745,6 +737,40 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    {
+        ScreenSize = GameEngineWindow::GetScreenSize();
+
+        vecAllPlayer.reserve(6);
+        for (size_t i = 0; i < 6; i++)
+        {
+            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
+
+            vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
+            vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
+
+            float4 StartPos = float4{ 400,50 };
+            StartPos.x *= i + 1;
+            StartPos.x += iRandxPos;
+            vecAllPlayer[i]->SetPos(StartPos);
+        }
+        GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
+
+        iPlayerNumber = 0;
+
+        GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+        SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
+    }
+    {
+        WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
+    }
+    {
+        AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
+        TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
+        WindUI* WindUIActor = CreateActor<WindUI>();
+
+    }
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();

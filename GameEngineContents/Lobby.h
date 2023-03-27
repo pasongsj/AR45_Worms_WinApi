@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-
+#include "GlobalValue.h"
 
 class Lobby : public GameEngineActor
 {
@@ -29,6 +29,8 @@ protected:
     void Start() override;
     void Update(float _DeltaTime) override;
     void Render(float _DeltaTime) override;
+
+    virtual void LevelChangeEnd(GameEngineLevel* _PrevLevel);
    
 
 private:
@@ -127,5 +129,7 @@ private:
 
     float BlackAlpha = 0;
     float Time = 0;
+
+    LevelSetting SetLevel = {};
 };
 

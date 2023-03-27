@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
+#include "PlayLevel.h"
 #include "GlobalValue.h"
 
 TurnTimeUI::TurnTimeUI() 
@@ -14,6 +15,7 @@ TurnTimeUI::~TurnTimeUI()
 
 void TurnTimeUI::Start()
 {
+    fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
     pTimeEdgeRender = CreateRender(WormsRenderOrder::UI);
     pTimeEdgeRender->SetImageToScaleToImage("TimerWindowB.bmp");
     pTimeEdgeRender->EffectCameraOff();
@@ -41,9 +43,8 @@ void TurnTimeUI::Update(float _DeltaTime)
     if (pCurPlayer != GlobalValue::gValue.GetPlayer())
     {
         pCurPlayer = GlobalValue::gValue.GetPlayer();
-        fTurnTime = 46.f;
+        fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
         return;
     }
 
 }
-

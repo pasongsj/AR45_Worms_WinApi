@@ -156,7 +156,7 @@ void TestLevel::Loading()
 
 	vecAllPlayer[1]->SetName("1");
 
-	CreateActor<WeaponBazooka>();
+	//CreateActor<WeaponBazooka>();
 }
 
 void TestLevel::Update(float _DeltaTime)

@@ -1,16 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include <vector>
+#include "GlobalValue.h"
 
-struct LevelSetting
-{
-    float fTime;
-    int iPlayerHp;
-    int iPlayerSet;
-    bool bTernRandom;
-    bool bDeathMatch;
-    bool bMousePosPlayerSet;
-};
 struct Wind
 {
 	float	WindPower	= 300.f;
@@ -37,6 +29,10 @@ public:
     void SetLevelSetting(LevelSetting _set)
     {
         LevelSet = _set;
+    }
+    LevelSetting GetLevelSetting()
+    {
+       return LevelSet;
     }
 	
 protected:

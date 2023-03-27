@@ -625,6 +625,7 @@ void Lobby::Turnchoice()
         TurnTime60->Off();
         TurnTime90->Off();
         TurnTime00->Off();
+        SetLevel.fTime = 15.f;
         break;
     case 1:
         TurnTime15->Off();
@@ -634,6 +635,7 @@ void Lobby::Turnchoice()
         TurnTime60->Off();
         TurnTime90->Off();
         TurnTime00->Off();
+        SetLevel.fTime = 20.f;
         break;
     case 2:
         TurnTime15->Off();
@@ -643,6 +645,7 @@ void Lobby::Turnchoice()
         TurnTime60->Off();
         TurnTime90->Off();
         TurnTime00->Off();
+        SetLevel.fTime = 30.f;
         break;
     case 3:
         TurnTime15->Off();
@@ -652,6 +655,7 @@ void Lobby::Turnchoice()
         TurnTime60->Off();
         TurnTime90->Off();
         TurnTime00->Off();
+        SetLevel.fTime = 45.f;
         break;
     case 4:
         TurnTime15->Off();
@@ -661,6 +665,7 @@ void Lobby::Turnchoice()
         TurnTime60->On();
         TurnTime90->Off();
         TurnTime00->Off();
+        SetLevel.fTime = 60.f;
         break;
     case 5:
         TurnTime15->Off();
@@ -670,6 +675,7 @@ void Lobby::Turnchoice()
         TurnTime60->Off();
         TurnTime90->On();
         TurnTime00->Off();
+        SetLevel.fTime = 90.f;
         break;
     case 6:
         TurnTime15->Off();
@@ -881,13 +887,14 @@ void Lobby::Hpchoice()
         Hp150->Off();
         Hp200->Off();
         Hp00->Off();
-        GlobalValue::gValue.GetPlayLevel()->SetLevelSetting({ .iPlayerHp = 200 });
+        SetLevel.iPlayerHp = 100;
         break;
     case 1:
         Hp100->Off();
         Hp150->On();
         Hp200->Off();
         Hp00->Off();
+        SetLevel.iPlayerHp = 150;
 
         break;
     case 2:
@@ -895,6 +902,7 @@ void Lobby::Hpchoice()
         Hp150->Off();
         Hp200->On();
         Hp00->Off();
+        SetLevel.iPlayerHp = 200;
         
         break;
     case 3:
@@ -1035,4 +1043,9 @@ void Lobby::Playerdown()
 void Lobby::Render(float _DeltaTime)
 {
 
+}
+
+void Lobby::LevelChangeEnd(GameEngineLevel* _PrevLevel)
+{
+    GlobalValue::gValue.GetPlayLevel()->SetLevelSetting(SetLevel);
 }

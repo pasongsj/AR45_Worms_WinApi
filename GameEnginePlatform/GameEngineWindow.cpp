@@ -236,15 +236,7 @@ float4 GameEngineWindow::GetMousePosition()
     LPPOINT PointPtr = &MoniterPoint;
 
     GetCursorPos(PointPtr);
-    ScreenToClient(HWnd, PointPtr);
-
-    if (PointPtr->x<0|| PointPtr->x>ScreenSize.x)
-    {
-        PointPtr->x = static_cast<LONG>(ScreenSize.hx());
-    }
-    if (PointPtr->y<0 || PointPtr->y>ScreenSize.y)
-    {
-        PointPtr->y = static_cast<LONG>(ScreenSize.hy());
-    }
+    ScreenToClient(HWnd, PointPtr);  
+  
     return { static_cast<float>(MoniterPoint.x),static_cast<float>(MoniterPoint.y) };
 }
