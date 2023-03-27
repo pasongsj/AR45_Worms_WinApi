@@ -39,6 +39,12 @@ private:
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
+    //렌더, 애니메이션 
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
+
+
 
     float AimIndex = 15;
     int NextAimIndex = 15;
