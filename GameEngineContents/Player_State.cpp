@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <GameEnginePlatform/GameEngineInput.h>
+#include "Weapon.h"
 
 void Player::ChangeState(PlayerState _State)
 {
@@ -200,7 +201,7 @@ void Player::IdleUpdate(float _DeltatTime)
 		}
 	}
 
-    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 2.0f)
+    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 2.0f && false == CurWeapon->IsWeaponDone())
     {
         ChangeState(PlayerState::EQUIPWEAPON);
         return;
