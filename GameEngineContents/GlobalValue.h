@@ -52,7 +52,7 @@ public:
         return pPlayLevel;
     }
 
-    void SetPlayLevel(GameEngineLevel* _pPlayLevel)
+    void SetPlayLevel(PlayLevel* _pPlayLevel)
     {
         pPlayLevel = _pPlayLevel;
     }
