@@ -82,9 +82,6 @@ void WeaponHandgun::Update(float _DeltaTime)
 	{
 		isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
-        // 추후 삭제 필요
-        CurPlayer->SetCurWeapon(nullptr);
-        this->Death();
     }
 }
 
@@ -134,6 +131,8 @@ void WeaponHandgun::CheckFiring()
 		if (PressShoot()) // 발사체크
 		{
 			isFire = true;
+            /*CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));*/
+
 		}
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
@@ -146,9 +145,9 @@ void WeaponHandgun::CheckFiring()
 
 void WeaponHandgun::Firing(float _DeltaTime)
 {
-	if (true == isFire)
+	if (true == isFire && false == isWeaponDone)
 	{
-
+        CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));
         GetLevel()->SetCameraPos(HandgunCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 
 		DelayTime -= _DeltaTime;

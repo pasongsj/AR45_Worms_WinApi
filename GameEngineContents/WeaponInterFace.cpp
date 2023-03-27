@@ -45,10 +45,10 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     case WeaponNum::None:
         break;
     case WeaponNum::Bazooka: 
-    //{
-    //    Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
-    //    CurPlayer->SetCurWeapon(NewWeapon);
-    //}
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
+        CurPlayer->SetCurWeapon(NewWeapon);
+    }
         break;
     case WeaponNum::HomingMissile:
     {
@@ -166,16 +166,19 @@ void WeaponInterFace::Start()
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
 		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		button->SetEnum(WeaponNum::Shotgun);
+		button->SetEnum(WeaponNum::Grenade);
+
 		ButtonManager.push_back(button);
-	//	button->SetClickCallBack(asas);
+		button->SetClickCallBackEnum(asas);
 	}
 	// 빨간폭탄 
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+
 		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-	//	button->SetClickCallBack(avvv);
+        button->SetEnum(WeaponNum::ClusterBomb);
+		button->SetClickCallBackEnum(asas);
 		ButtonManager.push_back(button);
 	}
 	{
@@ -207,6 +210,7 @@ void WeaponInterFace::Start()
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
 		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        button->SetEnum(WeaponNum::Shotgun);
 	//	button->SetClickCallBack(asas);
 		ButtonManager.push_back(button);
 	}

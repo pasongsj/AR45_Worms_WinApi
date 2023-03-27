@@ -32,6 +32,31 @@ void WeaponGrenade::Start()
 	AllWeapons[WeaponName] = this;
 	WeaponNumber = static_cast<int>(WeaponNum::Grenade);
 
+    // 터지는 애니메이션 랜더
+    ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->SetScale({ 240, 240 });
+
+    ExplosionCircle->ChangeAnimation("Idle");
+    ExplosionCircle->Off();
+
+    ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
+    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
+    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionElipse->SetScale({ 360, 360 });
+
+    ExplosionElipse->ChangeAnimation("Idle");
+    ExplosionElipse->Off();
+
+    PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    PootTextAnimation->SetScale({ 170, 170 });
+
+    PootTextAnimation->ChangeAnimation("Idle");
+    PootTextAnimation->Off();
+
     // 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
     AimingLine->SetImage("AimingLine.bmp");
@@ -112,7 +137,6 @@ void WeaponGrenade::Firing(float _DeltaTime)
 	{
 		float4 PlayerPos = CurPlayer->GetPos();
         Dir = GetShootDir();
-        AimingLine->SetPosition(Dir * 100); // 조준선 이동
 
 		SetPos(PlayerPos);
 		if (true == PressShoot())
@@ -173,15 +197,28 @@ void WeaponGrenade::Firing(float _DeltaTime)
 
             AttackPlayer(BombCollision);
 
+            ExplosionCircle->SetPosition(WeaponRender->GetPosition());
+            ExplosionCircle->On();
+            ExplosionCircle->ChangeAnimation("Explosion", 0);
+
+            ExplosionElipse->SetPosition(WeaponRender->GetPosition());
+            ExplosionElipse->On();
+            ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+            PootTextAnimation->SetPosition(WeaponRender->GetPosition());
+            PootTextAnimation->On();
+            PootTextAnimation->ChangeAnimation("Poot", 0);
+
             MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+
+
+
+
             isExplosion = true;
             WeaponRender->Off();
             WeaponCollision->Off();
             isWeaponDone = true;
             GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
-            // 추후 삭제 필요
-            CurPlayer->SetCurWeapon(nullptr);
-            this->Death();
         }
 	}
 }
