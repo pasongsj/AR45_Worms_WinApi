@@ -49,4 +49,6 @@ private:
 	
 	//맵의 건물과 닿은 곳에 구분선을 넣는 함수
 	void DrawPixel(float4 _Pos, int _Radius);
+    //맵의 건물과 닿은 곳에 구분선을 넣는 함수_사각형 버전
+    void DrawPixelRect(float4 _Pos, int _Horz, int _Vert);
 };

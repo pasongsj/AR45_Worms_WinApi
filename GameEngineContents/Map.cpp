@@ -7,6 +7,7 @@
 #include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "MapObject.h"
+#include "MapDecoration.h"
 #include "WeaponInterFace.h"
 //ScreenSize: { 1280, 960 }
 //BackGround_Hrz: 5120
@@ -165,10 +166,10 @@ void Map::Start()
         int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 8);
         for (int i = 0; i < NumOfObj; i++)
         {
-            MapObject* Object = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
-            float4 pos = Object->GetRandomPos();
-            Object->SetPos(pos);
-            Object->MergeMap();
+            MapDecoration* Deco = GetLevel()->CreateActor<MapDecoration>(WormsRenderOrder::Map);
+            float4 pos = Deco->GetRandomPos();
+            Deco->SetPos(pos);
+            Deco->MergeMap();
         }
     }
 }
@@ -180,7 +181,7 @@ void Map::Update(float _DeltaTime)
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
 		MapModifier::MainModifier->CreateHole(Pos, 20);
-        //MapModifier::MainModifier->CreateRect(Pos, 10, 6);
+        //MapModifier::MainModifier->CreateRect(Pos, 20, 15);
 
 		return;
 	}
@@ -260,10 +261,4 @@ void Map::Render(float _DeltaTime)
 	std::string MousePosStr = "MousePosition : ";
 	MousePosStr += GetLevel()->GetMousePosToCamera().ToString();
 	GameEngineLevel::DebugTextPush(MousePosStr);
-
-    std::string NumOfMapObj = "NumOfMapObj : ";
-    /*char Arr[] = NumOfObj;
-
-    NumOfMapObj += NumOfObj
-    GameEngineLevel::DebugTextPush(NumOfMapObj);*/
 }

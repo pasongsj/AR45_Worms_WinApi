@@ -109,6 +109,9 @@
     <ClInclude Include="LobbyLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
+    <ClInclude Include="MapDecoration.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="LobbyLevel.cpp">
       <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDecoration.cpp">
+      <Filter>Play\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

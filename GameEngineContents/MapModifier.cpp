@@ -83,6 +83,8 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		SelectObject(MapDc, OldPen);
 		DeleteObject(MyPen);
 	}
+    //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
+	DrawPixel(_Pos, _Radius);
 
 	//ColMap에 그림
 	{
@@ -105,8 +107,6 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		DeleteObject(MyPen);
 	}
 
-    //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
-	DrawPixel(_Pos, _Radius);
 }
 
 void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
@@ -159,6 +159,7 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         DeleteObject(MyBrush);                                                  //생성한 브러쉬 삭제
 
     }
+    DrawPixelRect(_Pos, _Horz, _Vert);
 
     //ColMap에 그림
     {
@@ -180,8 +181,6 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         SelectObject(ColMapDc, OldPen);
         DeleteObject(MyPen);
     }
-
-    //사각형 부분에 구분선 그리는 함수 추가 해야 함
 }
 
 void MapModifier::DrawPixel(float4 _Pos, int _Radius)
@@ -384,56 +383,135 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 	}
 }
 
+void MapModifier::DrawPixelRect(float4 _Pos, int _Horz, int _Vert)
+{
+    HDC MapDc = Map::MainMap->GetMapDC();
 
-//충돌맵의 Magenta 부분에 구분선이 남은 경우, 지우기 위한 함수
-//void MapModifier::CleanLineColor()
-//{
-//    HDC MapDc = Map::MainMap->GetMapDC();
-//
-//    std::string MapName = Map::MainMap->GetMapName();
-//    GameEngineImage* Image = GameEngineResources::GetInst().ImageFind(MapName);
-//
-//    std::string ColMapName = Map::MainMap->GetColMapName();
-//    GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
-//
-//    float4 CheckPos = float4::Zero;
-//
-//    for (; CheckPos.y < Scale.y; ++CheckPos.y)
-//    {
-//        for (; CheckPos.x < Scale.x; ++CheckPos.x)
-//        {
-//            if (LineColor == Image->GetPixelColor(CheckPos, Magenta))
-//            {
-//                if (Blue != ColImage->GetPixelColor(CheckPos, Magenta))
-//                {
-//                    //SetPixel(MapDc, CheckPos.x, CheckPos.y, Magenta);
-//                    //Map에 그림
-//                    {
-//                        int lineThick = 2;
-//                        //선에 대한 팬 생성
-//                        //PS_SOLID: 실선
-//                        HPEN MyPen = CreatePen(PS_SOLID, 1, Magenta);
-//                        HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
-//
-//                        HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(Magenta);                       //단색에 대한 논리적 브러쉬를 생성
-//                        HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
-//
-//                        Ellipse(MapDc,
-//                            CheckPos.ix() - lineThick,
-//                            CheckPos.iy() - lineThick,
-//                            CheckPos.ix() + lineThick,
-//                            CheckPos.iy() + lineThick);
-//
-//
-//                        SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
-//                        DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
-//
-//                        SelectObject(MapDc, OldPen);
-//                        DeleteObject(MyPen);
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//}
+    std::string ColMapName = Map::MainMap->GetColMapName();
+    GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
+
+    int lineThick = 2;
+    float Horizon = static_cast<float>(_Horz);
+    float Vertical = static_cast<float>(_Vert);
+
+    float4 Pos = { _Pos.x - Horizon - 1.0f, _Pos.y - Vertical - 1.0f };                       //사각형 좌측상단에서 가로세로 1pix 옮겨간 점
+
+
+    float4 ChecUp       = {Pos.x, Pos.y };                                                    //사각형 좌측 상단
+    float4 CheckDown    = { Pos.x, Pos.y + Vertical*2 + 2.0f};                                //사각형 좌측 하단
+
+    float4 ChecLeft     = { Pos.x, Pos.y };                                                   //사각형 좌측 상단
+    float4 CheckRight   = { Pos.x + Horizon*2 + 2.0f, Pos.y };                                //사각형 우측 상단
+
+    float4 Boundary = { Pos.x + Horizon * 2 + 2.0f, Pos.y + Vertical * 2 + 2.0f };
+
+    for (; ChecUp.x < Boundary.x;)
+    {
+         if (Blue == ColImage->GetPixelColor(ChecUp, Magenta))
+        {
+            //선에 대한 팬 생성
+            //PS_SOLID: 실선
+            HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
+            HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
+
+            HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
+            HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
+
+            Rectangle(MapDc,
+                ChecUp.ix() - lineThick,
+                ChecUp.iy() - lineThick,
+                ChecUp.ix() + lineThick,
+                ChecUp.iy() + lineThick);
+
+
+            SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
+            DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
+
+            SelectObject(MapDc, OldPen);
+            DeleteObject(MyPen);
+        }
+
+        if (Blue == ColImage->GetPixelColor(CheckDown, Magenta))
+        {
+            //선에 대한 팬 생성
+            //PS_SOLID: 실선
+            HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
+            HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
+
+            HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
+            HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
+
+            Rectangle(MapDc,
+                CheckDown.ix() - lineThick,
+                CheckDown.iy() - lineThick,
+                CheckDown.ix() + lineThick,
+                CheckDown.iy() + lineThick);
+
+
+            SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
+            DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
+
+            SelectObject(MapDc, OldPen);
+            DeleteObject(MyPen);
+        }
+
+        ++ChecUp.x;
+        ++CheckDown.x;
+    }
+
+    for (; ChecLeft.y < Boundary.y;)
+    {
+
+        if (Blue == ColImage->GetPixelColor(ChecLeft, Magenta))
+        {
+            //선에 대한 팬 생성
+            //PS_SOLID: 실선
+            HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
+            HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
+
+            HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
+            HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
+
+            Rectangle(MapDc,
+                ChecLeft.ix() - lineThick,
+                ChecLeft.iy() - lineThick,
+                ChecLeft.ix() + lineThick,
+                ChecLeft.iy() + lineThick);
+
+
+            SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
+            DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
+
+            SelectObject(MapDc, OldPen);
+            DeleteObject(MyPen);
+        }
+
+        if (Blue == ColImage->GetPixelColor(CheckRight, Magenta))
+        {
+            //선에 대한 팬 생성
+            //PS_SOLID: 실선
+            HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
+            HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
+
+            HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
+            HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
+
+            Rectangle(MapDc,
+                CheckRight.ix() - lineThick,
+                CheckRight.iy() - lineThick,
+                CheckRight.ix() + lineThick,
+                CheckRight.iy() + lineThick);
+
+
+            SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
+            DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
+
+            SelectObject(MapDc, OldPen);
+            DeleteObject(MyPen);
+        }
+
+        ++ChecLeft.y;
+        ++CheckRight.y;
+    }
+     
+}

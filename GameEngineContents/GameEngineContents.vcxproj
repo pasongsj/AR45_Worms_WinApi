@@ -32,6 +32,10 @@
     <ClInclude Include="LobbyLevel.h" />
     <ClInclude Include="MainTitleBack.h" />
     <ClInclude Include="MainTitleLevel.h" />
+    <ClInclude Include="MapDecoration.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapObject.h">
       <SubType>
       </SubType>
@@ -151,6 +155,10 @@
     <ClCompile Include="LobbyLevel.cpp" />
     <ClCompile Include="MainTitleBack.cpp" />
     <ClCompile Include="MainTitleLevel.cpp" />
+    <ClCompile Include="MapDecoration.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <SubType>
       </SubType>
