@@ -107,7 +107,7 @@ void Weapon::SetCurPlayer() // 수정완료
 		MsgAssert("CurPlayer가 nullptr입니다.");
 	}
     // 임시로 PlyaerState 체크하기 위해 생성 -> 무기 변경시 적용해주는 내용
-    if (nullptr == CurPlayer->GetCurWeapon() && WeaponNumber != static_cast<int>(WeaponNum::Bazooka))
+    if (nullptr == CurPlayer->GetCurWeapon())
     {
         CurPlayer->SetCurWeapon(this);
     }

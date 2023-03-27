@@ -87,7 +87,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 		if (fLerpRatio >= 1)
 		{
-			CurPlayer->ChangePlayerAnimation("BazOff");
+			CurPlayer->ChangePlayerAnimation("BazookaOff");
             isWeaponDone = true;
 		}
 	}
@@ -97,7 +97,7 @@ void WeaponBazooka::Render(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("ChangePlayer"))
 	{
-		CurPlayer->ChangePlayerAnimation("BazOff");
+		CurPlayer->ChangePlayerAnimation("BazookaOff");
 		CurPlayer->SetCanIMove(true);
 		ResetWeapon();
 		isAttack = false;
@@ -221,7 +221,7 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 
 	if (isAiming == true && isEndCharging() == true)
 	{
-		CurPlayer->ChangePlayerAnimation("BazOff");
+		CurPlayer->ChangePlayerAnimation("BazookaOff");
 		ChargingRenderOff();
 		isFire = true;
 	}
@@ -313,7 +313,7 @@ void WeaponBazooka::BazookaOn()
 
 	if (TimeCount >= 0.2f && isBazOn == false && isAttack == false)
 	{
-		CurPlayer->ChangePlayerAnimation("BazOn");
+		CurPlayer->ChangePlayerAnimation("BazookaOn");
 		TimeCount = 0;
 		isBazOn = true;
 	}
@@ -367,7 +367,7 @@ void WeaponBazooka::BazAiming()
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 			isAiming = true;
-			CurPlayer->ChangePlayerAnimation("bazAim", CurIndex);
+			CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
 			TimeCount = 0;
 	}
 
