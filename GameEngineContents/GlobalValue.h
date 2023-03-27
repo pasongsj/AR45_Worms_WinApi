@@ -1,7 +1,7 @@
 #pragma once
 
 class Player;
-class GameEngineLevel;
+class PlayLevel;
 class GlobalValue
 {
 public:
@@ -47,7 +47,7 @@ public:
 		fWindPhase = _fWindPhase;
 	}
 
-    GameEngineLevel* GetPlayLevel() const
+    PlayLevel* GetPlayLevel() const
     {
         return pPlayLevel;
     }
@@ -62,5 +62,5 @@ private:
 	float fWindSpeed = 0.f;
 	int fWindPhase = 0;
 
-    GameEngineLevel* pPlayLevel = nullptr;
+    PlayLevel* pPlayLevel = nullptr;
 };
