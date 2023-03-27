@@ -719,10 +719,11 @@ void PlayLevel::Loading()
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponSheep>();
 	//CreateActor<WeaponAirStrike>();
-    //CreateActor<HomingMissile>();
+    CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
     GlobalValue::gValue.SetPlayLevel(this);
 }
+
 
 
 void PlayLevel::Update(float _DeltaTime)

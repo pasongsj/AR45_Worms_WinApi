@@ -67,6 +67,9 @@ private:
     float TimeCount = 0.0f;
     float TimeCount_2 = 0.0f;
 
+    float CurTime = 0.0f;
+    float PrevTime = 0.0f;
+
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
 

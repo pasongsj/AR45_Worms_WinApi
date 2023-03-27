@@ -80,8 +80,7 @@ protected:
 
 	Player* CurPlayer = nullptr;
 	float Timer = 0.0f;								// ≈∏¿Ã∏”
-	float PrevTime = 0.0f;
-	float CurTime = 0.0f;
+
 	float4 ScreenSize = { 0,0 };
 	//GameEngineRender* AimingLine = nullptr;
 	virtual void Init() {};

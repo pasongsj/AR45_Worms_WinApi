@@ -87,7 +87,6 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 		if (fLerpRatio >= 1)
 		{
-			CurPlayer->ChangePlayerAnimation("BazookaOff");
             isWeaponDone = true;
 		}
 	}
@@ -311,9 +310,8 @@ void WeaponBazooka::BazookaOn()
 		TimeCounting();
 	}
 
-	if (TimeCount >= 0.2f && isBazOn == false && isAttack == false)
+	if (isBazOn == false && isAttack == false)
 	{
-		CurPlayer->ChangePlayerAnimation("BazookaOn");
 		TimeCount = 0;
 		isBazOn = true;
 	}
@@ -367,7 +365,7 @@ void WeaponBazooka::BazAiming()
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 			isAiming = true;
-			CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
+			CurPlayer->ChangePlayerAnimation("BazookaAim", Bazindex);
 			TimeCount = 0;
 	}
 
@@ -395,29 +393,29 @@ void WeaponBazooka::BazAiming()
 
 		if(Bazindex == CurIndex)
 		{
-			CurPlayer->SetPlayerAnimationFrame(Bazindex);
+			CurPlayer->ChangePlayerAnimation("BazookaAim", Bazindex);
 		}
 
 		else if (Bazindex > CurIndex)
 		{
 			TimeCounting();
 
-			if (TimeCount >= 0.01f)
+			if (TimeCount_3 >= 0.01f)
 			{
 				++CurIndex;
-				CurPlayer->SetPlayerAnimationFrame(CurIndex);
-				TimeCount = 0;
+                CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
+                TimeCount_3 = 0;
 			}
 		}
 		else if (Bazindex < CurIndex)
 		{
 			TimeCounting();
 
-			if (TimeCount >= 0.01f)
+			if (TimeCount_3 >= 0.01f)
 			{
 				--CurIndex;
-				CurPlayer->SetPlayerAnimationFrame(CurIndex);
-				TimeCount = 0;
+                CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
+                TimeCount_3 = 0;
 			}
 		}
 	}
@@ -427,8 +425,10 @@ void WeaponBazooka::BazAiming()
 		isAiming = false;
 		isBazOn = false;
 		CurIndex = 16;
-	}
+        Bazindex = 16;
 
+        ShootDir = CurPlayer->GetPlayerDir();
+	}
 }
 
 void WeaponBazooka::ChargingRenderInit()
@@ -529,6 +529,7 @@ void WeaponBazooka::TimeCounting()
 
     TimeCount += (CurTime - PrevTime) / 1000;
     TimeCount_2 += (CurTime - PrevTime) / 1000;
+    TimeCount_3 += (CurTime - PrevTime) / 1000;
 
     PrevTime = CurTime;
 }

@@ -78,8 +78,12 @@ private:
 	bool isEndBazOn = false;
     bool isTimeSet = false;
 
+    float CurTime = 0.0f;
+    float PrevTime = 0.0f;
+
     float TimeCount = 0.0f;
     float TimeCount_2 = 0.0f;
+    float TimeCount_3 = 0.0f;
 
 	int Bazindex = 0;
 	int CurIndex = 16;

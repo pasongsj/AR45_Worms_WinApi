@@ -27,9 +27,10 @@ void WeaponTorch::Update(float _DeltaTime)
     if (GameEngineInput::IsDown("Shoot"))
     {
         isAttack = true;
+        StartPos = CurPlayer->GetPos();
     }
 
-    if(isAttack == true)
+    if(isAttack == true && isFireEnd == false)
     {
         TorchOn();
     }
@@ -50,34 +51,41 @@ void WeaponTorch::TorchInit()
 
     WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
 
-    BombScale = 10;
+    BombScale = 12;
+
+    WeaponName = "Torch";
 }
 
 void WeaponTorch::TorchOn()
 {
-    TimeCounting();
-
-    if (TimeCount >= 0.1f)
+    if (TorchTime <= 0.0f)
     {
-        TimeCount = 0;
-        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 10 , -10 }, 10);
-        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 10 , -10 }, 10);
-        MapModifier::MainModifier->CreateHole(CurPlayer->GetPos() + float4{ 20 , -10 }, 10);
+        isFireEnd = true;
+        return;
     }
+
+    CurPlayer->ChangePlayerAnimation("Torchfire");
+
+    TorchTimerOn();
+
+    float4 HolePos = { CurPlayer->GetPos().x, StartPos.y - BombScale};
+    MapModifier::MainModifier->CreateHole(HolePos, BombScale);
+  
 }
 
-void WeaponTorch::TimeCounting()
+void WeaponTorch::TorchTimerOn()
 {
-    if (isTimeSet = false)
+    if (TorchTimeSet == false)
     {
-        PrevTime = clock();
-        isTimeSet = true;
+        TorchPrevTime = clock();
+        TorchTimeSet = true;
     }
+    
+    TorchCurTime = clock();
 
-    CurTime = clock();
+    float TorchTimeCount = (TorchCurTime - TorchPrevTime) / 1000;
 
-    TimeCount += (CurTime - PrevTime) / 1000;
-    TimeCount_2 += (CurTime - PrevTime) / 1000;
+    TorchTime -= TorchTimeCount;
 
-    PrevTime = CurTime;
+    TorchPrevTime = TorchCurTime;
 }

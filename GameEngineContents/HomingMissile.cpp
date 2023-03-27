@@ -265,7 +265,7 @@ void HomingMissile::Aiming()
 
         if (AngleIndex == CurIndex)
         {
-            CurPlayer->SetPlayerAnimationFrame(AngleIndex);
+            CurPlayer->ChangePlayerAnimation("HomingAim", AngleIndex);
         }
 
         else if (AngleIndex > CurIndex)
@@ -275,7 +275,7 @@ void HomingMissile::Aiming()
             if (TimeCount >= 0.01f)
             {
                 ++CurIndex;
-                CurPlayer->SetPlayerAnimationFrame(CurIndex);
+                CurPlayer->ChangePlayerAnimation("HomingAim", CurIndex);
                 TimeCount = 0;
             }
         }
@@ -286,7 +286,7 @@ void HomingMissile::Aiming()
             if (TimeCount >= 0.01f)
             {
                 --CurIndex;
-                CurPlayer->SetPlayerAnimationFrame(CurIndex);
+                CurPlayer->ChangePlayerAnimation("HomingAim", CurIndex);
                 TimeCount = 0;
             }
         }
@@ -307,12 +307,12 @@ void HomingMissile::Explosion()
         MapModifier::MainModifier->CreateHole(WeaponRender->GetActorPlusPos(), BombScale);
     }
 
+    DamageToPlayer();
+
     WeaponRender->Off();
     WeaponCollision->Off();
 
     Marker->Off();
-
-    DamageToPlayer();
 
     isExplosion = true;
 }
@@ -369,6 +369,18 @@ void HomingMissile::TimeCounting(float* TimeCount)
 
 void HomingMissile::DamageToPlayer()
 {
+ 
+    std::vector<GameEngineCollision*> PlayerList;
+
+    if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, PlayerList))
+    {
+        for (int i = 0; i < PlayerList.size(); i++)
+        {
+            dynamic_cast<Player*>(PlayerList[i]->GetActor())->Damaged(Dmg);
+            int a = 0;
+        }
+    }
+
 }
 
 void HomingMissile::ChargingRenderInit()
