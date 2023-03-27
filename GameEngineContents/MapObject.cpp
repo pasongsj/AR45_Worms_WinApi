@@ -3,7 +3,6 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineLevel.h>
-//#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include "Map.h"
@@ -33,12 +32,7 @@ void MapObject::Start()
 
 void MapObject::Update(float _DeltaTime)
 {
-    if (true == GameEngineInput::IsDown("DebugMode"))							//디버깅 모드_충돌맵 혹은 맵을 볼 수 있음
-    {
-        MergeMap();
-    }
 
-   
 }
 
 void MapObject::MergeMap()

@@ -47,6 +47,8 @@ protected:
 private:
 	bool IsColMap = false;								//픽셀 충돌맵의 랜더링 여부
 
+    int NumOfObj = 0;
+
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 

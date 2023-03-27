@@ -17,6 +17,7 @@ public:
 	MapObject& operator=(MapObject&& _Other) noexcept = delete;
 
     float4 GetRandomPos();
+    void MergeMap();                             //기존 맵과 충돌맵에 오브젝트이미지를 합성하는 함수
 
 protected:
     void Start() override;
@@ -36,7 +37,6 @@ private:
     std::vector<std::string> Objects = std::vector<std::string>();
     std::vector<std::string> ColObjects = std::vector<std::string>();
 
-    void MergeMap();                             //기존 맵과 충돌맵에 오브젝트이미지를 합성하는 함수
     void MakeRandomPosSets();                    //랜덤한 위치를 체크해서 벡터에 넣는 함수
 
 };
