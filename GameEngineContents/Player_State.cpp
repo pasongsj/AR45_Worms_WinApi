@@ -215,8 +215,7 @@ void Player::IdleEnd()
 
 void Player::MoveStart()
 {
-	DirCheck("Move");
-
+    DirCheck("Move");
     StateCalTime = 0.0f;
 }
 void Player::MoveUpdate(float _DeltatTime)
@@ -244,6 +243,11 @@ void Player::MoveUpdate(float _DeltatTime)
     else
     {
         StateCalTime = 0.0f;
+    }
+
+    if (true == AnimationRender->IsAnimationEnd())
+    {
+        DirCheck("Move");
     }
 
     if (StateCalTime > 0.05f)
