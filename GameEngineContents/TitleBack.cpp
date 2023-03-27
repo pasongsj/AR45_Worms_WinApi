@@ -4,6 +4,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineCore/GameEngineCore.h>
 TitleBack::TitleBack()
 {
 }
@@ -254,7 +255,7 @@ void TitleBack::Update(float _DeltaTime)
     }
     if (BlackAlpha > 254)
     {
-
+        GameEngineCore::GetInst()->ChangeLevel("MainTitle");
     }
 
 }

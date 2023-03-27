@@ -12,6 +12,8 @@ enum class WormsRenderOrder
 	Weapon,
 	UI,
 	WeaPonInterFace,
+    WeaPonUI,
+    Cusor,
 
 };
 enum class WormsTitle
@@ -28,6 +30,7 @@ enum class WormsMainTitle
     Star,
     Select,
     BlackBackGround,
+    Cusor,
 
 };
 enum class WormsCollisionOrder

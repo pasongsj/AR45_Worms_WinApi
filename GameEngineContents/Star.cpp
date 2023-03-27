@@ -17,8 +17,6 @@ void Star::Start()
     star = CreateRender("ScatterStar2.bmp", WormsMainTitle::Star);
     star->SetPosition({ 0,0 });
     star->SetScale({32,32});
-
-
 }
 
 void Star::Update(float _DeltaTime)

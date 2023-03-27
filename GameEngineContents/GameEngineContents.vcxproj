@@ -23,6 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Cusor.h" />
     <ClInclude Include="HomingMissile.h">
       <SubType>
       </SubType>
@@ -141,6 +142,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Cusor.cpp" />
     <ClCompile Include="HomingMissile.cpp">
       <SubType>
       </SubType>

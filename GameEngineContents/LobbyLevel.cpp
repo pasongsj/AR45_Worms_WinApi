@@ -210,6 +210,11 @@ void LobbyLevel::Loading()
             GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("6868.BMP"));
         }
     }
+    //Cusor
+
+   /* {
+        GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cursor.BMP"));
+    }*/
 
     CreateActor<Lobby>();
 }

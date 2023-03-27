@@ -7,8 +7,10 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include "MouseObject.h"
 #include "Star.h"
+#include "Cusor.h"
 MainTitleBack::MainTitleBack()
 {
 }
@@ -32,7 +34,6 @@ void MainTitleBack::Start()
    UpTitle->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y-340 });
    UpTitle->SetScale({ 640, 212 });
 
-   int a = 0;
    MainPlay = CreateRender("MainPlay.bmp", WormsMainTitle::Select);
    MainPlay->SetPosition({ 400,400});
    MainPlay->SetScale({ 480,300 });
@@ -53,6 +54,8 @@ void MainTitleBack::Start()
    MouseSelect->SetPosition({ 900,720 });
    MouseSelect->SetScale({ 480,300 });
    MouseSelect->Off();
+
+
 
    {
        MainPlayCollision = CreateCollision();
@@ -82,8 +85,13 @@ void MainTitleBack::Start()
 
    }
 
-   MouseObject* Object = GetLevel()->CreateActor<MouseObject>();
+   if (false == GameEngineInput::IsKey("LeftClock"))
+   {
+       GameEngineInput::CreateKey("LeftClock", VK_LBUTTON);
+   }
 
+   MouseObject* Object = GetLevel()->CreateActor<MouseObject>();
+   Cusor* Actor = GetLevel()->CreateActor<Cusor>();
 }
 
 void MainTitleBack::Update(float _DeltaTime)
@@ -141,7 +149,12 @@ void MainTitleBack::Update(float _DeltaTime)
             MouseSelect->SetPosition({ 900,400 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
-            
+            if (GameEngineInput::IsDown("LeftClock"))
+            {
+                GameEngineCore::GetInst()->ChangeLevel("Lobby");
+            }
+
+
         }
     }
     if (nullptr != netCollision)

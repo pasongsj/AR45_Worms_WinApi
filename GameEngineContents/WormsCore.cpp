@@ -13,10 +13,10 @@ void WormsCore::Start()
 
 	CreateLevel<CenterLevel>("Center");
 	CreateLevel<TitleLevel>("Title");
-	CreateLevel<PlayLevel>("Play");
-	CreateLevel<TestLevel>("Test");
     CreateLevel<MainTitleLevel>("MainTitle");
     CreateLevel<LobbyLevel>("Lobby");
+	CreateLevel<PlayLevel>("Play");
+	CreateLevel<TestLevel>("Test");
 	ChangeLevel("Center");
 }
 

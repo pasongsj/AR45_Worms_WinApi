@@ -47,7 +47,9 @@ void MainTitleLevel::Loading()
     {
         GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MouseSelect.BMP"));
     }
-
+    {
+        GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Cursor.BMP"));
+    }
     CreateActor<MainTitleBack>();
 
 

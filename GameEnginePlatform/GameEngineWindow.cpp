@@ -165,6 +165,8 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
             //메세지가 있을때도 게임을 돌리기
             if (nullptr != _Loop)
             {
+              
+               
                 _Loop();
 
                 GameEngineInput::IsAnyKeyOff();

@@ -22,7 +22,8 @@ public:
     void Wormschoice();
     void Hpchoice();
     void Teleportchoice(); 
-
+    void Playerchoice();
+    void Playerdown();
 
 protected:
     void Start() override;
@@ -110,6 +111,9 @@ private:
     GameEngineCollision* WormsCollision = nullptr;
     GameEngineCollision* HpCollision = nullptr;
     GameEngineCollision* SelectOnCollision = nullptr;
+    GameEngineCollision* PlayerCollision = nullptr;
+    GameEngineCollision* PlayerDownCollision = nullptr;
+
 
     int MapChoice = 0;
     int TurnChoice = 0;
@@ -118,7 +122,8 @@ private:
     int WormsChoice = 0; 
     int HpChoice = 0; 
     int TeleportChoice = 0;
-
+    int PlayerChoice = 0;
+    int PlayerDown = 6;
 
     float BlackAlpha = 0;
     float Time = 0;

@@ -14,7 +14,7 @@
 #include "GlobalValue.h"
 #include "MouseObject.h"
 #include "Player.h"
-
+#include "Cusor.h"
 #include "WeaponBazooka.h"
 #include "WeaponGrenade.h"
 #include "WeaponClusterBomb.h"
@@ -109,7 +109,7 @@ WeaponInterFace::~WeaponInterFace()
 
 void WeaponInterFace::Start()
 {
-	//Interface = this;
+    Cusor* Actor = GetLevel()->CreateActor<Cusor>();
 	
 	
 	if (false == GameEngineInput::IsKey("RightClock"))
@@ -573,7 +573,7 @@ void WeaponInterFace::Start()
 
 
 	{
-		WaeponInterface = CreateRender(5);
+		WaeponInterface = CreateRender(WormsRenderOrder::UI);
 		WaeponInterface->SetImage("weaponSheet.Bmp");
 		WaeponInterface->SetPosition({ 1370,740 });
 		WaeponInterface->SetScale({ 180, 400 });
@@ -582,7 +582,7 @@ void WeaponInterFace::Start()
 	}
 
 	{
-		bazooka = CreateRender(9);
+		bazooka = CreateRender(WormsRenderOrder::WeaPonUI);
 		bazooka->SetImage("bazookaUI.Bmp");
 		bazooka->SetPosition({ 1327,586 });
 		bazooka->SetScale({ 32, 32 });
@@ -590,7 +590,7 @@ void WeaponInterFace::Start()
 		bazooka->On();
 	}
 	{
-		cluster = CreateRender(9);
+		cluster = CreateRender(WormsRenderOrder::WeaPonUI);
 		cluster->SetImage("clusterUI.Bmp");
 		cluster->SetPosition({ 1357,615 });
 		cluster->SetScale({ 32, 32 });
@@ -598,7 +598,7 @@ void WeaponInterFace::Start()
 		cluster->On();
 	}
 	{
-		grenade = CreateRender(9);
+		grenade = CreateRender(WormsRenderOrder::WeaPonUI);
 		grenade->SetImage("grenadeUI.Bmp");
 		grenade->SetPosition({ 1327,615 });
 		grenade->SetScale({ 32, 32 });
@@ -606,7 +606,7 @@ void WeaponInterFace::Start()
 		grenade->On();
 	}
 	{
-		shotgun = CreateRender(9);
+		shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
 		shotgun->SetImage("shotgunUI.Bmp");
 		shotgun->SetPosition({ 1327,644 });
 		shotgun->SetScale({ 32, 32 });

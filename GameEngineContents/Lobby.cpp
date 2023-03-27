@@ -8,7 +8,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include "MouseObject.h"
-
+#include "Cusor.h"
 #include "Star.h"
 Lobby::Lobby()
 {
@@ -334,6 +334,14 @@ void Lobby::Start()
        SelectOnCollision->SetPosition({ 540,740 });
        SelectOnCollision->SetScale({ 68,68 });
 
+       PlayerCollision = CreateCollision();
+       PlayerCollision->SetPosition({ 950,525 });
+       PlayerCollision->SetScale({ 580, 305 });
+
+       PlayerDownCollision = CreateCollision();
+       PlayerDownCollision->SetPosition({ 950,200 });
+       PlayerDownCollision->SetScale({ 580, 300 });
+
    }
    if (false == GameEngineInput::IsKey("LeftClock"))
    {
@@ -341,6 +349,7 @@ void Lobby::Start()
    }
 
    MouseObject* Object = GetLevel()->CreateActor<MouseObject>();
+   Cusor* cusor = GetLevel()->CreateActor<Cusor>();
 }
 
 void Lobby::Update(float _DeltaTime)
@@ -514,6 +523,32 @@ void Lobby::Update(float _DeltaTime)
             }
         }
     }
+    if (nullptr != PlayerCollision && PlayerChoice < 6)
+    {
+        std::vector<GameEngineCollision*> collision;
+        if (true == PlayerCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
+        {
+        
+            if (GameEngineInput::IsDown("LeftClock"))
+            {
+                ++PlayerChoice;
+                --PlayerDown;
+            }
+        }
+    }
+    if (nullptr != PlayerDownCollision && PlayerDown < 6)
+    {
+        std::vector<GameEngineCollision*> collision;
+        if (true == PlayerDownCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
+        {
+
+            if (GameEngineInput::IsDown("LeftClock"))
+            {
+                ++PlayerDown;
+                --PlayerChoice;
+            }
+        }
+    }
 
 
     Mapchoice();
@@ -523,7 +558,8 @@ void Lobby::Update(float _DeltaTime)
     Wormschoice();
     Hpchoice();
     Teleportchoice();
-
+    Playerchoice();
+    Playerdown();
 }
 void Lobby::Mapchoice()
 {
@@ -879,6 +915,108 @@ void Lobby::Teleportchoice()
     }
 
 }
+void Lobby::Playerchoice()
+{
+
+  
+
+    switch (PlayerChoice)
+    {
+    case 1:
+        Player->SetPosition({ 740,105 });
+        Player->SetScale({ 100,32 });      
+        break;
+    case 2:
+        Player2->SetPosition({ 740,145 });
+        Player2->SetScale({ 100,32 });
+        break;
+    case 3:
+        Player3->SetPosition({ 740,185 });
+        Player3->SetScale({ 100,32 });
+        break;
+    case 4:
+        Player4->SetPosition({ 740,225 });
+        Player4->SetScale({ 100,32 });
+        break;
+    case 5:
+        Player5->SetPosition({ 740,265 });
+        Player5->SetScale({ 100,32 });
+        break;
+    case 6:
+        Player6->SetPosition({ 740,305 });
+        Player6->SetScale({ 100,32 });
+        break;
+
+    default:
+        break;
+    }
+
+}
+void Lobby::Playerdown()
+{
+    switch (PlayerDown)
+    {
+    case 1:
+        Player6->SetPosition({ 740,455 });
+        Player6->SetScale({ 80,26 });
+        break;
+    case 2:
+
+        Player5->SetPosition({ 740,455 });
+        Player5->SetScale({ 80,26 });
+        Player6->SetPosition({ 740,483 });
+        Player6->SetScale({ 80,26 });     
+        break;
+    case 3:
+        Player4->SetPosition({ 740,455 });
+        Player4->SetScale({ 80,26 });
+        Player5->SetPosition({ 740,483 });
+        Player5->SetScale({ 80,26 });
+        Player6->SetPosition({ 740,511 });
+        Player6->SetScale({ 80,26 });
+        break;
+    case 4:
+        Player3->SetPosition({ 740,455 });
+        Player3->SetScale({ 80,26 });
+        Player4->SetPosition({ 740,483 });
+        Player4->SetScale({ 80,26 });
+        Player5->SetPosition({ 740,511 });
+        Player5->SetScale({ 80,26 });
+        Player6->SetPosition({ 740,539 });
+        Player6->SetScale({ 80,26 });
+        break;
+    case 5:
+        Player2->SetPosition({ 740,455 });
+        Player2->SetScale({ 80,26 });
+        Player3->SetPosition({ 740,483 });
+        Player3->SetScale({ 80,26 });
+        Player4->SetPosition({ 740,511 });
+        Player4->SetScale({ 80,26 });
+        Player5->SetPosition({ 740,539 });
+        Player5->SetScale({ 80,26 });
+        Player6->SetPosition({ 740,567 });
+        Player6->SetScale({ 80,26 });
+        break;
+    case 6:
+        Player->SetPosition({ 740,455 });
+        Player->SetScale({ 80,26 });
+        Player2->SetPosition({ 740,483 });
+        Player2->SetScale({ 80,26 });
+        Player3->SetPosition({ 740,511 });
+        Player3->SetScale({ 80,26 });
+        Player4->SetPosition({ 740,539 });
+        Player4->SetScale({ 80,26 });
+        Player5->SetPosition({ 740,567 });
+        Player5->SetScale({ 80,26 });
+        Player6->SetPosition({ 740,595 });
+        Player6->SetScale({ 80,26 });
+        break;
+
+    default:
+        break;
+    }
+}
+
 void Lobby::Render(float _DeltaTime)
 {
 
