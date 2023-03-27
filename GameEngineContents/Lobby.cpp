@@ -7,9 +7,12 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include "MouseObject.h"
 #include "Cusor.h"
 #include "Star.h"
+#include "GlobalValue.h"
+#include "PlayLevel.h"
 Lobby::Lobby()
 {
 
@@ -378,7 +381,14 @@ void Lobby::Update(float _DeltaTime)
             MouseSelect->SetScale({ 392, 126 });
 
             MouseSelect->On();
+
+            if (GameEngineInput::IsDown("LeftClock"))
+            {
+                GameEngineCore::GetInst()->ChangeLevel("Play");
+            }
         }
+
+        
     }
 
     if (nullptr != ExitCollision)
@@ -767,6 +777,7 @@ void Lobby::Winchoice()
         Wins5->Off();
         Wins6->Off();
         Wins0->Off();
+      
         break;
     case 1:
         Wins1->Off();
@@ -870,24 +881,28 @@ void Lobby::Hpchoice()
         Hp150->Off();
         Hp200->Off();
         Hp00->Off();
+        GlobalValue::gValue.GetPlayLevel()->SetLevelSetting({ .iPlayerHp = 200 });
         break;
     case 1:
         Hp100->Off();
         Hp150->On();
         Hp200->Off();
         Hp00->Off();
+
         break;
     case 2:
         Hp100->Off();
         Hp150->Off();
         Hp200->On();
         Hp00->Off();
+        
         break;
     case 3:
         Hp100->Off();
         Hp150->Off();
         Hp200->Off();
         Hp00->On();
+
         break;
 
     default:

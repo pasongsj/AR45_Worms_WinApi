@@ -56,6 +56,7 @@ public:
     {
         pPlayLevel = _pPlayLevel;
     }
+
 private:
 	Player* pCurPlayer = nullptr;
     std::vector<Player*> vecAllPlayerG;
