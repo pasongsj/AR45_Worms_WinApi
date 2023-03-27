@@ -39,41 +39,40 @@ void AllPlayerHpUI::Start()
 
     std::vector<Player*> PlayerList = GlobalValue::gValue.GetAllPlayer();
 
+    float4 rStartPos = StartPos;
     for (size_t i = 0; i < PlayerList.size(); i++)
     {
         vecPlayerHpBar.push_back(CreateRender(WormsRenderOrder::UI));
         vecPlayerCurHp.push_back(PlayerList[i]->GetPlayerHP());
+
+        vecPlayerHpBar[i]->EffectCameraOff();
+        vecPlayerHpBar[i]->SetPosition(rStartPos);
+        rStartPos.y += 17.f;
+        switch (i)
+        {
+        case 0:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarB.bmp");
+            break;
+        case 1:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarG.bmp");
+            break;
+        case 2:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarP.bmp");
+            break;
+        case 3:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarR.bmp");
+            break;
+        case 4:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarS.bmp");
+            break;
+        case 5:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarY.bmp");
+            break;
+        default:
+            break;
+        }
+        
     }
-    float4 rStartPos = StartPos;
-    vecPlayerHpBar[0]->SetImageToScaleToImage("BottomHPbarB.bmp");
-    vecPlayerHpBar[0]->EffectCameraOff();
-    vecPlayerHpBar[0]->SetPosition(rStartPos);
-    rStartPos.y += 17.f;
-
-    vecPlayerHpBar[1]->SetImageToScaleToImage("BottomHPbarG.bmp");
-    vecPlayerHpBar[1]->EffectCameraOff();
-    vecPlayerHpBar[1]->SetPosition(rStartPos);
-    rStartPos.y += 17.f;
-
-    vecPlayerHpBar[2]->SetImageToScaleToImage("BottomHPbarP.bmp");
-    vecPlayerHpBar[2]->EffectCameraOff();
-    vecPlayerHpBar[2]->SetPosition(rStartPos);
-    rStartPos.y += 17.f;
-
-    vecPlayerHpBar[3]->SetImageToScaleToImage("BottomHPbarR.bmp");
-    vecPlayerHpBar[3]->EffectCameraOff();
-    vecPlayerHpBar[3]->SetPosition(rStartPos);
-    rStartPos.y += 17.f;
-
-    vecPlayerHpBar[4]->SetImageToScaleToImage("BottomHPbarS.bmp");
-    vecPlayerHpBar[4]->EffectCameraOff();
-    vecPlayerHpBar[4]->SetPosition(rStartPos);
-    rStartPos.y += 17.f;
-
-    vecPlayerHpBar[5]->SetImageToScaleToImage("BottomHPbarY.bmp");
-    vecPlayerHpBar[5]->EffectCameraOff();
-    vecPlayerHpBar[5]->SetPosition(rStartPos);
-
     rStartPos = StartPos;
 
     for (size_t i = 0; i < vecPlayerHpBar.size(); i++)

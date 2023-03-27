@@ -48,6 +48,11 @@ public:
 
 	void SetIsMyTurn(bool _Value);
 
+    void SetHP(int _Hp)
+    {
+        PlayerHP = _Hp;
+    }
+
 	bool GetIsMyTurn()
 	{
 		return IsMyTurn;

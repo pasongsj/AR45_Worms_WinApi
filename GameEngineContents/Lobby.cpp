@@ -858,16 +858,19 @@ void Lobby::Wormschoice()
         WormSelectOFF->On();
         WormSelectON->Off();
         WormSelectRANDOM->Off();
+        SetLevel.iTurnRandom = 0;
         break;
     case 1:
         WormSelectOFF->Off();
         WormSelectON->On();
         WormSelectRANDOM->Off();
+        SetLevel.iTurnRandom = 1;
         break;
     case 2:
         WormSelectOFF->Off();
         WormSelectON->Off();
         WormSelectRANDOM->On();
+        SetLevel.iTurnRandom = 2;
         break;
    
     default:
@@ -927,11 +930,13 @@ void Lobby::Teleportchoice()
     {
     case 0:
         SelectOn->On();
-        SelectOff->Off();
+        SelectOff->Off();        
+        SetLevel.bMousePosPlayerSet = true;
         break;
     case 1:
         SelectOn->Off();
         SelectOff->On();
+        SetLevel.bMousePosPlayerSet = false;
         break;
     default:
         break;
@@ -947,27 +952,33 @@ void Lobby::Playerchoice()
     {
     case 1:
         Player->SetPosition({ 740,105 });
-        Player->SetScale({ 100,32 });      
+        Player->SetScale({ 100,32 });     
+        SetLevel.iPlayerNum = 1;
         break;
     case 2:
         Player2->SetPosition({ 740,145 });
         Player2->SetScale({ 100,32 });
+        SetLevel.iPlayerNum = 2;
         break;
     case 3:
         Player3->SetPosition({ 740,185 });
         Player3->SetScale({ 100,32 });
+        SetLevel.iPlayerNum = 3;
         break;
     case 4:
         Player4->SetPosition({ 740,225 });
         Player4->SetScale({ 100,32 });
+        SetLevel.iPlayerNum = 4;
         break;
     case 5:
         Player5->SetPosition({ 740,265 });
         Player5->SetScale({ 100,32 });
+        SetLevel.iPlayerNum = 5;
         break;
     case 6:
         Player6->SetPosition({ 740,305 });
         Player6->SetScale({ 100,32 });
+        SetLevel.iPlayerNum = 6;
         break;
 
     default:

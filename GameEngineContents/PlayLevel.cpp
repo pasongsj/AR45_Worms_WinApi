@@ -552,15 +552,17 @@ void PlayLevel::KeyLoad()
 
 void PlayLevel::CreateLeaf(float _DeltaTime)
 {
+
 	AddWind.WindTime += _DeltaTime;
 	if (AddWind.WindTime > 1.f)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			float4 Pos = { 300,-100 };
+           float X = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(-1000, 4000));
+           float Y = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(-1000, -500));
+
+			float4 Pos = { X,Y };
 			Leaf* pLeaf = CreateActor<Leaf>();
-			Pos.x *= i;
-			Pos.x += 100.f;
 			pLeaf->SetPos(Pos);
 		}
 		AddWind.WindTime -= 1.f;
@@ -720,8 +722,8 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
-	//CreateLeaf(_DeltaTime);
-    // 
+	CreateLeaf(_DeltaTime);
+     
     //ChangePlayer 키가 눌렸을때
     
     
@@ -740,18 +742,23 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
     {
         ScreenSize = GameEngineWindow::GetScreenSize();
 
-        vecAllPlayer.reserve(6);
-        for (size_t i = 0; i < 6; i++)
+        vecAllPlayer.reserve(LevelSet.iPlayerNum);
+        for (size_t i = 0; i < vecAllPlayer.capacity(); i++)
         {
             int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
             vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
             vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
+            vecAllPlayer[i]->SetHP(LevelSet.iPlayerHp);
+
+           
             float4 StartPos = float4{ 400,50 };
             StartPos.x *= i + 1;
             StartPos.x += iRandxPos;
             vecAllPlayer[i]->SetPos(StartPos);
+            
+            
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 

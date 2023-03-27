@@ -70,10 +70,10 @@ private:
 
 struct LevelSetting
 {
-    float fTime;
-    int iPlayerHp;
-    int iPlayerSet;
-    bool bTernRandom;
-    bool bDeathMatch;
-    bool bMousePosPlayerSet;
+    float fTime  = 15.f;
+    int iPlayerHp = 100;
+    int iPlayerNum = 2;
+    int iTurnRandom = 0;
+    bool bDeathMatch = false;
+    bool bMousePosPlayerSet = false;
 };
