@@ -31,9 +31,37 @@ private:
 	void Firing(float _DeltaTime);
 	void SetMissiles();
 	void Explosion();
-	void CameraUpdate();
+	void CameraUpdate(float _DeltaTime);
+
+    void DebrisAnimation(float _DeltaTime);
+    void DebrisSet(int MissileIndex);
+    void DebrisInit();
+
+    void TimeCounting();
+
+    bool isTimeSet = false;
+
+    float CurTime = 0.0f;
+    float PrevTime = 0.0f;
+    float TimeCount = 0.0f;
 
 	GameEngineRender* Airplane = nullptr;
+
+    //렌더, 애니메이션 
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
+
+    std::vector<GameEngineRender*> Sparks;
+    std::vector<GameEngineRender*> Smokes;
+
+    std::vector<float4> SparksDir;
+    std::vector<float4> SmokesDir;
+
+    std::vector<bool> isDebrisSetList;
+
+    bool isDebrisSet = false;
+    std::vector<float> DebrisGravityList;
 
 	float4 AirPlaneStartPos = { 0,0 };
 	float4 TargetPos = { 0,0 };
@@ -43,6 +71,8 @@ private:
 
 	bool isMoveRight = 0;
 	bool isHideAirPlane = false;
+    
+    int MissileNum = 0;
 
 	float4 MiddleMissileStartPos = { 0,0 };
 

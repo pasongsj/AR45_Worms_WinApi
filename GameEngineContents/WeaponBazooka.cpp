@@ -77,7 +77,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 	if (isExplosion == false && isAttack == true)
 	{
 		TimeCounting();
-		if (TimeCount >= 1.0f && fLerpRatio < 1)
+		if (TimeCount >= 3.0f && fLerpRatio < 1)
 		{
 			CurPlayerPos = CurPlayer->GetPos();
 			PrevCamPos = GetLevel()->GetCameraPos();
@@ -88,6 +88,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 		if (fLerpRatio >= 1)
 		{
 			CurPlayer->ChangePlayerAnimation("BazOff");
+            isWeaponDone = true;
 		}
 	}
 }
@@ -190,7 +191,7 @@ void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 		/* 차지가 길게 될수록 발사 거리가 길어짐 (발사속도가 빨라짐) */
    		CurPlayer->SetCanIMove(false);
 		ChargingRenderOn();
-		CurPlayer->SetPlayerAnimationFrame(Bazindex);
+
 
 		MoveSpeed = 300 + GetChargeTime() * 1000.0f;
 
@@ -539,8 +540,8 @@ void WeaponBazooka::DebrisAnimation(float _DeltaTime)
     {
         for (int i = 0; i < Sparks.size(); i++)
         {
-            float X = GameEngineRandom::MainRandom.RandomFloat(-10, 10);
-            float Y = GameEngineRandom::MainRandom.RandomFloat(-20, 5);
+            float X = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
 
             Sparks[i]->SetPosition(WeaponRender->GetPosition() + float4{ X,Y });
             Sparks[i]->ChangeAnimation("Spark");
@@ -554,8 +555,8 @@ void WeaponBazooka::DebrisAnimation(float _DeltaTime)
 
         for (int i = 0; i < Smokes.size(); i++)
         {
-            float X = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
-            float Y = GameEngineRandom::MainRandom.RandomFloat(-30, 30);
+            float X = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
 
             Smokes[i]->SetPosition(WeaponRender->GetPosition() + float4{ X,Y });
             Smokes[i]->ChangeAnimation("Smoke");
@@ -582,6 +583,10 @@ void WeaponBazooka::DebrisAnimation(float _DeltaTime)
         for (int i = 0; i < Smokes.size(); i++)
         {
             //Smokes[i]->SetMove(SmokesDir[i] * 25.0f * _DeltaTime);
+            if (Smokes[i]->IsAnimationEnd() == true)
+            {
+                Smokes[i]->Off();
+            }
         }
     }
 }
@@ -599,7 +604,7 @@ void WeaponBazooka::DebrisInit()
         Smokes.push_back(Smoke);
     }
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 10; i++)
     {
         GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
         Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });

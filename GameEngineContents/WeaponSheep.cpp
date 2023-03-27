@@ -23,6 +23,7 @@ WeaponSheep::~WeaponSheep()
 void WeaponSheep::Start()
 {
 	WeaponSheepInit();
+    DebrisInit();
 }
 
 void WeaponSheep::Update(float _DeltaTime)
@@ -61,12 +62,12 @@ void WeaponSheep::Update(float _DeltaTime)
         }
 	}
 
-    CameraUpdate(_DeltaTime);
+    if (isExplosion == true)
+    {
+        DebrisAnimation(_DeltaTime);
+    }
 
-    //if(isExplosion == true)
-    //{
-    //    DebrisMove(_DeltaTime);
-    //}
+    CameraUpdate(_DeltaTime);
 }		
 		
 void WeaponSheep::Render(float _DeltaTime)
@@ -382,47 +383,85 @@ void WeaponSheep::CameraUpdate(float _DeltaTime)
     }
 }
 
-//void WeaponSheep::DebrisMove(float _DeltaTime)
-//{
-//
-//    DebrisGravity += 50.0f * _DeltaTime;
-//
-//    for(int i = 0; i< 15; i++)
-//    {
-//        
-//        if (DebrisCountList[i] < 0)
-//        {
-//            DebrisList[i]->Off();
-//            continue;
-//        }
-//
-//        DebrisList[i]->SetMove((DebrisDirList[i] * DebrisMoveSpeed + float4{0, DebrisGravity}) * _DeltaTime );
-//
-//        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(DebrisList[i]->GetActorPlusPos(), RGB(0, 0, 255)))
-//        {
-//            MapModifier::MainModifier->CreateHole(DebrisList[i]->GetActorPlusPos(), DebrisList[i]->GetScale().x);
-//            DebrisCountList[i]--;
-//        }
-//
-//    }
-//
-//    MoveCount++;
-//}
-//
-//void WeaponSheep::CreateDebris()
-//{
-//    DebrisMoveSpeed = 100.0f;
-//    GameEngineRender* Debris = CreateRender("fire.bmp", WormsRenderOrder::Weapon);
-//    float Scale = GameEngineRandom::MainRandom.RandomInt(2, 10);
-//    Debris->SetScale({ Scale ,Scale });
-//
-//    float Xdir = GameEngineRandom::MainRandom.RandomFloat(-1, 1);
-//    float Ydir = GameEngineRandom::MainRandom.RandomFloat(0.3, 1);
-//
-//    int Count = GameEngineRandom::MainRandom.RandomInt(1, 3);
-//    
-//    DebrisList.push_back(Debris);
-//    DebrisDirList.push_back({ Xdir , Ydir });
-//    DebrisCountList.push_back(Count);
-//
-//}
+
+void WeaponSheep::DebrisAnimation(float _DeltaTime)
+{
+    if (isDebrisSet == false)
+    {
+        for (int i = 0; i < Sparks.size(); i++)
+        {
+            float X = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+
+            Sparks[i]->SetPosition(float4{X,Y});
+            Sparks[i]->ChangeAnimation("Spark");
+            Sparks[i]->On();
+
+            float4 Dir = float4{ X,Y };
+            Dir.Normalize();
+
+            SparksDir.push_back(Dir);
+        }
+
+        for (int i = 0; i < Smokes.size(); i++)
+        {
+            float X = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+
+            Smokes[i]->SetPosition(float4{ X,Y });
+            Smokes[i]->ChangeAnimation("Smoke");
+            Smokes[i]->On();
+
+            float4 Dir = float4{ X,Y };
+            Dir.Normalize();
+
+            SmokesDir.push_back(Dir);
+        }
+
+        isDebrisSet = true;
+
+    }
+    else
+    {
+        for (int i = 0; i < Sparks.size(); i++)
+        {
+            Sparks[i]->SetMove(SparksDir[i] * 150.0f * _DeltaTime + float4{ 0, DebrisGravity } *_DeltaTime);
+        }
+
+        DebrisGravity += 250.0f * _DeltaTime;
+
+        for (int i = 0; i < Smokes.size(); i++)
+        {
+            //Smokes[i]->SetMove(SmokesDir[i] * 25.0f * _DeltaTime);
+            if (Smokes[i]->IsAnimationEnd() == true)
+            {
+                Smokes[i]->Off();
+            }
+        }
+    }
+}
+
+void WeaponSheep::DebrisInit()
+{
+    for (int i = 0; i < 9; i++)
+    {
+        GameEngineRender* Smoke = CreateRender("Smoke100.bmp", WormsRenderOrder::Weapon);
+        Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "Smoke100.bmp", .Start = 0, .End = 27, .InterTime = 0.03f , .Loop = false });
+        Smoke->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Smoke100.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
+        Smoke->SetScale({ 134, 134 });
+        Smoke->Off();
+
+        Smokes.push_back(Smoke);
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
+        Spark->SetScale({ 60, 60 });
+        Spark->Off();
+
+        Sparks.push_back(Spark);
+    }
+}

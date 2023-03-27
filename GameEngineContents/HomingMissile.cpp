@@ -5,6 +5,7 @@
 
 #include <ctime>
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -27,6 +28,7 @@ void HomingMissile::Start()
     HomingMissileInit();
     ChargingRenderInit();
     MarkerInit();
+    DebrisInit();
 }
 
 void HomingMissile::Update(float _DeltaTime)
@@ -64,6 +66,11 @@ void HomingMissile::Update(float _DeltaTime)
         Firing(_DeltaTime);
     }
     
+    if (isExplosion == true)
+    {
+        DebrisAnimation(_DeltaTime);
+    }
+
     CameraUpdate(_DeltaTime);
 }
 
@@ -108,7 +115,7 @@ void HomingMissile::HomingMissileInit()
     ScreenSize = GameEngineWindow::GetScreenSize();
     WeaponNumber = static_cast<int>(WeaponNum::HomingMissile);
 
-    WeaponName = "HomingMissile";
+    WeaponName = "Homing";
 
     Gravity = 0.0f; //임시 설정값
 
@@ -134,8 +141,6 @@ void HomingMissile::Firing(float _DeltaTime)
             WeaponRender->SetPosition(CurPlayer->GetPos() + float4{ -15, -15 });
             WeaponCollision->SetPosition(CurPlayer->GetPos() + float4{ -15, -15 });
         }
-
-        Marker->Off();
 
         TimeCount = 0;
         isTimeSet = false;
@@ -305,6 +310,8 @@ void HomingMissile::Explosion()
     WeaponRender->Off();
     WeaponCollision->Off();
 
+    Marker->Off();
+
     DamageToPlayer();
 
     isExplosion = true;
@@ -443,5 +450,89 @@ void HomingMissile::Charging()
     {
         ChargingRenderOff();
         isAttack = true;
+    }
+}
+
+
+
+void HomingMissile::DebrisAnimation(float _DeltaTime)
+{
+    if (isDebrisSet == false)
+    {
+        for (int i = 0; i < Sparks.size(); i++)
+        {
+            float X = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+
+            Sparks[i]->SetPosition(WeaponRender->GetPosition() + float4{ X,Y });
+            Sparks[i]->ChangeAnimation("Spark");
+            Sparks[i]->On();
+
+            float4 Dir = float4{ X,Y };
+            Dir.Normalize();
+
+            SparksDir.push_back(Dir);
+        }
+
+        for (int i = 0; i < Smokes.size(); i++)
+        {
+            float X = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+            float Y = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+
+            Smokes[i]->SetPosition(WeaponRender->GetPosition() + float4{ X,Y });
+            Smokes[i]->ChangeAnimation("Smoke");
+            Smokes[i]->On();
+
+            float4 Dir = float4{ X,Y };
+            Dir.Normalize();
+
+            SmokesDir.push_back(Dir);
+        }
+
+        isDebrisSet = true;
+
+    }
+    else
+    {
+        for (int i = 0; i < Sparks.size(); i++)
+        {
+            Sparks[i]->SetMove(SparksDir[i] * 150.0f * _DeltaTime + float4{ 0, DebrisGravity } *_DeltaTime);
+        }
+
+        DebrisGravity += 250.0f * _DeltaTime;
+
+        for (int i = 0; i < Smokes.size(); i++)
+        {
+            //Smokes[i]->SetMove(SmokesDir[i] * 25.0f * _DeltaTime);
+            if (Smokes[i]->IsAnimationEnd() == true)
+            {
+                Smokes[i]->Off();
+            }
+        }
+    }
+}
+
+void HomingMissile::DebrisInit()
+{
+    for (int i = 0; i < 9; i++)
+    {
+        GameEngineRender* Smoke = CreateRender("Smoke100.bmp", WormsRenderOrder::Weapon);
+        Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "Smoke100.bmp", .Start = 0, .End = 27, .InterTime = 0.03f , .Loop = false });
+        Smoke->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Smoke100.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
+        Smoke->SetScale({ 134, 134 });
+        Smoke->Off();
+
+        Smokes.push_back(Smoke);
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
+        Spark->SetScale({ 60, 60 });
+        Spark->Off();
+
+        Sparks.push_back(Spark);
     }
 }

@@ -37,6 +37,9 @@ private:
     void ChargingRenderOn();
     void ChargingRenderOff();
 
+    void DebrisInit();
+    void DebrisAnimation(float _DeltaTime);
+
     bool isTimeSet = false;
     bool isHoming = false;
     bool isHomingSet = false;
@@ -58,6 +61,18 @@ private:
 
     GameEngineRender* Marker = nullptr;
 
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
+
+    std::vector<GameEngineRender*> Sparks;
+    std::vector<GameEngineRender*> Smokes;
+
+    std::vector<float4> SparksDir;
+    std::vector<float4> SmokesDir;
+
+    bool isDebrisSet = false;
+    float DebrisGravity = false;
 
     std::vector<GameEngineRender*> ChargingRender;
     int CountingIndex = 0;

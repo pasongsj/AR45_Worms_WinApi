@@ -32,14 +32,14 @@ void Player::CreateAnimation()
 
     //바주카                            
     {  
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazAim", .ImageName = "bazAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazAim", .ImageName = "bazAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazookaAim", .ImageName = "bazAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazookaAim", .ImageName = "bazAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazOff", .ImageName = "bazOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazOff", .ImageName = "bazOffRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazookaOff", .ImageName = "bazOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazookaOff", .ImageName = "bazOffRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazOn", .ImageName = "bazOnLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazOn", .ImageName = "bazOnRight.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_bazookaOn", .ImageName = "bazOnLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_bazookaOn", .ImageName = "bazOnRight.bmp", .Start = 0, .End = 7, .InterTime = 0.05f, .Loop = false });
     }
 
     //양

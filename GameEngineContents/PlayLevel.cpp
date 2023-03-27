@@ -109,6 +109,7 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* bazookaRot = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("bazookaRot.bmp"));
 
 		GameEngineImage* Airplane = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Airplane.bmp"));
+		GameEngineImage* AirplaneRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AirplaneRight.bmp"));
 
 
 		GameEngineImage* sheepWalkRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("sheepWalkRight.bmp"));
@@ -714,9 +715,10 @@ void PlayLevel::Loading()
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
         TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
     }
+
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponSheep>();
-	//CreateActor<WeaponAirStrike>();
+	CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();
 	//CreateActor<WeaponTorch>();
 }
