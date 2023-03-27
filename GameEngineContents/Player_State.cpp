@@ -201,7 +201,7 @@ void Player::IdleUpdate(float _DeltatTime)
 		}
 	}
 
-    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 2.0f && false == CurWeapon->IsWeaponDone())
+    if (CurWeapon != nullptr && true == IsMyTurn && StateCalTime >= 1.0f && false == CurWeapon->IsWeaponDone())
     {
         ChangeState(PlayerState::EQUIPWEAPON);
         return;
