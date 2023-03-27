@@ -23,7 +23,11 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
+    int Blue = RGB(0, 0, 255);
+    int Magenta = RGB(255, 0, 255);
 
+    GameEngineRender* MapObjRender = nullptr;               //object Render
+    GameEngineCollision* MapObjCol = nullptr;				//Map Object Collision
 
 };
 

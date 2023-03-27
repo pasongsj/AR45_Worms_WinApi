@@ -61,6 +61,12 @@ void Map::Start()
         GameEngineInput::CreateKey("DebugMode", '9');
     }
 
+    //맵 오브젝트용 키 입력 생성
+    if (false == GameEngineInput::IsKey("LandHole"))
+    {
+        GameEngineInput::CreateKey("ItemButton", 'I');
+    }
+
     //마우스 좌측 키 입력 생성
     if (false == GameEngineInput::IsKey("LandHole"))
     {
@@ -186,6 +192,12 @@ void Map::Update(float _DeltaTime)
 		return;
 	}
 
+    if (true == GameEngineInput::IsDown("ItemButton"))
+    {
+        MapObject* Object = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+
+        return;
+    }
   
 
 	if (true == FreeMoveState(_DeltaTime))

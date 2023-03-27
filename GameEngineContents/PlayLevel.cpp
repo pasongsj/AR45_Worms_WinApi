@@ -101,7 +101,22 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ScatterLeaf.bmp"));
 		Image->Cut(5, 3);
 	}
-	Dir.MoveParent();
+    Dir.MoveParent();
+    ////ItemImage
+    //{
+    //    Dir.Move("Item");
+    //    {
+
+    //        GameEngineImage* Medikit = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("mcrate1.bmp"));
+    //        Medikit->Cut(1, 12);
+
+    //        GameEngineImage* FlyingMedikit = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("mcrate2.bmp"));
+    //        FlyingMedikit->Cut(1, 20);
+    //    }
+
+    //    Dir.MoveParent();
+    //}
+
 	{
 		Dir.Move("Weapon");
 
@@ -531,11 +546,9 @@ void PlayLevel::ImageLoad()
         {
             GameEngineImage* TimeUI = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("TimerWindowY.bmp"));
         }
-
-
-
 	}
 	
+
 }
 
 void PlayLevel::KeyLoad()

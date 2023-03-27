@@ -34,9 +34,6 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-
-	int White	    = RGB(255, 255, 255);
-	int Red		    = RGB(255, 0, 0);
 	int Blue	    = RGB(0, 0, 255);
 	int Magenta     = RGB(255, 0, 255);
 	int LineColor	= RGB(165, 184, 223);
