@@ -141,7 +141,7 @@ void MainTitleBack::Update(float _DeltaTime)
             MouseSelect->SetPosition({ 900,400 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
-            int a = 0;
+            
         }
     }
     if (nullptr != netCollision)
