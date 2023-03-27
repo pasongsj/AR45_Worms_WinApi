@@ -197,70 +197,11 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 	float4 CenterPos = _Pos;						                                        //체크 시작점: 원의 중점
 
     //360도로 변경해야 함
-	for (; Angle < 90.0f; ++Angle)
+	for (; Angle < 360.0f; ++Angle)
 	{
 		float4 CheckPos = { 0.0f, -Radius };		                                        //원점에서 반지름만큼 올라간 점, 각도가 변하기 전 원래 값으로 초기화
 		CheckPos.RotaitonZDeg(Angle);				                                        //회전변환 적용
 		CheckPos += CenterPos;						                                        //회전시킨 후 위치 변화
-
-
-        float4 CheckPos1 = {Radius,  0.0f };		                                        //90에서 시작                                      
-        CheckPos1.RotaitonZDeg(Angle);				
-        CheckPos1 += CenterPos;
-
-        float4 CheckPos2 = { 0.0f, Radius };                                               //180도에서 시작
-        CheckPos2.RotaitonZDeg(Angle);
-        CheckPos2 += CenterPos;
-
-        float4 CheckPos3 = { -Radius, 0.0f };                                               //270도에서 시작
-        CheckPos3.RotaitonZDeg(Angle);
-        CheckPos3 += CenterPos;
-
-
-      //  {
-		    //////충돌맵의 파란색 부분과 깎이는 부분의 원 둘레가 닿으면 색칠
-      //      DWORD color = ColImage->GetPixelColor(CheckPos, Magenta);
-
-      //      //문제점 262 ~279도->Magenta로 확인
-      //      int R = GetRValue(color);
-      //      int G = GetGValue(color);
-      //      int B = GetBValue(color);
-
-      //      int a = 10;
-      //  }
-
-      //  {
-      //      DWORD color = ColImage->GetPixelColor(CheckPos1, Magenta);
-
-      //      //문제점 262 ~279도->Magenta로 확인
-      //      int R = GetRValue(color);
-      //      int G = GetGValue(color);
-      //      int B = GetBValue(color);
-
-      //      int a = 10;
-      //  }
-
-      //  {
-      //      DWORD color = ColImage->GetPixelColor(CheckPos2, Magenta);
-
-      //      //문제점 262 ~279도->Magenta로 확인
-      //      int R = GetRValue(color);
-      //      int G = GetGValue(color);
-      //      int B = GetBValue(color);
-
-      //      int a = 10;
-      //  }
-      //  {
-      //      DWORD color = ColImage->GetPixelColor(CheckPos3, Magenta);
-
-      //      //문제점 262 ~279도->Magenta로 확인
-      //      int R = GetRValue(color);
-      //      int G = GetGValue(color);
-      //      int B = GetBValue(color);
-
-      //      int a = 10;
-      //  }
-
 
 		if (Blue == ColImage->GetPixelColor(CheckPos, Magenta))
 		{
@@ -288,98 +229,6 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 				DeleteObject(MyPen);
 			}		
 		}
-
-        if (Blue == ColImage->GetPixelColor(CheckPos1, Magenta))
-        {
-            //Map에 그림
-            {
-                //선에 대한 팬 생성
-                //PS_SOLID: 실선
-                HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
-                HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
-
-                HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
-                HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
-
-                Ellipse(MapDc,
-                    CheckPos1.ix() - lineThick,
-                    CheckPos1.iy() - lineThick,
-                    CheckPos1.ix() + lineThick,
-                    CheckPos1.iy() + lineThick);
-
-
-                SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
-                DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
-
-                SelectObject(MapDc, OldPen);
-                DeleteObject(MyPen);
-            }
-        }
-
-        if (Blue == ColImage->GetPixelColor(CheckPos2, Magenta))
-        {
-            //Map에 그림
-            {
-                //선에 대한 팬 생성
-                //PS_SOLID: 실선
-                HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
-                HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
-
-                HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
-                HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
-
-                Ellipse(MapDc,
-                    CheckPos2.ix() - lineThick,
-                    CheckPos2.iy() - lineThick,
-                    CheckPos2.ix() + lineThick,
-                    CheckPos2.iy() + lineThick);
-
-
-                SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
-                DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
-
-                SelectObject(MapDc, OldPen);
-                DeleteObject(MyPen);
-            }
-        }
-
-
-        if (Blue == ColImage->GetPixelColor(CheckPos3, Magenta))
-        {
-            //Map에 그림
-            {
-                //선에 대한 팬 생성
-                //PS_SOLID: 실선
-                HPEN MyPen = CreatePen(PS_SOLID, lineThick, LineColor);
-                HPEN OldPen = (HPEN)SelectObject(MapDc, MyPen);
-
-                HBRUSH MyBrush = (HBRUSH)CreateSolidBrush(LineColor);                       //단색에 대한 논리적 브러쉬를 생성
-                HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                     //지정된 DC로 개체 선택
-
-                Ellipse(MapDc,
-                    CheckPos3.ix() - lineThick,
-                    CheckPos3.iy() - lineThick,
-                    CheckPos3.ix() + lineThick,
-                    CheckPos3.iy() + lineThick);
-
-
-                SelectObject(MapDc, OldBrush);                                              //다시 기존 브러쉬 선택
-                DeleteObject(MyBrush);                                                      //생성한 브러쉬 삭제
-
-                SelectObject(MapDc, OldPen);
-                DeleteObject(MyPen);
-            }
-        }
-
-
-        /*else
-        {
-            Rectangle(MapDc,
-                CheckPos.ix() - 1,
-                CheckPos.iy() - 1,
-                CheckPos.ix() + 1,
-                CheckPos.iy() + 1);
-        }*/
 	}
 }
 
