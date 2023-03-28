@@ -53,6 +53,16 @@ void Player::ChangeState(PlayerState _State)
         FacePlantStart();
         break;
     }
+    case PlayerState::FlyAway:
+    {
+        FlyAwayStart();
+        break;
+    }
+    case PlayerState::Sliding:
+    {
+        SlidingStart();
+        break;
+    }
 	default:
 		break;
 	}
@@ -97,6 +107,16 @@ void Player::ChangeState(PlayerState _State)
     case PlayerState::FacePlant:
     {
         FacePlantEnd();
+        break;
+    }
+    case PlayerState::FlyAway:
+    {
+        FlyAwayEnd();
+        break;
+    }
+    case PlayerState::Sliding:
+    {
+        SlidingEnd();
         break;
     }
 	default:
@@ -146,6 +166,16 @@ void Player::UpdateState(float _DeltaTime)
     case PlayerState::FacePlant:
     {
         FacePlantUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::FlyAway:
+    {
+        FlyAwayUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::Sliding:
+    {
+        SlidingUpdate(_DeltaTime);
         break;
     }
 	default:
@@ -483,15 +513,119 @@ void Player::FacePlantEnd()
 
 }
 
-//void Player::EquipWeaponStart()
-//{
-//    //현재 무기 애니메이션으로 변경
-//}
-//void Player::EquipWeaponUpdate(float _DeltatTime)
-//{
-//
-//}
-//void Player::EquipWeaponEnd()
-//{
-//    //장비한 무기 애니메이션용 각도 리셋
-//}
+
+void Player::FlyAwayStart()
+{
+    AnimationDir = DirString;
+
+    std::string AnimationName = "FlyAway";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+
+    StateCalTime = 0.0f;
+    StateCalTime2 = 0.0f;
+}
+
+void Player::FlyAwayUpdate(float _DeltatTime)
+{
+    if (StateCalTime >= 0.3f)
+    {
+        MoveDir *= 0.97f;
+        StateCalTime = 0.0f;
+    }
+
+    float testvalue = 0.5f;
+
+    if (StateCalTime2 > 0.1f)
+    {
+        if (true == UpPixelCheck)
+        {
+            MoveDir = { MoveDir.x , (-MoveDir.y) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == LeftPixelCheck && "Left_" == DirString)
+        {
+            DirString = "Right_";
+            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == RightPixelCheck && "Right_" == DirString)
+        {
+            DirString = "Left_";
+            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == LeftUpPixelCheck && "Left_" == DirString)
+        {
+            DirString = "Right_";
+            MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == RightUpPixelCheck && "Right_" == DirString)
+        {
+            DirString = "Left_";
+            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == RightDownPixelCheck && "Right_" == DirString)
+        {
+            DirString = "Left_";
+            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == LeftDownPixelCheck && "Left_" == DirString)
+        {
+            DirString = "Right_";
+            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+        else if (true == DownPixelCheck)
+        {
+            MoveDir = { (MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+            ChangeState(PlayerState::Sliding);
+            return;
+        }
+    }
+
+    StateCalTime += _DeltatTime;
+    StateCalTime2 += _DeltatTime;
+}
+
+void Player::FlyAwayEnd()
+{
+}
+
+void Player::SlidingStart()
+{
+    AnimationDir = DirString;
+
+    std::string AnimationName = "Slide";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+
+}
+
+void Player::SlidingUpdate(float _DeltatTime)
+{
+
+}
+
+void Player::SlidingEnd()
+{
+
+}

@@ -14,6 +14,11 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyUp", .ImageName = "FlyupLeft.bmp", .Start = 0, .End = 1, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyLink", .ImageName = "FlyLinkLeft.bmp", .Start = 0, .End = 6, .InterTime = 0.05f,  .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyDown", .ImageName = "FlydownLeft.bmp", .Start = 0, .End = 1, .InterTime = 0.05f });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FlyAway", .ImageName = "FlyAwayLeft.bmp", .Start = 0, .End = 31, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_Slide", .ImageName = "SlideLeft.bmp", .Start = 0, .End = 2, .InterTime = 0.05f });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_StandUp", .ImageName = "StandUpLeft.bmp", .Start = 0, .End = 21, .InterTime = 0.05f });
+
         AnimationRender->CreateAnimation({ .AnimationName = "Left_Die", .ImageName = "DieLeft.bmp", .Start = 0, .End = 59, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Left_Win", .ImageName = "WinLeft.bmp", .Start = 0, .End = 13, .InterTime = 0.05f });
     }
@@ -25,6 +30,11 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyUp", .ImageName = "FlyupRight.bmp", .Start = 0, .End = 1, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyLink", .ImageName = "FlyLinkRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f,  .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyDown", .ImageName = "FlydownRight.bmp", .Start = 0, .End = 1, .InterTime = 0.05f });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FlyAway", .ImageName = "FlyAwayRight.bmp", .Start = 0, .End = 31, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_Slide", .ImageName = "SlideRight.bmp", .Start = 0, .End = 2, .InterTime = 0.05f });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_StandUp", .ImageName = "StandUpRight.bmp", .Start = 0, .End = 21, .InterTime = 0.05f });
+
         AnimationRender->CreateAnimation({ .AnimationName = "Right_Die", .ImageName = "DieRight.bmp", .Start = 0, .End = 59, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_Win", .ImageName = "WinRight.bmp", .Start = 0, .End = 13, .InterTime = 0.05f });
     }

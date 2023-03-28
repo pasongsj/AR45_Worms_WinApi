@@ -94,7 +94,10 @@ void Player::Test()
 {
 	if (GameEngineInput::IsDown("TestButton") && IsMyTurn == true)
 	{
-		Damaged(100);
+        float4 TestDir = (float4::Up + float4::Right);
+        float Power = 500.0f;
+
+		Damaged(50, TestDir, Power);
         //ChangeState(PlayerState::Win);
 	}
 }
@@ -123,12 +126,30 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 		PlayerHP -= _Damage;
 		DamagedTime = 0.0f;
 		
-		PlayerGetDamagedUI* DamagedUI = GetLevel()->CreateActor<PlayerGetDamagedUI>();
-		DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, _Damage);
+        //이동방향을 설정
+        MoveDir = _Dir.NormalizeReturn() * _Power;
+        if (MoveDir.x > 0.0f)
+        {
+            DirString = "Right_";
+        }
+        else
+        {
+            DirString = "Left_";
+        }
 
-		float4 DamagedUIPos = { HPUI->GetPos().x, HPUI->GetPos().y - 20.0f };
-		DamagedUI->SetPos(DamagedUIPos);
+        ChangeState(PlayerState::FlyAway);
+
+        DisplayDamageUI(_Damage);
 	}
+}
+
+void Player::DisplayDamageUI(float _Damage)
+{
+    PlayerGetDamagedUI* DamagedUI = GetLevel()->CreateActor<PlayerGetDamagedUI>();
+    DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, _Damage);
+
+    float4 DamagedUIPos = { HPUI->GetPos().x, HPUI->GetPos().y - 20.0f };
+    DamagedUI->SetPos(DamagedUIPos);
 }
 
 void Player::CheckTurn()
@@ -185,8 +206,11 @@ void Player::GravityApplied(float _DeltaTime)
 void Player::MoveCalculation(float _DeltaTime)
 {
 	float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
-	NextPos = PullUpCharacter(NextPos, _DeltaTime);
-
+    
+    if (PlayerState::FlyAway != StateValue)
+    {
+        NextPos = PullUpCharacter(NextPos, _DeltaTime);
+    }
 	SetMoveAngle();
 
     if (true == IsGround)
@@ -227,6 +251,8 @@ void Player::PlayerPixelCheck()
     float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
     float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
     float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
+    float4 PlayerLeftDownPixel = { GetPos().x - 10, GetPos().y + 1 };
+    float4 PlayerRightDownPixel = { GetPos().x + 10, GetPos().y + 1 };
 
     if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
     {
@@ -281,6 +307,25 @@ void Player::PlayerPixelCheck()
     {
         RightUpPixelCheck = false;
     }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftDownPixel, RGB(0, 0, 0)))
+    {
+        LeftDownPixelCheck = true;
+    }
+    else
+    {
+        LeftDownPixelCheck = false;
+    }
+
+    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightDownPixel, RGB(0, 0, 0)))
+    {
+        RightDownPixelCheck = true;
+    }
+    else
+    {
+        RightDownPixelCheck = false;
+    }
+
 }
 
 void Player::SetMoveAngle()
@@ -375,31 +420,6 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 void Player::DirCheck(const std::string_view& _AnimationName, int _CurIndex)
 {
-	//std::string PrevDirString = DirString;
-
- //   if (PlayerState::EQUIPWEAPON == StateValue)
- //   {
- //       AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
- //   }
- //   else
- //   {
- //       AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
- //   }
-
-	//if (GameEngineInput::IsPress("MoveLeft"))
-	//{
-	//	DirString = "Left_";
-	//}
-	//else if (GameEngineInput::IsPress("MoveRight"))
-	//{
-	//	DirString = "Right_";
-	//}
-
-	//if (PrevDirString != DirString)
-	//{
-	//	AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
-	//}
-
     std::string PrevDirString = DirString;
 
     if (PlayerState::EQUIPWEAPON == StateValue)

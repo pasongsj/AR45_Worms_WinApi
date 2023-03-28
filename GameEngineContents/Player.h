@@ -15,12 +15,13 @@ enum class PlayerState
     Win,
 
     FlyDown,
-    //구현예정
     FacePlant,
 
     FlyAway,
-    Sliding,
 
+    //구현예정
+    Sliding,
+    StandUp,
 };
 
 enum class PlayerAngleDir
@@ -72,6 +73,7 @@ public:
         return PlayerHP;
     }
 
+    void DisplayDamageUI(float _Damage); //데미지 UI를 띄우는 함수
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
 	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0); //플레이어 애니메이션 변경
 	void SetPlayerAnimationFrame(int _Frame); // 조준 상태일 때 프레임을 고정
@@ -175,6 +177,8 @@ private:
     bool DownPixelCheck = false;
     bool LeftUpPixelCheck = false;
     bool RightUpPixelCheck = false;
+    bool LeftDownPixelCheck = false;
+    bool RightDownPixelCheck = false;
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
@@ -193,6 +197,7 @@ private:
 	void UpdateState(float _Time);
 
     float StateCalTime = 0.0f; //스테이트 내에서 시간 계산이 필요할 때
+    float StateCalTime2 = 0.0f;
     bool StateCalBool = true;
     bool StateCalBool2 = true;
 
@@ -231,6 +236,14 @@ private:
     void FacePlantStart();
     void FacePlantUpdate(float _DeltatTime);
     void FacePlantEnd();
+
+    void FlyAwayStart();
+    void FlyAwayUpdate(float _DeltatTime);
+    void FlyAwayEnd();
+
+    void SlidingStart();
+    void SlidingUpdate(float _DeltatTime);
+    void SlidingEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
