@@ -104,17 +104,17 @@ void PlayLevel::ImageLoad()
     Dir.MoveParent();
     ////ItemImage
     //{
-    //    Dir.Move("Item");
+    //    dir.move("item");
     //    {
 
-    //        GameEngineImage* Medikit = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("mcrate1.bmp"));
-    //        Medikit->Cut(1, 12);
+    //        gameengineimage* medikit = gameengineresources::getinst().imageload(interface.getplusfilename("mcrate1.bmp"));
+    //        medikit->cut(1, 12);
 
-    //        GameEngineImage* FlyingMedikit = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("mcrate2.bmp"));
-    //        FlyingMedikit->Cut(1, 20);
+    //        gameengineimage* flyingmedikit = gameengineresources::getinst().imageload(interface.getplusfilename("mcrate2.bmp"));
+    //        flyingmedikit->cut(1, 20);
     //    }
 
-    //    Dir.MoveParent();
+    //    dir.moveparent();
     //}
 
 	{

@@ -37,6 +37,11 @@ void MapModifier::Update(float _DeltaTime)
 	
 }
 
+void MapModifier::SetModifierColScale(float4 _Scale)
+{
+    ModifierCollision->SetScale(_Scale);
+}
+
 
 void MapModifier::CreateHole(float4 _Pos, int _Radius)
 {

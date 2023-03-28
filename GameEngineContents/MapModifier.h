@@ -28,6 +28,8 @@ public:
 	{
 		return ModifierCollision;
 	}
+
+    void SetModifierColScale(float4 _Scale);
 	
 protected:
 	void Start() override;
