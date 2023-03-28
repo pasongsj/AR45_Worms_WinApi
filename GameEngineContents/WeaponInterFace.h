@@ -33,6 +33,26 @@ private:
 	GameEngineRender* cluster = nullptr;
 	GameEngineRender* grenade = nullptr;
 	GameEngineRender* shotgun = nullptr;
+    GameEngineRender* HomingMissileUI = nullptr;
+    GameEngineRender* HandgunUI = nullptr;
+    GameEngineRender* UziUI = nullptr;
+    GameEngineRender* MinigunUI = nullptr;
+    GameEngineRender* SheepUI = nullptr;
+    GameEngineRender* AirStrikeUI = nullptr;
+    GameEngineRender* TorchUI = nullptr;
+
+    Button* Bazooka = nullptr;
+    Button* HomingMissile = nullptr;
+    Button* Grenade = nullptr;
+    Button* ClusterBomb = nullptr;
+    Button* Shotgun = nullptr;
+    Button* Handgun = nullptr;
+    Button* Uzi = nullptr;
+    Button* Minigun = nullptr;
+    Button* Sheep = nullptr;
+    Button* AirStrike = nullptr;
+    Button* Torch = nullptr;
+  
 
 
 

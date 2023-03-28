@@ -91,7 +91,10 @@ public:
 	{
 		return PressIndex;
 	}
-
+    bool GetTest()
+    {
+        return test;
+    }
 	void SetCollisionOrder(int _Order);
 
 	float4 GetScale() 
@@ -119,6 +122,7 @@ private:
 	CollisionType ButtonCollisionType = CollisionType::CT_Rect;
 	void(*ClickPtr)(Button* _Btn) = nullptr;
     void(*ClickPtrEnum)(Button* _Btn,int _Enum) = nullptr;
+    bool test = false;
 
     int iEnum = 0;
 	float4 Scale;
