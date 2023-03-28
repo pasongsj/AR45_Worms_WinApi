@@ -159,6 +159,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Cusor.cpp" />
+    <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="HomingMissile.cpp">
       <SubType>
       </SubType>

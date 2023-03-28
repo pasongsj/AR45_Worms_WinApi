@@ -4,6 +4,7 @@
 #include "ContentsEnums.h"
 #include "PlayLevel.h"
 #include "GlobalValue.h"
+#include "Player.h"
 
 TurnTimeUI::TurnTimeUI() 
 {

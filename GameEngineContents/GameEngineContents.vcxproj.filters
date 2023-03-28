@@ -249,6 +249,7 @@
     <ClCompile Include="SmokeSparkEffect.cpp">
       <Filter>Weapon\F3</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

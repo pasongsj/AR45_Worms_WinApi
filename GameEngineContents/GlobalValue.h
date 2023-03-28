@@ -1,7 +1,9 @@
 #pragma once
+#include <vector>
 
 class Player;
 class PlayLevel;
+
 class GlobalValue
 {
 public:
@@ -55,6 +57,13 @@ public:
     void SetPlayLevel(PlayLevel* _pPlayLevel)
     {
         pPlayLevel = _pPlayLevel;
+    }
+
+    void SetWeapon(int _Value);
+
+    void SetWeapon(enum class WeaponNum _Value)
+    {
+        SetWeapon(static_cast<int>(_Value));
     }
 
 private:
