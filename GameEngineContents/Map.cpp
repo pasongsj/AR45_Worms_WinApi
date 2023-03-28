@@ -169,7 +169,7 @@ void Map::Start()
     //모두 하나의 맵에 적용됨(Map이 static)
     if (LevelName == GetLevel()->GetName())
     {
-        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 8);
+        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 6);
         for (int i = 0; i < NumOfObj; i++)
         {
             MapDecoration* Deco = GetLevel()->CreateActor<MapDecoration>(WormsRenderOrder::Map);
@@ -195,6 +195,8 @@ void Map::Update(float _DeltaTime)
     if (true == GameEngineInput::IsDown("ItemButton"))
     {
         MapObject* Object = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+        Object->SetPos(Object->GetMapObjPos());
+        
 
         return;
     }

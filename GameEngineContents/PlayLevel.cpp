@@ -103,20 +103,20 @@ void PlayLevel::ImageLoad()
 		Image->Cut(5, 3);
 	}
     Dir.MoveParent();
-    ////ItemImage
-    //{
-    //    dir.move("item");
-    //    {
+    //ItemImage
+    {
+        Dir.Move("item");
+        {
 
-    //        gameengineimage* medikit = gameengineresources::getinst().imageload(interface.getplusfilename("mcrate1.bmp"));
-    //        medikit->cut(1, 12);
+            GameEngineImage* Medikit = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("mcrate1.bmp"));
+            Medikit->Cut(1, 12);
 
-    //        gameengineimage* flyingmedikit = gameengineresources::getinst().imageload(interface.getplusfilename("mcrate2.bmp"));
-    //        flyingmedikit->cut(1, 20);
-    //    }
+            GameEngineImage* FlyingMedikit = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("mcrate2.bmp"));
+            FlyingMedikit->Cut(1, 20);
+        }
 
-    //    dir.moveparent();
-    //}
+        Dir.MoveParent();
+    }
 
 	{
 		Dir.Move("Weapon");
@@ -781,14 +781,14 @@ void PlayLevel::Loading()
 	/*{
 		WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
 	}*/
-    {
-        Map* Actor = CreateActor<Map>();
-    }
+ //   {
+ //       Map* Actor = CreateActor<Map>();
+ //   }
 
 
-	{
-		MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
-	}
+	//{
+	//	MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
+	//}
 	
 
     //{
@@ -841,6 +841,12 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    {
+        Map* Actor = CreateActor<Map>();
+    }
+    {
+        MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
+    }
     {
         ScreenSize = GameEngineWindow::GetScreenSize();
 

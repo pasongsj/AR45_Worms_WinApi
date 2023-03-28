@@ -59,6 +59,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		return;
 	}
 
+
 	HDC MapDc = Map::MainMap->GetMapDC();
 	HDC ColMapDc = Map::MainMap->GetColMapDC();
 
