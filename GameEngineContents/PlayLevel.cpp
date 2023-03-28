@@ -539,6 +539,10 @@ void PlayLevel::ImageLoad()
             {
                 GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("uziUI.bmp"));
             }
+            {
+                GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("X.bmp"));
+            }
+
 		}
 
 

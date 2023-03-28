@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <vector>
 #include <GameEngineCore/Button.h>
+#include <GameEngineCore/NumberRenderObject.h>
 class WeaponInterFace : public GameEngineActor
 {
 public:
@@ -16,7 +17,7 @@ public:
 	WeaponInterFace(WeaponInterFace&& _Other) noexcept = delete;
 	WeaponInterFace& operator=(const WeaponInterFace& _Other) = delete;
 	WeaponInterFace& operator=(WeaponInterFace&& _Other) noexcept = delete;
-	
+    void NumberManager();
 	
 	
 protected:
@@ -40,6 +41,7 @@ private:
     GameEngineRender* SheepUI = nullptr;
     GameEngineRender* AirStrikeUI = nullptr;
     GameEngineRender* TorchUI = nullptr;
+    GameEngineRender* X = nullptr;
 
     Button* Bazooka = nullptr;
     Button* HomingMissile = nullptr;
@@ -53,6 +55,28 @@ private:
     Button* AirStrike = nullptr;
     Button* Torch = nullptr;
   
+    NumberRenderObject HomingMissileNumber;
+    NumberRenderObject GrenadeNummber;
+    NumberRenderObject ClusterBombNumber;
+    NumberRenderObject ShotgunNumber;
+    NumberRenderObject HandgunNumber;
+    NumberRenderObject UziNummber;
+    NumberRenderObject MinigunNumber;
+    NumberRenderObject SheepNumber;
+    NumberRenderObject AirStrikeNumber;
+    NumberRenderObject TorchNumber;
+
+    int HomingMissileCount = 3;
+    int GrenadeCount = 3;
+    int ClusterBombCount = 3;
+    int ShotgunCount = 3;
+    int HandgunCount = 3;
+    int UziCountCount = 3;
+    int MinigunCount = 3;
+    int SheepCount = 3;
+    int AirStrikeCount = 3;
+    int TorchCount = 3;
+
 
 
 

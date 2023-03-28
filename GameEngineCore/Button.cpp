@@ -48,7 +48,7 @@ void Button::SetCollisionOrder(int _Order)
 void Button::Update(float _DeltaTime)
 {
     test = false;
-
+    Hover = false;
 
 	State = ButtonState::Release;
 
@@ -106,13 +106,11 @@ void Button::Update(float _DeltaTime)
 	case ButtonState::Hover:
 
 	{
+        Hover = true;
 		float4 MousePoisition = GameEngineWindow::GetMousePosition();
 		float4 ActorPos = ButtonCollision->GetActorPlusPos();
 
-		if (true == ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
-		{
-
-		}
+		
 
 		CurImageName = HoverImageName;
 		ButtonRender->SetImage(HoverImageName);
