@@ -2,6 +2,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/NumberRenderObject.h>
 
+#include "ContentsEnums.h"
+
 enum class PlayerState
 {
 	IDLE,
@@ -58,10 +60,7 @@ public:
 		return IsMyTurn;
 	}
 
-	void SetCurWeapon(Weapon* _Weapon)
-	{
-		CurWeapon = _Weapon;
-	}
+    void SetCurWeapon(Weapon* _Weapon);
 
 	Weapon* GetCurWeapon()
 	{
@@ -112,6 +111,11 @@ public:
 	//플레이어 UI의 이미지들을 특정지어주는 메서드
 	void SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage);
 
+    std::vector<int> GetPlayerWeaponCount()
+    {
+        return WeaponCount;
+    }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -135,6 +139,7 @@ private:
     bool IsMyTurn = false; //내 턴인지 체크
 
     Weapon* CurWeapon = nullptr; //현재 무기
+    WeaponNum CurWeaponNum = WeaponNum::None;
 
     void PlayerDead(); //플레이어 죽은 이후 실행하는 함수
     void SetGraveObject(const std::string_view& _GraveImage);
@@ -179,6 +184,9 @@ private:
 	float4 PullUpCharacter(float4 _NextPos, float _DeltaTime); //플레이어가 colimage상 아래로 들어가 있다면,MoveDir을 위로 끌어올림
 
 	GameEngineImage* ColImage = nullptr; //이동 등에 사용될 colimage
+
+    void SetWeaponCount();
+    std::vector<int> WeaponCount;
 
 	//플레이어 스테이트 관련	
 	void ChangeState(PlayerState _State);

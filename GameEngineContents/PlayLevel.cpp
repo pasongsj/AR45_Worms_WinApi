@@ -840,7 +840,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
     }
     
     //CreateActor<WeaponAirStrike>();
-    CreateActor<HomingMissile>();
+    //CreateActor<HomingMissile>();
     //CreateActor<WeaponSheep>();
     //CreateActor<WeaponBazooka>();
     //CreateActor<WeaponTorch>();

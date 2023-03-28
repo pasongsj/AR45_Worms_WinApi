@@ -9,7 +9,9 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineBase/GameEngineDebug.h>
 
+#include "GlobalValue.h"
 #include "PlayerHPUI.h"
 #include "PlayerGetDamagedUI.h"
 #include "ContentsEnums.h"
@@ -51,6 +53,8 @@ void Player::Start()
 
     PlayerGraveImageStringView = "Grave5.bmp";
 
+    SetWeaponCount();
+
 	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
 	ChangeState(PlayerState::IDLE);
 }
@@ -67,6 +71,18 @@ void Player::SetIsMyTurn(bool _Value)
 {
 	IsMyTurn = _Value;
 	HPUI->SetSelectPlayerRender(_Value);
+
+    if (WeaponNum::None == CurWeaponNum)
+    {
+        return;
+    }
+
+    //본인 턴이고, CurWeapon의 개수가 0이 아니라면 생성함
+    if (true == _Value && WeaponCount[static_cast<int>(CurWeaponNum)] != 0)
+    {
+        StateCalTime = 0.0f; //플레이어 아이들 애니메이션에서 특정 시간 있다가 무기를 들게끔
+        GlobalValue::gValue.SetWeapon(CurWeaponNum);
+    }
 }
 
 void Player::SetColImage(const std::string_view& _Name)
@@ -126,6 +142,18 @@ void Player::CheckTurn()
     {
         SetIsMyTurn(false);
         SetCanIMove(true);
+
+        int CurWeaponNumber = CurWeapon->GetWeaponNumber();
+
+        if (0 == WeaponCount[CurWeaponNumber])
+        {
+            MsgAssert("방금 개수가 0인 무기를 사용했습니다");
+        }
+        else if (0 < WeaponCount[CurWeaponNumber])
+        {
+            WeaponCount[CurWeaponNumber] -= 1;
+        }
+
         CurWeapon->Death();
         CurWeapon = nullptr;
     }
@@ -560,4 +588,49 @@ void Player::SetGraveObject(const std::string_view& _GraveImage)
 bool Player::IsPlayerAnimationEnd()
 {
 	return AnimationRender->IsAnimationEnd();
+}
+
+//enum class WeaponNum
+//{
+//    None,				//무기없음
+//    Bazooka,			//F1
+//    HomingMissile,      //F1
+//    Grenade,			//F2
+//    ClusterBomb,
+//    Shotgun,			//F3
+//    Handgun,
+//    Uzi,
+//    Minigun,
+//    Sheep,				//F5
+//    AirStrike,			//F6
+//    Torch,              //F7
+//    Drill,              //F7
+//    WeaponCount        //Enum 개수 확인하기위한 Count (마지막에 있어야 함)
+//};
+
+
+void Player::SetCurWeapon(Weapon* _Weapon)
+{
+    CurWeapon = _Weapon;
+    CurWeaponNum = static_cast<WeaponNum>(_Weapon->GetWeaponNumber());
+}
+
+// -1 : 무제한, 0 : 없음, 나머지 개수 
+void Player::SetWeaponCount()
+{
+    WeaponCount.reserve(static_cast<size_t>(WeaponNum::WeaponCount));
+
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
+    WeaponCount.push_back(-1);
 }
