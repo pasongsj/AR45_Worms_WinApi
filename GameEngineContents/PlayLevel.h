@@ -34,6 +34,8 @@ public:
     {
        return LevelSet;
     }
+
+    void GameSetCheck();
 	
 protected:
 	void Loading() override;
@@ -49,7 +51,7 @@ private:
 
 
 	bool bCamMove = false;
-	bool UI = false;
+    std::vector<bool> vecTurnEnd;
 	float4 PrevCamPos = float4::Zero;
 	float4 CurPlayerPos = float4::Zero;
 	float4 LerpCamPos = float4::Zero;

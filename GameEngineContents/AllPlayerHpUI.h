@@ -32,6 +32,7 @@ protected:
 private:
     std::vector<int> vecMixNum;
     std::vector<GameEngineRender*> vecPlayerHpBar;
+    std::vector<GameEngineRender*> vecPlayerName;
     std::vector<int> vecPlayerCurHp;
     std::vector<float4> vecLastPos;
     float4 StartPos = { 640.f,850.f };

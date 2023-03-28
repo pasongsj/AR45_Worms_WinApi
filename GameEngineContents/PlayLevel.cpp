@@ -646,13 +646,34 @@ void PlayLevel::PlayerChange(float _DeltaTime)
     if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() ||GameEngineInput::IsDown("ChangePlayer"))
     {       
         //벡터 인덱스 증가
-        ++iPlayerNumber;
+        ++iPlayerNumber;        
 
         //초과시 0
         if (vecAllPlayer.size() == iPlayerNumber)
         {
             iPlayerNumber = 0;
         }
+
+        if (false == vecAllPlayer[iPlayerNumber]->IsUpdate())
+        {
+            PlayerChange(_DeltaTime);
+            return;
+        }
+        //while (false == vecAllPlayer[iPlayerNumber]->IsUpdate())
+        //{
+        //    ++iPlayerNumber;
+        //
+        //    if (vecAllPlayer.size() == iPlayerNumber)
+        //    {
+        //        iPlayerNumber = 0;
+        //    }
+        //}
+
+        //if (GlobalValue::gValue.GetPlayer() == vecAllPlayer[iPlayerNumber])
+        //{
+        //    MsgBox("게임 종료");
+        //    return;
+        //}
 
         //현재 플레이어의 턴 종료
         GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
@@ -726,6 +747,29 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 
 
 
+void PlayLevel::GameSetCheck()
+{
+    size_t iUpdatePlayer = vecAllPlayer.size();
+
+    for (size_t i = 0; i < vecAllPlayer.size(); i++)
+    {
+        if (false==vecAllPlayer[i]->IsUpdate())
+        {
+            --iUpdatePlayer;
+        }
+    }
+
+    if (1 == iUpdatePlayer)
+    {
+        int a = 0; // win
+    }
+    
+    else if (0 == iUpdatePlayer)
+    {
+        int a = 0; // draw
+    }
+}
+
 void PlayLevel::Loading()
 {
 	
@@ -786,7 +830,7 @@ void PlayLevel::Update(float _DeltaTime)
      
     //ChangePlayer 키가 눌렸을때
     
-    
+    GameSetCheck();
     PlayerChange(_DeltaTime);
     
    
@@ -803,11 +847,13 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         ScreenSize = GameEngineWindow::GetScreenSize();
 
         vecAllPlayer.reserve(LevelSet.iPlayerNum);
+        vecTurnEnd.reserve(LevelSet.iPlayerNum);
         for (size_t i = 0; i < vecAllPlayer.capacity(); i++)
         {
             int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
             vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
+            vecTurnEnd.push_back(false);
             vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
             vecAllPlayer[i]->SetHP(LevelSet.iPlayerHp);

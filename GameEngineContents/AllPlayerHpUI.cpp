@@ -43,30 +43,40 @@ void AllPlayerHpUI::Start()
     for (size_t i = 0; i < PlayerList.size(); i++)
     {
         vecPlayerHpBar.push_back(CreateRender(WormsRenderOrder::UI));
+        vecPlayerName.push_back(CreateRender(WormsRenderOrder::UI));
         vecPlayerCurHp.push_back(PlayerList[i]->GetPlayerHP());
 
         vecPlayerHpBar[i]->EffectCameraOff();
         vecPlayerHpBar[i]->SetPosition(rStartPos);
+
+        vecPlayerName[i]->EffectCameraOff();
+        vecPlayerName[i]->SetPosition(rStartPos + float4{ -38,0 });
         rStartPos.y += 17.f;
         switch (i)
         {
         case 0:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarR.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("RedNameTag.bmp");
             break;
         case 1:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarB.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("BlueNameTag.bmp");
             break;
         case 2:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarG.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("GreenNameTag.bmp");
             break;
         case 3:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarY.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("YellowNameTag.bmp");
             break;
         case 4:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarP.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("PinkNameTag.bmp");
             break;
         case 5:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarS.bmp");
+            vecPlayerName[i]->SetImageToScaleToImage("MintNameTag.bmp");
             break;
         default:
             break;
@@ -113,6 +123,12 @@ void AllPlayerHpUI::Update(float _DeltaTime)
                     GameEngineRender* pTemp = vecPlayerHpBar[j];
                     vecPlayerHpBar[j] = vecPlayerHpBar[j - 1];
                     vecPlayerHpBar[j - 1] = pTemp;
+                    
+
+                    pTemp = vecPlayerName[j];
+                    vecPlayerName[j] = vecPlayerName[j - 1];
+                    vecPlayerName[j - 1] = pTemp;
+
                 }
             }
         }
@@ -129,12 +145,16 @@ void AllPlayerHpUI::Update(float _DeltaTime)
         for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
         {
             float4 LerpCamPos = float4::Zero;
+            float4 LerpNamePos = float4::Zero;
 
             
             float fHpRatio = vecPlayerCurHp[i] / 100.f;
             float4 end = LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio);
-            vecPlayerHpBar[i]->SetPosition(LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio));
+            float4 NameEnd = LerpNamePos.LerpClamp(vecLastPos[i] + float4{ -38,0 }, float4{ rStartPos.x,rStartPos.y + (i * 17.f) } + float4{ -38,0 }, fLerpRatio);
+            vecPlayerHpBar[i]->SetPosition(end);
             vecPlayerHpBar[i]->SetScale({ 200 -(200*(1-fHpRatio)* fLerpRatio) ,17 });
+
+            vecPlayerName[i]->SetPosition(NameEnd);
         }
 
         if (fLerpRatio>=1.f)
