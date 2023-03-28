@@ -124,7 +124,8 @@ void Player::CheckTurn()
 
     if (true == CurWeapon->IsWeaponDone())
     {
-        IsMyTurn = false;
+        SetIsMyTurn(false);
+        SetCanIMove(true);
         CurWeapon->Death();
         CurWeapon = nullptr;
     }
