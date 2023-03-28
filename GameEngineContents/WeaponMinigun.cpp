@@ -6,6 +6,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include "MapModifier.h"
 #include "Player.h"
+#include "SmokeSparkEffect.h"
 
 WeaponMinigun::WeaponMinigun()
 {
@@ -174,6 +175,10 @@ void WeaponMinigun::Firing(float _DeltaTime)
                         CurPlayer->ChangePlayerAnimation("Idle");
                         isIsFireAnimationDone = true;
                     }
+                    SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
+                    Smoke->SetPos(MinigunCollision[i]->GetActorPlusPos());
+                    Smoke->CreateSmokeSpark(6, 2, BombScale);
+
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();										  // 1. Bomb 콜리전 가져오기
 					BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());													  // 2. Bomb 콜리전 이동
 

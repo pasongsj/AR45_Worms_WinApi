@@ -8,6 +8,7 @@
 
 #include "MapModifier.h"
 #include "Player.h"
+#include "SmokeSparkEffect.h"
 
 WeaponShotgun::WeaponShotgun()
 {
@@ -169,6 +170,10 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
 			if (true == WeaponShotgun::CheckCollision(ShotGunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 			{
+                SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
+                Smoke->SetPos(ShotGunCollision[i]->GetActorPlusPos());
+                Smoke->CreateSmokeSpark(6, 2, BombScale);
+
 				GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();				// 1. Bomb 콜리전 가져오기
 				BombCollision->SetPosition(GetPos() + ShotGunCollision[i]->GetPosition());							// 2. Bomb 콜리전 이동
 

@@ -182,7 +182,7 @@ void WeaponHandgun::Firing(float _DeltaTime)
 				{
                     SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                     Smoke->SetPos(HandgunCollision[i]->GetActorPlusPos());
-                    Smoke->CreateSmokeSpark(6, 1, BombScale);
+                    Smoke->CreateSmokeSpark(6, 2, BombScale);
 
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
 					BombCollision->SetPosition(GetPos() + HandgunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동

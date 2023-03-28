@@ -44,12 +44,12 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, int _Scale)
     for (int i = 0;i < SparkCnt;i++)
     {
         GameEngineRender* NewSpark = CreateRender(WormsRenderOrder::Weapon);
-        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale), GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale) };
+        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale), GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale) }.NormalizeReturn() * _Scale;
         dir.y -= _Scale;
         NewSpark->SetPosition(dir);
         dir.Normalize();
         NewSpark->SetScale({ 60, 60 });
-        NewSpark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        NewSpark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         NewSpark->ChangeAnimation("Spark");
         AllSparkDir.push_back(dir);
         AllSpark.push_back(NewSpark);

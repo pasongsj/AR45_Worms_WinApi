@@ -25,10 +25,10 @@ protected:
     void Update(float _DeltaTime) override;
 private:
 
-    float Evaporation = -3; // Y축 증발
+    float Evaporation = -2.5f; // Y축 증발
     float Resist = 0.5f; //x축 공기저항
 
-    float MoveSpeed = 200;
+    float MoveSpeed = 300;
     bool isEnd = false;
 
     int SmokeCnt = 0;

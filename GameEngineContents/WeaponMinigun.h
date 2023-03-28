@@ -1,7 +1,7 @@
 #pragma once
 #include "Weapon.h"
 
-// 설명 : F3-3 Minigun 미니건 : 미니건을 사용하면 3프레임마다 1발씩 20발의 총알을 연속적으로 발사합니다.
+// 설명 : F3-4 Minigun 미니건 : 미니건을 사용하면 3프레임마다 1발씩 20발의 총알을 연속적으로 발사합니다.
 class MapModifier;
 class WeaponMinigun : public Weapon
 {

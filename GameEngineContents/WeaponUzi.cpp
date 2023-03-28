@@ -7,6 +7,7 @@
 
 #include "MapModifier.h"
 #include "Player.h"
+#include "SmokeSparkEffect.h"
 
 WeaponUzi::WeaponUzi()
 {
@@ -178,6 +179,10 @@ void WeaponUzi::Firing(float _DeltaTime)
 				UziCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
 				if (true == CheckCollision(UziCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{
+                    SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
+                    Smoke->SetPos(UziCollision[i]->GetActorPlusPos());
+                    Smoke->CreateSmokeSpark(6, 1, BombScale);
+
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
 					BombCollision->SetPosition(GetPos() + UziCollision[i]->GetPosition());
 
