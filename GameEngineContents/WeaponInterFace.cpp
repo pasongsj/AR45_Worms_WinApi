@@ -153,6 +153,7 @@ WeaponInterFace::~WeaponInterFace()
 }
 
 
+
 void WeaponInterFace::Start()
 {
     Cusor* Actor = GetLevel()->CreateActor<Cusor>();
@@ -743,31 +744,101 @@ void WeaponInterFace::Start()
         TorchUI->EffectCameraOff();
         TorchUI->On();
     }
-    /*{
-        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
-        shotgun->SetImage("shotgunUI.Bmp");
-        shotgun->SetPosition({ 1327,644 });
-        shotgun->SetScale({ 32, 32 });
-        shotgun->EffectCameraOff();
-        shotgun->On();
-    }
     {
-        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
-        shotgun->SetImage("shotgunUI.Bmp");
-        shotgun->SetPosition({ 1327,644 });
-        shotgun->SetScale({ 32, 32 });
-        shotgun->EffectCameraOff();
-        shotgun->On();
+        X = CreateRender(WormsRenderOrder::WeaPonUI);
+        X->SetImage("X.Bmp");
+        X->SetPosition({ 1440,930 });
+        X->SetScale({ 16,17 });
+        X->EffectCameraOff();
+        X->Off();
     }
-    {
-        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
-        shotgun->SetImage("shotgunUI.Bmp");
-        shotgun->SetPosition({ 1327,644 });
-        shotgun->SetScale({ 32, 32 });
-        shotgun->EffectCameraOff();
-        shotgun->On();
-    }*/
 
+
+    HomingMissileNumber.SetOwner(this);
+    HomingMissileNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    HomingMissileNumber.SetRenderPos({ 1450,930 });
+    HomingMissileNumber.SetCameraEffect(false);
+    HomingMissileNumber.SetAlign(Align::Center);
+    HomingMissileNumber.SetValue(static_cast<int>(HomingMissileCount));
+    HomingMissileNumber.Off();
+
+    GrenadeNummber.SetOwner(this);
+    GrenadeNummber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    GrenadeNummber.SetRenderPos({ 1450,930 });
+    GrenadeNummber.SetCameraEffect(false);
+    GrenadeNummber.SetAlign(Align::Center);
+    GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
+    GrenadeNummber.Off();
+
+   
+    ClusterBombNumber.SetOwner(this);
+    ClusterBombNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    ClusterBombNumber.SetRenderPos({ 1450,930 });
+    ClusterBombNumber.SetCameraEffect(false);
+    ClusterBombNumber.SetAlign(Align::Center);
+    ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
+    ClusterBombNumber.Off();
+
+
+
+    ShotgunNumber.SetOwner(this);
+    ShotgunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    ShotgunNumber.SetRenderPos({ 1450,930 });
+    ShotgunNumber.SetCameraEffect(false);
+    ShotgunNumber.SetAlign(Align::Center);
+    ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
+    ShotgunNumber.Off();
+
+    HandgunNumber.SetOwner(this);
+    HandgunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    HandgunNumber.SetRenderPos({ 1450,930 });
+    HandgunNumber.SetCameraEffect(false);
+    HandgunNumber.SetAlign(Align::Center);
+    HandgunNumber.SetValue(static_cast<int>(HandgunCount));
+    HandgunNumber.Off();
+
+
+    UziNummber.SetOwner(this);
+    UziNummber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    UziNummber.SetRenderPos({ 1450,930 });
+    UziNummber.SetCameraEffect(false);
+    UziNummber.SetAlign(Align::Center);
+    UziNummber.SetValue(static_cast<int>(UziCountCount));
+    UziNummber.Off();
+
+
+
+    MinigunNumber.SetOwner(this);
+    MinigunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    MinigunNumber.SetRenderPos({ 1450,930 });
+    MinigunNumber.SetCameraEffect(false);
+    MinigunNumber.SetAlign(Align::Center);
+    MinigunNumber.SetValue(static_cast<int>(MinigunCount));
+    MinigunNumber.Off();
+
+    SheepNumber.SetOwner(this);
+    SheepNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    SheepNumber.SetRenderPos({ 1450,930 });
+    SheepNumber.SetCameraEffect(false);
+    SheepNumber.SetAlign(Align::Center);
+    SheepNumber.SetValue(static_cast<int>(SheepCount));
+    SheepNumber.Off();
+
+    AirStrikeNumber.SetOwner(this);
+    AirStrikeNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+    AirStrikeNumber.SetRenderPos({ 1450,930 });
+    AirStrikeNumber.SetCameraEffect(false);
+    AirStrikeNumber.SetAlign(Align::Center);
+    AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
+    AirStrikeNumber.Off();
+
+   TorchNumber.SetOwner(this);
+   TorchNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+   TorchNumber.SetRenderPos({ 1450,930 });
+   TorchNumber.SetCameraEffect(false);
+   TorchNumber.SetAlign(Align::Center);
+   TorchNumber.SetValue(static_cast<int>(TorchCount));
+   TorchNumber.Off();
 
 
 
@@ -776,21 +847,19 @@ void WeaponInterFace::Start()
 
 void WeaponInterFace::Update(float _DeltaTime)
 {
-	
+    
 
 	if(true == GameEngineInput::IsDown("RightClock") && InterfaceMove ==true)
 	{
 		MoveDir = float4::Left * 300;
-		
-
 	}
 
 	if (true == GameEngineInput::IsDown("RightClock") && InterfaceMove == false)
 	{
 		MoveDir = float4::Right * 300;
 	}
-	
-	
+
+   
 
 
 	if (GetPos().x < -180 && InterfaceMove == true)
@@ -809,7 +878,283 @@ void WeaponInterFace::Update(float _DeltaTime)
 		ButtonManager[i]->SetMove(MoveDir * _DeltaTime);
 	}
 
+    NumberManager();
 	SetMove(MoveDir*_DeltaTime);
+
+}
+
+void WeaponInterFace::NumberManager()
+{
+    X->Off();
+    HomingMissileNumber.Off();
+    GrenadeNummber.Off();
+    ClusterBombNumber.Off();
+    ShotgunNumber.Off();
+    HandgunNumber.Off();
+    UziNummber.Off();
+    MinigunNumber.Off();
+    SheepNumber.Off();
+    AirStrikeNumber.Off();
+    TorchNumber.Off();
+
+
+
+    // È£¹Ö¹Ì»çÀÏ
+    if (HomingMissile->GetHover() == true)
+    {
+        X->On();
+        HomingMissileNumber.On();
+    }
+    if (HomingMissile->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --HomingMissileCount;
+    }
+   
+    if (HomingMissileCount == 0)
+    {
+        HomingMissileUI->Off();
+        HomingMissile->Off();
+    }
+    if (HomingMissileCount > 0)
+    {
+        HomingMissileUI->On();
+        HomingMissile->On();
+    }
+
+    // ÃÊ·ÏÆøÅº
+    if (Grenade->GetHover() == true)
+    {
+        X->On();
+        GrenadeNummber.On();
+    }
+    if (Grenade->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --GrenadeCount;
+    }
+
+    if (GrenadeCount <= 0)
+    {
+        grenade->Off();
+        Grenade->Off();
+    }
+    if (GrenadeCount > 0)
+    {
+        grenade->On();
+        Grenade->On();
+    }
+
+    // »¡°­ÆøÅº
+
+    if (ClusterBomb->GetHover() == true)
+    {
+        X->On();
+        ClusterBombNumber.On();
+    }
+    if (ClusterBomb->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --ClusterBombCount;
+    }
+
+    if (ClusterBombCount == 0)
+    {
+        cluster->Off();
+        ClusterBomb->Off();
+    }
+    if (ClusterBombCount > 0)
+    {
+        cluster->On();
+        ClusterBomb->On();
+    }
+
+    // ¼¦°Ç 
+
+    if (Shotgun->GetHover() == true)
+    {
+        X->On();
+        ShotgunNumber.On();
+    }
+    if (Shotgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --ShotgunCount;
+    }
+
+    if (ShotgunCount == 0)
+    {
+        shotgun->Off();
+        Shotgun->Off();
+    }
+    if (ShotgunCount > 0)
+    {
+        shotgun->On();
+        Shotgun->On();
+    }
+
+    // ÇÚµå°Ç 
+
+    if (Handgun->GetHover() == true)
+    {
+        X->On();
+        HandgunNumber.On();
+    }
+    if (Handgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --HandgunCount;
+    }
+
+    if (HandgunCount == 0)
+    {
+        HandgunUI->Off();
+        Handgun->Off();
+    }
+    if (HandgunCount > 0)
+    {
+        HandgunUI->On();
+        Handgun->On();
+    }
+
+    // ¿ìÁö 
+
+    if (Uzi->GetHover() == true)
+    {
+        X->On();
+        UziNummber.On();
+    }
+    if (Uzi->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --UziCountCount;
+    }
+
+    if (UziCountCount == 0)
+    {
+        UziUI->Off();
+        Uzi->Off();
+    }
+    if (UziCountCount > 0)
+    {
+        UziUI->On();
+        Uzi->On();
+    }
+
+    // ¹Ì´Ï°Ç 
+
+    if (Minigun->GetHover() == true)
+    {
+        X->On();
+        MinigunNumber.On();
+    }
+    if (Minigun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --MinigunCount;
+    }
+
+    if (MinigunCount == 0)
+    {
+        MinigunUI->Off();
+        Minigun->Off();
+    }
+    if (MinigunCount > 0)
+    {
+        MinigunUI->On();
+        Minigun->On();
+    }
+
+    // ¾ç 
+
+    if (Sheep->GetHover() == true)
+    {
+        X->On();
+        SheepNumber.On();
+    }
+    if (Sheep->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --SheepCount;
+    }
+
+    if (SheepCount == 0)
+    {
+        SheepUI->Off();
+        Sheep->Off();
+    }
+    if (SheepCount > 0)
+    {
+        SheepUI->On();
+        Sheep->On();
+    }
+
+    // ¿¡¾î ½ºÆ®¶óÀÌÅ© 
+
+
+    if (AirStrike->GetHover() == true)
+    {
+        X->On();
+        AirStrikeNumber.On();
+    }
+    if (AirStrike->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --AirStrikeCount;
+    }
+
+    if (AirStrikeCount == 0)
+    {
+        AirStrikeUI->Off();
+        AirStrike->Off();
+    }
+    if (AirStrikeCount > 0)
+    {
+        AirStrikeUI->On();
+        AirStrike->On();
+    }
+
+
+
+
+
+
+    if (HomingMissileCount >= 0)
+    {
+        HomingMissileNumber.SetValue(static_cast<int>(HomingMissileCount));
+    }
+    if (GrenadeCount >= 0)
+    {
+        GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
+    }
+    if (ClusterBombCount >= 0)
+    {
+        ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
+    }
+    if (ShotgunCount > 0)
+    {
+        ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
+    }
+    if (HandgunCount > 0)
+    {
+        HandgunNumber.SetValue(static_cast<int>(HandgunCount));
+    }
+    if (UziCountCount > 0)
+    {
+        UziNummber.SetValue(static_cast<int>(UziCountCount));
+    }
+
+    if (MinigunCount > 0)
+    {
+        MinigunNumber.SetValue(static_cast<int>(MinigunCount));
+    }
+
+    if (SheepCount > 0)
+    {
+        SheepNumber.SetValue(static_cast<int>(SheepCount));
+    }
+
+    if (AirStrikeCount > 0)
+    {
+        AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
+    }
+   /* if (TorchCount > 0)
+    {
+        TorchNumber.SetValue(static_cast<int>(TorchCount));
+    }*/
+
+
 
 }
 

@@ -95,6 +95,10 @@ public:
     {
         return test;
     }
+    bool GetHover()
+    {
+        return Hover;
+    }
 	void SetCollisionOrder(int _Order);
 
 	float4 GetScale() 
@@ -123,7 +127,7 @@ private:
 	void(*ClickPtr)(Button* _Btn) = nullptr;
     void(*ClickPtrEnum)(Button* _Btn,int _Enum) = nullptr;
     bool test = false;
-
+    bool Hover = false;
     int iEnum = 0;
 	float4 Scale;
 	ButtonState State;

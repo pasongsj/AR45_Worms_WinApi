@@ -188,7 +188,7 @@ void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 	{
 		/* timer 로 시간을 재고, 시간에 맞게 차징정도를 설정 ( 0 ~ 1 까지 시간비례 ) => ( 차징정도 = 현재차징시간 / 최대차징시간 ) */
 		/* 차지가 길게 될수록 발사 거리가 길어짐 (발사속도가 빨라짐) */
-   		CurPlayer->SetCanIMove(false);
+   		//CurPlayer->SetCanIMove(false);
 		ChargingRenderOn();
 
 

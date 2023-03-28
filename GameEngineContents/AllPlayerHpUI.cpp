@@ -51,22 +51,22 @@ void AllPlayerHpUI::Start()
         switch (i)
         {
         case 0:
-            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarB.bmp");
-            break;
-        case 1:
-            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarG.bmp");
-            break;
-        case 2:
-            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarP.bmp");
-            break;
-        case 3:
             vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarR.bmp");
             break;
+        case 1:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarB.bmp");
+            break;
+        case 2:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarG.bmp");
+            break;
+        case 3:
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarY.bmp");
+            break;
         case 4:
-            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarS.bmp");
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarP.bmp");
             break;
         case 5:
-            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarY.bmp");
+            vecPlayerHpBar[i]->SetImageToScaleToImage("BottomHPbarS.bmp");
             break;
         default:
             break;
