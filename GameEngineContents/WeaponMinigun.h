@@ -40,5 +40,7 @@ private:
     int NextAimIndex = 15;
     void SetAimFrameIndex();
 
+    bool isIsFireAnimationDone = false;
+
 };
 

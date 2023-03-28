@@ -98,8 +98,8 @@ void Player::CreateAnimation()
 
     //우지
     {
-        AnimationRender->CreateAnimation({.AnimationName = "Left_UziFire", .ImageName = "UziFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({.AnimationName = "Right_UziFire", .ImageName = "UziFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({.AnimationName = "Left_UziFire", .ImageName = "UziFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({.AnimationName = "Right_UziFire", .ImageName = "UziFireRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
        
         AnimationRender->CreateAnimation({ .AnimationName = "Left_UziAim", .ImageName = "UziAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_UziAim", .ImageName = "UziAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
@@ -128,8 +128,8 @@ void Player::CreateAnimation()
 
     // 권총(핸드건)
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunFire", .ImageName = "HandgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunFire", .ImageName = "HandgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunFire", .ImageName = "HandgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunFire", .ImageName = "HandgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_HandgunAim", .ImageName = "HandgunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_HandgunAim", .ImageName = "HandgunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
@@ -143,8 +143,8 @@ void Player::CreateAnimation()
 
     // 미니건
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunFire", .ImageName = "MinigunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunFire", .ImageName = "MinigunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunFire", .ImageName = "MinigunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunFire", .ImageName = "MinigunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_MinigunAim", .ImageName = "MinigunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_MinigunAim", .ImageName = "MinigunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
@@ -158,8 +158,8 @@ void Player::CreateAnimation()
 
     // 샷건
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunFire", .ImageName = "ShotgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunFire", .ImageName = "ShotgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunFire", .ImageName = "ShotgunFireLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunFire", .ImageName = "ShotgunFireRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunAim", .ImageName = "ShotgunAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunAim", .ImageName = "ShotgunAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000, .Loop = false });

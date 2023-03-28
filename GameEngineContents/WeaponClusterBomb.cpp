@@ -72,13 +72,13 @@ void WeaponClusterBomb::Start()
     BiffTextAnimation->Off();
 
     
-    PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
-    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 16, .InterTime = 0.02f , .Loop = false });
-    PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    PootTextAnimation->SetScale({ 170, 170 });
+    PowTextAnimation = CreateRender("Pow.bmp", WormsRenderOrder::Weapon);
+    PowTextAnimation->CreateAnimation({ .AnimationName = "Pow", .ImageName = "Pow.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
+    PowTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Pow.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    PowTextAnimation->SetScale({ 170, 170 });
 
-    PootTextAnimation->ChangeAnimation("Idle");
-    PootTextAnimation->Off();
+    PowTextAnimation->ChangeAnimation("Idle");
+    PowTextAnimation->Off();
 
 
     // 차지 애니메이션
@@ -186,10 +186,10 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
             BiffTextAnimation->Off();
             BiffTextAnimation->ChangeAnimation("Idle");
         }
-        if (true == PootTextAnimation->IsAnimationEnd())
+        if (true == PowTextAnimation->IsAnimationEnd())
         {
-            PootTextAnimation->Off();
-            PootTextAnimation->ChangeAnimation("Idle");
+            PowTextAnimation->Off();
+            PowTextAnimation->ChangeAnimation("Idle");
         }
 
         // 클러스터 카메라 이동 
@@ -208,7 +208,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 
             if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
             {
-
+                // 약간의 수정이 필요함
                 ExplosionCircle->SetPosition(ClusterCollision[i]->GetPosition());
                 ExplosionCircle->On();
                 ExplosionCircle->ChangeAnimation("Explosion", 0);
@@ -217,9 +217,9 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
                 ExplosionElipse->On();
                 ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
 
-                PootTextAnimation->SetPosition(ClusterCollision[i]->GetPosition());
-                PootTextAnimation->On();
-                PootTextAnimation->ChangeAnimation("Poot", 0);
+                PowTextAnimation->SetPosition(ClusterCollision[i]->GetPosition());
+                PowTextAnimation->On();
+                PowTextAnimation->ChangeAnimation("Pow", 0);
 
 
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
@@ -265,6 +265,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
             ChargeAnimation->Off();
             Dir *= Charge;
             isFire = true;
+            AimingLine->Off();
             WeaponRender->On();
         }
 

@@ -184,6 +184,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
             ChargeAnimation->Off();
             Dir *= Charge;
             WeaponRender->On();
+            AimingLine->Off();
 			isFire = true;
 		}
 

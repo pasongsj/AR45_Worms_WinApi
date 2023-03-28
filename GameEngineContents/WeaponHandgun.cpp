@@ -131,7 +131,8 @@ void WeaponHandgun::CheckFiring()
 		if (PressShoot()) // 발사체크
 		{
 			isFire = true;
-            /*CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));*/
+            AimingLine->Off();
+            CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));
 
 		}
 		float4 PlayerPos = CurPlayer->GetPos();
@@ -147,7 +148,7 @@ void WeaponHandgun::Firing(float _DeltaTime)
 {
 	if (true == isFire && false == isWeaponDone)
 	{
-        CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));
+        /*CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));*/
         GetLevel()->SetCameraPos(HandgunCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 
 		DelayTime -= _DeltaTime;
@@ -169,6 +170,12 @@ void WeaponHandgun::Firing(float _DeltaTime)
 		{
 			if (true == isShooted[i] && true == HandgunCollision[i]->IsUpdate())
 			{
+                if (isIsFireAnimationDone == false && i == BulletCount - 1 && isWeaponDone == false)
+                {
+                    CurPlayer->ChangePlayerAnimation("Idle");
+                    isIsFireAnimationDone = true;
+                }
+
 				HandgunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
 				if (true == CheckCollision(HandgunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{

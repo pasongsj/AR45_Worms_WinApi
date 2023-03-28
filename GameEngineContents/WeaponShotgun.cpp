@@ -130,10 +130,13 @@ void WeaponShotgun::CheckFiring()
 		{
 			if (isShooted[i] == false)
 			{
+                AimingLine->Off();
 				isFire = true;
 				isShooted[i] = true;
 				ShotGunDir[i] = Dir; // 발사시 방향설정
-				break;
+                CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));
+                isIsFireAnimationDone = true;
+                break;
 			}
 		}
 	}
@@ -154,6 +157,12 @@ void WeaponShotgun::Firing(float _DeltaTime)
 	{
 		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate())
 		{
+            if (isIsFireAnimationDone == false && i == BulletCount - 1 && isWeaponDone == false)
+            {
+                CurPlayer->ChangePlayerAnimation("Idle");
+                isIsFireAnimationDone = true;
+            }
+
             GetLevel()->SetCameraPos(ShotGunCollision[i]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 			//isRemainBullet = true;
 			WeaponMove(ShotGunCollision[i], _DeltaTime, ShotGunDir[i]);

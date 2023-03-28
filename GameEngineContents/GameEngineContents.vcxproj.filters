@@ -112,6 +112,9 @@
     <ClInclude Include="MapDecoration.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponFirePunch.h">
+      <Filter>Weapon\F4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -231,6 +234,9 @@
     <ClCompile Include="MapDecoration.cpp">
       <Filter>Play\Map</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponFirePunch.cpp">
+      <Filter>Weapon\F4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -277,6 +283,9 @@
     </Filter>
     <Filter Include="Play\Player\PlayerUI">
       <UniqueIdentifier>{68498ee4-a358-49f4-ae97-5d21e0252703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F4">
+      <UniqueIdentifier>{6b05709f-d235-4691-b430-0aeadfabef8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

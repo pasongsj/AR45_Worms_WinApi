@@ -188,6 +188,9 @@ void PlayLevel::ImageLoad()
             GameEngineImage* Biff = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Biff.bmp"));
             Biff->Cut(1, 12);
 
+            GameEngineImage* Pow = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Pow.bmp"));
+            Pow->Cut(1, 18);
+
             GameEngineImage* ChargeAni = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ChargeAni.bmp"));
             ChargeAni->Cut(1, 16);
 
@@ -806,5 +809,5 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
     //CreateActor<WeaponClusterBomb>();
-    //CreateActor<WeaponShotgun>();
+    CreateActor<WeaponShotgun>();
 }

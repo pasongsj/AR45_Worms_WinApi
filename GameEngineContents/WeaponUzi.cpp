@@ -104,6 +104,8 @@ void WeaponUzi::CheckFiring()
 		if (PressShoot()) // 발사체크
 		{
 			isFire = true;
+            AimingLine->Off();
+            CurPlayer->ChangePlayerAnimation("UziFire", static_cast<int>(AimIndex));
 		}
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
@@ -167,6 +169,12 @@ void WeaponUzi::Firing(float _DeltaTime)
 		{
 			if (true == isShooted[i] && true == UziCollision[i]->IsUpdate())
 			{
+                if (isIsFireAnimationDone == false && i == BulletCount - 1 && isWeaponDone == false)
+                {
+                    CurPlayer->ChangePlayerAnimation("Idle");
+                    isIsFireAnimationDone = true;
+                }
+
 				UziCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
 				if (true == CheckCollision(UziCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{

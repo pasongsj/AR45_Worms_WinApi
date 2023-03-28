@@ -44,7 +44,7 @@ private:
     GameEngineRender* ExplosionCircle = nullptr;
     GameEngineRender* ExplosionElipse = nullptr;
     GameEngineRender* BiffTextAnimation = nullptr;
-    GameEngineRender* PootTextAnimation = nullptr;
+    GameEngineRender* PowTextAnimation = nullptr;
 
     GameEngineRender* ChargeAnimation = nullptr;
 

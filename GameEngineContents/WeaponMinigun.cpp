@@ -130,6 +130,8 @@ void WeaponMinigun::CheckFiring()
 		if (PressShoot()) // 발사체크
 		{
 			isFire = true;
+            AimingLine->Off();
+            CurPlayer->ChangePlayerAnimation("MinigunFire", static_cast<int>(AimIndex));
 		}
 		float4 PlayerPos = CurPlayer->GetPos();
 		SetPos(PlayerPos);
@@ -167,7 +169,11 @@ void WeaponMinigun::Firing(float _DeltaTime)
 				MinigunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
 				if (true == CheckCollision(MinigunCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
 				{
-
+                    if (isIsFireAnimationDone == false && i == BulletCount - 1 && isWeaponDone == false)
+                    {
+                        CurPlayer->ChangePlayerAnimation("Idle");
+                        isIsFireAnimationDone = true;
+                    }
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();										  // 1. Bomb 콜리전 가져오기
 					BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());													  // 2. Bomb 콜리전 이동
 
