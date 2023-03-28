@@ -24,10 +24,12 @@ void WeaponSheep::Start()
 {
 	WeaponSheepInit();
     DebrisInit();
+    PrevTime = clock();
 }
-
 void WeaponSheep::Update(float _DeltaTime)
 {		
+    Timer();
+
     if (isShoot == true && GameEngineInput::IsDown("Shoot"))
     {
         Explosion();
@@ -119,8 +121,6 @@ void WeaponSheep::WeaponSheepInit()
 	Gravity = 0.0f; //임시 설정값
 
 	MoveSpeed = 200.0f; //임시 설정값
-
-	TimeCount = 0;
 }
 
 void WeaponSheep::SheepFalling(float _DeltaTime)
@@ -345,16 +345,11 @@ void WeaponSheep::SheepJump(float _DeltaTime)
     }
 }
 
-void WeaponSheep::TimeCounting(float *TimeCount)
+void WeaponSheep::Timer()
 {
-    if (*TimeCount == 0)
-    {
-        PrevTime = clock() - 1;
-    }
-
     CurTime = clock();
 
-    *TimeCount += (CurTime - PrevTime) / 1000.0f;
+    TimeCount = (CurTime - PrevTime) / 1000.0f;
 
     PrevTime = CurTime;
 }
@@ -367,9 +362,9 @@ void WeaponSheep::CameraUpdate(float _DeltaTime)
     }
     else if(isExplosion == true)
     {
-        TimeCounting(&TimeCount);
+        CameraTimeCount += TimeCount;
 
-        if (TimeCount >= 2.0f && fLerpRatio < 1)
+        if (CameraTimeCount >= 2.0f && fLerpRatio < 1)
         {
             CurPlayerPos = CurPlayer->GetPos();
             PrevCamPos = GetLevel()->GetCameraPos();

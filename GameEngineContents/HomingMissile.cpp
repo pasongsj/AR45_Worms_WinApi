@@ -29,10 +29,15 @@ void HomingMissile::Start()
     ChargingRenderInit();
     MarkerInit();
     DebrisInit();
+    PrevTime = clock();
+
 }
 
 void HomingMissile::Update(float _DeltaTime)
 {
+    Timer();
+
+
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
         if (isAiming == false)
@@ -142,7 +147,6 @@ void HomingMissile::Firing(float _DeltaTime)
             WeaponCollision->SetPosition(CurPlayer->GetPos() + float4{ -15, -15 });
         }
 
-        TimeCount = 0;
         isTimeSet = false;
 
         isFire = true;
@@ -206,6 +210,7 @@ void HomingMissile::Firing(float _DeltaTime)
 
     else if(isHoming == true && isHomingSet == true)
     {
+        MakeSmoke();
 
         MoveSpeed += Accel;
         Accel += 50.0f * _DeltaTime;
@@ -270,24 +275,24 @@ void HomingMissile::Aiming()
 
         else if (AngleIndex > CurIndex)
         {
-            TimeCounting(&TimeCount);
+            AngleTimeCount += TimeCount;
 
-            if (TimeCount >= 0.01f)
+            if (AngleTimeCount >= 0.01f)
             {
                 ++CurIndex;
                 CurPlayer->ChangePlayerAnimation("HomingAim", CurIndex);
-                TimeCount = 0;
+                AngleTimeCount = 0;
             }
         }
         else if (AngleIndex < CurIndex)
         {
-            TimeCounting(&TimeCount);
+            AngleTimeCount += TimeCount;
 
-            if (TimeCount >= 0.01f)
+            if (AngleTimeCount >= 0.01f)
             {
                 --CurIndex;
                 CurPlayer->ChangePlayerAnimation("HomingAim", CurIndex);
-                TimeCount = 0;
+                AngleTimeCount = 0;
             }
         }
     }
@@ -332,8 +337,8 @@ void HomingMissile::CameraUpdate(float _DeltaTime)
     {
         float a = CameraTimeCount;
 
-        TimeCounting(&CameraTimeCount);
-
+        CameraTimeCount += TimeCount;
+        
         if (CameraTimeCount >= 2.0f && fLerpRatio < 1)
         {
             CurPlayerPos = CurPlayer->GetPos();
@@ -348,24 +353,7 @@ void HomingMissile::CameraUpdate(float _DeltaTime)
     }
 }
 
-void HomingMissile::TimeCounting(float* TimeCount)
-{
-    if (TimeCount == nullptr)
-    {
-        return;
-    }
 
-    if (*TimeCount == 0)
-    {
-        PrevTime = clock() - 1;
-    }
-
-    CurTime = clock();
-
-    *TimeCount += (CurTime - PrevTime) / (float)1000.0f;
-
-    PrevTime = CurTime;
-}
 
 void HomingMissile::DamageToPlayer()
 {
@@ -409,8 +397,8 @@ void HomingMissile::ChargingRenderOn()
 
     float4 StartPos = PlayerPos + float4{ Dir.x * 5, Dir.y * 5 } + float4{ 0, -8 };
 
-    TimeCounting(&ChargingTimeCount);
-    
+    ChargingTimeCount += TimeCount;
+
     if (ChargingTimeCount > 0.05)
     {
         ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ Dir.x * 4 * (CountingIndex + 1), Dir.y * 4 * (CountingIndex + 1) });
@@ -547,4 +535,37 @@ void HomingMissile::DebrisInit()
 
         Sparks.push_back(Spark);
     }
+}
+
+
+void HomingMissile::MakeSmoke()
+{
+    if (WeaponRender->IsUpdate() == false)
+    {
+        return;
+    }
+
+    SmokeTimeCount += TimeCount;
+
+    if (SmokeTimeCount > 0.03)
+    {
+        float4 Homing = WeaponRender->GetActorPlusPos();
+
+        GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+        Smoke->SetPosition(Homing + float4{ 0, -15 });
+        Smoke->SetScale({ 60, 60 });
+        Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.0001f , .Loop = false });
+        Smoke->ChangeAnimation("Smoke");
+
+        SmokeTimeCount = 0;
+    }
+}
+
+void HomingMissile::Timer()
+{
+    CurTime = clock();
+
+    TimeCount = (CurTime - PrevTime) / 1000.0f;
+
+    PrevTime = CurTime;
 }

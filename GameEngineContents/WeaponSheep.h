@@ -31,7 +31,7 @@ private:
     bool CanIMove();
     void Explosion();
     void SheepJump(float _DeltaTime);
-    void TimeCounting(float* TimeCount);
+    void Timer();
     void CameraUpdate(float _DeltaTime);
 
 
@@ -61,14 +61,13 @@ private:
 	bool isJumpDirSet = false;
 	bool isSet = false;
     bool isExplosion = false;
-    bool isTimeSet = false;
-    int test = 0;
-
-    float TimeCount = 0.0f;
-    float TimeCount_2 = 0.0f;
 
     float CurTime = 0.0f;
     float PrevTime = 0.0f;
+
+    float TimeCount = 0.0f;
+
+    float CameraTimeCount = 0.0f;
 
 	float4 JumpDir = float4::Zero;
 	float4 MoveDir = float4::Zero;
@@ -78,7 +77,6 @@ private:
 
     float JumpGravity = 0.0f;
     float DebrisMoveSpeed = 0.0f;
-    int MoveCount = 0;
 
     std::vector<GameEngineRender*> DebrisList;
     std::vector<float4> DebrisDirList;

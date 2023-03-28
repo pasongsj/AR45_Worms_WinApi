@@ -2,6 +2,7 @@
 #include "WeaponSheep.h"
 #include "WeaponBazooka.h"
 #include "WeaponTorch.h"
+#include "WeaponDrill.h"
 #include "Map.h"
 #include "Player.h"
 #include "WeaponShotgun.h"
@@ -283,6 +284,13 @@ void PlayLevel::ImageLoad()
             GameEngineImage* TorchOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOnLeft.bmp"));
             TorchOnLeft->Cut(1, 15);
 
+            GameEngineImage* DrillLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillLeft.bmp"));
+            DrillLeft->Cut(1, 4);
+            GameEngineImage* DrillOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillOffLeft.bmp"));
+            DrillOffLeft->Cut(1, 13);
+            GameEngineImage* DrillOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillOnLeft.bmp"));
+            DrillOnLeft->Cut(1, 13);
+
             GameEngineImage* UziAimLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziAimLeft.bmp"));
             UziAimLeft->Cut(1, 32);
             GameEngineImage* UziFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziFireLeft.bmp"));
@@ -385,6 +393,14 @@ void PlayLevel::ImageLoad()
             TorchOffRight->Cut(1, 15);
             GameEngineImage* TorchOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TorchOnRight.bmp"));
             TorchOnRight->Cut(1, 15);
+
+
+            GameEngineImage* DrillRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillRight.bmp"));
+            DrillRight->Cut(1, 4);
+            GameEngineImage* DrillOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillOffRight.bmp"));
+            DrillOffRight->Cut(1, 13);
+            GameEngineImage* DrillOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DrillOnRight.bmp"));
+            DrillOnRight->Cut(1, 13);
 
 
             GameEngineImage* UziAimRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("UziAimRight.bmp"));
@@ -727,40 +743,35 @@ void PlayLevel::Loading()
 	}
 	
 
-    /*{
-        ScreenSize = GameEngineWindow::GetScreenSize();
+    //{
+    //    ScreenSize = GameEngineWindow::GetScreenSize();
 
-        vecAllPlayer.reserve(6);
-        for (size_t i = 0; i < 6; i++)
-        {
-            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
+    //    vecAllPlayer.reserve(6);
+    //    for (size_t i = 0; i < 6; i++)
+    //    {
+    //        int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
 
-            vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
-            vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
+    //        vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
+    //        vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
-            float4 StartPos = float4{ 400,50 };
-            StartPos.x *= i + 1;
-            StartPos.x += iRandxPos;
-            vecAllPlayer[i]->SetPos(StartPos);
-        }
-        GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
+    //        float4 StartPos = float4{ 400,50 };
+    //        StartPos.x *= i + 1;
+    //        StartPos.x += iRandxPos;
+    //        vecAllPlayer[i]->SetPos(StartPos);
+    //    }
+    //    GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
-        iPlayerNumber = 0;
+    //    iPlayerNumber = 0;
 
-        GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
+    //    GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
 
-        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
-        SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
-    }*/
+    //    GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+    //    SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
+    //}
 
    
-
-    //CreateActor<WeaponBazooka>();
-    //CreateActor<WeaponSheep>();
-	//CreateActor<WeaponAirStrike>();
-    //CreateActor<HomingMissile>();
-	//CreateActor<WeaponTorch>();
     GlobalValue::gValue.SetPlayLevel(this);
+
 }
 
 
@@ -823,10 +834,19 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         WindUI* WindUIActor = CreateActor<WindUI>();
 
     }
+    
+    //CreateActor<WeaponAirStrike>();
+    CreateActor<HomingMissile>();
+    //CreateActor<WeaponSheep>();
+    //CreateActor<WeaponBazooka>();
+    //CreateActor<WeaponTorch>();
+    //CreateActor<WeaponDrill>();
+
+
 	//CreateActor<WeaponHandgun>();
 	//CreateActor<WeaponGrenade>();
 	//CreateActor<WeaponUzi>();
 	//CreateActor<WeaponMinigun>();
     //CreateActor<WeaponClusterBomb>();
-    CreateActor<WeaponShotgun>();
+    //CreateActor<WeaponShotgun>();
 }

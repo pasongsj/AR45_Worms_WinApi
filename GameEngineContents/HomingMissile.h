@@ -30,8 +30,10 @@ private:
     void Firing(float _DeltaTime);
     void Explosion();
     void CameraUpdate(float _DeltaTime);
-    void TimeCounting(float* TimeCount);
+    void Timer();
     void DamageToPlayer();
+
+    void MakeSmoke();
 
     void ChargingRenderInit();
     void ChargingRenderOn();
@@ -87,6 +89,9 @@ private:
 
     float CurTime = 0.0f;
     float PrevTime = 0.0f;
+
+    float AngleTimeCount = 0.0f;
+    float SmokeTimeCount = 0.0f;
 
     
 };

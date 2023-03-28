@@ -56,5 +56,6 @@ enum class WeaponNum
 	Sheep,				//F5
 	AirStrike,			//F6
     Torch,              //F7
+    Drill,              //F7
 
 };

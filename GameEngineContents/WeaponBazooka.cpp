@@ -360,8 +360,6 @@ void WeaponBazooka::BazAiming()
 		return;
 	}
 
-
-	//바주카를 꺼내는 모션이 끝나고 0.5초뒤에 에임조준 애니메이션으로 변경
 	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
 	{
 			isAiming = true;
@@ -488,9 +486,9 @@ void WeaponBazooka::ChargingRenderOff()
 void WeaponBazooka::DamageToPlayer()
 {
 	std::vector<GameEngineCollision*> CollisionPlayer;
+    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
-	//웨폰콜리전이 아니라, Hole의 콜리전이 필요함
-	if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
+	if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
 	{
 		for (int i = 0; i < CollisionPlayer.size(); i++)
 		{

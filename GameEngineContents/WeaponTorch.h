@@ -27,16 +27,17 @@ private:
     void TorchInit();
     void TorchOn();
 
-    void TorchTimerOn();
+    void Timer();
 
-    float TorchTime = 5.0f;
+    float TorchTime = 0.0f;
 
     bool isAttack = false;
     bool isFireEnd = false;
 
-    float TorchCurTime = 0.0f;
-    float TorchPrevTime = 0.0f;
-    bool TorchTimeSet = false;
+    float CurTime = 0.0f;
+    float PrevTime = 0.0f;
+
+    float TimeCount = 0.0f;
 
     float4 StartPos = { 0, 0 };
 };
