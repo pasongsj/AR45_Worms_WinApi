@@ -156,13 +156,16 @@ void Player::UpdateState(float _DeltaTime)
 void Player::IdleStart()
 {
 	DirCheck("Idle");
-    StateCalTime = 0.0f;
-   
-
+    StateCalTime = 0.0f;  
 }
 void Player::IdleUpdate(float _DeltatTime)
 {
     StateCalTime += _DeltatTime;
+
+    if (true == AnimationRender->IsAnimationEnd())
+    {
+        DirCheck("Idle");
+    }
 
     if (true == IsGround)
     {
@@ -245,10 +248,7 @@ void Player::MoveUpdate(float _DeltatTime)
         StateCalTime = 0.0f;
     }
 
-    if (true == AnimationRender->IsAnimationEnd())
-    {
-        DirCheck("Move");
-    }
+    DirCheck("Move");
 
     if (StateCalTime > 0.05f)
     {

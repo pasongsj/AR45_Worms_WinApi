@@ -125,6 +125,8 @@ void Player::CheckTurn()
     if (true == CurWeapon->IsWeaponDone())
     {
         IsMyTurn = false;
+        CurWeapon->Death();
+        CurWeapon = nullptr;
     }
 }
 
@@ -344,7 +346,32 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 void Player::DirCheck(const std::string_view& _AnimationName, int _CurIndex)
 {
-	std::string PrevDirString = DirString;
+	//std::string PrevDirString = DirString;
+
+ //   if (PlayerState::EQUIPWEAPON == StateValue)
+ //   {
+ //       AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
+ //   }
+ //   else
+ //   {
+ //       AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
+ //   }
+
+	//if (GameEngineInput::IsPress("MoveLeft"))
+	//{
+	//	DirString = "Left_";
+	//}
+	//else if (GameEngineInput::IsPress("MoveRight"))
+	//{
+	//	DirString = "Right_";
+	//}
+
+	//if (PrevDirString != DirString)
+	//{
+	//	AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
+	//}
+
+    std::string PrevDirString = DirString;
 
     if (PlayerState::EQUIPWEAPON == StateValue)
     {
@@ -355,19 +382,23 @@ void Player::DirCheck(const std::string_view& _AnimationName, int _CurIndex)
         AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
     }
 
-	if (GameEngineInput::IsPress("MoveLeft"))
-	{
-		DirString = "Left_";
-	}
-	else if (GameEngineInput::IsPress("MoveRight"))
-	{
-		DirString = "Right_";
-	}
+    if (true == IsMyTurn)
+    {
+        if (GameEngineInput::IsDown("MoveLeft"))
+        {
+            DirString = "Left_";
+        }
 
-	if (PrevDirString != DirString)
-	{
-		AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex);
-	}
+        if (GameEngineInput::IsDown("MoveRight"))
+        {
+            DirString = "Right_";
+        }
+    }
+
+    if (PrevDirString != DirString)
+    {
+        AnimationRender->ChangeAnimation(DirString + _AnimationName.data(), _CurIndex, true);
+    }
 }
 
 void Player::CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop)
