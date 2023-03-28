@@ -115,6 +115,9 @@
     <ClInclude Include="WeaponFirePunch.h">
       <Filter>Weapon\F4</Filter>
     </ClInclude>
+    <ClInclude Include="SmokeSparkEffect.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -236,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="WeaponFirePunch.cpp">
       <Filter>Weapon\F4</Filter>
+    </ClCompile>
+    <ClCompile Include="SmokeSparkEffect.cpp">
+      <Filter>Weapon\F3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
