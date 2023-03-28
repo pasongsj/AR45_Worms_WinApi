@@ -76,7 +76,7 @@ public:
 	void CreatePlayerAnimation(const std::string_view& _AnimationName, const std::string_view& _ImageName, int _StartFrame, int _EndFrame, float _InterTime, bool Loop = true); //외부(무기)에서 플레이어의 애니메이션을 만들 수 있게끔 
 	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0); //플레이어 애니메이션 변경
 	void SetPlayerAnimationFrame(int _Frame); // 조준 상태일 때 프레임을 고정
-	void Damaged(int _Damage); //플레이어가 데미지를 받는 함수
+	void Damaged(int _Damage, float4 _Dir = float4::Zero, float _Power = 0); //플레이어가 데미지를 받는 함수
 
 	//플레이어 상태를 받아옴
 	PlayerState GetPlayerState()

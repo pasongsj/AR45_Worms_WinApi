@@ -100,7 +100,7 @@ void Player::TestChangeDeadState()
     }
 }
 
-void Player::Damaged(int _Damage)
+void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 {
 	if (DamagedTime >= 0.5f)
 	{
