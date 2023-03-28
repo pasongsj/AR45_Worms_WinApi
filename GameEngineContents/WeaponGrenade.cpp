@@ -57,6 +57,14 @@ void WeaponGrenade::Start()
     PootTextAnimation->ChangeAnimation("Idle");
     PootTextAnimation->Off();
 
+    // 차지 애니메이션
+    ChargeAnimation = CreateRender(WormsRenderOrder::Weapon);
+    ChargeAnimation->CreateAnimation({ .AnimationName = "Charge", .ImageName = "ChargeAni.bmp",.FilterName = "ChargeAniRot.bmp", .Start = 0, .End = 15, .InterTime = 0.1f , .Loop = false });
+    ChargeAnimation->ChangeAnimation("Charge");
+    ChargeAnimation->SetScale({ 64,192 });
+    ChargeAnimation->Off();
+    ChargeAnimation->SetPosition({ 0,-10 });
+
     // 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
     AimingLine->SetImage("AimingLine.bmp");
@@ -102,6 +110,21 @@ void WeaponGrenade::Update(float _DeltaTime)
 
 	Firing(_DeltaTime);
 
+    if (true == isExplosion)
+    {
+        if (true == ExplosionCircle->IsAnimationEnd())
+        {
+            ExplosionCircle->Off();
+        }
+        if (true == ExplosionElipse->IsAnimationEnd())
+        {
+            ExplosionElipse->Off();
+        }
+        if (true == PootTextAnimation->IsAnimationEnd())
+        {
+            PootTextAnimation->Off();
+        }
+    }
 }
 
 
@@ -141,10 +164,24 @@ void WeaponGrenade::Firing(float _DeltaTime)
 		SetPos(PlayerPos);
 		if (true == PressShoot())
 		{
+            if (false == ChargeAnimation->IsUpdate())
+            {
+                ChargeAnimation->On();
+                ChargeAnimation->ChangeAnimation("Charge", 0);
+                if (Dir.x > 0)
+                {
+                    ChargeAnimation->SetAngle((-Dir).GetAnagleDeg());
+                }
+                else
+                {
+                    ChargeAnimation->SetAngle(Dir.GetAnagleDeg());
+                }
+            }
 			SetCharge();// 차징포인트 계산
 		}
 		if (isEndCharging() == true) // 발사체크
 		{
+            ChargeAnimation->Off();
             Dir *= Charge;
             WeaponRender->On();
 			isFire = true;

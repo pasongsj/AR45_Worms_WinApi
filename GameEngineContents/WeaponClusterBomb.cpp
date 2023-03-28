@@ -30,9 +30,9 @@ void WeaponClusterBomb::Start()
 
     for (int i = 0;i < 6;i++)
     {
-        GameEngineRender* NewClusterRender = CreateRender("bazooka.bmp",WormsRenderOrder::Weapon);
-        NewClusterRender->SetScale({ 50,50 });
-        NewClusterRender->SetRotFilter("bazookaRot.bmp");
+        GameEngineRender* NewClusterRender = CreateRender("cluster.bmp",WormsRenderOrder::Weapon);
+        NewClusterRender->SetScale({ 24,24 });
+        NewClusterRender->SetRotFilter("clusterRot.bmp");
 
         GameEngineCollision* NewClusterCollision = CreateCollision(WormsCollisionOrder::Weapon);
         NewClusterCollision->SetScale(NewClusterRender->GetScale());
@@ -45,6 +45,50 @@ void WeaponClusterBomb::Start()
     ClusterOff();
     AllWeapons[WeaponName] = this;
     WeaponNumber = static_cast<int>(WeaponNum::ClusterBomb);
+
+    // 터지는 애니메이션 랜더
+    ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->SetScale({ 240, 240 });
+
+    ExplosionCircle->ChangeAnimation("Idle");
+    ExplosionCircle->Off();
+
+    ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
+    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
+    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionElipse->SetScale({ 360, 360 });
+
+    ExplosionElipse->ChangeAnimation("Idle");
+    ExplosionElipse->Off();
+
+    BiffTextAnimation = CreateRender("Biff.bmp", WormsRenderOrder::Weapon);
+    BiffTextAnimation->CreateAnimation({ .AnimationName = "Biff", .ImageName = "Biff.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
+    BiffTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Biff.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    BiffTextAnimation->SetScale({ 170, 170 });
+
+    BiffTextAnimation->ChangeAnimation("Idle");
+    BiffTextAnimation->Off();
+
+    
+    PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 16, .InterTime = 0.02f , .Loop = false });
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    PootTextAnimation->SetScale({ 170, 170 });
+
+    PootTextAnimation->ChangeAnimation("Idle");
+    PootTextAnimation->Off();
+
+
+    // 차지 애니메이션
+    ChargeAnimation = CreateRender(WormsRenderOrder::Weapon);
+    ChargeAnimation->CreateAnimation({ .AnimationName = "Charge", .ImageName = "ChargeAni.bmp",.FilterName = "ChargeAniRot.bmp", .Start = 0, .End = 15, .InterTime = 0.1f , .Loop = false });
+    ChargeAnimation->ChangeAnimation("Charge");
+    ChargeAnimation->SetScale({64,192});
+    ChargeAnimation->Off();
+    ChargeAnimation->SetPosition({ 0,-10 });
+
 
     // 임시 조준선 - 수정필요 : 조준선 기준 위치, 이미지 , 이미지 각도
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
@@ -127,6 +171,27 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 {
     if (true == isExplosion)
     {
+        if (true == ExplosionCircle->IsAnimationEnd())
+        {
+            ExplosionCircle->Off();
+            ExplosionCircle->ChangeAnimation("Idle");
+        }
+        if (true == ExplosionElipse->IsAnimationEnd())
+        {
+            ExplosionElipse->Off();
+            ExplosionElipse->ChangeAnimation("Idle");
+        }
+        if (true == BiffTextAnimation->IsAnimationEnd())
+        {
+            BiffTextAnimation->Off();
+            BiffTextAnimation->ChangeAnimation("Idle");
+        }
+        if (true == PootTextAnimation->IsAnimationEnd())
+        {
+            PootTextAnimation->Off();
+            PootTextAnimation->ChangeAnimation("Idle");
+        }
+
         // 클러스터 카메라 이동 
         GetLevel()->SetCameraPos(ClusterRender[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
         for (int i = 0;i < ClusterRender.size();i++)
@@ -143,6 +208,20 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 
             if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
             {
+
+                ExplosionCircle->SetPosition(ClusterCollision[i]->GetPosition());
+                ExplosionCircle->On();
+                ExplosionCircle->ChangeAnimation("Explosion", 0);
+
+                ExplosionElipse->SetPosition(ClusterCollision[i]->GetPosition());
+                ExplosionElipse->On();
+                ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+                PootTextAnimation->SetPosition(ClusterCollision[i]->GetPosition());
+                PootTextAnimation->On();
+                PootTextAnimation->ChangeAnimation("Poot", 0);
+
+
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
                 BombCollision->SetPosition(ClusterCollision[i]->GetActorPlusPos());
 
@@ -163,14 +242,27 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
     {
         float4 PlayerPos = CurPlayer->GetPos();
         Dir = GetShootDir();
-        AimingLine->SetPosition(Dir * 100); // 조준선 이동
         SetPos(PlayerPos);
         if (true == PressShoot())
         {
+            if (false == ChargeAnimation->IsUpdate())
+            {
+                ChargeAnimation->On();
+                ChargeAnimation->ChangeAnimation("Charge", 0);
+                if (Dir.x > 0)
+                {
+                    ChargeAnimation->SetAngle((-Dir).GetAnagleDeg());
+                }
+                else
+                {
+                    ChargeAnimation->SetAngle(Dir.GetAnagleDeg());
+                }
+            }
             SetCharge();// 차징포인트 계산
         }
         if (isEndCharging() == true) // 발사체크
         {
+            ChargeAnimation->Off();
             Dir *= Charge;
             isFire = true;
             WeaponRender->On();
@@ -222,6 +314,18 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
 
             AttackPlayer(BombCollision);
 
+            ExplosionCircle->SetPosition(WeaponRender->GetPosition());
+            ExplosionCircle->On();
+            ExplosionCircle->ChangeAnimation("Explosion", 0);
+
+            ExplosionElipse->SetPosition(WeaponRender->GetPosition());
+            ExplosionElipse->On();
+            ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+            BiffTextAnimation->SetPosition(WeaponRender->GetPosition());
+            BiffTextAnimation->On();
+            BiffTextAnimation->ChangeAnimation("Biff", 0);
+
             MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
             isExplosion = true;
             WeaponRender->Off();
@@ -271,9 +375,9 @@ void WeaponClusterBomb::ResetWeapon()
 void WeaponClusterBomb::WeaponClusterBombInit()
 {
     WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
-    WeaponRender->SetImage("Grenade.bmp");
-    WeaponRender->SetRotFilter("GrenadeRot.bmp");
-    WeaponRender->SetScale({ 15,25 }); // 임시 설정 값 
+    WeaponRender->SetImage("Clusterbomb.bmp");
+    WeaponRender->SetRotFilter("ClusterbombRot.bmp");
+    WeaponRender->SetScale({ 30,30 }); // 임시 설정 값 
 
     WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
     WeaponCollision->SetScale(WeaponRender->GetScale());

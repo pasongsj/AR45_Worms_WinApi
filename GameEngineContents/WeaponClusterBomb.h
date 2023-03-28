@@ -40,6 +40,14 @@ private:
     std::vector<GameEngineCollision*> ClusterCollision;     // 잔여 클러스터 콜리전
     std::vector<float4> ClusterDir;
 
+    //렌더, 애니메이션 
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* BiffTextAnimation = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
+
+    GameEngineRender* ChargeAnimation = nullptr;
+
     float ClusterSpeed = 100.0f;
 
     void ClusterFiring(float _DeltaTime);

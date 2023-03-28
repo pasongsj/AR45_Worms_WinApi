@@ -149,6 +149,10 @@ void PlayLevel::ImageLoad()
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TempBomb.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Grenade.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GrenadeRot.bmp"));
+        GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Clusterbomb.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterbombRot.bmp"));
+        GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("cluster.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("clusterRot.bmp"));
 
 
         //무기 효과
@@ -181,7 +185,13 @@ void PlayLevel::ImageLoad()
             GameEngineImage* Spark2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Spark2.bmp"));
             Spark2->Cut(1, 32);
 
+            GameEngineImage* Biff = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Biff.bmp"));
+            Biff->Cut(1, 12);
 
+            GameEngineImage* ChargeAni = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ChargeAni.bmp"));
+            ChargeAni->Cut(1, 16);
+
+            GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ChargeAniRot.bmp"));
 
             Dir.MoveParent();
         }

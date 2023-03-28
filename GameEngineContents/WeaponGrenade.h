@@ -44,7 +44,7 @@ private:
     GameEngineRender* ExplosionElipse = nullptr;
     GameEngineRender* PootTextAnimation = nullptr;
 
-
+    GameEngineRender* ChargeAnimation = nullptr;
 
     float AimIndex = 15;
     int NextAimIndex = 15;
