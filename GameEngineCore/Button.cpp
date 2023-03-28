@@ -47,7 +47,7 @@ void Button::SetCollisionOrder(int _Order)
 
 void Button::Update(float _DeltaTime)
 {
-	
+    test = false;
 
 
 	State = ButtonState::Release;
@@ -60,6 +60,7 @@ void Button::Update(float _DeltaTime)
 
 	if (true == ButtonCollision->Collision({ .TargetGroup = PointTargetGroup, .TargetColType = CollisionType::CT_Point, .ThisColType = ButtonCollisionType }))
 	{
+        test = true;
 		if (true == GameEngineInput::IsUp("EngineMouseLeft") && (nullptr != ClickPtr|| ClickPtrEnum != nullptr))
 		{
 			

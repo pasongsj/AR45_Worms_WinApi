@@ -19,7 +19,13 @@
 #include "WeaponGrenade.h"
 #include "WeaponClusterBomb.h"
 #include "WeaponShotgun.h"
-
+#include "HomingMissile.h"
+#include "WeaponHandgun.h"
+#include "WeaponUzi.h"
+#include "WeaponMinigun.h"
+#include "WeaponTorch.h"
+#include "WeaponSheep.h"
+#include "WeaponAirStrike.h"
 
 WeaponInterFace*WeaponInterFace::Interface;
 GameEngineLevel* WeaponInterFace::Value;
@@ -48,41 +54,81 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     {
         Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
         CurPlayer->SetCurWeapon(NewWeapon);
-    }
         break;
+    }
+       
     case WeaponNum::HomingMissile:
     {
-        int a = 0;
-    }
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<HomingMissile>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+    }
+    
     case WeaponNum::Grenade: 
     {
         Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponGrenade>();
         CurPlayer->SetCurWeapon(NewWeapon);
-    }
         break;
+    }
+  
     case WeaponNum::ClusterBomb:
     {
         Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponClusterBomb>();
         CurPlayer->SetCurWeapon(NewWeapon);
-    }
         break;
+    }
+   
     case WeaponNum::Shotgun:
     {
         Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponShotgun>();
         CurPlayer->SetCurWeapon(NewWeapon);
+        break;
     }
-        break;
+  
     case WeaponNum::Handgun:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponHandgun>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+
+      
+    }
+ 
     case WeaponNum::Uzi:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponUzi>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+    }
+   
     case WeaponNum::Minigun:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponMinigun>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+    }
+  
     case WeaponNum::Sheep:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponSheep>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+    }
+
     case WeaponNum::AirStrike:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponAirStrike>();
+        CurPlayer->SetCurWeapon(NewWeapon);
         break;
+    }
+
+    case WeaponNum::Torch:
+    {
+        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponTorch>();
+        CurPlayer->SetCurWeapon(NewWeapon);
+        break;
+    }
+
     default:
         break;
     }
@@ -124,19 +170,21 @@ void WeaponInterFace::Start()
 	
 	// 바주카 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-        button->SetEnum(WeaponNum::Bazooka); //SetEnum으로 새로만든 ButtonCallbackEnum에 Enum세팅되게끔만들기.
-		ButtonManager.push_back(button);
-        button->SetClickCallBackEnum(asas);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Bazooka = GetLevel()->CreateActor<Button>();
+		Bazooka->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Bazooka->SetEnum(WeaponNum::Bazooka); //SetEnum으로 새로만든 ButtonCallbackEnum에 Enum세팅되게끔만들기.
+        Bazooka->SetClickCallBackEnum(asas);
+        Bazooka->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        ButtonManager.push_back(Bazooka);
 	}
-
+    // 호밍미사일 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		ButtonManager.push_back(button);
+        HomingMissile = GetLevel()->CreateActor<Button>();
+        HomingMissile->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,586 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        HomingMissile->SetEnum(WeaponNum::HomingMissile);
+        HomingMissile->SetClickCallBackEnum(asas);
+        HomingMissile->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+     	ButtonManager.push_back(HomingMissile);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -163,23 +211,23 @@ void WeaponInterFace::Start()
 
 	// 초록폭탄 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		button->SetEnum(WeaponNum::Grenade);
+		Grenade = GetLevel()->CreateActor<Button>();
+		Grenade->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+		Grenade->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+		Grenade->SetEnum(WeaponNum::Grenade);
 
-		ButtonManager.push_back(button);
-		button->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(Grenade);
+        Grenade->SetClickCallBackEnum(asas);
 	}
 	// 빨간폭탄 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+		ClusterBomb = GetLevel()->CreateActor<Button>();
+        ClusterBomb->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,615 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
 
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-        button->SetEnum(WeaponNum::ClusterBomb);
-		button->SetClickCallBackEnum(asas);
-		ButtonManager.push_back(button);
+        ClusterBomb->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        ClusterBomb->SetEnum(WeaponNum::ClusterBomb);
+        ClusterBomb->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(ClusterBomb);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -207,33 +255,43 @@ void WeaponInterFace::Start()
 
 	// 샷건 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-        button->SetEnum(WeaponNum::Shotgun);
-	//	button->SetClickCallBack(asas);
-		ButtonManager.push_back(button);
+        Shotgun = GetLevel()->CreateActor<Button>();
+        Shotgun->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Shotgun->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Shotgun->SetEnum(WeaponNum::Shotgun);
+        Shotgun->SetClickCallBackEnum(asas);
+	
+		ButtonManager.push_back(Shotgun);
 	}
+
+    //핸드건 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack(avvv);
-		ButtonManager.push_back(button);
+        Handgun = GetLevel()->CreateActor<Button>();
+        Handgun->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Handgun->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Handgun->SetEnum(WeaponNum::Handgun);
+        Handgun->SetClickCallBackEnum(asas);
+
+		ButtonManager.push_back(Handgun);
 	}
+    //우지
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
+        Uzi = GetLevel()->CreateActor<Button>();
+        Uzi->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Uzi->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Uzi->SetEnum(WeaponNum::Uzi);
+        Uzi->SetClickCallBackEnum(asas);
+
+		ButtonManager.push_back(Uzi);
 	}
+    // 머신건 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
+        Minigun = GetLevel()->CreateActor<Button>();
+        Minigun->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1415,644 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Minigun->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Minigun->SetEnum(WeaponNum::Minigun);
+        Minigun->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(Minigun);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -295,12 +353,14 @@ void WeaponInterFace::Start()
 		//button->SetClickCallBack(avvv);
 		ButtonManager.push_back(button);
 	}
+    // 양 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,702 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
+        Sheep = GetLevel()->CreateActor<Button>();
+        Sheep->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,702 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Sheep->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Sheep->SetEnum(WeaponNum::Sheep);
+        Sheep->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(Sheep);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -319,12 +379,14 @@ void WeaponInterFace::Start()
 
 	// 6번쨰 인퍼페이스 
 
+    //에어 스트라이크 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,731 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack(asas);
-		ButtonManager.push_back(button);
+        AirStrike = GetLevel()->CreateActor<Button>();
+        AirStrike->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,731 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        AirStrike->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        AirStrike->SetEnum(WeaponNum::AirStrike);
+        AirStrike->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(AirStrike);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -357,12 +419,14 @@ void WeaponInterFace::Start()
 
 	// 7번쨰 인퍼페이스 
 
+    //토치 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,760 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack(asas);
-		ButtonManager.push_back(button);
+        Torch = GetLevel()->CreateActor<Button>();
+        Torch->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,760 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Torch->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Torch->SetEnum(WeaponNum::Torch);
+        Torch->SetClickCallBackEnum(asas);
+        ButtonManager.push_back(Torch);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -617,6 +681,92 @@ void WeaponInterFace::Start()
 		shotgun->EffectCameraOff();
 		shotgun->On();
 	}
+   
+    {
+        HomingMissileUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        HomingMissileUI->SetImage("hmissileUI.Bmp");
+        HomingMissileUI->SetPosition({ 1357, 586 });
+        HomingMissileUI->SetScale({ 32, 32 });
+        HomingMissileUI->EffectCameraOff();
+        HomingMissileUI->On();
+    }
+
+    {
+        HandgunUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        HandgunUI->SetImage("handgunUI.Bmp");
+        HandgunUI->SetPosition({ 1357,644 });
+        HandgunUI->SetScale({ 32, 32 });
+        HandgunUI->EffectCameraOff();
+        HandgunUI->On();
+    }
+
+    {
+        UziUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        UziUI->SetImage("uziUI.Bmp");
+        UziUI->SetPosition({ 1387,644 });
+        UziUI->SetScale({ 32, 32 });
+        UziUI->EffectCameraOff();
+        UziUI->On();
+    }
+
+    {
+        MinigunUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        MinigunUI->SetImage("minigunUI.Bmp");
+        MinigunUI->SetPosition({ 1415,644 });
+        MinigunUI->SetScale({ 32, 32 });
+        MinigunUI->EffectCameraOff();
+        MinigunUI->On();
+    }
+
+    {
+        SheepUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        SheepUI->SetImage("sheepUI.Bmp");
+        SheepUI->SetPosition({ 1387,698 });
+        SheepUI->SetScale({ 32, 32 });
+        SheepUI->EffectCameraOff();
+        SheepUI->On();
+    }
+  
+    {
+        AirStrikeUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        AirStrikeUI->SetImage("airstrkeUI.Bmp");
+        AirStrikeUI->SetPosition({ 1327,731 });
+        AirStrikeUI->SetScale({ 28, 28 });
+        AirStrikeUI->EffectCameraOff();
+        AirStrikeUI->On();
+    }
+    {
+        TorchUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        TorchUI->SetImage("torchUI.Bmp");
+        TorchUI->SetPosition({ 1327,760 });
+        TorchUI->SetScale({ 28, 28 });
+        TorchUI->EffectCameraOff();
+        TorchUI->On();
+    }
+    /*{
+        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
+        shotgun->SetImage("shotgunUI.Bmp");
+        shotgun->SetPosition({ 1327,644 });
+        shotgun->SetScale({ 32, 32 });
+        shotgun->EffectCameraOff();
+        shotgun->On();
+    }
+    {
+        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
+        shotgun->SetImage("shotgunUI.Bmp");
+        shotgun->SetPosition({ 1327,644 });
+        shotgun->SetScale({ 32, 32 });
+        shotgun->EffectCameraOff();
+        shotgun->On();
+    }
+    {
+        shotgun = CreateRender(WormsRenderOrder::WeaPonUI);
+        shotgun->SetImage("shotgunUI.Bmp");
+        shotgun->SetPosition({ 1327,644 });
+        shotgun->SetScale({ 32, 32 });
+        shotgun->EffectCameraOff();
+        shotgun->On();
+    }*/
 
 
 
