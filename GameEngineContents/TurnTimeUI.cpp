@@ -5,6 +5,7 @@
 #include "PlayLevel.h"
 #include "GlobalValue.h"
 #include "Player.h"
+#include "Weapon.h"
 
 TurnTimeUI::TurnTimeUI() 
 {
@@ -34,13 +35,6 @@ void TurnTimeUI::Start()
 
 void TurnTimeUI::Update(float _DeltaTime)
 {
-    fTurnTime -= _DeltaTime;
-    if (fTurnTime <= 0.f)
-    {
-        fTurnTime = 0.f;
-    }
-    pTimeRender.SetValue(static_cast<int>(fTurnTime));
-
     if (pCurPlayer != GlobalValue::gValue.GetPlayer())
     {
         pCurPlayer = GlobalValue::gValue.GetPlayer();
@@ -48,4 +42,22 @@ void TurnTimeUI::Update(float _DeltaTime)
         return;
     }
 
+    //if (pCurPlayer->GetCurWeapon() != nullptr)
+    //{
+    //    if (true == pCurPlayer->GetCurWeapon()->GetIsAttacking())
+    //    {
+    //        return;
+    //    }
+    //}
+
+    fTurnTime -= _DeltaTime;
+
+    if (fTurnTime <= 0.f)
+    {
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
+        fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
+        return;
+    }
+
+    pTimeRender.SetValue(static_cast<int>(fTurnTime));
 }

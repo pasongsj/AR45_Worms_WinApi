@@ -826,11 +826,9 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
-	CreateLeaf(_DeltaTime);
-     
-    //ChangePlayer 키가 눌렸을때
-    
     GameSetCheck();
+	CreateLeaf(_DeltaTime);     
+    
     PlayerChange(_DeltaTime);
     
    
