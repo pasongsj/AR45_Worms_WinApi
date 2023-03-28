@@ -639,7 +639,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
 
-    if (GameEngineInput::IsDown("ChangePlayer"))
+    if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() ||GameEngineInput::IsDown("ChangePlayer"))
     {       
         //벡터 인덱스 증가
         ++iPlayerNumber;
