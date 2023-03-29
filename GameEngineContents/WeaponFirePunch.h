@@ -26,5 +26,7 @@ private:
     bool isCharging = false;
 
     float4 StartPos = float4::Zero;
+
+    float EffectTimer = 0.05f;
 };
 
