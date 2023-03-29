@@ -34,6 +34,9 @@ private:
     void Timer();
     void CameraUpdate(float _DeltaTime);
 
+    void SheepMove(float _DeltaTime);
+
+    void ExplosionAnimationOff();
     void DamageToPlayer();
 
     void DebrisAnimation(float _DeltaTime);

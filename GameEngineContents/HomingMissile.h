@@ -39,6 +39,8 @@ private:
     void ChargingRenderOn();
     void ChargingRenderOff();
 
+    void ExplosionAnimationOff();
+
     void DebrisInit();
     void DebrisAnimation(float _DeltaTime);
 

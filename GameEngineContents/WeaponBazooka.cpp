@@ -49,7 +49,6 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 	if (isExplosion == true && ExplosionCircle->IsAnimationEnd() == true)
 	{
-
 		isEndBazOn = false;
 		isExplosion = false;
 
@@ -103,7 +102,7 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponNumber = static_cast<int>(WeaponNum::Bazooka);
 
 	WeaponName = "Bazooka";
-
+   
     ExplosionEffectInit();
 
     ChargingGage = CreateRender("ChargeAni.bmp", WormsRenderOrder::Weapon);
@@ -117,11 +116,8 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	MoveSpeed = 0.0f; //임시 설정값
 
-
 	TimeCount = 0;
 
-	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
-	
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
 }
@@ -430,7 +426,7 @@ void WeaponBazooka::DamageToPlayer()
             float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
             Dir.Normalize();
 
-			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg, Dir, 300);
+            ColPlayer->Damaged(Dmg, Dir, 300);
 		}
 	}
 }

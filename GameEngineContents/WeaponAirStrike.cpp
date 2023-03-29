@@ -24,6 +24,7 @@ void WeaponAirStrike::Start()
 {
 	WeaponAirStrikeInit();
     DebrisInit();
+    MarkerInit();
 }
 
 void WeaponAirStrike::Update(float _DeltaTime)
@@ -124,11 +125,19 @@ void WeaponAirStrike::SetAirPlanePos()
 	}
 
 	Airplane->SetPosition(AirPlaneStartPos);
-	Airplane->On();
+    Marker->SetPosition(TargetPos);
+    Marker->ChangeAnimation("MarkerOn");
+    Marker->On();
 }
 
 void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 {
+    if (GameEngineInput::IsDown("Shoot"))
+    {
+        Airplane->On();
+        Marker->Off();
+    }
+
 	if (Airplane->IsUpdate() == true)
 	{
 		if (isMoveRight == true)
@@ -413,7 +422,11 @@ void WeaponAirStrike::DamageToPlayer()
     {
         for (int i = 0; i < CollisionPlayer.size(); i++)
         {
-            dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
+            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
+            Dir.Normalize();
+
+            ColPlayer->Damaged(Dmg, Dir, 100);
         }
     }
 }
@@ -489,4 +502,13 @@ void WeaponAirStrike::ExplosionAnimationOff()
             PootTextAnimationList[i]->Off();
         }
     }
+}
+
+void WeaponAirStrike::MarkerInit()
+{
+    Marker = CreateRender("Marker.bmp", WormsRenderOrder::Weapon);
+    Marker->SetScale({ 60, 60 });
+
+    Marker->CreateAnimation({ .AnimationName = "MarkerOn",.ImageName = "Marker.bmp",.Start = 0,.End = 9,.InterTime = 0.05 ,. Loop = true });
+    Marker->Off();
 }

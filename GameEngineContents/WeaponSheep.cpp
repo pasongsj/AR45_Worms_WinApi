@@ -35,14 +35,6 @@ void WeaponSheep::Update(float _DeltaTime)
         Explosion();
     }
 
-    if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
-    {
-        if(isShoot == false)
-        {
-            CurPlayer->ChangePlayerAnimation("SheepOn");
-        }
-    }
-
     //앞뒤 경사각 수시로 기록
     CheckMoveAngle();
     
@@ -53,15 +45,7 @@ void WeaponSheep::Update(float _DeltaTime)
 
 	if(isShoot == true && isExplosion == false)
 	{
-
-        if (isJump == true)
-        {
-            SheepJump(_DeltaTime);
-        }
-        else
-        {
-            SheepWalking(_DeltaTime);
-        }
+        SheepMove(_DeltaTime);
 	}
 
     if (isExplosion == true)
@@ -69,27 +53,7 @@ void WeaponSheep::Update(float _DeltaTime)
         DebrisAnimation(_DeltaTime);
     }
 
-    if(isExplosion == true)
-    {
-        if (ExplosionCircle->IsAnimationEnd() == true)
-        {
-            ExplosionCircle->ChangeAnimation("Idle");
-            ExplosionCircle->Off();
-        }
-
-        if (ExplosionElipse->IsAnimationEnd() == true)
-        {
-            ExplosionElipse->ChangeAnimation("Idle");
-            ExplosionElipse->Off();
-        }
-
-        if (PootTextAnimation->IsAnimationEnd() == true)
-        {
-            PootTextAnimation->ChangeAnimation("Idle");
-            PootTextAnimation->Off();
-        }
-    }
-
+    ExplosionAnimationOff();
     CameraUpdate(_DeltaTime);
 }		
 		
@@ -504,7 +468,47 @@ void WeaponSheep::DamageToPlayer()
     {
         for (int i = 0; i < CollisionPlayer.size(); i++)
         {
-            dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
+            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
+            Dir.Normalize();
+
+            ColPlayer->Damaged(Dmg, Dir, 50);
         }
+    }
+}
+
+void WeaponSheep::ExplosionAnimationOff()
+{
+    if (isExplosion == true)
+    {
+        if (ExplosionCircle->IsAnimationEnd() == true)
+        {
+            ExplosionCircle->ChangeAnimation("Idle");
+            ExplosionCircle->Off();
+        }
+
+        if (ExplosionElipse->IsAnimationEnd() == true)
+        {
+            ExplosionElipse->ChangeAnimation("Idle");
+            ExplosionElipse->Off();
+        }
+
+        if (PootTextAnimation->IsAnimationEnd() == true)
+        {
+            PootTextAnimation->ChangeAnimation("Idle");
+            PootTextAnimation->Off();
+        }
+    }
+}
+
+void WeaponSheep::SheepMove(float _DeltaTime)
+{
+    if (isJump == true)
+    {
+        SheepJump(_DeltaTime);
+    }
+    else
+    {
+        SheepWalking(_DeltaTime);
     }
 }

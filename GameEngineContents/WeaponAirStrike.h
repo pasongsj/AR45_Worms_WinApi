@@ -43,6 +43,8 @@ private:
     void ExplosionAnimation(int _Index);
     void ExplosionAnimationOff();
 
+    void MarkerInit();
+
     void TimeCounting();
 
     bool isTimeSet = false;
@@ -79,6 +81,8 @@ private:
 	bool isHideAirPlane = false;
     
     int MissileNum = 0;
+
+    GameEngineRender* Marker = nullptr;
 
 	float4 MiddleMissileStartPos = { 0,0 };
 

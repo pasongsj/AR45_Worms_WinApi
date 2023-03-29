@@ -29,6 +29,7 @@ void HomingMissile::Start()
     ChargingRenderInit();
     MarkerInit();
     DebrisInit();
+
     PrevTime = clock();
 
 }
@@ -36,7 +37,6 @@ void HomingMissile::Start()
 void HomingMissile::Update(float _DeltaTime)
 {
     Timer();
-
 
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
@@ -64,28 +64,8 @@ void HomingMissile::Update(float _DeltaTime)
         DebrisAnimation(_DeltaTime);
     }
     
+    ExplosionAnimationOff();
 
-    if (isExplosion == true)
-    {
-        if (ExplosionCircle->IsAnimationEnd() == true)
-        {
-            ExplosionCircle->ChangeAnimation("Idle");
-            ExplosionCircle->Off();
-        }
-
-        if (ExplosionElipse->IsAnimationEnd() == true)
-        {
-            ExplosionElipse->ChangeAnimation("Idle");
-            ExplosionElipse->Off();
-        }
-
-        if (PootTextAnimation->IsAnimationEnd() == true)
-        {
-            PootTextAnimation->ChangeAnimation("Idle");         
-            PootTextAnimation->Off();
-        }
-
-    }
     CameraUpdate(_DeltaTime);
 }
 
@@ -381,14 +361,21 @@ void HomingMissile::CameraUpdate(float _DeltaTime)
 void HomingMissile::DamageToPlayer()
 {
  
-    std::vector<GameEngineCollision*> PlayerList;
+    std::vector<GameEngineCollision*> CollisionPlayer;
 
-    if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, PlayerList))
+    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+
+
+    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
     {
-        for (int i = 0; i < PlayerList.size(); i++)
+        for (int i = 0; i < CollisionPlayer.size(); i++)
         {
-            dynamic_cast<Player*>(PlayerList[i]->GetActor())->Damaged(Dmg);
-            int a = 0;
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
+            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
+            Dir.Normalize();
+
+            ColPlayer->Damaged(Dmg, Dir, 300);
         }
     }
 
@@ -591,4 +578,28 @@ void HomingMissile::Timer()
     TimeCount = (CurTime - PrevTime) / 1000.0f;
 
     PrevTime = CurTime;
+}
+
+void HomingMissile::ExplosionAnimationOff()
+{
+    if (isExplosion == true)
+    {
+        if (ExplosionCircle->IsAnimationEnd() == true)
+        {
+            ExplosionCircle->ChangeAnimation("Idle");
+            ExplosionCircle->Off();
+        }
+
+        if (ExplosionElipse->IsAnimationEnd() == true)
+        {
+            ExplosionElipse->ChangeAnimation("Idle");
+            ExplosionElipse->Off();
+        }
+
+        if (PootTextAnimation->IsAnimationEnd() == true)
+        {
+            PootTextAnimation->ChangeAnimation("Idle");
+            PootTextAnimation->Off();
+        }
+    }
 }

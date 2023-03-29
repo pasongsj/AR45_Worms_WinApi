@@ -81,7 +81,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     float4 HolePos = { CurPlayer->GetPos().x + Dir.x * 10.0f , StartPos.y - BombScale};
     MapModifier::MainModifier->CreateHole(HolePos, BombScale);
 
-    CurPlayer->SetMove(Dir * 10.0f * _DeltaTime);
+    CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);
   
 }
 
