@@ -5,7 +5,7 @@
 
 struct Wind
 {
-	float	WindPower	= 300.f;
+	float	WindPower	= 30.f;
 	int		WindPhase	= 0;
 	float	MaxWind		= 1.19f;
 	float	WindResult	= 0.f;
