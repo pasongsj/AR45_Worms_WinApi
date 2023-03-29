@@ -18,10 +18,9 @@ enum class PlayerState
     FacePlant,
 
     FlyAway,
-
-    //구현예정
     Sliding,
     StandUp,
+
 };
 
 enum class PlayerAngleDir
@@ -244,6 +243,10 @@ private:
     void SlidingStart();
     void SlidingUpdate(float _DeltatTime);
     void SlidingEnd();
+
+    void StandUpStart();
+    void StandUpUpdate(float _DeltatTime);
+    void StandUpEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();

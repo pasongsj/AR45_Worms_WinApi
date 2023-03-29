@@ -97,7 +97,7 @@ void Player::Test()
         float4 TestDir = (float4::Up + float4::Right);
         float Power = 500.0f;
 
-		Damaged(50, TestDir, Power);
+		Damaged(10, TestDir, Power);
         //ChangeState(PlayerState::Win);
 	}
 }
@@ -200,6 +200,7 @@ void Player::Update(float _DeltaTime)
 
 void Player::GravityApplied(float _DeltaTime)
 {
+
 	MoveDir += (float4::Down * Gravity * _DeltaTime);
 }
 
@@ -207,11 +208,9 @@ void Player::MoveCalculation(float _DeltaTime)
 {
 	float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
     
-    if (PlayerState::FlyAway != StateValue)
-    {
-        NextPos = PullUpCharacter(NextPos, _DeltaTime);
-    }
-	SetMoveAngle();
+    NextPos = PullUpCharacter(NextPos, _DeltaTime);
+	
+    SetMoveAngle();
 
     if (true == IsGround)
     {
@@ -219,7 +218,8 @@ void Player::MoveCalculation(float _DeltaTime)
         if (PlayerState::Dead == StateValue ||
             PlayerState::IDLE == StateValue ||
             PlayerState::EQUIPWEAPON == StateValue ||
-            PlayerState::Win == StateValue )
+            PlayerState::Win == StateValue ||
+            PlayerState::StandUp == StateValue)
         {
             return;
         }
