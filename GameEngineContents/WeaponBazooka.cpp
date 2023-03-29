@@ -2,6 +2,7 @@
 #include "ContentsEnums.h"
 #include "Player.h"
 #include "MapModifier.h"
+#include "GlobalValue.h"
 
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -26,6 +27,8 @@ void WeaponBazooka::Start()
 
 void WeaponBazooka::Update(float _DeltaTime)
 {
+    Timer();
+
 	if(isAttack == false)
 	{
 		firing(_DeltaTime);
@@ -57,7 +60,6 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 	if (isFire == true)
 	{
-		GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		MakeSmoke();
 	}
     
@@ -102,29 +104,12 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	WeaponName = "Bazooka";
 
-	ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
-	ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End =  8, .InterTime = 0.05f , .Loop =false });
-	ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End =  1, .InterTime = 0.05f , .Loop =false });
-	ExplosionCircle->SetScale({ 100, 100 });
+    ExplosionEffectInit();
 
-    ExplosionCircle->ChangeAnimation("Idle");
-	ExplosionCircle->Off();
-
-    ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
-    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
-    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    ExplosionElipse->SetScale({ 150, 150 });
-
-    ExplosionElipse->ChangeAnimation("Idle");
-    ExplosionElipse->Off();
-
-    PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
-    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
-    PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    PootTextAnimation->SetScale({ 70, 70 });
-
-    PootTextAnimation->ChangeAnimation("Idle");
-    PootTextAnimation->Off();
+    ChargingGage = CreateRender("ChargeAni.bmp", WormsRenderOrder::Weapon);
+    ChargingGage->SetRotFilter("ChargeAniRot.bmp");
+    ChargingGage->SetScale({ 64, 192 });
+    ChargingGage->Off();
 
     DebrisInit();
 
@@ -137,7 +122,6 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	std::vector<GameEngineActor*> PlayerList = GetLevel()->GetActors(WormsRenderOrder::Player);
 	
-	ChargingRenderInit();
 	//플레이어 바뀔 때마다 CurPlayer 바꿔서 저장
 	SetCurPlayer();
 }
@@ -164,16 +148,16 @@ void WeaponBazooka::Charging() // 딱 Charging기능만으로 분리
 		ChargingRenderOn();
 
 
-		MoveSpeed = 300 + GetChargeTime() * 1000.0f;
+		MoveSpeed = 300 + GetChargeTime() * 2000.0f;
 
 		//Charge 로 바꿔야함
 		if (MoveSpeed < 300)
 		{
 			MoveSpeed = 300;
 		}
-		else if (MoveSpeed > 2000)
+		else if (MoveSpeed > 1900)
 		{
-			MoveSpeed = 2000;
+			MoveSpeed = 1900;
 		}
 	}
 }
@@ -217,8 +201,10 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
     
     Gravity += 10.0f * _DeltaTime;
 
+    float WindPower = GlobalValue::gValue.GetWindSpeed();
+
     CurPos = WeaponRender->GetPosition();
-    NextPos = CurPos + (Dir * MoveSpeed + float4{0, Gravity}) * _DeltaTime;
+    NextPos = CurPos + (Dir * MoveSpeed + float4{WindPower / 10 , Gravity}) * _DeltaTime;
 
     Dir = NextPos - CurPos;
     Dir.Normalize();
@@ -237,7 +223,7 @@ void WeaponBazooka::firing(float _DeltaTime) //발사
 
 void WeaponBazooka::Explosion() //폭발
 {
-	if (CheckCollision(WeaponCollision) == false /*발사되었는지 아닌지도 bool값으로 만들어서 조건에 넣어야함*/)
+	if (CheckCollision(WeaponCollision) == false)
 	{
 		return;
 	}
@@ -271,16 +257,14 @@ void WeaponBazooka::Explosion() //폭발
 
 void WeaponBazooka::BazookaOn()
 {
-	if ((CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON )&& isBazOn == false)
+	if ((CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON ) && isBazOn == false)
 	{
-		TimeCounting();
+        isBazOn = true;
 	}
-
-	if (isBazOn == false && isAttack == false)
-	{
-		TimeCount = 0;
-		isBazOn = true;
-	}
+    else
+    {
+        isBazOn = false;
+    }
 }
 
 void WeaponBazooka::ResetWeapon()
@@ -362,24 +346,24 @@ void WeaponBazooka::BazAiming()
 
 		else if (Bazindex > CurIndex)
 		{
-			TimeCounting();
+            IndexTimeCount += TimeCount;
 
-			if (TimeCount_3 >= 0.01f)
+			if (IndexTimeCount >= 0.01f)
 			{
 				++CurIndex;
                 CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
-                TimeCount_3 = 0;
+                IndexTimeCount = 0;
 			}
 		}
 		else if (Bazindex < CurIndex)
 		{
-			TimeCounting();
+            IndexTimeCount += TimeCount;
 
-			if (TimeCount_3 >= 0.01f)
+			if (IndexTimeCount >= 0.01f)
 			{
 				--CurIndex;
                 CurPlayer->ChangePlayerAnimation("BazookaAim", CurIndex);
-                TimeCount_3 = 0;
+                IndexTimeCount = 0;
 			}
 		}
 	}
@@ -395,59 +379,41 @@ void WeaponBazooka::BazAiming()
 	}
 }
 
-void WeaponBazooka::ChargingRenderInit()
-{
-	ChargingRender.resize(16);
-	size_t Size = ChargingRender.size();
-
-	for (int i = 0; i < Size; i++)
-	{
-		ChargingRender[i] = CreateRender("Charging.bmp", WormsRenderOrder::Weapon);
-		ChargingRender[i]->SetFrame(i);
-		ChargingRender[i]->SetScale({ 64, 64 });
-		ChargingRender[i]->Off();
-	}
-}
 
 void WeaponBazooka::ChargingRenderOn()
 {
-	if (CountingIndex >= ChargingRender.size())
-	{
-		return;
-	}
+    if (ChargingGage->GetFrame() == 15)
+    {
+        return;
+    }
 
-	size_t Size = ChargingRender.size();
 	float4 PlayerPos = CurPlayer->GetPos();
 
 	float4 StartPos = PlayerPos + float4{ ShootDir.x * 5, ShootDir.y * 5 } + float4{ 0, -8 };
-	
-	TimeCounting();
-	
-	if (TimeCount_2 > 0.05)
-	{
-		ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ ShootDir.x * 4 * (CountingIndex + 1), ShootDir.y * 4 * (CountingIndex + 1) });
-		ChargingRender[CountingIndex]->On();
+    float4 Dir = CurPlayer->GetPlayerDir();
 
-		TimeCount_2 = 0;
+    ChargingTimeCount += TimeCount;
+	
+	if (ChargingTimeCount > 0.05)
+	{
+        ChargingGage->On();
+        ChargingGage->SetFrame(CountingIndex); 
+        ChargingGage->SetPosition(StartPos + float4{ ShootDir.x * 2, ShootDir.y * 2 });
+        ChargingGage->SetAngle(-ShootDir.GetAnagleDeg() - 90);
+        ChargingTimeCount = 0;
 
 		CountingIndex++;
 	}
-
 
 }
 
 void WeaponBazooka::ChargingRenderOff()
 {
-	CountingIndex = 0;
-	TimeCount_2 = 0;
-	size_t Size = ChargingRender.size();
+    CountingIndex = 0;
+    ChargingTimeCount = 0;
 
-	for (int i = 0; i < Size; i++)
-	{
-		ChargingRender[i]->Off();
-	}
+    ChargingGage->Off();
 }
-
 
 void WeaponBazooka::DamageToPlayer()
 {
@@ -460,16 +426,20 @@ void WeaponBazooka::DamageToPlayer()
 	{
 		for (int i = 0; i < CollisionPlayer.size(); i++)
 		{
-			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
+            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
+            Dir.Normalize();
+
+			dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg, Dir, 300);
 		}
 	}
 }
 
 void WeaponBazooka::MakeSmoke()
 {
-	TimeCounting();
+    SmokeTimeCount += TimeCount;
 
-	if (TimeCount > 0.03)
+	if (SmokeTimeCount > 0.03)
 	{
 
 		float4 BaZooka = WeaponRender->GetActorPlusPos();
@@ -480,27 +450,17 @@ void WeaponBazooka::MakeSmoke()
 		Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.0001f , .Loop = false });
 		Smoke->ChangeAnimation("Smoke");
 
-		TimeCount = 0;
+        SmokeTimeCount = 0;
 	}
 }
 
-void WeaponBazooka::TimeCounting()
+
+void WeaponBazooka::Timer()
 {
-    if (isTimeSet = false)
-    {
-        PrevTime = clock();
-        isTimeSet = true;
-    }
-
     CurTime = clock();
-
-    TimeCount += (CurTime - PrevTime) / 1000;
-    TimeCount_2 += (CurTime - PrevTime) / 1000;
-    TimeCount_3 += (CurTime - PrevTime) / 1000;
-
+    TimeCount = (CurTime - PrevTime) / 1000;
     PrevTime = CurTime;
 }
-
 
 void WeaponBazooka::DebrisAnimation(float _DeltaTime)
 {
@@ -613,8 +573,9 @@ void WeaponBazooka::CameraUpdate(float _DeltaTime)
 
     if (isExplosion == false && isAttack == true)
     {
-        TimeCounting();
-        if (TimeCount >= 3.0f && fLerpRatio < 1)
+        CameraTimeCount += TimeCount;
+
+        if (CameraTimeCount >= 3.0f && fLerpRatio < 1)
         {
             CurPlayerPos = CurPlayer->GetPos();
             PrevCamPos = GetLevel()->GetCameraPos();

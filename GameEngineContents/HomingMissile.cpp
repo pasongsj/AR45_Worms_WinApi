@@ -333,9 +333,9 @@ void HomingMissile::Explosion()
         PootTextAnimation->SetPosition(WeaponRender->GetPosition());
         PootTextAnimation->On();
         PootTextAnimation->ChangeAnimation("Poot", 0);
-    }
 
-    DamageToPlayer();
+        DamageToPlayer();
+    }
 
     WeaponRender->Off();
     WeaponCollision->Off();

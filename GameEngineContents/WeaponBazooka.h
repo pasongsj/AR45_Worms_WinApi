@@ -16,7 +16,6 @@ public:
 	void BazookaOn();				//changeAnimation
 	void BazAiming();
 
-	void ChargingRenderInit();	//조준선 랜더
 	void ChargingRenderOn();
 	void ChargingRenderOff();
 
@@ -25,7 +24,9 @@ public:
 	void Charging();			
 	void firing(float _DeltaTime);
 	void Explosion();
-    void TimeCounting();
+
+    void Timer();
+
 	void DamageToPlayer();
     
     void ExplosionAnimationOff();
@@ -50,9 +51,8 @@ private:
 	GameEngineRender* shell = nullptr; //포탄 (투사체)
 
     //렌더, 애니메이션 
-	GameEngineRender* ExplosionCircle = nullptr;
-	GameEngineRender* ExplosionElipse = nullptr;
-	GameEngineRender* PootTextAnimation = nullptr;
+
+	GameEngineRender* ChargingGage = nullptr;
 
     std::vector<GameEngineRender*> Sparks;
     std::vector<GameEngineRender*> Smokes;
@@ -62,8 +62,6 @@ private:
 
     bool isDebrisSet = false;
     float DebrisGravity = false;
-
-    std::vector<GameEngineRender*> ChargingRender;
 
     //기능
 	bool isExplosion = false;
@@ -82,8 +80,11 @@ private:
     float PrevTime = 0.0f;
 
     float TimeCount = 0.0f;
-    float TimeCount_2 = 0.0f;
-    float TimeCount_3 = 0.0f;
+
+    float IndexTimeCount = 0.0f;
+    float ChargingTimeCount = 0.0f;
+    float SmokeTimeCount = 0.0f;
+    float CameraTimeCount = 0.0f;
 
 	int Bazindex = 0;
 	int CurIndex = 16;
