@@ -63,10 +63,6 @@ private:
 
     GameEngineRender* Marker = nullptr;
 
-    GameEngineRender* ExplosionCircle = nullptr;
-    GameEngineRender* ExplosionElipse = nullptr;
-    GameEngineRender* PootTextAnimation = nullptr;
-
     std::vector<GameEngineRender*> Sparks;
     std::vector<GameEngineRender*> Smokes;
 

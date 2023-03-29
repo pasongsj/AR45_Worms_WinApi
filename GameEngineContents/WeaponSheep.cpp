@@ -69,6 +69,27 @@ void WeaponSheep::Update(float _DeltaTime)
         DebrisAnimation(_DeltaTime);
     }
 
+    if(isExplosion == true)
+    {
+        if (ExplosionCircle->IsAnimationEnd() == true)
+        {
+            ExplosionCircle->ChangeAnimation("Idle");
+            ExplosionCircle->Off();
+        }
+
+        if (ExplosionElipse->IsAnimationEnd() == true)
+        {
+            ExplosionElipse->ChangeAnimation("Idle");
+            ExplosionElipse->Off();
+        }
+
+        if (PootTextAnimation->IsAnimationEnd() == true)
+        {
+            PootTextAnimation->ChangeAnimation("Idle");
+            PootTextAnimation->Off();
+        }
+    }
+
     CameraUpdate(_DeltaTime);
 }		
 		
@@ -112,14 +133,12 @@ void WeaponSheep::WeaponSheepInit()
 	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveLeft", .ImageName = "SheepWalkLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
 	
     ScreenSize = GameEngineWindow::GetScreenSize();
-	//ExplosionAnimation = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
-	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.03f , .Loop = false });
-	//ExplosionAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
-	//ExplosionAnimation->SetScale({ 100, 100 });
-	//ExplosionAnimation->Off();
+
+    ExplosionEffectInit();
 
 	Gravity = 0.0f; //임시 설정값
-
+    BombScale = 50.0f;
+    Dmg = 50;
 	MoveSpeed = 200.0f; //임시 설정값
 }
 
@@ -287,14 +306,20 @@ bool WeaponSheep::CanIMove()
 
 void WeaponSheep::Explosion()
 {
-    MapModifier::MainModifier->CreateHole(GetPos(), 50);
+    MapModifier::MainModifier->CreateHole(GetPos(), BombScale);
     WeaponRender->Off();
     WeaponCollision->Off();
+    
+    ExplosionCircle->On();
+    ExplosionCircle->ChangeAnimation("Explosion", 0);
 
-    //for(int i =0; i<15; i++)
-    //{
-    //    CreateDebris();
-    //}
+    ExplosionElipse->On();
+    ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+    PootTextAnimation->On();
+    PootTextAnimation->ChangeAnimation("Poot", 0);
+
+    DamageToPlayer();
 
     isExplosion = true;
 }
@@ -356,6 +381,13 @@ void WeaponSheep::Timer()
 
 void WeaponSheep::CameraUpdate(float _DeltaTime)
 {
+    if (isShoot == false)
+    {
+        GetLevel()->SetCameraPos(CurPlayer->GetPos() - ScreenSize.half());
+        return;
+    }
+
+
     if (isExplosion == false)
     {
         GetLevel()->SetCameraPos(GetPos() - ScreenSize.half());
@@ -371,7 +403,7 @@ void WeaponSheep::CameraUpdate(float _DeltaTime)
             fLerpRatio += _DeltaTime * fLerpSpeed;
             GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
         }
-        else if (fLerpRatio >= 1)
+        else if (fLerpRatio >= 1 && CameraTimeCount >= 4.0f)
         {
             isWeaponDone = true;
         }
@@ -458,5 +490,21 @@ void WeaponSheep::DebrisInit()
         Spark->Off();
 
         Sparks.push_back(Spark);
+    }
+}
+
+void WeaponSheep::DamageToPlayer()
+{
+    std::vector<GameEngineCollision*> CollisionPlayer;
+
+    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+
+    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
+    {
+        for (int i = 0; i < CollisionPlayer.size(); i++)
+        {
+            dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
+        }
     }
 }

@@ -37,7 +37,12 @@ void WeaponTorch::Update(float _DeltaTime)
 
     if(isAttack == true && isFireEnd == false)
     {
-        TorchOn();
+        TorchOn(_DeltaTime);
+    }
+
+    if (TorchTime > 10.0f)
+    {
+        isWeaponDone = true;
     }
 }
 
@@ -61,19 +66,22 @@ void WeaponTorch::TorchInit()
     WeaponName = "Torch";
 }
 
-void WeaponTorch::TorchOn()
+void WeaponTorch::TorchOn(float _DeltaTime)
 {
     if (TorchTime >= 5.0f)
     {
         isFireEnd = true;
-        isWeaponDone = true;
         return;
     }
 
     TorchTime += TimeCount;
 
-    float4 HolePos = { CurPlayer->GetPos().x, StartPos.y - BombScale};
+    float4 Dir = CurPlayer->GetPlayerDir();
+
+    float4 HolePos = { CurPlayer->GetPos().x + Dir.x * 10.0f , StartPos.y - BombScale};
     MapModifier::MainModifier->CreateHole(HolePos, BombScale);
+
+    CurPlayer->SetMove(Dir * 10.0f * _DeltaTime);
   
 }
 

@@ -226,3 +226,32 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 수정필요
 		}
 	}
 }
+
+
+void Weapon::ExplosionEffectInit()
+{
+    ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->SetScale({ 100, 100 });
+
+    ExplosionCircle->ChangeAnimation("Idle");
+    ExplosionCircle->Off();
+
+    ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
+    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
+    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionElipse->SetScale({ 150, 150 });
+
+    ExplosionElipse->ChangeAnimation("Idle");
+    ExplosionElipse->Off();
+
+    PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    PootTextAnimation->SetScale({ 70, 70 });
+
+    PootTextAnimation->ChangeAnimation("Idle");
+    PootTextAnimation->Off();
+
+}

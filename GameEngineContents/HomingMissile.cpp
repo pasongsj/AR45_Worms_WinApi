@@ -40,21 +40,9 @@ void HomingMissile::Update(float _DeltaTime)
 
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
-        if (isAiming == false)
+        if (isFire == false)
         {
-            CurPlayer->ChangePlayerAnimation("HomingOn");
-
-            if (CurPlayer->IsPlayerAnimationEnd() == true)
-            {
-                isAiming = true;
-            }
-        }
-        else
-        {
-            if (isFire == false)
-            {
-                Aiming();
-            }
+            Aiming();
         }
     }
     else
@@ -75,7 +63,29 @@ void HomingMissile::Update(float _DeltaTime)
     {
         DebrisAnimation(_DeltaTime);
     }
+    
 
+    if (isExplosion == true)
+    {
+        if (ExplosionCircle->IsAnimationEnd() == true)
+        {
+            ExplosionCircle->ChangeAnimation("Idle");
+            ExplosionCircle->Off();
+        }
+
+        if (ExplosionElipse->IsAnimationEnd() == true)
+        {
+            ExplosionElipse->ChangeAnimation("Idle");
+            ExplosionElipse->Off();
+        }
+
+        if (PootTextAnimation->IsAnimationEnd() == true)
+        {
+            PootTextAnimation->ChangeAnimation("Idle");         
+            PootTextAnimation->Off();
+        }
+
+    }
     CameraUpdate(_DeltaTime);
 }
 
@@ -126,6 +136,7 @@ void HomingMissile::HomingMissileInit()
 
     MoveSpeed = 900.0f; //임시 설정값
 
+    ExplosionEffectInit();
     SetCurPlayer();
 }
 
@@ -310,6 +321,18 @@ void HomingMissile::Explosion()
     if (WeaponRender->IsUpdate() == true)
     {
         MapModifier::MainModifier->CreateHole(WeaponRender->GetActorPlusPos(), BombScale);
+
+        ExplosionCircle->SetPosition(WeaponRender->GetPosition());
+        ExplosionCircle->On();
+        ExplosionCircle->ChangeAnimation("Explosion", 0);
+
+        ExplosionElipse->SetPosition(WeaponRender->GetPosition());
+        ExplosionElipse->On();
+        ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+        PootTextAnimation->SetPosition(WeaponRender->GetPosition());
+        PootTextAnimation->On();
+        PootTextAnimation->ChangeAnimation("Poot", 0);
     }
 
     DamageToPlayer();

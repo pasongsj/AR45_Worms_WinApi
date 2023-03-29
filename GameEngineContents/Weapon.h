@@ -94,8 +94,15 @@ protected:
 	void SetCurPlayer();
 	void AttackPlayer(GameEngineCollision* _Col);
 
+    void ExplosionEffectInit();
+
 	//virtual void Charging();
 	virtual void Firing(float _Deltatime) {}; // 날아가는거, 
+
+
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
 
 	
 private:

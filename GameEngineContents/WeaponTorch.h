@@ -25,7 +25,7 @@ protected:
 
 private:
     void TorchInit();
-    void TorchOn();
+    void TorchOn(float _DeltaTime);
 
     void Timer();
 

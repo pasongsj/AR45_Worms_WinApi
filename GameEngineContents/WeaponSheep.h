@@ -34,13 +34,10 @@ private:
     void Timer();
     void CameraUpdate(float _DeltaTime);
 
+    void DamageToPlayer();
 
     void DebrisAnimation(float _DeltaTime);
     void DebrisInit();
-
-    GameEngineRender* ExplosionCircle = nullptr;
-    GameEngineRender* ExplosionElipse = nullptr;
-    GameEngineRender* PootTextAnimation = nullptr;
 
     std::vector<GameEngineRender*> Sparks;
     std::vector<GameEngineRender*> Smokes;

@@ -35,6 +35,7 @@ void WeaponAirStrike::Update(float _DeltaTime)
 
 	Attack(_DeltaTime);
     DebrisAnimation(_DeltaTime);
+    ExplosionAnimationOff();
 	CameraUpdate(_DeltaTime);
 }
 
@@ -57,11 +58,14 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 	WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
 
     BombScale = 50;
+    Dmg = 50;
 
     WeaponName = "AirStrike";
 
     MissileNum = 5;
     MissileList.reserve(MissileNum);
+
+    ExplosionEffectInit();
  
 }
 
@@ -112,11 +116,11 @@ void WeaponAirStrike::SetAirPlanePos()
 
 	if (isMoveRight == true)
 	{
-		AirPlaneStartPos.x -= 300.0f;
+		AirPlaneStartPos.x -= 700.0f;
 	}
 	else
 	{
-		AirPlaneStartPos.x += 300.0f;
+		AirPlaneStartPos.x += 700.0f;
 	}
 
 	Airplane->SetPosition(AirPlaneStartPos);
@@ -127,21 +131,20 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 {
 	if (Airplane->IsUpdate() == true)
 	{
-
 		if (isMoveRight == true)
 		{
-			Airplane->SetMove(float4::Right * 200.0f * _DeltaTime);
+			Airplane->SetMove(float4::Right * 600.0f * _DeltaTime);
 		}
 
 		else
 		{
-			Airplane->SetMove(float4::Left * 200.0f * _DeltaTime);
+			Airplane->SetMove(float4::Left * 600.0f * _DeltaTime);
 		}
 	}
 
 	float MovePos = Airplane->GetPosition().x - AirPlaneStartPos.x;
 	
-	if (abs(MovePos) > 200.0f)
+	if (abs(MovePos) > 500.0f)
 	{
 		Airplane->Off();
 		isHideAirPlane = true;
@@ -184,7 +187,16 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 void WeaponAirStrike::SetMissiles()
 {
 	float4 AirPlanePos = Airplane->GetPosition();
-	float MissileXpos = 0;
+    float MissileXpos = 0.0f;
+
+    if (isMoveRight == true)
+    {
+        MissileXpos = -150.0f;
+    }
+    else
+    {
+        MissileXpos = 150.0f;
+    }
 
 	for (int i = 0; i < MissileNum; i++)
 	{
@@ -222,6 +234,8 @@ void WeaponAirStrike::Explosion()
 			MissileList[i]->Off();
 
             DebrisSet(i);
+            ExplosionAnimation(i);
+            DamageToPlayer();
 		}
 	}
 }
@@ -230,11 +244,17 @@ void WeaponAirStrike::CameraUpdate(float _DeltaTime)
 {
 	if (Airplane->IsUpdate() == true)
 	{
-		GetLevel()->SetCameraPos(Airplane->GetActorPlusPos() - ScreenSize.half());
+        float4 AirPlanePos = Airplane->GetActorPlusPos();
+        PrevCamPos = GetLevel()->GetCameraPos();
+        fLerpRatio += _DeltaTime * fLerpSpeed;
+        GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, AirPlanePos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
 	}
 	else if (MissileList.size() >= 3 && MissileList[2]->IsUpdate() == true)
 	{
 		GetLevel()->SetCameraPos(MissileList[2]->GetActorPlusPos() - ScreenSize.half());
+
+        PrevCamPos = { 0, 0 };
+        fLerpRatio = 0.0f;
 	}
 
 
@@ -380,4 +400,93 @@ void WeaponAirStrike::TimeCounting()
     TimeCount += (CurTime - PrevTime) / 1000;
 
     PrevTime = CurTime;
+}
+
+void WeaponAirStrike::DamageToPlayer()
+{
+    std::vector<GameEngineCollision*> CollisionPlayer;
+
+    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+
+    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
+    {
+        for (int i = 0; i < CollisionPlayer.size(); i++)
+        {
+            dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->Damaged(Dmg);
+        }
+    }
+}
+
+void WeaponAirStrike::ExplosionEffectInit()
+{
+
+    for (int i = 0; i < MissileNum; i++)
+    {
+        GameEngineRender* Circle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
+        Circle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
+        Circle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+        Circle->SetScale({ 100, 100 });
+
+        Circle->ChangeAnimation("Idle");
+        Circle->Off();
+
+        ExplosionCircleList.push_back(Circle);
+
+        GameEngineRender* Elipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
+        Elipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
+        Elipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+        Elipse->SetScale({ 150, 150 });
+
+        Elipse->ChangeAnimation("Idle");
+        Elipse->Off();
+
+        ExplosionElipseList.push_back(Elipse);
+
+        GameEngineRender* PootText = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
+        PootText->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
+        PootText->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+        PootText->SetScale({ 70, 70 });
+
+        PootText->ChangeAnimation("Idle");
+        PootText->Off();
+
+        PootTextAnimationList.push_back(PootText);
+    }
+}
+
+void WeaponAirStrike::ExplosionAnimation(int _Index)
+{
+    ExplosionCircleList[_Index]->SetPosition(MissileList[_Index]->GetPosition());
+    ExplosionCircleList[_Index]->On();
+    ExplosionCircleList[_Index]->ChangeAnimation("Explosion", 0);
+
+    ExplosionElipseList[_Index]->SetPosition(MissileList[_Index]->GetPosition());
+    ExplosionElipseList[_Index]->On();
+    ExplosionElipseList[_Index]->ChangeAnimation("ExplosionElipse", 0);
+
+    PootTextAnimationList[_Index]->SetPosition(MissileList[_Index]->GetPosition());
+    PootTextAnimationList[_Index]->On();
+    PootTextAnimationList[_Index]->ChangeAnimation("Poot", 0);
+}
+
+void WeaponAirStrike::ExplosionAnimationOff()
+{
+    for (int i = 0; i < MissileNum; i++)
+    {
+        if (ExplosionCircleList[i]->IsAnimationEnd() == true)
+        {
+            ExplosionCircleList[i]->Off();
+        }
+
+        if (ExplosionElipseList[i]->IsAnimationEnd() == true)
+        {
+            ExplosionElipseList[i]->Off();
+        }
+
+        if (PootTextAnimationList[i]->IsAnimationEnd() == true)
+        {
+            PootTextAnimationList[i]->Off();
+        }
+    }
 }

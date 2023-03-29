@@ -13,11 +13,7 @@ public:
 
 	void WeaponBazookaInit();
 
-	void ChangeBazReadyAnimation();
-
-
 	void BazookaOn();				//changeAnimation
-	void BazookaOff();
 	void BazAiming();
 
 	void ChargingRenderInit();	//조준선 랜더
@@ -31,9 +27,13 @@ public:
 	void Explosion();
     void TimeCounting();
 	void DamageToPlayer();
+    
+    void ExplosionAnimationOff();
 
     void DebrisAnimation(float _DeltaTime);
     void DebrisInit();
+
+    void CameraUpdate(float _DeltaTime);
 
 	WeaponBazooka(const WeaponBazooka& _Other) = delete;
 	WeaponBazooka(WeaponBazooka&& _Other) noexcept = delete;

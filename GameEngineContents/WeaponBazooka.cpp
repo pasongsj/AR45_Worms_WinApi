@@ -46,8 +46,6 @@ void WeaponBazooka::Update(float _DeltaTime)
 
 	if (isExplosion == true && ExplosionCircle->IsAnimationEnd() == true)
 	{
-		ExplosionCircle->ChangeAnimation("Idle");
-		ExplosionCircle->Off();
 
 		isEndBazOn = false;
 		isExplosion = false;
@@ -56,47 +54,21 @@ void WeaponBazooka::Update(float _DeltaTime)
 		fLerpRatio = 0;
 	}
 
-    if (ExplosionElipse->IsAnimationEnd() == true)
-    {
-        ExplosionElipse->ChangeAnimation("Idle");
-        ExplosionElipse->Off();
-    }
-
-    if (PootTextAnimation->IsAnimationEnd() == true)
-    {
-        PootTextAnimation->ChangeAnimation("Idle");
-        PootTextAnimation->Off();
-    }
 
 	if (isFire == true)
 	{
 		GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
 		MakeSmoke();
 	}
-
-	if (isExplosion == false && isAttack == true)
-	{
-		TimeCounting();
-		if (TimeCount >= 3.0f && fLerpRatio < 1)
-		{
-			CurPlayerPos = CurPlayer->GetPos();
-			PrevCamPos = GetLevel()->GetCameraPos();
-			fLerpRatio += _DeltaTime * fLerpSpeed;
-			GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
-		}
-
-		if (fLerpRatio >= 1)
-		{
-            isWeaponDone = true;
-		}
-	}
+    
+    ExplosionAnimationOff();
+    CameraUpdate(_DeltaTime);
 }
 
 void WeaponBazooka::Render(float _DeltaTime)
 {
 	if (true == GameEngineInput::IsDown("ChangePlayer"))
 	{
-		CurPlayer->ChangePlayerAnimation("BazookaOff");
 		CurPlayer->SetCanIMove(true);
 		ResetWeapon();
 		isAttack = false;
@@ -220,7 +192,6 @@ void WeaponBazooka::firing(float _DeltaTime) //¹ß»ç
 
 	if (isAiming == true && isEndCharging() == true)
 	{
-		CurPlayer->ChangePlayerAnimation("BazookaOff");
 		ChargingRenderOff();
 		isFire = true;
 	}
@@ -296,11 +267,6 @@ void WeaponBazooka::Explosion() //Æø¹ß
 
 		DamageToPlayer();
 	}
-}
-
-void WeaponBazooka::ChangeBazReadyAnimation()
-{
-
 }
 
 void WeaponBazooka::BazookaOn()
@@ -486,6 +452,8 @@ void WeaponBazooka::ChargingRenderOff()
 void WeaponBazooka::DamageToPlayer()
 {
 	std::vector<GameEngineCollision*> CollisionPlayer;
+
+    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
 	if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
@@ -503,6 +471,7 @@ void WeaponBazooka::MakeSmoke()
 
 	if (TimeCount > 0.03)
 	{
+
 		float4 BaZooka = WeaponRender->GetActorPlusPos();
 
 		GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
@@ -612,5 +581,50 @@ void WeaponBazooka::DebrisInit()
         Spark->Off();
 
         Sparks.push_back(Spark);
+    }
+}
+
+void WeaponBazooka::ExplosionAnimationOff()
+{
+    if (ExplosionCircle->IsAnimationEnd() == true)
+    {
+        ExplosionCircle->ChangeAnimation("Idle");
+        ExplosionCircle->Off();
+    }
+    if (ExplosionElipse->IsAnimationEnd() == true)
+    {
+        ExplosionElipse->ChangeAnimation("Idle");
+        ExplosionElipse->Off();
+    }
+
+    if (PootTextAnimation->IsAnimationEnd() == true)
+    {
+        PootTextAnimation->ChangeAnimation("Idle");
+        PootTextAnimation->Off();
+    }
+}
+
+void WeaponBazooka::CameraUpdate(float _DeltaTime)
+{
+    if (isFire == true)
+    {
+        GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+    }
+
+    if (isExplosion == false && isAttack == true)
+    {
+        TimeCounting();
+        if (TimeCount >= 3.0f && fLerpRatio < 1)
+        {
+            CurPlayerPos = CurPlayer->GetPos();
+            PrevCamPos = GetLevel()->GetCameraPos();
+            fLerpRatio += _DeltaTime * fLerpSpeed;
+            GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
+        }
+
+        if (fLerpRatio >= 1)
+        {
+            isWeaponDone = true;
+        }
     }
 }

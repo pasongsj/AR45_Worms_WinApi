@@ -33,9 +33,15 @@ private:
 	void Explosion();
 	void CameraUpdate(float _DeltaTime);
 
+    void DamageToPlayer();
+
     void DebrisAnimation(float _DeltaTime);
     void DebrisSet(int MissileIndex);
     void DebrisInit();
+
+    void ExplosionEffectInit();
+    void ExplosionAnimation(int _Index);
+    void ExplosionAnimationOff();
 
     void TimeCounting();
 
@@ -48,9 +54,9 @@ private:
 	GameEngineRender* Airplane = nullptr;
 
     //렌더, 애니메이션 
-    GameEngineRender* ExplosionCircle = nullptr;
-    GameEngineRender* ExplosionElipse = nullptr;
-    GameEngineRender* PootTextAnimation = nullptr;
+    std::vector<GameEngineRender*> ExplosionCircleList;
+    std::vector<GameEngineRender*> ExplosionElipseList;
+    std::vector<GameEngineRender*> PootTextAnimationList;
 
     std::vector<GameEngineRender*> Sparks;
     std::vector<GameEngineRender*> Smokes;
