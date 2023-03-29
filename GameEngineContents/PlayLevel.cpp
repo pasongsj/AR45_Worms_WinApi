@@ -114,6 +114,18 @@ void PlayLevel::ImageLoad()
 
             GameEngineImage* FlyingMedikit = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("mcrate2.bmp"));
             FlyingMedikit->Cut(1, 20);
+
+            GameEngineImage* OilDrum1 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("oildrum1.bmp"));
+            OilDrum1->Cut(1, 20);
+
+            GameEngineImage* OilDrum2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("oildrum2.bmp"));
+            OilDrum2->Cut(1, 20);
+
+            GameEngineImage* OilDrum3 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("oildrum3.bmp"));
+            OilDrum3->Cut(1, 20);
+
+            GameEngineImage* OilDrum4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("oildrum4.bmp"));
+            OilDrum4->Cut(1, 20);
         }
 
         Dir.MoveParent();

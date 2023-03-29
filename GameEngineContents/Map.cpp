@@ -6,7 +6,8 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
 #include "MapModifier.h"
-#include "MapObject.h"
+#include "Medikit.h"
+#include "Drum.h"
 #include "MapDecoration.h"
 #include "WeaponInterFace.h"
 //ScreenSize: { 1280, 960 }
@@ -62,9 +63,14 @@ void Map::Start()
     }
 
     //맵 오브젝트용 키 입력 생성
-    if (false == GameEngineInput::IsKey("LandHole"))
+    if (false == GameEngineInput::IsKey("MediKitButton"))
     {
-        GameEngineInput::CreateKey("ItemButton", 'I');
+        GameEngineInput::CreateKey("MediKitButton", 'I');
+    }
+
+    if (false == GameEngineInput::IsKey("OilDrumButton"))
+    {
+        GameEngineInput::CreateKey("OilDrumButton", 'O');
     }
 
     //마우스 좌측 키 입력 생성
@@ -178,10 +184,25 @@ void Map::Start()
             Deco->MergeMap();
         }
     }
+
+
+    //기본적으로 맵이 세팅되면 5개 정도의 드럼통이 미리 생성되어 있어야 함
 }
 
 void Map::Update(float _DeltaTime)
 {
+    WaitTime -= _DeltaTime;
+
+    if (0.0f >= WaitTime)
+    {
+        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(0, 4);
+        for (int i = 0; i < NumOfObj; ++i)
+        {
+            Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
+            Object->SetPos(Object->GetMapObjPos());
+        }
+        WaitTime = 25.0f;
+    }
 	
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
@@ -192,11 +213,20 @@ void Map::Update(float _DeltaTime)
 		return;
 	}
 
-    if (true == GameEngineInput::IsDown("ItemButton"))
+    if (true == GameEngineInput::IsDown("MediKitButton"))
     {
-        MapObject* Object = GetLevel()->CreateActor<MapObject>(WormsRenderOrder::MapObject);
+        Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
         Object->SetPos(Object->GetMapObjPos());
         
+
+        return;
+    }
+
+    if (true == GameEngineInput::IsDown("OilDrumButton"))
+    {
+        Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+        //Object->SetPos(Object->GetMapObjPos());
+        Object->SetPos({ 400, 100 });
 
         return;
     }
