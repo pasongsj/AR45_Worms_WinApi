@@ -21,6 +21,7 @@
 #include "WeaponClusterBomb.h"
 #include "AllPlayerHpUI.h"
 #include "TurnTimeUI.h"
+#include "WeaponFirePunch.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -342,6 +343,17 @@ void PlayLevel::ImageLoad()
             ShotgunOffLeft->Cut(1, 10);
             GameEngineImage* ShotgunOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOnLeft.bmp"));
             ShotgunOnLeft->Cut(1, 10);
+            
+            GameEngineImage* FirePunchChargingLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchChargingLeft.bmp"));
+            FirePunchChargingLeft->Cut(1, 9);
+            GameEngineImage* FirePunchFireLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchFireLeft.bmp"));
+            FirePunchFireLeft->Cut(1, 3);
+            GameEngineImage* FirePunchOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOffLeft.bmp"));
+            FirePunchOffLeft->Cut(1, 26);
+            GameEngineImage* FirePunchOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOnLeft.bmp"));
+            FirePunchOnLeft->Cut(1, 26);
+            GameEngineImage* FirePunchAfterLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchAfterLeft.bmp"));
+            FirePunchAfterLeft->Cut(1, 13);
 
 		}
 
@@ -463,6 +475,18 @@ void PlayLevel::ImageLoad()
             ShotgunOffRight->Cut(1, 10);
             GameEngineImage* ShotgunOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ShotgunOnRight.bmp"));
             ShotgunOnRight->Cut(1, 10);
+
+            GameEngineImage* FirePunchChargingRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchChargingRight.bmp"));
+            FirePunchChargingRight->Cut(1, 9);
+            GameEngineImage* FirePunchFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchFireRight.bmp"));
+            FirePunchFireRight->Cut(1, 3);
+            GameEngineImage* FirePunchOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOffRight.bmp"));
+            FirePunchOffRight->Cut(1, 26);
+            GameEngineImage* FirePunchOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOnRight.bmp"));
+            FirePunchOnRight->Cut(1, 26);
+            GameEngineImage* FirePunchAfterRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchAfterRight.bmp"));
+            FirePunchAfterRight->Cut(1, 13);
+
 		}
 		Dir.MoveParent();
 	}
@@ -834,6 +858,7 @@ void PlayLevel::Loading()
 
    
     GlobalValue::gValue.SetPlayLevel(this);
+    //CreateActor<WeaponFirePunch>();
 
 }
 

@@ -53,6 +53,7 @@ enum class WeaponNum
 	Handgun,
 	Uzi,
 	Minigun,
+    FirePunch,          //F4
 	Sheep,				//F5
 	AirStrike,			//F6
     Torch,              //F7

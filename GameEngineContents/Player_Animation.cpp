@@ -192,4 +192,33 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_ShotgunOn", .ImageName = "ShotgunOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_ShotgunOn", .ImageName = "ShotgunOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
     }
+
+    // ÆÄÀÌ¾î ÆİÄ¡
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchFire", .ImageName = "FirePunchFireLeft.bmp",.Start = 0, .End = 2, .InterTime = 1000, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchFire", .ImageName = "FirePunchFireRight.bmp",.Start = 0, .End = 2, .InterTime = 1000, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchCharging", .ImageName = "FirePunchChargingLeft.bmp",.Start = 0, .End = 8, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchCharging", .ImageName = "FirePunchChargingRight.bmp",.Start = 0, .End = 8, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchOff", .ImageName = "FirePunchOffLeft.bmp",.Start = 0, .End = 25, .InterTime = 0.03f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchOff", .ImageName = "FirePunchOffRight.bmp",.Start = 0, .End = 25, .InterTime = 0.03f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchOn", .ImageName = "FirePunchOnLeft.bmp",.Start = 0, .End = 25, .InterTime = 0.015f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchOn", .ImageName = "FirePunchOnRight.bmp", .Start = 0, .End = 25, .InterTime = 0.015f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchAfter", .ImageName = "FirePunchAfterLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchAfter", .ImageName = "FirePunchAfterRight.bmp", .Start = 0, .End = 12, .InterTime = 0.1f, .Loop = false });
+
+    }
+    //GameEngineImage* FirePunchChargingRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchChargingRight.bmp"));
+    //FirePunchChargingRight->Cut(1, 9);
+    //GameEngineImage* FirePunchFireRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchFireRight.bmp"));
+    //FirePunchFireRight->Cut(1, 3);
+    //GameEngineImage* FirePunchOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOffRight.bmp"));
+    //FirePunchOffRight->Cut(1, 26);
+    //GameEngineImage* FirePunchOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchOnRight.bmp"));
+    //FirePunchOnRight->Cut(1, 26);
+    //GameEngineImage* FirePunchAfterRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchAfterRight.bmp"));
+    //FirePunchOnRight->Cut(1, 13);
 }

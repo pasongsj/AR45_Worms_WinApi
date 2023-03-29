@@ -29,7 +29,7 @@ void WeaponShotgun::Start()
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 
-	AllWeapons[WeaponName] = this;
+	//AllWeapons[WeaponName] = this;
 	WeaponNumber = static_cast<int>(WeaponNum::Shotgun);
 
 

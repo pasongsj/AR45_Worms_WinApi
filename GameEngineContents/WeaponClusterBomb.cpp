@@ -43,7 +43,7 @@ void WeaponClusterBomb::Start()
 
     }
     ClusterOff();
-    AllWeapons[WeaponName] = this;
+    //AllWeapons[WeaponName] = this;
     WeaponNumber = static_cast<int>(WeaponNum::ClusterBomb);
 
     // 터지는 애니메이션 랜더

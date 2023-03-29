@@ -29,7 +29,7 @@ void WeaponGrenade::Start()
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
 
-	AllWeapons[WeaponName] = this;
+	//AllWeapons[WeaponName] = this;
 	WeaponNumber = static_cast<int>(WeaponNum::Grenade);
 
     // 터지는 애니메이션 랜더
