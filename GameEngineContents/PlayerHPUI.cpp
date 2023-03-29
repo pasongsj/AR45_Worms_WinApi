@@ -29,6 +29,10 @@ void PlayerHPUI::Update(float _DeltaTime)
 		{
 			--CurrentValue;
 		}
+        else if (CurrentValue < *HPValue)
+        {
+            ++CurrentValue;
+        }
 
 		if (CurrentValue < 0)
 		{

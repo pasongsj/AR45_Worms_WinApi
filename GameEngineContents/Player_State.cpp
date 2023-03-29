@@ -265,6 +265,7 @@ void Player::MoveStart()
 {
     DirCheck("Move");
     StateCalTime = 0.0f;
+    StateCalValue = 0.0f;
 }
 void Player::MoveUpdate(float _DeltatTime)
 {
@@ -297,6 +298,7 @@ void Player::MoveUpdate(float _DeltatTime)
 
     if (StateCalTime > 0.05f)
     {
+        StateCalValue = GetPos().y;
         ChangeState(PlayerState::FlyDown);
         return;
     }
@@ -348,6 +350,7 @@ void Player::JumpStart()
     StateCalTime = 0.0f;
     StateCalBool = true;
     StateCalBool2 = true;
+    StateCalValue = 0.0f;
 }
 void Player::JumpUpdate(float _DeltatTime)
 {
@@ -357,38 +360,64 @@ void Player::JumpUpdate(float _DeltatTime)
         return;
     }
 
+    if (StateCalValue < GetPos().y)
+    {
+        StateCalValue = GetPos().y;
+    }
+
     StateCalTime += _DeltatTime;
 
     float testvalue = 0.5f;
 
     if (true == UpPixelCheck)
     {
-        MoveDir = { 0, (-MoveDir.y) };
+        MoveDir = { MoveDir.x , (-MoveDir.y) };
+
     }
     else if (true == LeftPixelCheck && "Left_" == DirString)
     {
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
     }
     else if (true == RightPixelCheck && "Right_" == DirString)
     {
         DirString = "Left_";
         MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
     }
     else if (true == LeftUpPixelCheck && "Left_" == DirString)
     {
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+
     }
     else if (true == RightUpPixelCheck && "Right_" == DirString)
     {
         DirString = "Left_";
-        MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == RightDownPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == LeftDownPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
     }
 
 
 	if (true == AnimationRender->IsAnimationEnd() && true == StateCalBool)
 	{
+        SetMove({ 0, -5 });
+
+        IsGround = false;
+
         if ("Right_" == DirString)
         {
             MoveDir += (float4::Up + float4::Right) * 150.0f;
@@ -416,10 +445,6 @@ void Player::JumpUpdate(float _DeltatTime)
 
     if (AnimationRender->IsAnimationEnd() && false == StateCalBool2)
     {
-        //std::string AnimationName = "FlyDown";
-        //std::string AnimationText = AnimationDir.data() + AnimationName;
-        //AnimationRender->ChangeAnimation(AnimationText);
-
         ChangeState(PlayerState::FlyDown);
         return;
     }
@@ -483,13 +508,65 @@ void Player::FlyDownStart()
 
 void Player::FlyDownUpdate(float _DeltatTime)
 {
+    float testvalue = 0.5f;
+
+    if (true == UpPixelCheck)
+    {
+        MoveDir = { MoveDir.x , (-MoveDir.y) };
+    }
+    else if (true == LeftPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == RightPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == LeftUpPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+
+    }
+    else if (true == RightUpPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == RightDownPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    else if (true == LeftDownPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+    }
+    float Value = abs(StateCalValue - GetPos().y);
+
     if (PlayerState::JUMP == PrevStateValue)
     {
         if (true == IsGround)
         {
-            //이후 슬라이딩으로
-            ChangeState(PlayerState::Sliding);
-            return;
+            if (Value >= 50.0f)
+            {
+                //이후 데미지 받음
+                ChangeState(PlayerState::Sliding);
+                return;
+            }
+            else
+            {
+                ChangeState(PlayerState::IDLE);
+                return;
+            }
         }
     }
     else if (PlayerState::MOVE == PrevStateValue)
@@ -498,8 +575,17 @@ void Player::FlyDownUpdate(float _DeltatTime)
 
         if (true == IsGround)
         {
-            ChangeState(PlayerState::FacePlant);
-            return;
+            if (Value >= 50.0f)
+            {
+                //데미지 받음
+                ChangeState(PlayerState::FacePlant);
+                return;
+            }
+            else
+            {
+                ChangeState(PlayerState::IDLE);
+                return;
+            }
         }
     }
 
@@ -533,6 +619,10 @@ void Player::FlyAwayStart()
 {
     AnimationDir = DirString;
 
+    float4 PlayerPos = GetPos();
+
+    SetMove({ 0, -5 });
+
     std::string AnimationName = "FlyAway";
     std::string AnimationText = AnimationDir.data() + AnimationName;
     AnimationRender->ChangeAnimation(AnimationText);
@@ -549,73 +639,71 @@ void Player::FlyAwayUpdate(float _DeltatTime)
         StateCalTime = 0.0f;
     }
 
-    float testvalue = 0.7f;
+    float testvalue = 0.5f;
 
-    if (StateCalTime2 > 0.1f)
+    if (true == UpPixelCheck)
     {
-        if (true == UpPixelCheck)
-        {
-            MoveDir = { MoveDir.x , (-MoveDir.y) };
+        MoveDir = { MoveDir.x , (-MoveDir.y) };
 
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == LeftPixelCheck && "Left_" == DirString)
-        {
-            DirString = "Right_";
-            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == RightPixelCheck && "Right_" == DirString)
-        {
-            DirString = "Left_";
-            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == LeftUpPixelCheck && "Left_" == DirString)
-        {
-            DirString = "Right_";
-            MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == RightUpPixelCheck && "Right_" == DirString)
-        {
-            DirString = "Left_";
-            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == RightDownPixelCheck && "Right_" == DirString)
-        {
-            DirString = "Left_";
-            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == LeftDownPixelCheck && "Left_" == DirString)
-        {
-            DirString = "Right_";
-            MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
-        else if (true == DownPixelCheck)
-        {
-            MoveDir = { (MoveDir.x * testvalue), (- MoveDir.y * (testvalue - 0.2f)) };
-
-            ChangeState(PlayerState::Sliding);
-            return;
-        }
+        ChangeState(PlayerState::Sliding);
+        return;
     }
+    else if (true == DownPixelCheck)
+    {
+        MoveDir = { (MoveDir.x * testvalue), (-MoveDir.y * (testvalue - 0.2f)) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == LeftPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == RightPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == LeftUpPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == RightUpPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == RightDownPixelCheck && "Right_" == DirString)
+    {
+        DirString = "Left_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+    else if (true == LeftDownPixelCheck && "Left_" == DirString)
+    {
+        DirString = "Right_";
+        MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+ 
 
     StateCalTime += _DeltatTime;
     StateCalTime2 += _DeltatTime;
@@ -652,7 +740,7 @@ void Player::SlidingUpdate(float _DeltatTime)
         return;
     }
 
-    float testvalue = 0.7f;
+    float testvalue = 0.5f;
 
     if (true == UpPixelCheck)
     {
@@ -696,7 +784,11 @@ void Player::SlidingUpdate(float _DeltatTime)
     }
     else if (MoveDir.Size() >= 10.0f)
     {
-        if (true == RightDownPixelCheck && "Right_" == DirString)
+        if (true == DownPixelCheck)
+        {
+            MoveDir = { (MoveDir.x * (testvalue - 0.2f)), (-MoveDir.y * (testvalue)) };
+        }
+        else if (true == RightDownPixelCheck && "Right_" == DirString)
         {
             DirString = "Left_";
             MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
@@ -714,10 +806,7 @@ void Player::SlidingUpdate(float _DeltatTime)
             std::string AnimationText = DirString.data() + AnimationName;
             AnimationRender->ChangeAnimation(AnimationText);
         }
-        else if (true == DownPixelCheck)
-        {
-            MoveDir = { (MoveDir.x * testvalue), (-MoveDir.y * (testvalue - 0.2f)) };
-        }
+
     }
 
 }

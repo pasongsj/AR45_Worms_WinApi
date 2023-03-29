@@ -53,6 +53,7 @@ public:
     void SetHP(int _Hp)
     {
         PlayerHP = _Hp;
+        MaxHP = _Hp;
     }
 
 	bool GetIsMyTurn()
@@ -117,6 +118,8 @@ public:
         return WeaponCount;
     }
 
+    void UsingHealkit(int _Value);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -132,6 +135,7 @@ private:
     //플레이어 스테이터스 관련 (HP,움직일 수 있는지,생존여부)
     bool CanIMove = true;
     int PlayerHP = 100;
+    int MaxHP = 100;
     bool IsAlive = true;
     void CheckAlive();
     void TestChangeDeadState();
@@ -147,7 +151,7 @@ private:
     std::string_view PlayerGraveImageStringView;
 
 	//플레이어 UI관련 (HP, 화살표이미지)
-	PlayerHPUI* HPUI; //플레이어 HP를 보여줄 넘버 렌더러 
+	PlayerHPUI* HPUI = nullptr; //플레이어 HP를 보여줄 넘버 렌더러 
 	float DamagedTime = 0.0f;
 	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
 	
@@ -199,6 +203,7 @@ private:
     float StateCalTime2 = 0.0f;
     bool StateCalBool = true;
     bool StateCalBool2 = true;
+    float StateCalValue = 0.0f;
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;

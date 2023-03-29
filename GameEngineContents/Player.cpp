@@ -85,6 +85,17 @@ void Player::SetIsMyTurn(bool _Value)
     }
 }
 
+void Player::UsingHealkit(int _Value)
+{
+    PlayerHP += _Value;
+
+    if (PlayerHP >= MaxHP)
+    {
+        PlayerHP = MaxHP;
+    }
+
+}
+
 void Player::SetColImage(const std::string_view& _Name)
 {
 	ColImage = GameEngineResources::GetInst().ImageFind(_Name.data());
@@ -99,6 +110,8 @@ void Player::Test()
 
 		Damaged(10, TestDir, Power);
         //ChangeState(PlayerState::Win);
+
+        UsingHealkit(50);
 	}
 }
 
@@ -126,18 +139,26 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 		PlayerHP -= _Damage;
 		DamagedTime = 0.0f;
 		
-        //이동방향을 설정
-        MoveDir = _Dir.NormalizeReturn() * _Power;
-        if (MoveDir.x > 0.0f)
+        if (_Dir == float4::Zero)
         {
-            DirString = "Right_";
+            ChangeState(PlayerState::FacePlant);
         }
         else
         {
-            DirString = "Left_";
-        }
+            //이동방향을 설정
+            MoveDir = _Dir.NormalizeReturn() * _Power;
+            if (MoveDir.x > 0.0f)
+            {
+                DirString = "Right_";
+            }
+            else
+            {
+                DirString = "Left_";
+            }
 
-        ChangeState(PlayerState::FlyAway);
+            ChangeState(PlayerState::FlyAway);
+
+        }
 
         DisplayDamageUI(_Damage);
 	}
@@ -248,7 +269,7 @@ void Player::PlayerPixelCheck()
     float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
     float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
     float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
-    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 2 };
     float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
     float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
     float4 PlayerLeftDownPixel = { GetPos().x - 10, GetPos().y + 1 };
@@ -395,6 +416,13 @@ bool Player::ReturnCanIMove(PlayerAngleDir _Dir)
 
 float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 {
+    float4 ColImageScale = ColImage->GetImageScale();
+
+    if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+    {
+        return _NextPos;
+    }
+
 	if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
 	{
 		return _NextPos;
