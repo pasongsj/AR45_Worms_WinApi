@@ -27,24 +27,35 @@
 #include "WeaponSheep.h"
 #include "WeaponAirStrike.h"
 
-WeaponInterFace*WeaponInterFace::Interface;
+
 GameEngineLevel* WeaponInterFace::Value;
+WeaponInterFace* WeaponInterFace::Interface;
+
+int WeaponInterFace::HomingMissileCount = 3;
+int WeaponInterFace::GrenadeCount = 3;
+int WeaponInterFace::ClusterBombCount = 3;
+int WeaponInterFace::ShotgunCount = 3;
+int WeaponInterFace::HandgunCount = 3;
+int WeaponInterFace::UziCountCount = 3;
+int WeaponInterFace::MinigunCount = 3;
+int WeaponInterFace::SheepCount = 3;
+int WeaponInterFace::AirStrikeCount = 3;
+int WeaponInterFace::TorchCount = 3;
 
 //void asas(Button* a) // 수정 전 코드
 void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가능
 {
+
     WeaponNum eNum = static_cast<WeaponNum>(_Enum);
 
 	Player* CurPlayer = GlobalValue::gValue.GetPlayer();
-	//if (CurPlayer->GetCurWeapon()->GetName() == "B")
-	//{
-	//	return;
-	//}
-	if (CurPlayer->GetCurWeapon() != nullptr)
+    
+	if (CurPlayer->GetCurWeapon() != nullptr )
 	{
 		CurPlayer->GetCurWeapon()->Death();
-
 	}
+
+
 
     switch (eNum)
     {
@@ -59,36 +70,51 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
        
     case WeaponNum::HomingMissile:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<HomingMissile>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::HomingMissileCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<HomingMissile>();
+            CurPlayer->SetCurWeapon(NewWeapon);        
+        }
         break;
     }
     
     case WeaponNum::Grenade: 
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponGrenade>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::GrenadeCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponGrenade>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
   
     case WeaponNum::ClusterBomb:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponClusterBomb>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::ClusterBombCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponClusterBomb>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
    
     case WeaponNum::Shotgun:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponShotgun>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::ShotgunCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponShotgun>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
   
     case WeaponNum::Handgun:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponHandgun>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::HandgunCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponHandgun>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
 
       
@@ -96,36 +122,52 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
  
     case WeaponNum::Uzi:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponUzi>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::UziCountCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponUzi>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
+
         break;
     }
    
     case WeaponNum::Minigun:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponMinigun>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::MinigunCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponMinigun>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
   
     case WeaponNum::Sheep:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponSheep>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::SheepCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponSheep>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
 
     case WeaponNum::AirStrike:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponAirStrike>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::AirStrikeCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponAirStrike>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
 
     case WeaponNum::Torch:
     {
-        Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponTorch>();
-        CurPlayer->SetCurWeapon(NewWeapon);
+        if (WeaponInterFace::TorchCount >= 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponTorch>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
         break;
     }
 
@@ -133,14 +175,15 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
         break;
     }
         
-	/*if (CurWeapon == nullptr)
-	{
-		GameEngineActor* Weapon = WeaponInterFace::Value->CreateActor<WeaponBazooka>();
-	}
-	Gmsf::dsds()
-	int a = 1;*/
-	
+	/*
+    if (CurPlayer->GetCurWeapon() != nullptr)
+    {
+        CurPlayer->GetCurWeapon()->Death();
+    }*/
+
+
 }
+
 
 
 WeaponInterFace::WeaponInterFace()
@@ -847,7 +890,9 @@ void WeaponInterFace::Start()
 
 void WeaponInterFace::Update(float _DeltaTime)
 {
-    
+    NumberManager();
+
+
 
 	if(true == GameEngineInput::IsDown("RightClock") && InterfaceMove ==true)
 	{
@@ -878,7 +923,7 @@ void WeaponInterFace::Update(float _DeltaTime)
 		ButtonManager[i]->SetMove(MoveDir * _DeltaTime);
 	}
 
-    NumberManager();
+  
 	SetMove(MoveDir*_DeltaTime);
 
 }
@@ -910,14 +955,17 @@ void WeaponInterFace::NumberManager()
         --HomingMissileCount;
     }
    
-    if (HomingMissileCount == 0)
+    if (HomingMissileCount <= 0)
     {
         HomingMissileUI->Off();
-        HomingMissile->Off();
+       /* X->Off();
+        HomingMissileNumber.Off();*/
     }
     if (HomingMissileCount > 0)
     {
         HomingMissileUI->On();
+
+
         HomingMissile->On();
     }
 
@@ -929,13 +977,16 @@ void WeaponInterFace::NumberManager()
     }
     if (Grenade->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
     {
-        --GrenadeCount;
+        GrenadeCount--;
     }
 
     if (GrenadeCount <= 0)
     {
         grenade->Off();
-        Grenade->Off();
+        //Grenade->Off();
+
+      /*  X->Off();
+        GrenadeNummber.Off();*/
     }
     if (GrenadeCount > 0)
     {
@@ -955,10 +1006,13 @@ void WeaponInterFace::NumberManager()
         --ClusterBombCount;
     }
 
-    if (ClusterBombCount == 0)
+    if (ClusterBombCount <= 0)
     {
         cluster->Off();
-        ClusterBomb->Off();
+       // ClusterBomb->Off();
+       /* X->Off();
+        ClusterBombNumber.Off();*/
+
     }
     if (ClusterBombCount > 0)
     {
@@ -978,10 +1032,13 @@ void WeaponInterFace::NumberManager()
         --ShotgunCount;
     }
 
-    if (ShotgunCount == 0)
+    if (ShotgunCount <= 0)
     {
         shotgun->Off();
-        Shotgun->Off();
+       /* X->Off();
+        ShotgunNumber.Off();*/
+
+     
     }
     if (ShotgunCount > 0)
     {
@@ -1001,10 +1058,12 @@ void WeaponInterFace::NumberManager()
         --HandgunCount;
     }
 
-    if (HandgunCount == 0)
+    if (HandgunCount <= 0)
     {
         HandgunUI->Off();
-        Handgun->Off();
+       // Handgun->Off();
+      /*  X->Off();
+        HandgunNumber.Off();*/
     }
     if (HandgunCount > 0)
     {
@@ -1024,10 +1083,13 @@ void WeaponInterFace::NumberManager()
         --UziCountCount;
     }
 
-    if (UziCountCount == 0)
+    if (UziCountCount <= 0)
     {
         UziUI->Off();
-        Uzi->Off();
+     //   Uzi->Off();
+
+       /* X->Off();
+        UziNummber.Off();*/
     }
     if (UziCountCount > 0)
     {
@@ -1047,10 +1109,13 @@ void WeaponInterFace::NumberManager()
         --MinigunCount;
     }
 
-    if (MinigunCount == 0)
+    if (MinigunCount <= 0)
     {
         MinigunUI->Off();
-        Minigun->Off();
+      //  Minigun->Off();
+
+     /*   X->Off();
+        MinigunNumber.Off();*/
     }
     if (MinigunCount > 0)
     {
@@ -1070,10 +1135,12 @@ void WeaponInterFace::NumberManager()
         --SheepCount;
     }
 
-    if (SheepCount == 0)
+    if (SheepCount <= 0)
     {
         SheepUI->Off();
-        Sheep->Off();
+     //   Sheep->Off();
+        /*X->Off();
+        SheepNumber.Off();*/
     }
     if (SheepCount > 0)
     {
@@ -1082,7 +1149,6 @@ void WeaponInterFace::NumberManager()
     }
 
     // 에어 스트라이크 
-
 
     if (AirStrike->GetHover() == true)
     {
@@ -1094,10 +1160,12 @@ void WeaponInterFace::NumberManager()
         --AirStrikeCount;
     }
 
-    if (AirStrikeCount == 0)
+    if (AirStrikeCount <= 0)
     {
         AirStrikeUI->Off();
-        AirStrike->Off();
+        //   AirStrike->Off();
+      /*  X->Off();
+        AirStrikeNumber.Off();*/
     }
     if (AirStrikeCount > 0)
     {
@@ -1105,10 +1173,38 @@ void WeaponInterFace::NumberManager()
         AirStrike->On();
     }
 
+    
+     // 토치 
+    
+    if (Torch->GetHover() == true)
+    {
+        X->On();
+        TorchNumber.On();
+    }
+    if (Torch->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+    {
+        --TorchCount;
+    }
+
+    if (TorchCount <= 0)
+    {
+        TorchUI->Off();
+       // Torch->Off();
+       /* X->Off();
+        TorchNumber.Off();*/
+
+    }
+    if (TorchCount > 0)
+    {
+        TorchUI->On();
+        Torch->On();
+    }
+
+  
 
 
 
-
+    
 
     if (HomingMissileCount >= 0)
     {
@@ -1122,37 +1218,37 @@ void WeaponInterFace::NumberManager()
     {
         ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
     }
-    if (ShotgunCount > 0)
+    if (ShotgunCount >= 0)
     {
         ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
     }
-    if (HandgunCount > 0)
+    if (HandgunCount >= 0)
     {
         HandgunNumber.SetValue(static_cast<int>(HandgunCount));
     }
-    if (UziCountCount > 0)
+    if (UziCountCount >= 0)
     {
         UziNummber.SetValue(static_cast<int>(UziCountCount));
     }
 
-    if (MinigunCount > 0)
+    if (MinigunCount >= 0)
     {
         MinigunNumber.SetValue(static_cast<int>(MinigunCount));
     }
 
-    if (SheepCount > 0)
+    if (SheepCount >= 0)
     {
         SheepNumber.SetValue(static_cast<int>(SheepCount));
     }
 
-    if (AirStrikeCount > 0)
+    if (AirStrikeCount >= 0)
     {
         AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
     }
-   /* if (TorchCount > 0)
+    if (TorchCount >= 0)
     {
         TorchNumber.SetValue(static_cast<int>(TorchCount));
-    }*/
+    }
 
 
 

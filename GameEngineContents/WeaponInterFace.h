@@ -19,7 +19,18 @@ public:
 	WeaponInterFace& operator=(WeaponInterFace&& _Other) noexcept = delete;
     void NumberManager();
 	
-	
+    static int HomingMissileCount;
+    static int GrenadeCount;
+    static int ClusterBombCount;
+    static int ShotgunCount;
+    static int HandgunCount;
+    static int UziCountCount;
+    static int MinigunCount;
+    static int SheepCount;
+    static int AirStrikeCount;
+    static int TorchCount;
+
+   
 protected:
 
 	void Start() override;
@@ -66,17 +77,9 @@ private:
     NumberRenderObject AirStrikeNumber;
     NumberRenderObject TorchNumber;
 
-    int HomingMissileCount = 3;
-    int GrenadeCount = 3;
-    int ClusterBombCount = 3;
-    int ShotgunCount = 3;
-    int HandgunCount = 3;
-    int UziCountCount = 3;
-    int MinigunCount = 3;
-    int SheepCount = 3;
-    int AirStrikeCount = 3;
-    int TorchCount = 3;
+    
 
+  
 
 
 
