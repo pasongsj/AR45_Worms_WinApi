@@ -49,6 +49,7 @@ private:
 
     int NumOfObj = 0;
 
+    float WaitTime = 25.0f;
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 

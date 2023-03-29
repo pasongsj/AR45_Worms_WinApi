@@ -24,6 +24,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Cusor.h" />
+    <ClInclude Include="Drum.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HomingMissile.h">
       <SubType>
       </SubType>
@@ -37,6 +41,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Medikit.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -159,6 +167,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Cusor.cpp" />
+    <ClCompile Include="Drum.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="HomingMissile.cpp">
       <SubType>
@@ -173,6 +185,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Medikit.cpp">
       <SubType>
       </SubType>
     </ClCompile>
