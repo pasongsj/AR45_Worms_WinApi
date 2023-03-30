@@ -34,6 +34,8 @@ private:
     bool isAttack = false;
     bool isFireEnd = false;
 
+    float TurnChangeCount = 0.0f;
+
     float CurTime = 0.0f;
     float PrevTime = 0.0f;
 

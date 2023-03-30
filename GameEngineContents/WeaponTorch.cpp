@@ -9,6 +9,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 WeaponTorch::WeaponTorch()
 {
@@ -40,6 +41,16 @@ void WeaponTorch::Update(float _DeltaTime)
         TorchOn(_DeltaTime);
     }
 
+    if (isFireEnd == true)
+    {
+        TurnChangeCount += TimeCount;
+
+        if (TurnChangeCount >= 2.0f)
+        {
+            isWeaponDone = true;
+        }
+    }
+
 
 }
 
@@ -65,8 +76,14 @@ void WeaponTorch::TorchInit()
 
 void WeaponTorch::TorchOn(float _DeltaTime)
 {
-    if (abs(StartPos.y - CurPlayer->GetPos().y) >= 5)
+    float4 PlayerPos = CurPlayer->GetPos();
+
+    if (StartPos.y != PlayerPos.y)
     {
+        CurPlayer->ChangePlayerAnimation("TorchOn", 7);
+
+        TorchTime = 5.0f;
+        isFireEnd = true;
         return;
     }
 
@@ -74,16 +91,17 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
     if (TorchTime >= 5.0f)
     {
+        CurPlayer->ChangePlayerAnimation("TorchOn", 7);
         isFireEnd = true;
-        isWeaponDone = true;
         return;
     }
 
+    GetLevel()->SetCameraPos(PlayerPos - GameEngineWindow::GetScreenSize().half());
     TorchTime += TimeCount;
 
     float4 Dir = CurPlayer->GetPlayerDir();
 
-    float4 HolePos = { CurPlayer->GetPos().x + Dir.x * 10.0f , StartPos.y - BombScale};
+    float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale};
     MapModifier::MainModifier->CreateHole(HolePos, BombScale);
 
     CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);
