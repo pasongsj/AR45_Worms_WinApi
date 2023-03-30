@@ -42,6 +42,26 @@ int WeaponInterFace::SheepCount = 3;
 int WeaponInterFace::AirStrikeCount = 3;
 int WeaponInterFace::TorchCount = 3;
 
+
+//None,				//무기없음
+//Bazooka,			//F1
+//HomingMissile,      //F1
+//Grenade,			//F2
+//ClusterBomb,
+//Shotgun,			//F3
+//Handgun,
+//Uzi,
+//Minigun,
+//FirePunch,          //F4
+//Sheep,				//F5
+//AirStrike,			//F6
+//Torch,              //F7
+//Drill,              //F7
+//WeaponCount        //Enum 개수 확인하기위한 Count (마지막에 있어야 함)
+//};
+
+
+
 //void asas(Button* a) // 수정 전 코드
 void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가능
 {
@@ -49,7 +69,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     WeaponNum eNum = static_cast<WeaponNum>(_Enum);
 
 	Player* CurPlayer = GlobalValue::gValue.GetPlayer();
-    
+    CurPlayer->GetPlayerWeaponCount();
 	if (CurPlayer->GetCurWeapon() != nullptr )
 	{
 		CurPlayer->GetCurWeapon()->Death();
@@ -70,7 +90,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
        
     case WeaponNum::HomingMissile:
     {
-        if (WeaponInterFace::HomingMissileCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[2]> 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<HomingMissile>();
             CurPlayer->SetCurWeapon(NewWeapon);        
@@ -80,7 +100,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     
     case WeaponNum::Grenade: 
     {
-        if (WeaponInterFace::GrenadeCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[3] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponGrenade>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -90,7 +110,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
   
     case WeaponNum::ClusterBomb:
     {
-        if (WeaponInterFace::ClusterBombCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[4] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponClusterBomb>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -100,7 +120,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
    
     case WeaponNum::Shotgun:
     {
-        if (WeaponInterFace::ShotgunCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[5] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponShotgun>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -110,7 +130,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
   
     case WeaponNum::Handgun:
     {
-        if (WeaponInterFace::HandgunCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[6] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponHandgun>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -122,7 +142,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
  
     case WeaponNum::Uzi:
     {
-        if (WeaponInterFace::UziCountCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[7] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponUzi>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -133,7 +153,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
    
     case WeaponNum::Minigun:
     {
-        if (WeaponInterFace::MinigunCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[8] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponMinigun>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -143,7 +163,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
   
     case WeaponNum::Sheep:
     {
-        if (WeaponInterFace::SheepCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[9] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponSheep>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -153,7 +173,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
 
     case WeaponNum::AirStrike:
     {
-        if (WeaponInterFace::AirStrikeCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[10] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponAirStrike>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -163,7 +183,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
 
     case WeaponNum::Torch:
     {
-        if (WeaponInterFace::TorchCount >= 0)
+        if (CurPlayer->GetPlayerWeaponCount()[11] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponTorch>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -795,14 +815,15 @@ void WeaponInterFace::Start()
         X->EffectCameraOff();
         X->Off();
     }
-
+    Player* CurPlayer = GlobalValue::gValue.GetPlayer();
+   
 
     HomingMissileNumber.SetOwner(this);
     HomingMissileNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     HomingMissileNumber.SetRenderPos({ 1450,930 });
     HomingMissileNumber.SetCameraEffect(false);
     HomingMissileNumber.SetAlign(Align::Center);
-    HomingMissileNumber.SetValue(static_cast<int>(HomingMissileCount));
+    HomingMissileNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[2]);
     HomingMissileNumber.Off();
 
     GrenadeNummber.SetOwner(this);
@@ -810,7 +831,7 @@ void WeaponInterFace::Start()
     GrenadeNummber.SetRenderPos({ 1450,930 });
     GrenadeNummber.SetCameraEffect(false);
     GrenadeNummber.SetAlign(Align::Center);
-    GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
+    GrenadeNummber.SetValue(CurPlayer->GetPlayerWeaponCount()[3]);
     GrenadeNummber.Off();
 
    
@@ -819,7 +840,7 @@ void WeaponInterFace::Start()
     ClusterBombNumber.SetRenderPos({ 1450,930 });
     ClusterBombNumber.SetCameraEffect(false);
     ClusterBombNumber.SetAlign(Align::Center);
-    ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
+    ClusterBombNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[4]);
     ClusterBombNumber.Off();
 
 
@@ -829,7 +850,7 @@ void WeaponInterFace::Start()
     ShotgunNumber.SetRenderPos({ 1450,930 });
     ShotgunNumber.SetCameraEffect(false);
     ShotgunNumber.SetAlign(Align::Center);
-    ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
+    ShotgunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[5]);
     ShotgunNumber.Off();
 
     HandgunNumber.SetOwner(this);
@@ -837,7 +858,7 @@ void WeaponInterFace::Start()
     HandgunNumber.SetRenderPos({ 1450,930 });
     HandgunNumber.SetCameraEffect(false);
     HandgunNumber.SetAlign(Align::Center);
-    HandgunNumber.SetValue(static_cast<int>(HandgunCount));
+    HandgunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[6]);
     HandgunNumber.Off();
 
 
@@ -846,7 +867,7 @@ void WeaponInterFace::Start()
     UziNummber.SetRenderPos({ 1450,930 });
     UziNummber.SetCameraEffect(false);
     UziNummber.SetAlign(Align::Center);
-    UziNummber.SetValue(static_cast<int>(UziCountCount));
+    UziNummber.SetValue(CurPlayer->GetPlayerWeaponCount()[7]);
     UziNummber.Off();
 
 
@@ -856,7 +877,7 @@ void WeaponInterFace::Start()
     MinigunNumber.SetRenderPos({ 1450,930 });
     MinigunNumber.SetCameraEffect(false);
     MinigunNumber.SetAlign(Align::Center);
-    MinigunNumber.SetValue(static_cast<int>(MinigunCount));
+    MinigunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[8]);
     MinigunNumber.Off();
 
     SheepNumber.SetOwner(this);
@@ -864,7 +885,7 @@ void WeaponInterFace::Start()
     SheepNumber.SetRenderPos({ 1450,930 });
     SheepNumber.SetCameraEffect(false);
     SheepNumber.SetAlign(Align::Center);
-    SheepNumber.SetValue(static_cast<int>(SheepCount));
+    SheepNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[9]);
     SheepNumber.Off();
 
     AirStrikeNumber.SetOwner(this);
@@ -872,7 +893,7 @@ void WeaponInterFace::Start()
     AirStrikeNumber.SetRenderPos({ 1450,930 });
     AirStrikeNumber.SetCameraEffect(false);
     AirStrikeNumber.SetAlign(Align::Center);
-    AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
+    AirStrikeNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[10]);
     AirStrikeNumber.Off();
 
    TorchNumber.SetOwner(this);
@@ -880,7 +901,7 @@ void WeaponInterFace::Start()
    TorchNumber.SetRenderPos({ 1450,930 });
    TorchNumber.SetCameraEffect(false);
    TorchNumber.SetAlign(Align::Center);
-   TorchNumber.SetValue(static_cast<int>(TorchCount));
+   TorchNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[11]);
    TorchNumber.Off();
 
 
@@ -942,313 +963,325 @@ void WeaponInterFace::NumberManager()
     AirStrikeNumber.Off();
     TorchNumber.Off();
 
+ 
+
+   // CurPlayer->GetPlayerWeaponCount()[0] =
+    Player* CurPlayer = GlobalValue::gValue.GetPlayer();
+  
+
+    for (size_t i = 0; i < CurPlayer->GetPlayerWeaponCount().size(); i++)
+    {
+        int a = CurPlayer->GetPlayerWeaponCount()[i];
 
 
-    // 호밍미사일
-    if (HomingMissile->GetHover() == true)
-    {
-        X->On();
-        HomingMissileNumber.On();
     }
-    if (HomingMissile->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --HomingMissileCount;
-    }
+
+  
+     //호밍미사일
+  if (HomingMissile->GetHover() == true)
+  {
+      X->On();
+      HomingMissileNumber.On();
+  }
+  /*if (HomingMissile->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --HomingMissileCount;
+  }*/
+  
+  if (CurPlayer->GetPlayerWeaponCount()[2] <= 0)
+  {
+      HomingMissileUI->Off();
+     /* X->Off();
+      HomingMissileNumber.Off();*/
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[2] > 0)
+  {
+      HomingMissileUI->On();
+
+
+      HomingMissile->On();
+  }
+
+  // 초록폭탄
+  if (Grenade->GetHover() == true)
+  {
+      X->On();
+      GrenadeNummber.On();
+  }
+ /* if (Grenade->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      GrenadeCount--;
+  }*/
+
+  if (CurPlayer->GetPlayerWeaponCount()[3] <= 0)
+  {
+      grenade->Off();
+      //Grenade->Off();
+
+    /*  X->Off();
+      GrenadeNummber.Off();*/
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[3] >  0)
+  {
+      grenade->On();
+      Grenade->On();
+  }
+
+  // 빨강폭탄
+
+  if (ClusterBomb->GetHover() == true)
+  {
+      X->On();
+      ClusterBombNumber.On();
+  }
+ /* if (ClusterBomb->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --ClusterBombCount;
+  }*/
+
+  if (CurPlayer->GetPlayerWeaponCount()[4] <= 0)
+  {
+      cluster->Off();
+     // ClusterBomb->Off();
+     /* X->Off();
+      ClusterBombNumber.Off();*/
+
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[4] > 0)
+  {
+      cluster->On();
+      ClusterBomb->On();
+  }
+
+  // 샷건 
+
+  if (Shotgun->GetHover() == true)
+  {
+      X->On();
+      ShotgunNumber.On();
+  }
+  /*if (Shotgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --ShotgunCount;
+  }*/
+
+  if (CurPlayer->GetPlayerWeaponCount()[4] <= 0)
+  {
+      shotgun->Off();
+     /* X->Off();
+      ShotgunNumber.Off();*/
+
    
-    if (HomingMissileCount <= 0)
-    {
-        HomingMissileUI->Off();
-       /* X->Off();
-        HomingMissileNumber.Off();*/
-    }
-    if (HomingMissileCount > 0)
-    {
-        HomingMissileUI->On();
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[4] > 0)
+  {
+      shotgun->On();
+      Shotgun->On();
+  }
 
+  // 핸드건 
 
-        HomingMissile->On();
-    }
+  if (Handgun->GetHover() == true)
+  {
+      X->On();
+      HandgunNumber.On();
+  }
+ /* if (Handgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --HandgunCount;
+  }*/
 
-    // 초록폭탄
-    if (Grenade->GetHover() == true)
-    {
-        X->On();
-        GrenadeNummber.On();
-    }
-    if (Grenade->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        GrenadeCount--;
-    }
+  if (CurPlayer->GetPlayerWeaponCount()[5] <= 0)
+  {
+      HandgunUI->Off();
+     // Handgun->Off();
+    /*  X->Off();
+      HandgunNumber.Off();*/
+  }
+  if (HandgunCount > 0)
+  {
+      HandgunUI->On();
+      Handgun->On();
+  }
 
-    if (GrenadeCount <= 0)
-    {
-        grenade->Off();
-        //Grenade->Off();
+  // 우지 
 
-      /*  X->Off();
-        GrenadeNummber.Off();*/
-    }
-    if (GrenadeCount > 0)
-    {
-        grenade->On();
-        Grenade->On();
-    }
+  if (Uzi->GetHover() == true)
+  {
+      X->On();
+      UziNummber.On();
+  }
+ /* if (Uzi->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --UziCountCount;
+  }*/
 
-    // 빨강폭탄
+  if (UziCountCount <= 0)
+  {
+      UziUI->Off();
+   //   Uzi->Off();
 
-    if (ClusterBomb->GetHover() == true)
-    {
-        X->On();
-        ClusterBombNumber.On();
-    }
-    if (ClusterBomb->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --ClusterBombCount;
-    }
+     /* X->Off();
+      UziNummber.Off();*/
+  }
+  if (UziCountCount > 0)
+  {
+      UziUI->On();
+      Uzi->On();
+  }
 
-    if (ClusterBombCount <= 0)
-    {
-        cluster->Off();
-       // ClusterBomb->Off();
-       /* X->Off();
-        ClusterBombNumber.Off();*/
+  // 미니건 
 
-    }
-    if (ClusterBombCount > 0)
-    {
-        cluster->On();
-        ClusterBomb->On();
-    }
+  if (Minigun->GetHover() == true)
+  {
+      X->On();
+      MinigunNumber.On();
+  }
+ /* if (Minigun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --MinigunCount;
+  }*/
 
-    // 샷건 
+  if (MinigunCount <= 0)
+  {
+      MinigunUI->Off();
+    //  Minigun->Off();
 
-    if (Shotgun->GetHover() == true)
-    {
-        X->On();
-        ShotgunNumber.On();
-    }
-    if (Shotgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --ShotgunCount;
-    }
+   /*   X->Off();
+      MinigunNumber.Off();*/
+  }
+  if (MinigunCount > 0)
+  {
+      MinigunUI->On();
+      Minigun->On();
+  }
 
-    if (ShotgunCount <= 0)
-    {
-        shotgun->Off();
-       /* X->Off();
-        ShotgunNumber.Off();*/
+  // 양 
 
-     
-    }
-    if (ShotgunCount > 0)
-    {
-        shotgun->On();
-        Shotgun->On();
-    }
+  if (Sheep->GetHover() == true)
+  {
+      X->On();
+      SheepNumber.On();
+  }
+ /* if (Sheep->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --SheepCount;
+  }*/
 
-    // 핸드건 
+  if (SheepCount <= 0)
+  {
+      SheepUI->Off();
+   //   Sheep->Off();
+      /*X->Off();
+      SheepNumber.Off();*/
+  }
+  if (SheepCount > 0)
+  {
+      SheepUI->On();
+      Sheep->On();
+  }
 
-    if (Handgun->GetHover() == true)
-    {
-        X->On();
-        HandgunNumber.On();
-    }
-    if (Handgun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --HandgunCount;
-    }
+  // 에어 스트라이크 
 
-    if (HandgunCount <= 0)
-    {
-        HandgunUI->Off();
-       // Handgun->Off();
-      /*  X->Off();
-        HandgunNumber.Off();*/
-    }
-    if (HandgunCount > 0)
-    {
-        HandgunUI->On();
-        Handgun->On();
-    }
+  if (AirStrike->GetHover() == true)
+  {
+      X->On();
+      AirStrikeNumber.On();
+  }
+  /*if (AirStrike->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --AirStrikeCount;
+  }*/
 
-    // 우지 
+  if (AirStrikeCount <= 0)
+  {
+      AirStrikeUI->Off();
+      //   AirStrike->Off();
+    /*  X->Off();
+      AirStrikeNumber.Off();*/
+  }
+  if (AirStrikeCount > 0)
+  {
+      AirStrikeUI->On();
+      AirStrike->On();
+  }
 
-    if (Uzi->GetHover() == true)
-    {
-        X->On();
-        UziNummber.On();
-    }
-    if (Uzi->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --UziCountCount;
-    }
+  
+   // 토치 
+  
+  if (Torch->GetHover() == true)
+  {
+      X->On();
+      TorchNumber.On();
+  }
+ /* if (Torch->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --TorchCount;
+  }*/
 
-    if (UziCountCount <= 0)
-    {
-        UziUI->Off();
-     //   Uzi->Off();
+  if (TorchCount <= 0)
+  {
+      TorchUI->Off();
+     // Torch->Off();
+     /* X->Off();
+      TorchNumber.Off();*/
 
-       /* X->Off();
-        UziNummber.Off();*/
-    }
-    if (UziCountCount > 0)
-    {
-        UziUI->On();
-        Uzi->On();
-    }
-
-    // 미니건 
-
-    if (Minigun->GetHover() == true)
-    {
-        X->On();
-        MinigunNumber.On();
-    }
-    if (Minigun->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --MinigunCount;
-    }
-
-    if (MinigunCount <= 0)
-    {
-        MinigunUI->Off();
-      //  Minigun->Off();
-
-     /*   X->Off();
-        MinigunNumber.Off();*/
-    }
-    if (MinigunCount > 0)
-    {
-        MinigunUI->On();
-        Minigun->On();
-    }
-
-    // 양 
-
-    if (Sheep->GetHover() == true)
-    {
-        X->On();
-        SheepNumber.On();
-    }
-    if (Sheep->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --SheepCount;
-    }
-
-    if (SheepCount <= 0)
-    {
-        SheepUI->Off();
-     //   Sheep->Off();
-        /*X->Off();
-        SheepNumber.Off();*/
-    }
-    if (SheepCount > 0)
-    {
-        SheepUI->On();
-        Sheep->On();
-    }
-
-    // 에어 스트라이크 
-
-    if (AirStrike->GetHover() == true)
-    {
-        X->On();
-        AirStrikeNumber.On();
-    }
-    if (AirStrike->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --AirStrikeCount;
-    }
-
-    if (AirStrikeCount <= 0)
-    {
-        AirStrikeUI->Off();
-        //   AirStrike->Off();
-      /*  X->Off();
-        AirStrikeNumber.Off();*/
-    }
-    if (AirStrikeCount > 0)
-    {
-        AirStrikeUI->On();
-        AirStrike->On();
-    }
-
-    
-     // 토치 
-    
-    if (Torch->GetHover() == true)
-    {
-        X->On();
-        TorchNumber.On();
-    }
-    if (Torch->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-    {
-        --TorchCount;
-    }
-
-    if (TorchCount <= 0)
-    {
-        TorchUI->Off();
-       // Torch->Off();
-       /* X->Off();
-        TorchNumber.Off();*/
-
-    }
-    if (TorchCount > 0)
-    {
-        TorchUI->On();
-        Torch->On();
-    }
+  }
+  if (TorchCount > 0)
+  {
+      TorchUI->On();
+      Torch->On();
+  }
 
   
 
 
 
-    
+  
 
-    if (HomingMissileCount >= 0)
-    {
-        HomingMissileNumber.SetValue(static_cast<int>(HomingMissileCount));
-    }
-    if (GrenadeCount >= 0)
-    {
-        GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
-    }
-    if (ClusterBombCount >= 0)
-    {
-        ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
-    }
-    if (ShotgunCount >= 0)
-    {
-        ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
-    }
-    if (HandgunCount >= 0)
-    {
-        HandgunNumber.SetValue(static_cast<int>(HandgunCount));
-    }
-    if (UziCountCount >= 0)
-    {
-        UziNummber.SetValue(static_cast<int>(UziCountCount));
-    }
+  if (CurPlayer->GetPlayerWeaponCount()[2] >= 0)
+  {
+      HomingMissileNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[2]));
+  }
+  if (GrenadeCount >= 0)
+  {
+      GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
+  }
+  if (ClusterBombCount >= 0)
+  {
+      ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
+  }
+  if (ShotgunCount >= 0)
+  {
+      ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
+  }
+  if (HandgunCount >= 0)
+  {
+      HandgunNumber.SetValue(static_cast<int>(HandgunCount));
+  }
+  if (UziCountCount >= 0)
+  {
+      UziNummber.SetValue(static_cast<int>(UziCountCount));
+  }
 
-    if (MinigunCount >= 0)
-    {
-        MinigunNumber.SetValue(static_cast<int>(MinigunCount));
-    }
+  if (MinigunCount >= 0)
+  {
+      MinigunNumber.SetValue(static_cast<int>(MinigunCount));
+  }
 
-    if (SheepCount >= 0)
-    {
-        SheepNumber.SetValue(static_cast<int>(SheepCount));
-    }
+  if (SheepCount >= 0)
+  {
+      SheepNumber.SetValue(static_cast<int>(SheepCount));
+  }
 
-    if (AirStrikeCount >= 0)
-    {
-        AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
-    }
-    if (TorchCount >= 0)
-    {
-        TorchNumber.SetValue(static_cast<int>(TorchCount));
-    }
+  if (AirStrikeCount >= 0)
+  {
+      AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
+  }
+  if (TorchCount >= 0)
+  {
+      TorchNumber.SetValue(static_cast<int>(TorchCount));
+  }
 
 
 

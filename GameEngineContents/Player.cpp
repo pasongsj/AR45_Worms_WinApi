@@ -671,14 +671,14 @@ void Player::SetWeaponCount()
     WeaponCount.push_back(-1);
     WeaponCount.push_back(-1);
     WeaponCount.push_back(3);
-    WeaponCount.push_back(-1);
     WeaponCount.push_back(3);
-    WeaponCount.push_back(-1);
-    WeaponCount.push_back(-1);
-    WeaponCount.push_back(-1);
-    WeaponCount.push_back(-1);
     WeaponCount.push_back(3);
-    WeaponCount.push_back(-1);
-    WeaponCount.push_back(-1);
-    WeaponCount.push_back(-1);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
 }

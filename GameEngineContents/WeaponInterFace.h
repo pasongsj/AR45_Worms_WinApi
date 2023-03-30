@@ -3,6 +3,8 @@
 #include <vector>
 #include <GameEngineCore/Button.h>
 #include <GameEngineCore/NumberRenderObject.h>
+
+class Player;
 class WeaponInterFace : public GameEngineActor
 {
 public:
@@ -81,7 +83,7 @@ private:
 
   
 
-
+    Player* CurPlayer = nullptr;
 
 	float4 MoveDir = float4::Zero;
 	std::vector<Button*> ButtonManager;
