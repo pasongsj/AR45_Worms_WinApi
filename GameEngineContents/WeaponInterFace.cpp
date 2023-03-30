@@ -163,7 +163,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
   
     case WeaponNum::Sheep:
     {
-        if (CurPlayer->GetPlayerWeaponCount()[9] > 0)
+        if (CurPlayer->GetPlayerWeaponCount()[10] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponSheep>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -173,7 +173,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
 
     case WeaponNum::AirStrike:
     {
-        if (CurPlayer->GetPlayerWeaponCount()[10] > 0)
+        if (CurPlayer->GetPlayerWeaponCount()[11] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponAirStrike>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -183,7 +183,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
 
     case WeaponNum::Torch:
     {
-        if (CurPlayer->GetPlayerWeaponCount()[11] > 0)
+        if (CurPlayer->GetPlayerWeaponCount()[12] > 0)
         {
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponTorch>();
             CurPlayer->SetCurWeapon(NewWeapon);
@@ -885,7 +885,7 @@ void WeaponInterFace::Start()
     SheepNumber.SetRenderPos({ 1450,930 });
     SheepNumber.SetCameraEffect(false);
     SheepNumber.SetAlign(Align::Center);
-    SheepNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[9]);
+    SheepNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[10]);
     SheepNumber.Off();
 
     AirStrikeNumber.SetOwner(this);
@@ -893,7 +893,7 @@ void WeaponInterFace::Start()
     AirStrikeNumber.SetRenderPos({ 1450,930 });
     AirStrikeNumber.SetCameraEffect(false);
     AirStrikeNumber.SetAlign(Align::Center);
-    AirStrikeNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[10]);
+    AirStrikeNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[11]);
     AirStrikeNumber.Off();
 
    TorchNumber.SetOwner(this);
@@ -901,7 +901,7 @@ void WeaponInterFace::Start()
    TorchNumber.SetRenderPos({ 1450,930 });
    TorchNumber.SetCameraEffect(false);
    TorchNumber.SetAlign(Align::Center);
-   TorchNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[11]);
+   TorchNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[12]);
    TorchNumber.Off();
 
 
@@ -965,7 +965,7 @@ void WeaponInterFace::NumberManager()
 
  
 
-   // CurPlayer->GetPlayerWeaponCount()[0] =
+  
     Player* CurPlayer = GlobalValue::gValue.GetPlayer();
   
 
@@ -1065,7 +1065,7 @@ void WeaponInterFace::NumberManager()
       --ShotgunCount;
   }*/
 
-  if (CurPlayer->GetPlayerWeaponCount()[4] <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[5] <= 0)
   {
       shotgun->Off();
      /* X->Off();
@@ -1073,7 +1073,7 @@ void WeaponInterFace::NumberManager()
 
    
   }
-  if (CurPlayer->GetPlayerWeaponCount()[4] > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[5] > 0)
   {
       shotgun->On();
       Shotgun->On();
@@ -1091,14 +1091,14 @@ void WeaponInterFace::NumberManager()
       --HandgunCount;
   }*/
 
-  if (CurPlayer->GetPlayerWeaponCount()[5] <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[6] <= 0)
   {
       HandgunUI->Off();
      // Handgun->Off();
     /*  X->Off();
       HandgunNumber.Off();*/
   }
-  if (HandgunCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[6] > 0)
   {
       HandgunUI->On();
       Handgun->On();
@@ -1116,7 +1116,7 @@ void WeaponInterFace::NumberManager()
       --UziCountCount;
   }*/
 
-  if (UziCountCount <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[7] <= 0)
   {
       UziUI->Off();
    //   Uzi->Off();
@@ -1124,7 +1124,7 @@ void WeaponInterFace::NumberManager()
      /* X->Off();
       UziNummber.Off();*/
   }
-  if (UziCountCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[7] > 0)
   {
       UziUI->On();
       Uzi->On();
@@ -1142,7 +1142,7 @@ void WeaponInterFace::NumberManager()
       --MinigunCount;
   }*/
 
-  if (MinigunCount <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[8] <= 0)
   {
       MinigunUI->Off();
     //  Minigun->Off();
@@ -1150,7 +1150,7 @@ void WeaponInterFace::NumberManager()
    /*   X->Off();
       MinigunNumber.Off();*/
   }
-  if (MinigunCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[8] > 0)
   {
       MinigunUI->On();
       Minigun->On();
@@ -1168,14 +1168,14 @@ void WeaponInterFace::NumberManager()
       --SheepCount;
   }*/
 
-  if (SheepCount <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[10] <= 0)
   {
       SheepUI->Off();
    //   Sheep->Off();
       /*X->Off();
       SheepNumber.Off();*/
   }
-  if (SheepCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[10] > 0)
   {
       SheepUI->On();
       Sheep->On();
@@ -1193,14 +1193,14 @@ void WeaponInterFace::NumberManager()
       --AirStrikeCount;
   }*/
 
-  if (AirStrikeCount <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[11] <= 0)
   {
       AirStrikeUI->Off();
       //   AirStrike->Off();
     /*  X->Off();
       AirStrikeNumber.Off();*/
   }
-  if (AirStrikeCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[11] > 0)
   {
       AirStrikeUI->On();
       AirStrike->On();
@@ -1219,7 +1219,7 @@ void WeaponInterFace::NumberManager()
       --TorchCount;
   }*/
 
-  if (TorchCount <= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[12] <= 0)
   {
       TorchUI->Off();
      // Torch->Off();
@@ -1227,7 +1227,7 @@ void WeaponInterFace::NumberManager()
       TorchNumber.Off();*/
 
   }
-  if (TorchCount > 0)
+  if (CurPlayer->GetPlayerWeaponCount()[12] > 0)
   {
       TorchUI->On();
       Torch->On();
@@ -1243,44 +1243,48 @@ void WeaponInterFace::NumberManager()
   {
       HomingMissileNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[2]));
   }
-  if (GrenadeCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[3] >= 0)
   {
-      GrenadeNummber.SetValue(static_cast<int>(GrenadeCount));
+      GrenadeNummber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[3]));
   }
-  if (ClusterBombCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[4] >= 0)
   {
-      ClusterBombNumber.SetValue(static_cast<int>(ClusterBombCount));
+      ClusterBombNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[4]));
   }
-  if (ShotgunCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[5] >= 0)
   {
-      ShotgunNumber.SetValue(static_cast<int>(ShotgunCount));
+      ShotgunNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[5]));
   }
-  if (HandgunCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[6] >= 0)
   {
-      HandgunNumber.SetValue(static_cast<int>(HandgunCount));
+      HandgunNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[6]));
   }
-  if (UziCountCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[7] >= 0)
   {
-      UziNummber.SetValue(static_cast<int>(UziCountCount));
-  }
-
-  if (MinigunCount >= 0)
-  {
-      MinigunNumber.SetValue(static_cast<int>(MinigunCount));
+      UziNummber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[7]));
   }
 
-  if (SheepCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[8] >= 0)
   {
-      SheepNumber.SetValue(static_cast<int>(SheepCount));
+      MinigunNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[8]));
   }
 
-  if (AirStrikeCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[9] >= 0)
   {
-      AirStrikeNumber.SetValue(static_cast<int>(AirStrikeCount));
+     // SheepNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[9]));
   }
-  if (TorchCount >= 0)
+  if (CurPlayer->GetPlayerWeaponCount()[10] >= 0)
   {
-      TorchNumber.SetValue(static_cast<int>(TorchCount));
+      SheepNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[10]));
+  }
+
+  if (CurPlayer->GetPlayerWeaponCount()[11] >= 0)
+  {
+      AirStrikeNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[11]));
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[12] >= 0)
+  {
+      TorchNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[12]));
   }
 
 

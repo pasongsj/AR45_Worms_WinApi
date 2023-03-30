@@ -13,6 +13,7 @@
 #include "Star.h"
 #include "GlobalValue.h"
 #include "PlayLevel.h"
+#include "Map.h"
 Lobby::Lobby()
 {
 
@@ -56,6 +57,7 @@ void Lobby::Start()
         Map = CreateRender("LobbyMap_MapBooks.bmp", WormsMainTitle::Select);
         Map->SetPosition({ 330,200 });
         Map->SetScale({ 500, 200 });
+
 
         Map2 = CreateRender("LobbyMap_MapCars.bmp", WormsMainTitle::Select);
         Map2->SetPosition({ 330,200 });
@@ -585,24 +587,28 @@ void Lobby::Mapchoice()
         Map2->Off();
         Map3->Off();
         Map4->Off();
+        Map::MapMode = 0;
         break;
     case 1:
         Map->Off();
         Map2->On();
         Map3->Off();
         Map4->Off();
+        Map::MapMode = 1;
         break;
     case 2:
         Map->Off();
         Map2->Off();
         Map3->On();
         Map4->Off();
+        Map::MapMode = 2;
         break;
     case 3:
         Map->Off();
         Map2->Off();
         Map3->Off();
         Map4->On();
+        Map::MapMode = 3;
         break;
     default:
         break;
