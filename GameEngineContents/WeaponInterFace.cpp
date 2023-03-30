@@ -72,6 +72,8 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     CurPlayer->GetPlayerWeaponCount();
 	if (CurPlayer->GetCurWeapon() != nullptr )
 	{
+        CurPlayer->SetPlayerState(PlayerState::IDLE);
+
 		CurPlayer->GetCurWeapon()->Death();
 	}
 

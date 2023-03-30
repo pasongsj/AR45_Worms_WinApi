@@ -682,3 +682,8 @@ void Player::SetWeaponCount()
     WeaponCount.push_back(3);
     WeaponCount.push_back(3);
 }
+
+void Player::SetPlayerState(PlayerState _State)
+{
+    ChangeState(_State);
+}
