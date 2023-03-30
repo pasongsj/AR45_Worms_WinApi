@@ -78,16 +78,18 @@ void WeaponGrenade::Update(float _DeltaTime)
 	if (nullptr == WeaponRender) // 무기 랜더가 존재하지 않는 경우
 	{
 		WeaponGrenadeInit();
+        SetCurPlayer();
+        CurPlayer->ChangePlayerAnimation("GrenadeAim", static_cast<int>(AimIndex));
 	}
 
 
     if (false == isFire)
     {
-        SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
+        //SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
         SetAimFrameIndex();
-        if (false == isFire && AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+        if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
         {
-            float Ratio = 6 * _DeltaTime;
+            float Ratio = (6 * _DeltaTime > 1 ? 1 : 6 * _DeltaTime);
             AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
             CurPlayer->ChangePlayerAnimation("GrenadeAim", static_cast<int>(AimIndex));
             AimingLine->On();
@@ -233,7 +235,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
 
-            AttackPlayer(BombCollision);
+            AttackPlayer(BombCollision,BombScale); // 임시값
 
             ExplosionCircle->SetPosition(WeaponRender->GetPosition());
             ExplosionCircle->On();

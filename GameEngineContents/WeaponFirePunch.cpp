@@ -37,7 +37,7 @@ void WeaponFirePunch::Start()
 
 void WeaponFirePunch::Update(float _DeltaTime)
 {
-    if (false == isFire) 
+    if (false == isFire && false == isCharging)
     {
         SetCurPlayer();// 플레이어 전환버튼 때문에 추가
     }
@@ -85,7 +85,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
                 BombCollision->SetPosition(StartPos);											                                       // 2. Bomb 콜리전 이동
 
-                AttackPlayer(BombCollision);																						  // 3. Bomb콜리전 Player Check
+                AttackPlayer(BombCollision, BombScale);																						  // 3. Bomb콜리전 Player Check
 
                 MapModifier::MainModifier->CreateHole(StartPos + float4{0,-10}, BombScale);                                         //4. createHole
             }

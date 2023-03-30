@@ -205,7 +205,7 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 }
 
 
-void Weapon::AttackPlayer(GameEngineCollision* _Col) // 수정필요
+void Weapon::AttackPlayer(GameEngineCollision* _Col, float Power) // 수정필요
 {
 
 	if (nullptr == _Col)
@@ -221,6 +221,7 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 수정필요
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+            ColPlayer->Damaged(static_cast<int>(Dmg), ColPlayer->GetPos()-_Col->GetActorPlusPos(), Power);
 			//ColPlayer에게 데미지와 날라가는 방향, 날라가는 세기 주기
 
 		}

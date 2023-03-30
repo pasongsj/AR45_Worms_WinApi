@@ -92,7 +92,7 @@ protected:
 	bool PressShoot();
 	bool isEndCharging();
 	void SetCurPlayer();
-	void AttackPlayer(GameEngineCollision* _Col);
+	void AttackPlayer(GameEngineCollision* _Col, float Power);
 
     void ExplosionEffectInit();
 

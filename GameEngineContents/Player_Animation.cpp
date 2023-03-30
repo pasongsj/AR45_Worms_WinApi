@@ -84,8 +84,8 @@ void Player::CreateAnimation()
 
     //그레네이드 ( 수류탄 )
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeAim", .ImageName = "GrenadeAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeAim", .ImageName = "GrenadeAimRight.bmp",.Start = 0, .End = 31, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeAim", .ImageName = "GrenadeAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeAim", .ImageName = "GrenadeAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_GrenadeOff", .ImageName = "GrenadeOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_GrenadeOff", .ImageName = "GrenadeOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });

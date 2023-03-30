@@ -45,12 +45,14 @@ void WeaponMinigun::Update(float _DeltaTime)
 	while (BulletCount > MinigunCollision.size()) // 총탄 개수만큼 WeaponInit
 	{
 		WeaponMinigunInit();
+        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        CurPlayer->ChangePlayerAnimation("MinigunAim", static_cast<int>(AimIndex));
 
 	}
 
     if (false == isFire)
     {
-        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        //SetCurPlayer();// 플레이어 전환버튼 때문에 추가
         SetAimFrameIndex();
 
         if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
@@ -182,7 +184,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();										  // 1. Bomb 콜리전 가져오기
 					BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());													  // 2. Bomb 콜리전 이동
 
-					AttackPlayer(BombCollision);																								  // 3. Bomb콜리전 Player Check
+					AttackPlayer(BombCollision,BombScale);//임시값																								  // 3. Bomb콜리전 Player Check
 
 					MapModifier::MainModifier->CreateHole(GetPos() + MinigunCollision[i]->GetPosition(), BombScale);							  // 4. 구멍 만들기
 					MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전

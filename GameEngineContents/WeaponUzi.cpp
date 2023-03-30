@@ -46,10 +46,12 @@ void WeaponUzi::Update(float _DeltaTime)
 	while (BulletCount > UziCollision.size()) // 총탄 개수만큼 WeaponInit
 	{
 		WeaponUziInit();
+        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
 	}
     if (false == isFire)
     {
-        SetCurPlayer();// 플레이어 전환버튼 때문에 추가
+        //SetCurPlayer();// 플레이어 전환버튼 때문에 추가
         SetAimFrameIndex();
 
         if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && CurPlayer->GetCurWeapon()->GetWeaponNumber() == WeaponNumber)
@@ -186,7 +188,7 @@ void WeaponUzi::Firing(float _DeltaTime)
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
 					BombCollision->SetPosition(GetPos() + UziCollision[i]->GetPosition());
 
-					AttackPlayer(BombCollision);
+					AttackPlayer(BombCollision,BombScale);
 
 					MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), BombScale);
 					UziCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
