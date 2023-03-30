@@ -203,10 +203,10 @@ void Map::Update(float _DeltaTime)
 	if (true == GameEngineInput::IsDown("LandHole"))
 	{
 		float4 Pos = GetLevel()->GetMousePosToCamera();
-		/*MapModifier::MainModifier->CreateHole(Pos, 20);*/
-        Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        //Object->SetPos(Object->GetMapObjPos());
-        Object->SetPos(Pos);
+		MapModifier::MainModifier->CreateHole(Pos, 20);
+        //Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+        ////Object->SetPos(Object->GetMapObjPos());
+        //Object->SetPos(Pos);
 
 		return;
 	}

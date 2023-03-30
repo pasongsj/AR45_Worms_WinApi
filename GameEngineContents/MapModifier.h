@@ -17,10 +17,10 @@ public:
 	MapModifier& operator=(const MapModifier& _Other) = delete;
 	MapModifier& operator=(MapModifier&& _Other) noexcept = delete;
 
-	//원형으로 땅을 깎는 함수(반지름 필요)
-	void CreateHole(float4 _Pos, int _Radius);
+	//원형으로 땅을 깎는 함수(지름 필요)
+	void CreateHole(float4 _Pos, int _Diameter);
 
-    //사각형으로 땅을 깎는 함수(직사각형 가로와 세로의 절반 크기가 필요)
+    //사각형으로 땅을 깎는 함수(직사각형 가로와 세로 크기 필요)
     void CreateRect(float4 _Pos, int _Horz, int _Vert);
 
 	//충돌체 포인터 얻는 함수

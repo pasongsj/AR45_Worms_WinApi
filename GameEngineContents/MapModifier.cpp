@@ -43,9 +43,10 @@ void MapModifier::SetModifierColScale(float4 _Scale)
 }
 
 
-void MapModifier::CreateHole(float4 _Pos, int _Radius)
+void MapModifier::CreateHole(float4 _Pos, int _Diameter)
 {
-	ModifierCollision->SetPosition(_Pos);
+    int Radius = _Diameter / 2;
+    ModifierCollision->SetPosition(_Pos);
 
 	if (this == nullptr)
 	{
@@ -53,7 +54,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
         return;
 	}
 
-	if (0 >= _Radius)
+	if (0 >= Radius)
 	{
 		MsgAssert("반지름이 0보다 작거나 같을 수 없습니다.");
 		return;
@@ -76,10 +77,10 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                 //지정된 DC로 개체 선택
 	
 		Ellipse(MapDc,
-			CircleRenderPos.ix() - _Radius,
-			CircleRenderPos.iy() - _Radius,
-			CircleRenderPos.ix() + _Radius,
-			CircleRenderPos.iy() + _Radius);
+			CircleRenderPos.ix() - Radius,
+			CircleRenderPos.iy() - Radius,
+			CircleRenderPos.ix() + Radius,
+			CircleRenderPos.iy() + Radius);
 
 		
 		SelectObject(MapDc, OldBrush);                                          //다시 기존 브러쉬 선택
@@ -90,7 +91,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		DeleteObject(MyPen);
 	}
     //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
-	DrawPixel(_Pos, _Radius);
+	DrawPixel(_Pos, Radius);
 
 	//ColMap에 그림
 	{
@@ -101,10 +102,10 @@ void MapModifier::CreateHole(float4 _Pos, int _Radius)
 		HBRUSH OldBrush = (HBRUSH)SelectObject(ColMapDc, MyBrush);              //지정된 DC로 개체 선택
 
 		Ellipse(ColMapDc,
-			CircleRenderPos.ix() - _Radius,
-			CircleRenderPos.iy() - _Radius,
-			CircleRenderPos.ix() + _Radius,
-			CircleRenderPos.iy() + _Radius);
+			CircleRenderPos.ix() - Radius,
+			CircleRenderPos.iy() - Radius,
+			CircleRenderPos.ix() + Radius,
+			CircleRenderPos.iy() + Radius);
 
 		SelectObject(ColMapDc, OldBrush);
 		DeleteObject(MyBrush);
@@ -119,19 +120,22 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
 {
     ModifierCollision->SetPosition(_Pos);
 
+    int HalfHorz = _Horz / 2;
+    int HalfVert = _Vert / 2;
+
     if (this == nullptr)
     {
         MsgAssert("ModifierActor가 nullptr 입니다.");
         return;
     }
 
-    if (0 >= _Horz)
+    if (0 >= HalfHorz)
     {
         MsgAssert("사각형 가로 길이가 0보다 작거나 같을 수 없습니다.");
         return;
     }
 
-    if (0 >= _Vert)
+    if (0 >= HalfVert)
     {
         MsgAssert("사각형 세로 길이가 0보다 작거나 같을 수 없습니다.");
         return;
@@ -153,10 +157,10 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         HBRUSH OldBrush = (HBRUSH)SelectObject(MapDc, MyBrush);                 //지정된 DC로 개체 선택
 
         Rectangle(MapDc,
-            RectRenderPos.ix() - _Horz,                                         //Left
-            RectRenderPos.iy() - _Vert,                                         //Top
-            RectRenderPos.ix() + _Horz,
-            RectRenderPos.iy() + _Vert);
+            RectRenderPos.ix() - HalfHorz,                                         //Left
+            RectRenderPos.iy() - HalfVert,                                         //Top
+            RectRenderPos.ix() + HalfHorz,
+            RectRenderPos.iy() + HalfVert);
 
         SelectObject(MapDc, OldPen);
         DeleteObject(MyPen);
@@ -165,7 +169,7 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         DeleteObject(MyBrush);                                                  //생성한 브러쉬 삭제
 
     }
-    DrawPixelRect(_Pos, _Horz, _Vert);
+    DrawPixelRect(_Pos, HalfHorz, HalfVert);
 
     //ColMap에 그림
     {
@@ -176,10 +180,10 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         HBRUSH OldBrush = (HBRUSH)SelectObject(ColMapDc, MyBrush);              //지정된 DC로 개체 선택
 
         Rectangle(ColMapDc,
-            RectRenderPos.ix() - _Horz,
-            RectRenderPos.iy() - _Vert,
-            RectRenderPos.ix() + _Horz,
-            RectRenderPos.iy() + _Vert);
+            RectRenderPos.ix() - HalfHorz,
+            RectRenderPos.iy() - HalfVert,
+            RectRenderPos.ix() + HalfHorz,
+            RectRenderPos.iy() + HalfVert);
 
         SelectObject(ColMapDc, OldBrush);
         DeleteObject(MyBrush);
