@@ -205,6 +205,7 @@ private:
     float StateCalTime2 = 0.0f;
     bool StateCalBool = true;
     bool StateCalBool2 = true;
+    bool StateCalBool3 = true;
     float StateCalValue = 0.0f;
 
 	//플레이어의 현재 상태
@@ -212,52 +213,52 @@ private:
     PlayerState PrevStateValue = PlayerState::IDLE;
 
 	void IdleStart();
-	void IdleUpdate(float _DeltatTime);
+	void IdleUpdate(float _DeltaTime);
 	void IdleEnd();
 
 	void MoveStart();
-	void MoveUpdate(float _DeltatTime);
+	void MoveUpdate(float _DeltaTime);
 	void MoveEnd();
 
 	void JumpStart();
-	void JumpUpdate(float _DeltatTime);
+	void JumpUpdate(float _DeltaTime);
 	void JumpEnd();
 
     void EquipWeaponStart();
-    void EquipWeaponUpdate(float _DeltatTime);
+    void EquipWeaponUpdate(float _DeltaTime);
     void EquipWeaponEnd();
 
     void DeadStart();
-    void DeadUpdate(float _DeltatTime);
+    void DeadUpdate(float _DeltaTime);
     void DeadEnd();
 
     void WinStart();
-    void WinUpdate(float _DeltatTime);
+    void WinUpdate(float _DeltaTime);
     void WinEnd();
 
     void FlyDownStart();
-    void FlyDownUpdate(float _DeltatTime);
+    void FlyDownUpdate(float _DeltaTime);
     void FlyDownEnd();
 
     void FacePlantStart();
-    void FacePlantUpdate(float _DeltatTime);
+    void FacePlantUpdate(float _DeltaTime);
     void FacePlantEnd();
 
     void FlyAwayStart();
-    void FlyAwayUpdate(float _DeltatTime);
+    void FlyAwayUpdate(float _DeltaTime);
     void FlyAwayEnd();
 
     void SlidingStart();
-    void SlidingUpdate(float _DeltatTime);
+    void SlidingUpdate(float _DeltaTime);
     void SlidingEnd();
 
     void StandUpStart();
-    void StandUpUpdate(float _DeltatTime);
+    void StandUpUpdate(float _DeltaTime);
     void StandUpEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
-	//void Update(float _DeltatTime);
+	//void Update(float _DeltaTime);
 	//void End();
 };
 

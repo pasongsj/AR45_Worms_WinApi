@@ -105,8 +105,18 @@ void Player::Test()
 {
 	if (GameEngineInput::IsDown("TestButton") && IsMyTurn == true)
 	{
-        float4 TestDir = (float4::Up + float4::Right);
-        float Power = 500.0f;
+
+        float4 TestDir = float4::Up;
+        if (GameEngineInput::IsPress("MoveRight") == true)
+        {
+            TestDir += float4::Right;
+        }
+        else
+        {
+            TestDir += float4::Left;
+        }
+
+        float Power = 400.0f;
 
 		Damaged(10, TestDir, Power);
         //ChangeState(PlayerState::Win);
@@ -206,7 +216,7 @@ void Player::Update(float _DeltaTime)
 	//MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
     PlayerPixelCheck();
     UpdateState(_DeltaTime);
-    GravityApplied(_DeltaTime);
+   
     MoveCalculation(_DeltaTime);
 	
     CheckAlive();
@@ -221,7 +231,6 @@ void Player::Update(float _DeltaTime)
 
 void Player::GravityApplied(float _DeltaTime)
 {
-
 	MoveDir += (float4::Down * Gravity * _DeltaTime);
 }
 
@@ -233,18 +242,18 @@ void Player::MoveCalculation(float _DeltaTime)
 	
     SetMoveAngle();
 
-    if (true == IsGround)
-    {
-        //움직이는 상태가 아니면 리턴함 중력으로 인해 점점 떨어지는 버그를 수정하기 위해
-        if (PlayerState::Dead == StateValue ||
-            PlayerState::IDLE == StateValue ||
-            PlayerState::EQUIPWEAPON == StateValue ||
-            PlayerState::Win == StateValue ||
-            PlayerState::StandUp == StateValue)
-        {
-            return;
-        }
-    }
+    //if (true == IsGround)
+    //{
+    //    //움직이는 상태가 아니면 리턴함 중력으로 인해 점점 떨어지는 버그를 수정하기 위해
+    //    if (PlayerState::Dead == StateValue ||
+    //        PlayerState::IDLE == StateValue ||
+    //        PlayerState::EQUIPWEAPON == StateValue ||
+    //        PlayerState::Win == StateValue ||
+    //        PlayerState::StandUp == StateValue)
+    //    {
+    //        return;
+    //    }
+    //}
 
     SetMove(MoveDir * _DeltaTime);
 
@@ -266,14 +275,23 @@ void Player::IsGroundCheck()
 
 void Player::PlayerPixelCheck()
 {
-    float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
-    float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
-    float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
-    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 2 };
-    float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
-    float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
-    float4 PlayerLeftDownPixel = { GetPos().x - 10, GetPos().y + 1 };
-    float4 PlayerRightDownPixel = { GetPos().x + 10, GetPos().y + 1 };
+    //float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
+    //float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
+    //float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
+    //float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+    //float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
+    //float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
+    //float4 PlayerLeftDownPixel = { GetPos().x - 10, GetPos().y + 1 };
+    //float4 PlayerRightDownPixel = { GetPos().x + 10, GetPos().y + 1 };
+
+    float4 PlayerLeftPixel = { GetPos().x - 10.0f, GetPos().y - 11.0f };
+    float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y -11.0f };
+    float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
+    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
+    float4 PlayerLeftUpPixel = { GetPos().x - 5.0f, GetPos().y - 16.0f };
+    float4 PlayerRightUpPixel = { GetPos().x + 5.0f, GetPos().y - 16.0f };
+    float4 PlayerLeftDownPixel = { GetPos().x - 5.0f, GetPos().y - 6.0f };
+    float4 PlayerRightDownPixel = { GetPos().x + 5.0f, GetPos().y - 6.0f };
 
     if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
     {
@@ -528,16 +546,23 @@ void Player::Render(float _DeltaTime)
         //    NextPos.ix() + 5,
         //    NextPos.iy() + 5
         //);
-
-        float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
-        float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
-        float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
-        float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
+        float4 PlayerLeftPixel = { GetPos().x - 10.0f, GetPos().y - 11.0f };
+        float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y - 11.0f };
+        float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
+        float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
+        float4 PlayerLeftUpPixel = { GetPos().x - 5.0f, GetPos().y - 16.0f };
+        float4 PlayerRightUpPixel = { GetPos().x + 5.0f, GetPos().y - 16.0f };
+        float4 PlayerLeftDownPixel = { GetPos().x - 5.0f, GetPos().y - 6.0f };
+        float4 PlayerRightDownPixel = { GetPos().x + 5.0f, GetPos().y - 6.0f };
 
         PlayerLeftPixel -= GetLevel()->GetCameraPos();
         PlayerRightPixel -= GetLevel()->GetCameraPos();
         PlayerUpPixel -= GetLevel()->GetCameraPos();
         PlayerDownPixel -= GetLevel()->GetCameraPos();
+        PlayerLeftUpPixel -= GetLevel()->GetCameraPos();
+        PlayerRightUpPixel -= GetLevel()->GetCameraPos();
+        PlayerLeftDownPixel -= GetLevel()->GetCameraPos();
+        PlayerRightDownPixel -= GetLevel()->GetCameraPos();
 
         Rectangle(DoubleDC,
             PlayerLeftPixel.ix() - 1,
@@ -562,6 +587,31 @@ void Player::Render(float _DeltaTime)
             PlayerDownPixel.iy() - 1,
             PlayerDownPixel.ix() + 1,
             PlayerDownPixel.iy() + 1
+        );
+
+        Rectangle(DoubleDC,
+            PlayerLeftUpPixel.ix() - 1,
+            PlayerLeftUpPixel.iy() - 1,
+            PlayerLeftUpPixel.ix() + 1,
+            PlayerLeftUpPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerRightUpPixel.ix() - 1,
+            PlayerRightUpPixel.iy() - 1,
+            PlayerRightUpPixel.ix() + 1,
+            PlayerRightUpPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerLeftDownPixel.ix() - 1,
+            PlayerLeftDownPixel.iy() - 1,
+            PlayerLeftDownPixel.ix() + 1,
+            PlayerLeftDownPixel.iy() + 1
+        );
+        Rectangle(DoubleDC,
+            PlayerRightDownPixel.ix() - 1,
+            PlayerRightDownPixel.iy() - 1,
+            PlayerRightDownPixel.ix() + 1,
+            PlayerRightDownPixel.iy() + 1
         );
 
         if (nullptr != CurWeapon)
@@ -616,6 +666,14 @@ void Player::Render(float _DeltaTime)
         std::string RightUpPixelCheckString = "RightUpPixelCheck = ";
         RightUpPixelCheckString = RightUpPixelCheckString + std::to_string(RightUpPixelCheck);
         GameEngineLevel::DebugTextPush(RightUpPixelCheckString);
+
+        std::string LeftDownPixelCheckString = "LeftDownPixelCheck = ";
+        LeftDownPixelCheckString = LeftDownPixelCheckString + std::to_string(LeftDownPixelCheck);
+        GameEngineLevel::DebugTextPush(LeftDownPixelCheckString);
+
+        std::string RightDownPixelCheckString = "RightDownPixelCheck = ";
+        RightDownPixelCheckString = RightDownPixelCheckString + std::to_string(RightDownPixelCheck);
+        GameEngineLevel::DebugTextPush(RightDownPixelCheckString);
 	}
 
 }
