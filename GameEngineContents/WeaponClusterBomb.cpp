@@ -105,6 +105,7 @@ void WeaponClusterBomb::Update(float _DeltaTime)
         WeaponClusterBombInit();
         SetCurPlayer();
         CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
+        Dir = GetShootDir();
     }
 
     if (false == isFire)
@@ -238,6 +239,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
     }
 }
 
+
 void WeaponClusterBomb::Firing(float _DeltaTime)
 {
     if (false == isFire) // 발사하기 전
@@ -251,14 +253,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
             {
                 ChargeAnimation->On();
                 ChargeAnimation->ChangeAnimation("Charge", 0);
-                if (Dir.x > 0)
-                {
-                    ChargeAnimation->SetAngle((-Dir).GetAnagleDeg());
-                }
-                else
-                {
-                    ChargeAnimation->SetAngle(Dir.GetAnagleDeg());
-                }
+                ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
             }
             SetCharge();// 차징포인트 계산
         }

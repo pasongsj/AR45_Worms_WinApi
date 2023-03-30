@@ -170,14 +170,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
             {
                 ChargeAnimation->On();
                 ChargeAnimation->ChangeAnimation("Charge", 0);
-                if (Dir.x > 0)
-                {
-                    ChargeAnimation->SetAngle((-Dir).GetAnagleDeg());
-                }
-                else
-                {
-                    ChargeAnimation->SetAngle(Dir.GetAnagleDeg());
-                }
+                ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
             }
 			SetCharge();// 차징포인트 계산
 		}
