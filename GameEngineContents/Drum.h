@@ -20,10 +20,27 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
-    int Count = 4;
+    bool IsExplosion = false;
+
+    int Gauge = 150;
+    int Dmg = 25;
+    int BombScale = 50;
 
 
-    void HitCheck();
-    void AnimCheck();
+    GameEngineRender* ExplosionCircle = nullptr;
+    GameEngineRender* ExplosionElipse = nullptr;
+    GameEngineRender* PootTextAnimation = nullptr;
+    
+    void HitWeaponCheck();                      //Weapon의 폭발 영향권에 있을때 드럼통에 영향 적용
+    void HitPlayerCheck();                      //플레이어에게 데미지 적용
+    void AnimCheck();                           //애니메이션 체크 및 변경
+    void Explosion();                           //폭발
+
+    bool CheckCollision(GameEngineCollision* _Col);
+
+    void CreateSpark();
+
+    void ExplosionAnimationOff();
+    void ExplosionEffectInit();
 };
 

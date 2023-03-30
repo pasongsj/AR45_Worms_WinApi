@@ -66,7 +66,7 @@ private:
 	float4 WaveAnimPos4 = { 1920.0f, 1537.0f };
 
 	float4 BackScale = { 7680.0f, 1116.0f };             //sky의 크기
-	float4 WaveScale = { 7680.0f, 165.0f };             //Wave의 크기
+	float4 WaveScale = { 7680.0f, 165.0f };              //Wave의 크기
 
 	std::string MapName = "";
 	std::string ColMapName = "";
@@ -82,6 +82,5 @@ private:
 
 	//카메라를 자유롭게 움직임
 	bool FreeMoveState(float _DeltaTime);
-	
 };
 
