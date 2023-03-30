@@ -1,6 +1,7 @@
 #include "TurnTimeUI.h"
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include "ContentsEnums.h"
 #include "PlayLevel.h"
 #include "GlobalValue.h"
@@ -42,13 +43,18 @@ void TurnTimeUI::Update(float _DeltaTime)
         return;
     }
 
-    //if (pCurPlayer->GetCurWeapon() != nullptr)
-    //{
-    //    if (true == pCurPlayer->GetCurWeapon()->GetIsAttacking())
-    //    {
-    //        return;
-    //    }
-    //}
+    if (true == GameEngineCore::GetInst()->IsDebug())
+    {
+        return;
+    }
+
+    if (pCurPlayer->GetCurWeapon() != nullptr)
+    {
+        if (true == pCurPlayer->GetCurWeapon()->IsFiring())
+        {
+            return;
+        }
+    }
 
     //fTurnTime -= _DeltaTime;
 

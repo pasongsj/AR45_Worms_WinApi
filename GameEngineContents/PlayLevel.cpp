@@ -31,6 +31,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
 GlobalValue GlobalValue::gValue;
@@ -675,6 +676,8 @@ void PlayLevel::KeyLoad()
 		GameEngineInput::CreateKey("WeaponUp", 'W');
 		GameEngineInput::CreateKey("WeaponDown", 'S');
 		GameEngineInput::CreateKey("Shoot", VK_SPACE);
+
+        GameEngineInput::CreateKey("DebugSwitch", 'P');
 	}
 }
 
@@ -708,6 +711,12 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 
     if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() ||GameEngineInput::IsDown("ChangePlayer"))
     {       
+        if(true == GameEngineCore::GetInst()->IsDebug())
+        {
+            GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+            return;
+        }
+
         //º¤ÅÍ ÀÎµ¦½º Áõ°¡
         ++iPlayerNumber;        
 
@@ -901,6 +910,10 @@ void PlayLevel::Update(float _DeltaTime)
 	{
 		DebugRenderSwitch();
 	}
+    if (GameEngineInput::IsDown("DebugSwitch"))
+    {
+        GameEngineCore::GetInst()->DebugSwitch();
+    }
 }
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
