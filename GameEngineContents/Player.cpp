@@ -111,7 +111,7 @@ void Player::Test()
 		Damaged(10, TestDir, Power);
         //ChangeState(PlayerState::Win);
 
-        UsingHealkit(50);
+        //UsingHealkit(50);
 	}
 }
 
