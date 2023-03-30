@@ -51,7 +51,7 @@ void WeaponTorch::Update(float _DeltaTime)
         }
     }
 
-
+    GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());
 }
 
 void WeaponTorch::Render(float _DeltaTime)
@@ -69,7 +69,7 @@ void WeaponTorch::TorchInit()
 
     WeaponNumber = static_cast<int>(WeaponNum::Torch);
 
-    BombScale = 12;
+    BombScale = 20.0f;
 
     WeaponName = "Torch";
 }
@@ -96,12 +96,11 @@ void WeaponTorch::TorchOn(float _DeltaTime)
         return;
     }
 
-    GetLevel()->SetCameraPos(PlayerPos - GameEngineWindow::GetScreenSize().half());
     TorchTime += TimeCount;
 
     float4 Dir = CurPlayer->GetPlayerDir();
 
-    float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale};
+    float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale * 0.5f};
     MapModifier::MainModifier->CreateHole(HolePos, BombScale);
 
     CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);

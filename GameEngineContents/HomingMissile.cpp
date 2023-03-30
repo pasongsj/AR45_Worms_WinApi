@@ -96,8 +96,9 @@ void HomingMissile::HomingMissileInit()
 
     WeaponRender->SetRotFilter("HomingRot.bmp");
 
-    BombScale = 50;
-    Dmg = 50;
+    BombScale = 208;
+    MinDmg = 35;
+    MaxDmg = 75;
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -116,7 +117,7 @@ void HomingMissile::HomingMissileInit()
 
     MoveSpeed = 900.0f; //임시 설정값
 
-    ExplosionEffectInit();
+    ExplosionEffectInit(BombScale);
     SetCurPlayer();
 }
 
@@ -364,22 +365,10 @@ void HomingMissile::DamageToPlayer()
  
     std::vector<GameEngineCollision*> CollisionPlayer;
 
-    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    MapModifier::MainModifier->SetModifierColScale({BombScale, BombScale});
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
-
-    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
-    {
-        for (int i = 0; i < CollisionPlayer.size(); i++)
-        {
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
-            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
-            Dir.Normalize();
-
-            ColPlayer->Damaged(Dmg, Dir, 300);
-        }
-    }
-
+    AttackPlayer(HoleCollision);
 }
 
 void HomingMissile::ChargingRenderInit()

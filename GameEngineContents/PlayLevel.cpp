@@ -178,11 +178,23 @@ void PlayLevel::ImageLoad()
             GameEngineImage* Charging = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Charging.bmp"));
             Charging->Cut(1, 16);
 
+            GameEngineImage* circle25 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle25.bmp"));
+            circle25->Cut(1, 8);
             GameEngineImage* circle50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle50.bmp"));
             circle50->Cut(1, 9);
+            GameEngineImage* circle75 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle75.bmp"));
+            circle75->Cut(1, 4);
+            GameEngineImage* circle100 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("circle100.bmp"));
+            circle100->Cut(1, 4);
 
+            GameEngineImage* elipse25 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("elipse25.bmp"));
+            elipse25->Cut(1, 20);
             GameEngineImage* elipse50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("elipse50.bmp"));
             elipse50->Cut(1, 20);
+            GameEngineImage* elipse75 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("elipse75.bmp"));
+            elipse75->Cut(1, 10);
+            GameEngineImage* elipse100 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("elipse100.bmp"));
+            elipse100->Cut(1, 10);
 
             GameEngineImage* Smoke50 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Smoke50.bmp"));
             Smoke50->Cut(1, 28);

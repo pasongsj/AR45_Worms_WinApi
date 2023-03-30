@@ -99,11 +99,15 @@ void WeaponSheep::WeaponSheepInit()
 	
     ScreenSize = GameEngineWindow::GetScreenSize();
 
-    ExplosionEffectInit();
+    BombScale = 308.0f;
 
 	Gravity = 0.0f; //임시 설정값
-    BombScale = 50.0f;
-    Dmg = 50;
+
+    MinDmg = 52;
+    MaxDmg = 112;
+
+    ExplosionEffectInit(BombScale);
+
 	MoveSpeed = 200.0f; //임시 설정값
 }
 
@@ -461,20 +465,10 @@ void WeaponSheep::DamageToPlayer()
 {
     std::vector<GameEngineCollision*> CollisionPlayer;
 
-    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    MapModifier::MainModifier->SetModifierColScale({ BombScale, BombScale });
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
-    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
-    {
-        for (int i = 0; i < CollisionPlayer.size(); i++)
-        {
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
-            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
-            Dir.Normalize();
-
-            ColPlayer->Damaged(Dmg, Dir, 50);
-        }
-    }
+    AttackPlayer(HoleCollision);
 }
 
 void WeaponSheep::ExplosionAnimationOff()

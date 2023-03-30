@@ -63,8 +63,8 @@ void Player::CreateAnimation()
 
     //에어스트라이크
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_AirStrikeOff", .ImageName = "AirStrikeOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_AirStrikeOff", .ImageName = "AirStrikeOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_AirStrikeOff", .ImageName = "AirStrikeOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_AirStrikeOff", .ImageName = "AirStrikeOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_AirStrikeOn", .ImageName = "AirStrikeOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_AirStrikeOn", .ImageName = "AirStrikeOnRight.bmp", .Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
@@ -75,8 +75,8 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingAim", .ImageName = "HomingAimLeft.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingAim", .ImageName = "HomingAimRight.bmp",.Start = 0, .End = 31, .InterTime = 1000.0f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOff", .ImageName = "HomingOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOff", .ImageName = "HomingOffRight.bmp",.Start = 0, .End = 6, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOff", .ImageName = "HomingOffLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOff", .ImageName = "HomingOffRight.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_HomingOn", .ImageName = "HomingOnLeft.bmp",.Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_HomingOn", .ImageName = "HomingOnRight.bmp", .Start = 0, .End = 6, .InterTime = 0.05f, .Loop = false });
@@ -99,8 +99,8 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchFire", .ImageName = "TorchFireLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = true });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchFire", .ImageName = "TorchFireRight.bmp",.Start = 0, .End =14, .InterTime = 0.1f, .Loop = true });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOff", .ImageName = "TorchOffLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOff", .ImageName = "TorchOffRight.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOff", .ImageName = "TorchOffLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOff", .ImageName = "TorchOffRight.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOn", .ImageName = "TorchOnLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOn", .ImageName = "TorchOnRight.bmp", .Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
@@ -111,8 +111,8 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_DrillFire", .ImageName = "drillLeft.bmp",.Start = 0, .End = 3, .InterTime = 0.05f, .Loop = true });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_DrillFire", .ImageName = "drillRight.bmp",.Start = 0, .End = 3, .InterTime = 0.05f, .Loop = true });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_DrillOff", .ImageName = "DrillOffLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.1f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_DrillOff", .ImageName = "DrillOffRight.bmp",.Start = 0, .End = 12, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_DrillOff", .ImageName = "DrillOffLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_DrillOff", .ImageName = "DrillOffRight.bmp",.Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_DrillOn", .ImageName = "DrillOnLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_DrillOn", .ImageName = "DrillOnRight.bmp", .Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });

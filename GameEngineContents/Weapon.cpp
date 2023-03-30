@@ -237,7 +237,7 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
 
 
 // Gun류 무기는 폭발 위치가 아닌 플레이어가 발사한 거리 반비례 데미지이므로
-void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance )
+void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
 {                   // 폭발 CollisionScale설정 필요
                     // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
 
@@ -275,20 +275,53 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance )
 }
 
 
-void Weapon::ExplosionEffectInit()
+void Weapon::ExplosionEffectInit(float _CircleDiameter)
 {
-    ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
-    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
-    ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    ExplosionCircle->SetScale({ 100, 100 });
+    //디폴트
+    std::string CircleImageName = "circle25.bmp";
+    std::string ElipseImageName = "Elipse50.bmp";
+
+    int CircleFrame = 7;
+    int ElipseeFrame = 19;
+
+    //크기에 따라 변화
+    if (_CircleDiameter >= 100)
+    {
+        CircleImageName = "circle50.bmp";
+        CircleFrame = 8;
+
+        ElipseImageName = "Elipse75.bmp";
+        ElipseeFrame = 9;
+    }
+    else if (_CircleDiameter >= 150)
+    {
+        CircleImageName = "circle75.bmp";
+        CircleFrame = 3;
+
+        ElipseImageName = "Elipse100.bmp";
+        ElipseeFrame = 9;
+    }
+    else if (_CircleDiameter >= 200)
+    {
+        CircleImageName = "circle100.bmp";
+        CircleFrame = 3;
+
+        ElipseImageName = "Elipse100.bmp";
+        ElipseeFrame = 9;
+    }
+
+    ExplosionCircle = CreateRender(CircleImageName, WormsRenderOrder::Weapon);
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = CircleImageName, .Start = 0, .End = CircleFrame, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = CircleImageName, .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionCircle->SetScale({ _CircleDiameter , _CircleDiameter });
 
     ExplosionCircle->ChangeAnimation("Idle");
     ExplosionCircle->Off();
 
-    ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
-    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
-    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    ExplosionElipse->SetScale({ 150, 150 });
+    ExplosionElipse = CreateRender(ElipseImageName, WormsRenderOrder::Weapon);
+    ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = ElipseImageName, .Start = 0, .End = ElipseeFrame, .InterTime = 0.03f , .Loop = false });
+    ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = ElipseImageName, .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+    ExplosionElipse->SetScale({ _CircleDiameter * 1.5f , _CircleDiameter * 1.5f });
 
     ExplosionElipse->ChangeAnimation("Idle");
     ExplosionElipse->Off();
@@ -296,7 +329,7 @@ void Weapon::ExplosionEffectInit()
     PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
     PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
     PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    PootTextAnimation->SetScale({ 70, 70 });
+    PootTextAnimation->SetScale({ 70 , 70 });
 
     PootTextAnimation->ChangeAnimation("Idle");
     PootTextAnimation->Off();

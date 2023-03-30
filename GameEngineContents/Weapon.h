@@ -74,7 +74,7 @@ protected:
 
 	float4 Dir = float4::Zero;						// 무기 진행 방향
 	//float4 PlayerPos = float4::Zero;				// 플레이어 위치 ---> 지울거
-	int BombScale = 0;				// 폭발 범위
+	float BombScale = 0.0f;				// 폭발 범위
 
 	int WeaponNumber = 0;							// 무기 이름에 해당하는 Number
 	std::string WeaponName;							// 무기 이름
@@ -101,7 +101,7 @@ protected:
 	void AttackPlayer(GameEngineCollision* _Col);
     void AttackPlayerGun(GameEngineCollision* _Col, float _Distance);
 
-    void ExplosionEffectInit();
+    void ExplosionEffectInit(float _CircleDiameter);
 
 	//virtual void Charging();
 	virtual void Firing(float _Deltatime) {}; // 날아가는거, 

@@ -58,8 +58,9 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 
 	WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
 
-    BombScale = 50;
-    Dmg = 50;
+    BombScale = 122;
+    MinDmg = 24;
+    MaxDmg = 45;
 
     WeaponName = "AirStrike";
 
@@ -416,20 +417,10 @@ void WeaponAirStrike::DamageToPlayer()
 {
     std::vector<GameEngineCollision*> CollisionPlayer;
 
-    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    MapModifier::MainModifier->SetModifierColScale({ BombScale, BombScale });
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
-    if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
-    {
-        for (int i = 0; i < CollisionPlayer.size(); i++)
-        {
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
-            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
-            Dir.Normalize();
-
-            ColPlayer->Damaged(Dmg, Dir, 100);
-        }
-    }
+    AttackPlayer(HoleCollision);
 }
 
 void WeaponAirStrike::ExplosionEffectInit()
@@ -440,17 +431,17 @@ void WeaponAirStrike::ExplosionEffectInit()
         GameEngineRender* Circle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
         Circle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
         Circle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-        Circle->SetScale({ 100, 100 });
+        Circle->SetScale({ BombScale, BombScale });
 
         Circle->ChangeAnimation("Idle");
         Circle->Off();
 
         ExplosionCircleList.push_back(Circle);
 
-        GameEngineRender* Elipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
-        Elipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
-        Elipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-        Elipse->SetScale({ 150, 150 });
+        GameEngineRender* Elipse = CreateRender("Elipse75.bmp", WormsRenderOrder::Weapon);
+        Elipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse75.bmp", .Start = 0, .End = 9, .InterTime = 0.03f , .Loop = false });
+        Elipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse75.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
+        Elipse->SetScale({ BombScale * 1.5f , BombScale * 1.5f });
 
         Elipse->ChangeAnimation("Idle");
         Elipse->Off();

@@ -83,8 +83,9 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	WeaponRender->SetRotFilter("bazookaRot.bmp");
 	
-	BombScale = 50;
-	Dmg = 50;
+	BombScale = 208;
+    MinDmg = 35;
+    MaxDmg = 75;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
 
@@ -103,7 +104,7 @@ void WeaponBazooka::WeaponBazookaInit()
 
 	WeaponName = "Bazooka";
    
-    ExplosionEffectInit();
+    ExplosionEffectInit(BombScale);
 
     ChargingGage = CreateRender("ChargeAni.bmp", WormsRenderOrder::Weapon);
     ChargingGage->SetRotFilter("ChargeAniRot.bmp");
@@ -416,20 +417,10 @@ void WeaponBazooka::DamageToPlayer()
 {
 	std::vector<GameEngineCollision*> CollisionPlayer;
 
-    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });
+    MapModifier::MainModifier->SetModifierColScale({ BombScale, BombScale });
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
 
-	if (true == HoleCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
-	{
-		for (int i = 0; i < CollisionPlayer.size(); i++)
-		{
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
-            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
-            Dir.Normalize();
-
-            ColPlayer->Damaged(Dmg, Dir, 100);
-		}
-	}
+    AttackPlayer(HoleCollision);
 }
 
 void WeaponBazooka::MakeSmoke()
