@@ -126,7 +126,6 @@ void Map::Start()
         Wave0->SetScale(WaveScale);
         Wave0->CreateAnimation({ .AnimationName = "Wave0",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
         Wave0->ChangeAnimation("Wave0");
-
     }
     int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);					//AnimationÀ» ½ÃÀÛÇÒ ·£´ýÇÑ ÀÎµ¦½º
     {
@@ -136,7 +135,6 @@ void Map::Start()
         Wave1->SetScale(WaveScale);
         Wave1->CreateAnimation({ .AnimationName = "Wave1",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
         Wave1->ChangeAnimation("Wave1", RandIdx);
-
     }
     RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
     {
@@ -155,7 +153,6 @@ void Map::Start()
         Wave3->SetScale(WaveScale);
         Wave3->CreateAnimation({ .AnimationName = "Wave3",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
         Wave3->ChangeAnimation("Wave3", RandIdx);
-
     }
     RandIdx = GameEngineRandom::MainRandom.RandomInt(0, 10);
     {
@@ -165,7 +162,6 @@ void Map::Start()
         Wave4->SetScale(WaveScale);
         Wave4->CreateAnimation({ .AnimationName = "Wave4",  .ImageName = "Water_sprite.bmp", .Start = 0, .End = 10 });
         Wave4->ChangeAnimation("Wave4", RandIdx);
-
     }
 
     std::string LevelName = "Play";
