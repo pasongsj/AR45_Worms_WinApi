@@ -35,12 +35,15 @@ private:
     std::vector<GameEngineRender*> vecPlayerName;
     std::vector<int> vecPlayerCurHp;
     std::vector<float4> vecLastPos;
+    std::vector<float> vecLastScale;
     float4 StartPos = { 640.f,850.f };
 
     float fLerpRatio = 0.f;
+    float fMaxHP = 0.f;
 
     bool bSetHP = false;
     bool bSort = false;
+
 
 };
 

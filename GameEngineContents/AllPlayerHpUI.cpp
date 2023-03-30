@@ -5,7 +5,7 @@
 #include "ContentsEnums.h"
 #include "Player.h"
 #include "GlobalValue.h"
-
+#include "PlayLevel.h"
 AllPlayerHpUI* AllPlayerHpUI::AllHpUI = nullptr;
 AllPlayerHpUI::AllPlayerHpUI() 
 {
@@ -38,10 +38,18 @@ void AllPlayerHpUI::Start()
     AllHpUI = this;
 
     std::vector<Player*> PlayerList = GlobalValue::gValue.GetAllPlayer();
+        
+    vecPlayerHpBar.reserve(PlayerList.size());
+    vecPlayerName.reserve(PlayerList.size());
+    vecPlayerCurHp.reserve(PlayerList.size());
+    vecLastPos.reserve(PlayerList.size());
+    vecMixNum.reserve(PlayerList.size());
+    vecLastScale.reserve(PlayerList.size());
 
     float4 rStartPos = StartPos;
     for (size_t i = 0; i < PlayerList.size(); i++)
     {
+        vecLastScale.push_back(0.f);
         vecPlayerHpBar.push_back(CreateRender(WormsRenderOrder::UI));
         vecPlayerName.push_back(CreateRender(WormsRenderOrder::UI));
         vecPlayerCurHp.push_back(PlayerList[i]->GetPlayerHP());
@@ -92,6 +100,7 @@ void AllPlayerHpUI::Start()
         rStartPos.y += 17.f;
     }
 
+    fMaxHP = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().iPlayerHp;
 }
 
 void AllPlayerHpUI::Update(float _DeltaTime)
@@ -134,13 +143,18 @@ void AllPlayerHpUI::Update(float _DeltaTime)
         }
         bSetHP = false;
         bSort = true;
+
+        for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
+        {
+            vecLastScale[i] = vecPlayerHpBar[i]->GetScale().x;
+        }
     }
     if (true==bSort)
     {
         float4 rStartPos = StartPos;
        
         fLerpRatio += _DeltaTime;
-
+        
 
         for (size_t i = 0; i < vecPlayerHpBar.size(); i++)
         {
@@ -148,11 +162,11 @@ void AllPlayerHpUI::Update(float _DeltaTime)
             float4 LerpNamePos = float4::Zero;
 
             
-            float fHpRatio = vecPlayerCurHp[i] / 100.f;
+            float fHpRatio = (fMaxHP -vecPlayerCurHp[i]) / 100.f;
             float4 end = LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio);
             float4 NameEnd = LerpNamePos.LerpClamp(vecLastPos[i] + float4{ -38,0 }, float4{ rStartPos.x,rStartPos.y + (i * 17.f) } + float4{ -38,0 }, fLerpRatio);
             vecPlayerHpBar[i]->SetPosition(end);
-            vecPlayerHpBar[i]->SetScale({ 200 -(200*(1-fHpRatio)* fLerpRatio) ,17 });
+            vecPlayerHpBar[i]->SetScale({ vecLastScale[i] - ((vecLastScale[i]-(200-(200 * fHpRatio))) * fLerpRatio) ,17});
 
             vecPlayerName[i]->SetPosition(NameEnd);
         }
