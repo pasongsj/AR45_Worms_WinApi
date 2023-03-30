@@ -205,8 +205,9 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 }
 
 
-void Weapon::AttackPlayer(GameEngineCollision* _Col, float Power) // 수정필요
-{
+void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
+{                   // 폭발 CollisionScale설정 필요                                   :_Col->SetScale({ static_cast<float>(BombScale * 2) });
+                    // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
 
 	if (nullptr == _Col)
 	{
@@ -221,11 +222,56 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, float Power) // 수정필요
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
-            ColPlayer->Damaged(static_cast<int>(Dmg), ColPlayer->GetPos()-_Col->GetActorPlusPos(), Power);
-			//ColPlayer에게 데미지와 날라가는 방향, 날라가는 세기 주기
+            float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos(); //폭발 구점
 
-		}
+            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / BombScale) + MinDmg * (Distance.Size() / BombScale));
+            float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / BombScale) + MinKnockBackPower * (Distance.Size() / BombScale);
+            Distance.Normalize();
+
+            //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
+            ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+		    //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
+        }
 	}
+}
+
+
+// Gun류 무기는 폭발 위치가 아닌 플레이어가 발사한 거리 반비례 데미지이므로
+void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance )
+{                   // 폭발 CollisionScale설정 필요
+                    // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
+
+    if (nullptr == _Col)
+    {
+        MsgAssert("체크할 콜리전이 없습니다.");
+    }
+
+    // 플레이어 체크
+    std::vector<GameEngineCollision*> CollisionList;
+
+    if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+    {
+        for (int i = 0; i < CollisionList.size(); i++)
+        {
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+            if (ColPlayer == CurPlayer) // Gun은 본인에게 데미지를 주지 않음
+            {
+                return;
+            }
+            float4 Distance = _Col->GetActorPlusPos() - GetPos(); //폭발 구점
+
+            float Ratio = Distance.Size() / _refDistance > 1 ? 1 : Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정
+
+
+            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Ratio) + MinDmg * Ratio); // 가까울수록 높은 데미지
+            float proportional_power = MaxKnockBackPower * (1 - Ratio) + MinKnockBackPower * Ratio;
+            Distance.Normalize();
+
+            //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
+            ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+            //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
+        }
+    }
 }
 
 

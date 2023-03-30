@@ -20,10 +20,14 @@ void WeaponClusterBomb::Start()
     // 수류탄 기본 설정 -- 상수값 조정 필요
     MoveSpeed = 1000.0f; // 임시값
     Gravity = 1.0f;// 임시값
-    //Dmg = 0.0f;
     Timer = 2.0f;// 임시값
-    Dir = float4::Right;
-    BombScale = 120;
+    //Dir = float4::Right;
+    BombScale = 61;
+
+    MaxDmg = 30;
+    MinDmg = 14;
+    MaxKnockBackPower = 61;
+    MinKnockBackPower = 35;
     WeaponName = "ClusterBomb";
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
@@ -211,6 +215,12 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 
             if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
             {
+                GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
+                BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+                BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
+
+                AttackPlayer(BombCollision); // 임시값
+
                 // 약간의 수정이 필요함
                 ExplosionCircle->SetPosition(ClusterCollision[i]->GetPosition());
                 ExplosionCircle->On();
@@ -224,13 +234,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
                 PowTextAnimation->On();
                 PowTextAnimation->ChangeAnimation("Pow", 0);
 
-
-                GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-                BombCollision->SetPosition(ClusterCollision[i]->GetActorPlusPos());
-
-                //AttackPlayer(BombCollision);
-
-                MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), 60);
+                MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), BombScale);
                 ClusterRender[i]->Off();
                 ClusterCollision[i]->Off();
             }
@@ -309,8 +313,9 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
         {
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+            BombCollision->SetScale(float4{ static_cast<float>(MainBombScale * 2) });
 
-            AttackPlayer(BombCollision,BombScale);// 임시값
+            AttackPlayer(BombCollision);// 임시값
 
             ExplosionCircle->SetPosition(WeaponRender->GetPosition());
             ExplosionCircle->On();
@@ -324,7 +329,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
             BiffTextAnimation->On();
             BiffTextAnimation->ChangeAnimation("Biff", 0);
 
-            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), MainBombScale);
             isExplosion = true;
             WeaponRender->Off();
             WeaponCollision->Off();

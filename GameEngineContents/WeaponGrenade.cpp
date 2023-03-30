@@ -21,11 +21,18 @@ void WeaponGrenade::Start()
 	// 수류탄 기본 설정 -- 상수값 조정 필요
 	MoveSpeed = 700.0f; // 임시값
 	Gravity = 1.0f;// 임시값
-	//Dmg = 0.0f;
 	Timer = 5.0f;// 임시값
-	Dir = float4::Right;
-	BombScale = 120;
+	//Dir = float4::Right;
 	WeaponName = "Grenade";
+	BombScale = 104;
+
+    MaxDmg = 75;
+    MinDmg = 35;
+
+    MaxKnockBackPower = 147;
+    MinKnockBackPower = 73;
+	//Dmg = 52.5f;
+    //KnockBackPower = 104;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
 
@@ -227,8 +234,9 @@ void WeaponGrenade::Firing(float _DeltaTime)
         {
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+            BombCollision->SetScale(float4{ static_cast<float>(BombScale*2) });
 
-            AttackPlayer(BombCollision,BombScale); // 임시값
+            AttackPlayer(BombCollision); // 임시값
 
             ExplosionCircle->SetPosition(WeaponRender->GetPosition());
             ExplosionCircle->On();

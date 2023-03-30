@@ -21,10 +21,15 @@ void WeaponFirePunch::Start()
 
 
     MoveSpeed = 200;							// 무기속력
-    //Dmg = 0.0f;								// 데미지
 
     Dir = float4::Up;						// 무기 진행 방향
-    BombScale = 13;				// 폭발 범위
+    BombScale = 13;
+
+    MaxDmg = 45;
+    MinDmg = 21;
+
+    MaxKnockBackPower = 13 * 3; // 오류 날 가능성 높음
+    MinKnockBackPower = 13 * 3;
 
     WeaponNumber = static_cast<int>(WeaponNum::FirePunch);							// 무기 이름에 해당하는 Number
     WeaponName = "FirePunch";							// 무기 이름
@@ -85,7 +90,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
                 BombCollision->SetPosition(StartPos);											                                       // 2. Bomb 콜리전 이동
 
-                AttackPlayer(BombCollision, BombScale);																						  // 3. Bomb콜리전 Player Check
+                AttackPlayer(BombCollision);																						  // 3. Bomb콜리전 Player Check
 
                 MapModifier::MainModifier->CreateHole(StartPos + float4{0,-10}, BombScale);                                         //4. createHole
             }

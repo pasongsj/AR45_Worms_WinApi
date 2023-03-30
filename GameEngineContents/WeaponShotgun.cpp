@@ -23,9 +23,13 @@ void WeaponShotgun::Start()
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
 	MoveSpeed = 1000.0f;
-	//float Dmg = 0.0f;
-	Dir = float4::Right;
-	BombScale = 50;
+	//Dir = float4::Right;
+    BombScale = 11;
+
+    MaxDmg = 50;
+    MinDmg = 12;
+    MaxKnockBackPower = 97;
+    MinKnockBackPower = 35;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 
@@ -178,8 +182,15 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
 				GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();				// 1. Bomb 콜리전 가져오기
 				BombCollision->SetPosition(GetPos() + ShotGunCollision[i]->GetPosition());							// 2. Bomb 콜리전 이동
+                BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
 
-				AttackPlayer(BombCollision,BombScale);																		// 3. Bomb콜리전 Player Check
+                AttackPlayerGun(BombCollision, 500);																		// 3. Bomb콜리전 Player Check
+
+
+                // shotgun은 다른 총들과 다르게 최대 데미지가 크기때문에 BombScale을 재 설정한다.
+                float4 Dis = BombCollision->GetActorPlusPos() - GetPos();
+                float Dis_Ratio = (Dis.Size() / 500) > 1 ? 1 : Dis.Size() / 500;
+                BombScale = static_cast<int>(MaxDmg * (1 - Dis_Ratio) + MinDmg * Dis_Ratio);
 
 				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), BombScale);	// 4. 구멍 만들기
 

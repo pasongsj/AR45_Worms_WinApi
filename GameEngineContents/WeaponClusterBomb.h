@@ -60,6 +60,8 @@ private:
 
     float AimIndex = 15;
     int NextAimIndex = 15;
+    int MainBombScale = 104;
+
     void SetAimFrameIndex();
 };
 

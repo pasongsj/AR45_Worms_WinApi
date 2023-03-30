@@ -57,9 +57,15 @@ protected:
 	float fLerpSpeed = 2.f;
 
 
+    float MinKnockBackPower = 0.0f;
+    float MaxKnockBackPower = 0.0f;
+
 	float MoveSpeed = 0.0f;							// 무기속력
 	float Gravity = 0.0f;							// 중력
-	float Dmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
+
+    float Dmg = 0.0f;   //삭제 예정
+    float MinDmg = 0.0f;
+	float MaxDmg = 0.0f;								// 폭발데미지(거리비례인지 체크필요)
 	float Charge = 0.0f;							// 차지게이지
 
 	// GlobalValue에서 가져올 것
@@ -92,7 +98,8 @@ protected:
 	bool PressShoot();
 	bool isEndCharging();
 	void SetCurPlayer();
-	void AttackPlayer(GameEngineCollision* _Col, float Power);
+	void AttackPlayer(GameEngineCollision* _Col);
+    void AttackPlayerGun(GameEngineCollision* _Col, float _Distance);
 
     void ExplosionEffectInit();
 
