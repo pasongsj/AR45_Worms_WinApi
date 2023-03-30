@@ -48,7 +48,7 @@ private:
     bool isHoming = false;
     bool isHomingSet = false;
     bool isAttack = false;
-    bool isFire = false;
+    bool isShoot = false;
     bool isExplosion = false;
     bool isAiming = false;
     bool isAimSet = false;

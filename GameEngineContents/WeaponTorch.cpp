@@ -40,10 +40,7 @@ void WeaponTorch::Update(float _DeltaTime)
         TorchOn(_DeltaTime);
     }
 
-    if (TorchTime > 10.0f)
-    {
-        isWeaponDone = true;
-    }
+
 }
 
 void WeaponTorch::Render(float _DeltaTime)
@@ -68,9 +65,17 @@ void WeaponTorch::TorchInit()
 
 void WeaponTorch::TorchOn(float _DeltaTime)
 {
+    if (abs(StartPos.y - CurPlayer->GetPos().y) >= 5)
+    {
+        return;
+    }
+
+    isFire = true;
+
     if (TorchTime >= 5.0f)
     {
         isFireEnd = true;
+        isWeaponDone = true;
         return;
     }
 

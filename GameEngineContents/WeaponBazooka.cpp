@@ -57,7 +57,7 @@ void WeaponBazooka::Update(float _DeltaTime)
 	}
 
 
-	if (isFire == true)
+	if (isShoot == true)
 	{
 		MakeSmoke();
 	}
@@ -173,10 +173,11 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
 	if (isAiming == true && isEndCharging() == true)
 	{
 		ChargingRenderOff();
-		isFire = true;
+		isShoot = true;
+        isFire = true;
 	}
 
-	if (isFire == false)
+	if (isShoot == false)
 	{
 		return;
 	}
@@ -278,7 +279,7 @@ void WeaponBazooka::ResetWeapon()
 
 	isBazOn = false;
 	isSet = false;
-	isFire = false;
+	isShoot = false;
 	isAiming = false;
 
 	Bazindex = 0;
@@ -301,7 +302,7 @@ void WeaponBazooka::BazAiming()
 		return;
 	}
 
-	if (isFire == true)
+	if (isShoot == true)
 	{
 		return;
 	}
@@ -426,7 +427,7 @@ void WeaponBazooka::DamageToPlayer()
             float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
             Dir.Normalize();
 
-            ColPlayer->Damaged(Dmg, Dir, 300);
+            ColPlayer->Damaged(Dmg, Dir, 100);
 		}
 	}
 }
@@ -435,7 +436,7 @@ void WeaponBazooka::MakeSmoke()
 {
     SmokeTimeCount += TimeCount;
 
-	if (SmokeTimeCount > 0.03)
+	if (SmokeTimeCount > 0.1)
 	{
 
 		float4 BaZooka = WeaponRender->GetActorPlusPos();
@@ -531,7 +532,7 @@ void WeaponBazooka::DebrisInit()
     for (int i = 0; i < 10; i++)
     {
         GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
-        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
         Spark->SetScale({ 60, 60 });
         Spark->Off();
@@ -562,7 +563,7 @@ void WeaponBazooka::ExplosionAnimationOff()
 
 void WeaponBazooka::CameraUpdate(float _DeltaTime)
 {
-    if (isFire == true)
+    if (isShoot == true)
     {
         GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
     }

@@ -55,7 +55,7 @@ void WeaponDrill::DrillInit()
 
     ScreenSize = GameEngineWindow::GetScreenSize();
 
-    WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
+    WeaponNumber = static_cast<int>(WeaponNum::Drill);
 
     BombScale = 15;
 
@@ -73,6 +73,7 @@ void WeaponDrill::Timer()
 
 void WeaponDrill::Drilling()
 {
+    isFire = true;
 
     DrillOnTime += TimeCount;
 

@@ -136,6 +136,7 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
     {
         Airplane->On();
         Marker->Off();
+        isFire = true;
     }
 
 	if (Airplane->IsUpdate() == true)
@@ -351,7 +352,7 @@ void WeaponAirStrike::DebrisInit()
     for (int i = 0; i < MissileNum * 10; i++)
     {
         GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
-        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
         Spark->SetScale({ 60, 60 });
         Spark->Off();

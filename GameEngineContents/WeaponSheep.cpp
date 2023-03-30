@@ -92,6 +92,7 @@ void WeaponSheep::WeaponSheepInit()
 	WeaponCollision->Off();
 
 	WeaponName = "Sheep";
+    WeaponNumber = static_cast<int>(WeaponNum::Sheep);
 
 	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveRight", .ImageName = "SheepWalkRight.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
 	WeaponRender->CreateAnimation({ .AnimationName = "SheepMoveLeft", .ImageName = "SheepWalkLeft.bmp", .Start = 0, .End = 7, .InterTime = 0.1f });
@@ -423,7 +424,6 @@ void WeaponSheep::DebrisAnimation(float _DeltaTime)
 
         for (int i = 0; i < Smokes.size(); i++)
         {
-            //Smokes[i]->SetMove(SmokesDir[i] * 25.0f * _DeltaTime);
             if (Smokes[i]->IsAnimationEnd() == true)
             {
                 Smokes[i]->Off();
@@ -448,7 +448,7 @@ void WeaponSheep::DebrisInit()
     for (int i = 0; i < 10; i++)
     {
         GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
-        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
         Spark->SetScale({ 60, 60 });
         Spark->Off();
@@ -503,6 +503,11 @@ void WeaponSheep::ExplosionAnimationOff()
 
 void WeaponSheep::SheepMove(float _DeltaTime)
 {
+    if (isFire == false)
+    {
+        isFire = true;
+    }
+
     if (isJump == true)
     {
         SheepJump(_DeltaTime);

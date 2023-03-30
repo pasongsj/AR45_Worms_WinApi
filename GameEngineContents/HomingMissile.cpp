@@ -40,7 +40,7 @@ void HomingMissile::Update(float _DeltaTime)
 
     if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
-        if (isFire == false)
+        if (isShoot == false)
         {
             Aiming();
         }
@@ -82,7 +82,7 @@ void HomingMissile::Render(float _DeltaTime)
         isHoming = false;
         isHomingSet = false;
         isAttack = false;
-        isFire = false;
+        isShoot = false;
         isExplosion = false;
         isAiming = false;
         isAimSet = false;
@@ -122,7 +122,7 @@ void HomingMissile::HomingMissileInit()
 
 void HomingMissile::Firing(float _DeltaTime)
 {
-    if (isFire == false)
+    if (isShoot == false)
     {
         WeaponRender->On();
         WeaponCollision->On();
@@ -140,6 +140,7 @@ void HomingMissile::Firing(float _DeltaTime)
 
         isTimeSet = false;
 
+        isShoot = true;
         isFire = true;
     }
 
@@ -538,7 +539,7 @@ void HomingMissile::DebrisInit()
     for (int i = 0; i < 10; i++)
     {
         GameEngineRender* Spark = CreateRender("Spark1.bmp", WormsRenderOrder::Weapon);
-        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.1f , .Loop = false });
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         Spark->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Spark1.bmp", .Start = 0, .End = 0, .InterTime = 0.05f , .Loop = false });
         Spark->SetScale({ 60, 60 });
         Spark->Off();

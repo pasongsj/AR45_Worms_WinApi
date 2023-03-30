@@ -69,7 +69,8 @@ private:
 
 	bool isSet = false;
 
-	bool isFire = false;
+	bool isShoot = false;
+
 	bool isAiming = false;
 	bool isAttack = false;
 
