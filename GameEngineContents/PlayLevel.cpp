@@ -906,7 +906,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         vecTurnEnd.reserve(LevelSet.iPlayerNum);
         for (size_t i = 0; i < vecAllPlayer.capacity(); i++)
         {
-            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 300);
+            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 30);
 
             vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
             vecTurnEnd.push_back(false);
@@ -916,7 +916,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
            
             float4 StartPos = float4{ 400,50 };
-            StartPos.x *= i + 1;
+            //StartPos.x *= i + 1;
             StartPos.x += iRandxPos;
             vecAllPlayer[i]->SetPos(StartPos);
             

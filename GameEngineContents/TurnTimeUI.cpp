@@ -50,7 +50,7 @@ void TurnTimeUI::Update(float _DeltaTime)
     //    }
     //}
 
-    fTurnTime -= _DeltaTime;
+    //fTurnTime -= _DeltaTime;
 
     if (fTurnTime <= 0.f)
     {
