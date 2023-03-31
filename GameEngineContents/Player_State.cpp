@@ -418,6 +418,11 @@ void Player::JumpUpdate(float _DeltaTime)
 
     if (StateCalBool == false)
     {
+        if (true == RightDownPixelCheck && true == LeftDownPixelCheck)
+        {
+            MoveDir = { 0.0f, MoveDir.y };
+        }
+
         if (true == UpPixelCheck)
         {
             MoveDir = { MoveDir.x , (-MoveDir.y * testvalue) };
@@ -686,8 +691,17 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         ChangeState(PlayerState::Sliding);
         return;
     }
+    else if (true == LeftDownPixelCheck && true == RightDownPixelCheck)
+    {
+        SetMove({ 0.0f, -1.0f });
 
-    if (true == LeftUpPixelCheck && "Left_" == DirString)
+        MoveDir *= 0.01f;
+
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
+
+    else if (true == LeftUpPixelCheck && "Left_" == DirString)
     {
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
@@ -781,7 +795,7 @@ void Player::SlidingUpdate(float _DeltaTime)
         StateCalTime = 0.0f;
     }
 
-    if (MoveDir.Size() <= 20.0f && true == DownPixelCheck)
+    if (MoveDir.Size() <= 20.0f && (true == DownPixelCheck || true == LeftDownPixelCheck || true == RightDownPixelCheck))
     {
         ChangeState(PlayerState::StandUp);
         return;
@@ -789,14 +803,16 @@ void Player::SlidingUpdate(float _DeltaTime)
 
     float testvalue = 0.5f;
 
+
     if (true == LeftUpPixelCheck && true == RightUpPixelCheck)
     {
-        //SetMove({ 0.0f, 1.0f });
-
         MoveDir *= 0.01f;
     }
-
-    if (true == LeftUpPixelCheck && "Left_" == DirString)
+    else if (true == LeftDownPixelCheck && true == RightDownPixelCheck)
+    {
+        MoveDir *= 0.01f;
+    }
+    else if (true == LeftUpPixelCheck && "Left_" == DirString)
     {
         SetMove({ 1.0f, 1.0f });
 
