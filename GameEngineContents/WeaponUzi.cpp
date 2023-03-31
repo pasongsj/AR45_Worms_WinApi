@@ -23,12 +23,12 @@ void WeaponUzi::Start()
 	WeaponName = "Uzi";
 	MoveSpeed = 1200.0f;
 	//Dir = float4::Right;
-    BombScale = 20;
+    BombScale = 40;
 
     MaxDmg = 10;
     MinDmg = 3;
-    MaxKnockBackPower = 20;
-    MinKnockBackPower = 11;
+    MaxKnockBackPower = 40;
+    MinKnockBackPower = 22;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 
@@ -190,7 +190,7 @@ void WeaponUzi::Firing(float _DeltaTime)
 
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
 					BombCollision->SetPosition(GetPos() + UziCollision[i]->GetPosition());
-                    BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
+                    BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
                     AttackPlayerGun(BombCollision, 500);
 

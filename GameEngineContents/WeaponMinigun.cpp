@@ -22,13 +22,13 @@ void WeaponMinigun::Start()
 	WeaponName = "Minigun";
 	MoveSpeed = 1200.0f;
 	//Dir = float4::Right;
-    BombScale = 11;
+    BombScale = 22;
 
     MaxDmg = 10;
     MinDmg = 3;
 
-    MaxKnockBackPower = 11;
-    MinKnockBackPower = 11;
+    MaxKnockBackPower = 22;
+    MinKnockBackPower = 22;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
 	//AllWeapons[WeaponName] = this;
@@ -186,7 +186,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
 
 					GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();										  // 1. Bomb 콜리전 가져오기
 					BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());													  // 2. Bomb 콜리전 이동
-                    BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
+                    BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
                     AttackPlayerGun(BombCollision, 500);																								  // 3. Bomb콜리전 Player Check
 

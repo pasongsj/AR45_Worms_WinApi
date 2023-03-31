@@ -24,7 +24,7 @@ void WeaponShotgun::Start()
 	WeaponName = "Shotgun";
 	MoveSpeed = 1000.0f;
 	//Dir = float4::Right;
-    BombScale = 11;
+    BombScale = 22;
 
     MaxDmg = 50;
     MinDmg = 12;
@@ -181,7 +181,7 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
 				GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();				// 1. Bomb 콜리전 가져오기
 				BombCollision->SetPosition(GetPos() + ShotGunCollision[i]->GetPosition());							// 2. Bomb 콜리전 이동
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
+                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
                 AttackPlayerGun(BombCollision, 500);																		// 3. Bomb콜리전 Player Check
 
@@ -189,7 +189,7 @@ void WeaponShotgun::Firing(float _DeltaTime)
                 // shotgun은 다른 총들과 다르게 최대 데미지가 크기때문에 BombScale을 재 설정한다.
                 float4 Dis = BombCollision->GetActorPlusPos() - GetPos();
                 float Dis_Ratio = (Dis.Size() / 500) > 1 ? 1 : Dis.Size() / 500;
-                BombScale = static_cast<int>(MaxDmg * (1 - Dis_Ratio) + MinDmg * Dis_Ratio);
+                BombScale = static_cast<int>(MaxDmg * (1 - Dis_Ratio) + MinDmg * Dis_Ratio) * 2;
 
 				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), BombScale);	// 4. 구멍 만들기
 

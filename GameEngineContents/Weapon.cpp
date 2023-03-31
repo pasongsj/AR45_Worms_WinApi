@@ -217,6 +217,8 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
 	// 플레이어 체크
 	std::vector<GameEngineCollision*> CollisionList;
 
+    int Radius = BombScale / 2;
+
 	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
 		for (int i = 0; i < CollisionList.size(); i++)
@@ -224,8 +226,8 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
             float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos(); //폭발 구점
 
-            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / BombScale) + MinDmg * (Distance.Size() / BombScale));
-            float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / BombScale) + MinKnockBackPower * (Distance.Size() / BombScale);
+            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / Radius) + MinDmg * (Distance.Size() / Radius));
+            float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / Radius) + MinKnockBackPower * (Distance.Size() / Radius);
             Distance.Normalize();
 
             //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 

@@ -22,12 +22,12 @@ void WeaponClusterBomb::Start()
     Gravity = 1.0f;// 임시값
     Timer = 2.0f;// 임시값
     //Dir = float4::Right;
-    BombScale = 61;
+    BombScale = 122;
 
     MaxDmg = 30;
     MinDmg = 14;
-    MaxKnockBackPower = 61;
-    MinKnockBackPower = 35;
+    MaxKnockBackPower = 122;
+    MinKnockBackPower = 70;
     WeaponName = "ClusterBomb";
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
@@ -70,7 +70,7 @@ void WeaponClusterBomb::Start()
     BiffTextAnimation = CreateRender("Biff.bmp", WormsRenderOrder::Weapon);
     BiffTextAnimation->CreateAnimation({ .AnimationName = "Biff", .ImageName = "Biff.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
     BiffTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Biff.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    BiffTextAnimation->SetScale({ 170, 170 });
+    BiffTextAnimation->SetScale({ 208, 208 });
 
     BiffTextAnimation->ChangeAnimation("Idle");
     BiffTextAnimation->Off();
@@ -79,7 +79,7 @@ void WeaponClusterBomb::Start()
     PowTextAnimation = CreateRender("Pow.bmp", WormsRenderOrder::Weapon);
     PowTextAnimation->CreateAnimation({ .AnimationName = "Pow", .ImageName = "Pow.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
     PowTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Pow.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    PowTextAnimation->SetScale({ 170, 170 });
+    PowTextAnimation->SetScale({ 61, 61 });
 
     PowTextAnimation->ChangeAnimation("Idle");
     PowTextAnimation->Off();
@@ -215,7 +215,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
             {
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
                 BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale * 2) });
+                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
                 AttackPlayer(BombCollision); // 임시값
 
@@ -311,7 +311,7 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
         {
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-            BombCollision->SetScale(float4{ static_cast<float>(MainBombScale * 2) });
+            BombCollision->SetScale(float4{ static_cast<float>(MainBombScale) });
 
             AttackPlayer(BombCollision);// 임시값
 

@@ -24,13 +24,13 @@ void WeaponGrenade::Start()
 	Timer = 5.0f;// 임시값
 	//Dir = float4::Right;
 	WeaponName = "Grenade";
-	BombScale = 104;
+	BombScale = 208;
 
     MaxDmg = 75;
     MinDmg = 35;
 
-    MaxKnockBackPower = 147;
-    MinKnockBackPower = 73;
+    MaxKnockBackPower = 294;
+    MinKnockBackPower = 146;
 	//Dmg = 52.5f;
     //KnockBackPower = 104;
 
@@ -233,7 +233,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
         {
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-            BombCollision->SetScale(float4{ static_cast<float>(BombScale*2) });
+            BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
             AttackPlayer(BombCollision); // 임시값
 
@@ -249,7 +249,7 @@ void WeaponGrenade::Firing(float _DeltaTime)
             PootTextAnimation->On();
             PootTextAnimation->ChangeAnimation("Poot", 0);
 
-            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), 120);
+            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), BombScale);
 
 
 

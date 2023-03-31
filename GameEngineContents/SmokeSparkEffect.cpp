@@ -15,6 +15,7 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, int _Scale)
 {
     SmokeCnt = _Smoke;
     SparkCnt = _Spark;
+    int BombScale = _Scale / 2;
 
     AllSmoke.clear();
     AllSmokeDir.clear();
@@ -31,7 +32,7 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, int _Scale)
     for (int i = 0;i < SmokeCnt;i++)
     {
         GameEngineRender* NewSmoke = CreateRender(WormsRenderOrder::Weapon);
-        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale), GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale) };
+        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale), GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale) };
         NewSmoke->SetPosition(dir);
         dir.Normalize();
         NewSmoke->SetScale({ 60, 60 });
@@ -44,8 +45,8 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, int _Scale)
     for (int i = 0;i < SparkCnt;i++)
     {
         GameEngineRender* NewSpark = CreateRender(WormsRenderOrder::Weapon);
-        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale), GameEngineRandom::MainRandom.RandomFloat(-_Scale,_Scale) }.NormalizeReturn() * _Scale;
-        dir.y -= _Scale;
+        float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale), GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale) }.NormalizeReturn() * BombScale;
+        dir.y -= BombScale;
         NewSpark->SetPosition(dir);
         dir.Normalize();
         NewSpark->SetScale({ 60, 60 });

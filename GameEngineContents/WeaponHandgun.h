@@ -25,7 +25,7 @@ protected:
 private:
 
 	int BulletCount = 6;
-	float DelayTime = 0.5f;
+	float DelayTime = 0.1f;
 
 	GameEngineRender* AimingLine = nullptr;
 	std::vector <GameEngineCollision*> HandgunCollision;							// index에 해당하는 총알 콜리전
