@@ -56,6 +56,7 @@ private:
     GameEngineRender* TorchUI = nullptr;
     GameEngineRender* X = nullptr;
 
+
     Button* Bazooka = nullptr;
     Button* HomingMissile = nullptr;
     Button* Grenade = nullptr;
@@ -67,6 +68,11 @@ private:
     Button* Sheep = nullptr;
     Button* AirStrike = nullptr;
     Button* Torch = nullptr;
+    Button* FireFunch = nullptr;
+    Button* Drill = nullptr;
+
+
+
   
     NumberRenderObject HomingMissileNumber;
     NumberRenderObject GrenadeNummber;

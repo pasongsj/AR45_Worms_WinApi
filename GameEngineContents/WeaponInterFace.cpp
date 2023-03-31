@@ -26,6 +26,8 @@
 #include "WeaponTorch.h"
 #include "WeaponSheep.h"
 #include "WeaponAirStrike.h"
+#include "WeaponFirePunch.h"
+#include "WeaponDrill.h"
 
 
 GameEngineLevel* WeaponInterFace::Value;
@@ -69,7 +71,7 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     WeaponNum eNum = static_cast<WeaponNum>(_Enum);
 
 	Player* CurPlayer = GlobalValue::gValue.GetPlayer();
-    CurPlayer->GetPlayerWeaponCount();
+
 	if (CurPlayer->GetCurWeapon() != nullptr )
 	{
         CurPlayer->SetPlayerState(PlayerState::IDLE);
@@ -162,7 +164,19 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
         }
         break;
     }
-  
+    case WeaponNum::FirePunch:
+    {
+        if (CurPlayer->GetPlayerWeaponCount()[9] > 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponFirePunch>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
+        break;
+    }
+
+
+
+
     case WeaponNum::Sheep:
     {
         if (CurPlayer->GetPlayerWeaponCount()[10] > 0)
@@ -192,7 +206,15 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
         }
         break;
     }
-
+    case WeaponNum::Drill:
+    {
+        if (CurPlayer->GetPlayerWeaponCount()[13] > 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponDrill>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
+        break;
+    }
     default:
         break;
     }
@@ -369,11 +391,12 @@ void WeaponInterFace::Start()
 	// 4번쨰 인퍼페이스 
 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,673 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack(asas);
-		ButtonManager.push_back(button);
+        FireFunch = GetLevel()->CreateActor<Button>();
+        FireFunch->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,673 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        FireFunch->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        FireFunch->SetEnum(WeaponNum::FirePunch);
+        FireFunch->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(FireFunch);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -494,12 +517,14 @@ void WeaponInterFace::Start()
         Torch->SetClickCallBackEnum(asas);
         ButtonManager.push_back(Torch);
 	}
+    //드릴 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,760 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack(avvv);
-		ButtonManager.push_back(button);
+        Drill = GetLevel()->CreateActor<Button>();
+        Drill->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1357,760 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Drill->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Drill->SetEnum(WeaponNum::Drill);
+        Drill->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(Drill);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();

@@ -127,6 +127,8 @@
     <ClInclude Include="Medikit.h">
       <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="EndingLevel.h" />
+    <ClInclude Include="EndingBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -262,6 +264,8 @@
     <ClCompile Include="Medikit.cpp">
       <Filter>Play\Map\MapObject</Filter>
     </ClCompile>
+    <ClCompile Include="EndingLevel.cpp" />
+    <ClCompile Include="EndingBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

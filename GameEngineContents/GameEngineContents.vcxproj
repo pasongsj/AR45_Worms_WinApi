@@ -28,6 +28,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EndingBack.h" />
+    <ClInclude Include="EndingLevel.h" />
     <ClInclude Include="HomingMissile.h">
       <SubType>
       </SubType>
@@ -171,6 +173,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EndingBack.cpp" />
+    <ClCompile Include="EndingLevel.cpp" />
     <ClCompile Include="GlobalValue.cpp" />
     <ClCompile Include="HomingMissile.cpp">
       <SubType>
