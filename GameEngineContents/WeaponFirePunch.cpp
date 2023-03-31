@@ -88,7 +88,8 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 CurPlayer->SetPos(StartPos); // 플레이어 이동
 
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetPosition(StartPos);											                                       // 2. Bomb 콜리전 이동
+                BombCollision->SetPosition(CurPlayer->GetPos() + float4{0,-35});											                                       // 2. Bomb 콜리전 이동
+                BombCollision->SetScale({ 20,20 });
 
                 AttackPlayer(BombCollision);																						  // 3. Bomb콜리전 Player Check
 
