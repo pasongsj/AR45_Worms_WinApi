@@ -174,13 +174,14 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 		}
 	}
 
-	Gravity += 0.03f * _DeltaTime;
+	Gravity += 0.01f * _DeltaTime;
 	Dir += float4{0, Gravity};
+    Dir.Normalize();
 
 	for (int i = 0; i < MissileList.size(); i++)
 	{
-		MissileList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{0, Gravity});
-		MissileCollisionList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{ 0, Gravity});
+		MissileList[i]->SetMove(Dir * 400.0f * _DeltaTime);
+		MissileCollisionList[i]->SetMove(Dir * 400.0f * _DeltaTime);
 
         MissileList[i]->SetAngle(-Dir.GetAnagleDeg());
 	}
@@ -513,7 +514,7 @@ void WeaponAirStrike::CircleOff()
 
     for (int i = 0; i < MissileNum; i++)
     {
-        if (ExplosionCircleList[i]->IsAnimationEnd() == true)
+        if (ExplosionCircleList[i]->IsUpdate() == true && ExplosionCircleList[i]->IsAnimationEnd() == true)
         {
             ExplosionCircleList[i]->Off();
             CircleOffCount++;
@@ -529,7 +530,7 @@ void WeaponAirStrike::ElipseOff()
 
     for (int i = 0; i < MissileNum; i++)
     {
-        if (ExplosionElipseList[i]->IsAnimationEnd() == true)
+        if (ExplosionElipseList[i]->IsUpdate() == true && ExplosionElipseList[i]->IsAnimationEnd() == true)
         {
             ExplosionElipseList[i]->Off();
             ElipseOffCount++;
@@ -545,7 +546,7 @@ void WeaponAirStrike::PootOff()
 
     for (int i = 0; i < MissileNum; i++)
     {
-        if (PootTextAnimationList[i]->IsAnimationEnd() == true)
+        if (PootTextAnimationList[i]->IsUpdate() == true && PootTextAnimationList[i]->IsAnimationEnd() == true)
         {
             PootTextAnimationList[i]->Off();
             PootOffCount++;
