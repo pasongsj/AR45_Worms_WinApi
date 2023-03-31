@@ -10,8 +10,9 @@
 #include "Drum.h"
 #include "MapDecoration.h"
 #include "WeaponInterFace.h"
+#include "PetrolEffect.h"
+
 //ScreenSize: { 1280, 960 }
-//BackGround_Hrz: 5120
 
 
 Map* Map::MainMap = nullptr;
@@ -200,16 +201,18 @@ void Map::Update(float _DeltaTime)
         WaitTime = 25.0f;
     }
 	
-	if (true == GameEngineInput::IsDown("LandHole"))
-	{
-		float4 Pos = GetLevel()->GetMousePosToCamera();
-		MapModifier::MainModifier->CreateHole(Pos, 20);
-        //Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        ////Object->SetPos(Object->GetMapObjPos());
-        //Object->SetPos(Pos);
+	//if (true == GameEngineInput::IsDown("LandHole"))
+	//{
+	//	float4 Pos = GetLevel()->GetMousePosToCamera();
+	//	//MapModifier::MainModifier->CreateHole(Pos, 20);
+ //       //Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+ //       ////Object->SetPos(Object->GetMapObjPos());
+ //       //Object->SetPos(Pos);
+ //       PetrolEffect* NewEffect = GetLevel()->CreateActor<PetrolEffect>(WormsRenderOrder::MapObject);
+ //       NewEffect->CreatePetrolEffect(5, Pos);
 
-		return;
-	}
+	//	return;
+	//}
 
     if (true == GameEngineInput::IsDown("MediKitButton"))
     {

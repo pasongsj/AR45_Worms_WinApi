@@ -37,7 +37,7 @@ void Drum::Start()
     MapObjRender->ChangeAnimation("OilDrum_1");
 
     //Collision
-    MapObjCol = CreateCollision(static_cast<int>(WormsCollisionOrder::MapObject));
+    MapObjCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Drum));
     MapObjCol->SetScale({ 20.0f, 27.0f });
     MapObjCol->SetPosition(GetPos());
     MapObjCol->SetDebugRenderType(CT_CirCle);
@@ -60,11 +60,9 @@ void Drum::Update(float _DeltaTime)
     {
        MapObjRender->Off();
        Explosion();
-
-       //Death();
     }
 
-
+    ExplosionAnimationOff();
 
 
     //이동 관련
@@ -82,15 +80,13 @@ void Drum::HitWeaponCheck()
     {
         if (true == MapObjCol->Collision({.TargetGroup = static_cast<int>(WormsCollisionOrder::Weapon), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }))
         {
-            //현재 턴에서 무기 충돌체와 충돌했을때 드릴이면 데미지 받지 않음
-            //Air Strike의 사정권 내에서 충돌하면 바로 터져야 함
          /*   Player* CurPlayer = GlobalValue::gValue.GetPlayer();
             std::string WeaponName = CurPlayer->GetCurWeapon()->GetWeaponName();
 
             if ("Drill" != WeaponName)
             {
             }*/
-                Gauge -= 50;
+            Gauge = 0;
         }
     }
 }
@@ -103,38 +99,42 @@ void Drum::HitPlayerCheck()
 
     GameEngineCollision* ModifierCollision = MapModifier::MainModifier->GetModifierCollision();
 
-    std::vector<GameEngineCollision*> CollisionPlayer;
-    if (true == ModifierCollision->Collision({.TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle}, CollisionPlayer))
+    AttackPlayer(ModifierCollision);
+}
+
+void Drum::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
+{                   // 폭발 CollisionScale설정 필요                                   :_Col->SetScale({ static_cast<float>(BombScale * 2) });
+                    // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
+
+    if (nullptr == _Col)
     {
-        for (int i = 0; i < CollisionPlayer.size(); i++)
+        MsgAssert("체크할 콜리전이 없습니다.");
+    }
+
+    // 플레이어 체크
+    std::vector<GameEngineCollision*> CollisionList;
+
+    int Radius = BombScale / 2;
+
+    if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+    {
+        for (int i = 0; i < CollisionList.size(); i++)
         {
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor());
-            float4 Dir = ColPlayer->GetPos() - MapModifier::MainModifier->GetModifierCollision()->GetActorPlusPos();
-            Dir.Normalize();
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+            float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos();                                                                    //폭발 구점
 
-            ColPlayer->Damaged(Dmg, Dir, 300);
+            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / Radius) + MinDmg * (Distance.Size() / Radius));
+            float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / Radius) + MinKnockBackPower * (Distance.Size() / Radius);     //Lerp
+            Distance.Normalize();
 
-
+            //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
+            ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+            //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
         }
     }
 }
 
-void Drum::AnimCheck()
-{
 
-    if (100 >= Gauge && 50 < Gauge)
-    {
-        MapObjRender->ChangeAnimation("OilDrum_2");
-    }
-    else if (50 >= Gauge && 0 < Gauge)
-    {
-        MapObjRender->ChangeAnimation("OilDrum_3");
-    }
-    else if (0 >= Gauge)
-    {
-        MapObjRender->ChangeAnimation("OilDrum_4");
-    }
-}
 
 void Drum::Explosion() //폭발
 {
@@ -144,6 +144,8 @@ void Drum::Explosion() //폭발
     }
     else
     {
+        IsExplosion = true;
+
         ExplosionCircle->SetPosition(MapObjRender->GetPosition());
         ExplosionCircle->On();
         ExplosionCircle->ChangeAnimation("Explosion", 0);
@@ -163,13 +165,14 @@ void Drum::Explosion() //폭발
       
         HitPlayerCheck();                                                                       //플레이어에게 데미지 적용(폭발 반경에 있다면)
 
-
-        IsExplosion = true;
+        //CreatePetrolEffect();
     }
-   
-
-
 }
+
+
+
+
+
 
 bool Drum::CheckCollision(GameEngineCollision* _Col)
 {
@@ -192,6 +195,44 @@ bool Drum::CheckCollision(GameEngineCollision* _Col)
     }
 
     return false;
+}
+
+
+void Drum::AnimCheck()
+{
+
+    if (100 >= Gauge && 50 < Gauge)
+    {
+        MapObjRender->ChangeAnimation("OilDrum_2");
+    }
+    else if (50 >= Gauge && 0 < Gauge)
+    {
+        MapObjRender->ChangeAnimation("OilDrum_3");
+    }
+    else if (0 >= Gauge)
+    {
+        MapObjRender->ChangeAnimation("OilDrum_4");
+    }
+}
+
+void Drum::ExplosionAnimationOff()
+{
+    if (ExplosionCircle->IsAnimationEnd() == true)
+    {
+        ExplosionCircle->ChangeAnimation("Idle");
+        ExplosionCircle->Off();
+    }
+    if (ExplosionElipse->IsAnimationEnd() == true)
+    {
+        ExplosionElipse->ChangeAnimation("Idle");
+        ExplosionElipse->Off();
+    }
+
+    if (PootTextAnimation->IsAnimationEnd() == true)
+    {
+        PootTextAnimation->ChangeAnimation("Idle");
+        PootTextAnimation->Off();
+    }
 }
 
 void Drum::ExplosionEffectInit()
@@ -221,31 +262,3 @@ void Drum::ExplosionEffectInit()
     PootTextAnimation->Off();
 }
 
-void Drum::CreateSpark()
-{
-    int NumOfSpark = GameEngineRandom::MainRandom.RandomInt(3, 5);
-    //방향은 한 번은 오른쪽 한 번은 왼쪽으로 가도록 반전을 주어야 함
-    // 포물선 그림
-    // 충돌맵에 닿으면 particle생성
-    //GameEngineRender* Spark = GameEngineActor::CreateRender()
-}
-
-void Drum::ExplosionAnimationOff()
-{
-    if (ExplosionCircle->IsAnimationEnd() == true)
-    {
-        ExplosionCircle->ChangeAnimation("Idle");
-        ExplosionCircle->Off();
-    }
-    if (ExplosionElipse->IsAnimationEnd() == true)
-    {
-        ExplosionElipse->ChangeAnimation("Idle");
-        ExplosionElipse->Off();
-    }
-
-    if (PootTextAnimation->IsAnimationEnd() == true)
-    {
-        PootTextAnimation->ChangeAnimation("Idle");
-        PootTextAnimation->Off();
-    }
-}

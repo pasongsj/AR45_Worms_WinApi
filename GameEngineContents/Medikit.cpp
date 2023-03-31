@@ -34,7 +34,7 @@ void Medikit::Start()
     MapObjRender->ChangeAnimation("Right_Medikit_Flying");
 
     //Collision
-    MapObjCol = CreateCollision(static_cast<int>(WormsCollisionOrder::MapObject));
+    MapObjCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Medikit));
     MapObjCol->SetScale({ 20.0f, 27.0f });
     MapObjCol->SetPosition(GetPos());
     MapObjCol->SetDebugRenderType(CT_CirCle);
@@ -91,8 +91,6 @@ void Medikit::Update(float _DeltaTime)
 void Medikit::DirCheck(const std::string_view& _AnimationName)
 {
     std::string PrevDirString = DirString;
-
-
 
     int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
 

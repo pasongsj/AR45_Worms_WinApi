@@ -127,8 +127,14 @@
     <ClInclude Include="Medikit.h">
       <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="EndingLevel.h" />
     <ClInclude Include="EndingBack.h" />
+=======
+    <ClInclude Include="PetrolEffect.h">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClInclude>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WormsCore.cpp" />
@@ -264,8 +270,14 @@
     <ClCompile Include="Medikit.cpp">
       <Filter>Play\Map\MapObject</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="EndingLevel.cpp" />
     <ClCompile Include="EndingBack.cpp" />
+=======
+    <ClCompile Include="PetrolEffect.cpp">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClCompile>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

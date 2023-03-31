@@ -37,7 +37,8 @@ enum class WormsCollisionOrder
 {
 	Player = 100,
 	Weapon,
-    MapObject,
+    Medikit,
+    Drum,
 	MapModifier,
 	WeaPonInterFace
 };
