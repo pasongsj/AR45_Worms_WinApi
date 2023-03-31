@@ -38,7 +38,7 @@ void HomingMissile::Update(float _DeltaTime)
 {
     Timer();
 
-    if (CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+    if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
         if (isShoot == false)
         {
@@ -293,8 +293,11 @@ void HomingMissile::Aiming()
     if (isAimSet == false)
     {
         AngleIndex = 16;
-        CurPlayer->ChangePlayerAnimation("HomingAim", AngleIndex);
-        isAimSet = true;
+
+        if(CurPlayer->IsPlayerAnimationEnd() == true)
+        {
+            isAimSet = true;
+        }
     }
 }
 

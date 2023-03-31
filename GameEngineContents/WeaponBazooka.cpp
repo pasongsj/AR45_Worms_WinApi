@@ -255,9 +255,12 @@ void WeaponBazooka::Explosion() //폭발
 
 void WeaponBazooka::BazookaOn()
 {
-	if ((CurPlayer->GetPlayerState() == PlayerState::IDLE || CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON ) && isBazOn == false)
+	if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON && isBazOn == false)
 	{
-        isBazOn = true;
+        if(CurPlayer->IsPlayerAnimationEnd() == true)
+        {
+            isBazOn = true;
+        }
 	}
     else
     {
@@ -308,11 +311,10 @@ void WeaponBazooka::BazAiming()
 		return;
 	}
 
-	if (isBazOn == true && CurPlayer->IsPlayerAnimationEnd() == true && isAiming == false)
+	if (isBazOn == true && isAiming == false)
 	{
-			isAiming = true;
-			CurPlayer->ChangePlayerAnimation("BazookaAim", Bazindex);
-			TimeCount = 0;
+		isAiming = true;
+		TimeCount = 0;
 	}
 
 	//에임조준 에니메이션이 시작되면, 방향키를 통해 각도조절 가능
