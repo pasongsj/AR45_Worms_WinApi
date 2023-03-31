@@ -43,6 +43,7 @@ void WeaponAirStrike::Render(float _DeltaTime)
 void WeaponAirStrike::WeaponAirStrikeInit()
 {
 	SetCurPlayer();
+
 	Airplane = CreateRender("Airplane.bmp", WormsRenderOrder::Weapon);
 	Airplane->SetScaleToImage();
 	Airplane->Off();
@@ -54,6 +55,7 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 	WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
 
     BombScale = 122;
+
     MinDmg = 24;
     MaxDmg = 45;
 
@@ -62,8 +64,8 @@ void WeaponAirStrike::WeaponAirStrikeInit()
     MissileNum = 5;
     MissileList.reserve(MissileNum);
 
+    MissileInit();
     ExplosionEffectInit();
- 
 }
 
 void WeaponAirStrike::Attack(float _DeltaTime)
@@ -80,7 +82,7 @@ void WeaponAirStrike::Attack(float _DeltaTime)
 
 	AirPlaneMove(_DeltaTime);
 
-	if (isHideAirPlane == true && MissileList.size() == 0)
+	if (isHideAirPlane == true && isMissileSet == false)
 	{
 		SetMissiles();
 	}
@@ -159,7 +161,6 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 
 void WeaponAirStrike::Firing(float _DeltaTime)
 {
-	Gravity += 0.01f * _DeltaTime;
 	
 	if(Dir == float4{0,0})
 	{
@@ -173,21 +174,33 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 		}
 	}
 
+	Gravity += 0.03f * _DeltaTime;
 	Dir += float4{0, Gravity};
 
 	for (int i = 0; i < MissileList.size(); i++)
 	{
-		MissileList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{0, Gravity * _DeltaTime});
-		MissileCollisionList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{ 0, Gravity * _DeltaTime });
+		MissileList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{0, Gravity});
+		MissileCollisionList[i]->SetMove(Dir * 400.0f * _DeltaTime + float4{ 0, Gravity});
+
+        MissileList[i]->SetAngle(-Dir.GetAnagleDeg());
 	}
 
 	CurPos = MissileList[MissileNum / 2]->GetPosition();
 
-	for (int i = 0; i < MissileList.size(); i++)
-	{
-		MissileList[i]->SetAngle(-Dir.GetAnagleDeg());
-	}
+}
 
+void WeaponAirStrike::MissileInit()
+{
+    for (int i = 0; i < MissileNum; i++)
+    {
+        MissileList.push_back(CreateRender("AirMissile.bmp", WormsRenderOrder::Weapon));
+        MissileList[i]->SetRotFilter("AirMissileRot.bmp");
+        MissileList[i]->SetScaleToImage();
+        MissileList[i]->Off();
+
+        MissileCollisionList.push_back(CreateCollision(WormsCollisionOrder::Weapon));
+        MissileCollisionList[i]->SetScale({ 30, 30 });
+    }
 }
 
 void WeaponAirStrike::SetMissiles()
@@ -206,14 +219,8 @@ void WeaponAirStrike::SetMissiles()
 
 	for (int i = 0; i < MissileNum; i++)
 	{
-		MissileList.push_back(CreateRender("AirMissile.bmp", WormsRenderOrder::Weapon));
-		MissileList[i]->SetRotFilter("AirMissileRot.bmp");
-		MissileList[i]->SetScaleToImage();
 		MissileList[i]->SetPosition(AirPlanePos - float4{ MissileXpos, -50 });
-		MissileList[i]->Off();
 
-		MissileCollisionList.push_back(CreateCollision(WormsCollisionOrder::Weapon));
-		MissileCollisionList[i]->SetScale({ 30, 30 });
 		MissileCollisionList[i]->SetPosition(MissileList[i]->GetPosition());
 
 		if (isMoveRight == true)
@@ -227,13 +234,20 @@ void WeaponAirStrike::SetMissiles()
 	}
 
 	MiddleMissileStartPos = MissileList[MissileNum / 2]->GetPosition();
+
+    isMissileSet = true;
 }
 
 void WeaponAirStrike::Explosion()
 {
+    if (ExplosionCount == MissileNum)
+    {
+        return;
+    }
+
 	for (int i = 0; i < MissileCollisionList.size(); i++)
 	{
-		if (MissileCollisionList[i]->GetPosition().y > 0 && MissileCollisionList[i]->IsUpdate() == true && CheckCollision(MissileCollisionList[i]) == true)
+		if (MissileCollisionList[i]->IsUpdate() == true && CheckCollision(MissileCollisionList[i]) == true)
 		{
 			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), BombScale);
 			MissileCollisionList[i]->Off();
@@ -242,6 +256,8 @@ void WeaponAirStrike::Explosion()
             DebrisSet(i);
             ExplosionAnimation(i);
             DamageToPlayer();
+
+            ExplosionCount++;
 		}
 	}
 }
@@ -255,7 +271,7 @@ void WeaponAirStrike::CameraUpdate(float _DeltaTime)
         fLerpRatio += _DeltaTime * fLerpSpeed;
         GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, AirPlanePos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
 	}
-	else if (MissileList.size() >= 3 && MissileList[2]->IsUpdate() == true)
+	else if (MissileList[2]->IsUpdate() == true)
 	{
 		GetLevel()->SetCameraPos(MissileList[2]->GetActorPlusPos() - ScreenSize.half());
 
@@ -482,21 +498,57 @@ void WeaponAirStrike::ExplosionAnimationOff()
         return;
     }
 
+    CircleOff();
+    ElipseOff();
+    PootOff();
+
+}
+
+void WeaponAirStrike::CircleOff()
+{
+    if (CircleOffCount == MissileNum)
+    {
+        return;
+    }
+
     for (int i = 0; i < MissileNum; i++)
     {
         if (ExplosionCircleList[i]->IsAnimationEnd() == true)
         {
             ExplosionCircleList[i]->Off();
+            CircleOffCount++;
         }
+    }
+}
+void WeaponAirStrike::ElipseOff()
+{
+    if (ElipseOffCount == MissileNum)
+    {
+        return;
+    }
 
+    for (int i = 0; i < MissileNum; i++)
+    {
         if (ExplosionElipseList[i]->IsAnimationEnd() == true)
         {
             ExplosionElipseList[i]->Off();
+            ElipseOffCount++;
         }
+    }
+}
+void WeaponAirStrike::PootOff()
+{
+    if (PootOffCount == MissileNum)
+    {
+        return;
+    }
 
+    for (int i = 0; i < MissileNum; i++)
+    {
         if (PootTextAnimationList[i]->IsAnimationEnd() == true)
         {
             PootTextAnimationList[i]->Off();
+            PootOffCount++;
         }
     }
 }

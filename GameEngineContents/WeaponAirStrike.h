@@ -30,6 +30,7 @@ private:
 	void Attack(float _DeltaTime);
 	void Firing(float _DeltaTime);
 	void SetMissiles();
+    void MissileInit();
 	void Explosion();
 	void CameraUpdate(float _DeltaTime);
 
@@ -42,6 +43,10 @@ private:
     void ExplosionEffectInit();
     void ExplosionAnimation(int _Index);
     void ExplosionAnimationOff();
+
+    void CircleOff();
+    void ElipseOff();
+    void PootOff();
 
     void MarkerInit();
 
@@ -79,8 +84,14 @@ private:
 
 	bool isMoveRight = 0;
 	bool isHideAirPlane = false;
-    
+    bool isMissileSet = false;
+
     int MissileNum = 0;
+    int ExplosionCount = 0;
+
+    int CircleOffCount = 0;
+    int ElipseOffCount = 0;
+    int PootOffCount = 0;
 
     GameEngineRender* Marker = nullptr;
 
