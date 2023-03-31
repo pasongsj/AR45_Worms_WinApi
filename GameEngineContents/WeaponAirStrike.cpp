@@ -29,11 +29,6 @@ void WeaponAirStrike::Start()
 
 void WeaponAirStrike::Update(float _DeltaTime)
 {
-    if (CurPlayer->GetPlayerState() == PlayerState::IDLE)
-    {
-        CurPlayer->ChangePlayerAnimation("AirStrikeOn");
-    }
-
 	Attack(_DeltaTime);
     DebrisAnimation(_DeltaTime);
     ExplosionAnimationOff();
@@ -371,6 +366,11 @@ void WeaponAirStrike::DebrisInit()
 
 void WeaponAirStrike::DebrisAnimation(float _DeltaTime)
 {
+    if (isHideAirPlane == false)
+    {
+        return;
+    }
+
     for (int i = 0; i < MissileNum; i++)
     {
         if (isDebrisSetList[i] == false)
@@ -477,6 +477,11 @@ void WeaponAirStrike::ExplosionAnimation(int _Index)
 
 void WeaponAirStrike::ExplosionAnimationOff()
 {
+    if (isHideAirPlane == false)
+    {
+        return;
+    }
+
     for (int i = 0; i < MissileNum; i++)
     {
         if (ExplosionCircleList[i]->IsAnimationEnd() == true)
