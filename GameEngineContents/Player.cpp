@@ -144,7 +144,7 @@ void Player::TestChangeDeadState()
 
 void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 {
-	if (DamagedTime >= 0.5f)
+	if (DamagedTime >= 0.0f)
 	{
 		PlayerHP -= _Damage;
 		DamagedTime = 0.0f;
@@ -242,18 +242,18 @@ void Player::MoveCalculation(float _DeltaTime)
 	
     SetMoveAngle();
 
-    //if (true == IsGround)
-    //{
-    //    //움직이는 상태가 아니면 리턴함 중력으로 인해 점점 떨어지는 버그를 수정하기 위해
-    //    if (PlayerState::Dead == StateValue ||
-    //        PlayerState::IDLE == StateValue ||
-    //        PlayerState::EQUIPWEAPON == StateValue ||
-    //        PlayerState::Win == StateValue ||
-    //        PlayerState::StandUp == StateValue)
-    //    {
-    //        return;
-    //    }
-    //}
+    if (true == IsGround)
+    {
+        //움직이는 상태가 아니면 리턴함 중력으로 인해 점점 떨어지는 버그를 수정하기 위해
+        if (PlayerState::Dead == StateValue ||
+            PlayerState::IDLE == StateValue ||
+            PlayerState::EQUIPWEAPON == StateValue ||
+            PlayerState::Win == StateValue ||
+            PlayerState::StandUp == StateValue)
+        {
+            return;
+        }
+    }
 
     SetMove(MoveDir * _DeltaTime);
 
@@ -288,10 +288,10 @@ void Player::PlayerPixelCheck()
     float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y -11.0f };
     float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
     float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
-    float4 PlayerLeftUpPixel = { GetPos().x - 5.0f, GetPos().y - 16.0f };
-    float4 PlayerRightUpPixel = { GetPos().x + 5.0f, GetPos().y - 16.0f };
-    float4 PlayerLeftDownPixel = { GetPos().x - 5.0f, GetPos().y - 6.0f };
-    float4 PlayerRightDownPixel = { GetPos().x + 5.0f, GetPos().y - 6.0f };
+    float4 PlayerLeftUpPixel = { GetPos().x - 8.0f, GetPos().y - 19.0f };
+    float4 PlayerRightUpPixel = { GetPos().x + 8.0f, GetPos().y - 19.0f };
+    float4 PlayerLeftDownPixel = { GetPos().x - 8.0f, GetPos().y - 2.0f };
+    float4 PlayerRightDownPixel = { GetPos().x + 8.0f, GetPos().y - 2.0f };
 
     if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
     {
@@ -550,10 +550,10 @@ void Player::Render(float _DeltaTime)
         float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y - 11.0f };
         float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
         float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
-        float4 PlayerLeftUpPixel = { GetPos().x - 5.0f, GetPos().y - 16.0f };
-        float4 PlayerRightUpPixel = { GetPos().x + 5.0f, GetPos().y - 16.0f };
-        float4 PlayerLeftDownPixel = { GetPos().x - 5.0f, GetPos().y - 6.0f };
-        float4 PlayerRightDownPixel = { GetPos().x + 5.0f, GetPos().y - 6.0f };
+        float4 PlayerLeftUpPixel = { GetPos().x - 8.0f, GetPos().y - 19.0f };
+        float4 PlayerRightUpPixel = { GetPos().x + 8.0f, GetPos().y - 19.0f };
+        float4 PlayerLeftDownPixel = { GetPos().x - 8.0f, GetPos().y - 2.0f };
+        float4 PlayerRightDownPixel = { GetPos().x + 8.0f, GetPos().y - 2.0f };
 
         PlayerLeftPixel -= GetLevel()->GetCameraPos();
         PlayerRightPixel -= GetLevel()->GetCameraPos();
