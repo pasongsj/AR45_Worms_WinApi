@@ -51,8 +51,6 @@ void WeaponMinigun::Update(float _DeltaTime)
 	{
 		WeaponMinigunInit();
         SetCurPlayer();// 플레이어 전환버튼 때문에 추가
-        CurPlayer->ChangePlayerAnimation("MinigunAim", static_cast<int>(AimIndex));
-
 	}
 
     if (false == isFire)

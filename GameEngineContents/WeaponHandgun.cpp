@@ -53,7 +53,6 @@ void WeaponHandgun::Update(float _DeltaTime)
 	{
 		WeaponHandgunInit();
         SetCurPlayer();// 플레이어 전환버튼 때문에 추가
-        CurPlayer->ChangePlayerAnimation("HandgunAim", static_cast<int>(AimIndex));
 	}
     if (false == isFire)
     {

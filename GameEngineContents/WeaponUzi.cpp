@@ -51,7 +51,6 @@ void WeaponUzi::Update(float _DeltaTime)
 	{
 		WeaponUziInit();
         SetCurPlayer();// 플레이어 전환버튼 때문에 추가
-        CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
 	}
     if (false == isFire)
     {

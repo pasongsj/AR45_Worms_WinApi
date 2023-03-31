@@ -108,8 +108,6 @@ void WeaponClusterBomb::Update(float _DeltaTime)
     {
         WeaponClusterBombInit();
         SetCurPlayer();
-        CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
-        Dir = GetShootDir();
     }
 
     if (false == isFire)

@@ -86,7 +86,6 @@ void WeaponGrenade::Update(float _DeltaTime)
 	{
 		WeaponGrenadeInit();
         SetCurPlayer();
-        CurPlayer->ChangePlayerAnimation("GrenadeAim", static_cast<int>(AimIndex));
 	}
 
 
