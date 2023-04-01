@@ -54,6 +54,8 @@ private:
     GameEngineRender* SheepUI = nullptr;
     GameEngineRender* AirStrikeUI = nullptr;
     GameEngineRender* TorchUI = nullptr;
+    GameEngineRender* firepnch = nullptr;
+    GameEngineRender* drill = nullptr;
     GameEngineRender* X = nullptr;
 
 

@@ -166,11 +166,10 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     }
     case WeaponNum::FirePunch:
     {
-        if (CurPlayer->GetPlayerWeaponCount()[9] > 0)
-        {
+       
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponFirePunch>();
             CurPlayer->SetCurWeapon(NewWeapon);
-        }
+        
         break;
     }
 
@@ -208,11 +207,10 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
     }
     case WeaponNum::Drill:
     {
-        if (CurPlayer->GetPlayerWeaponCount()[13] > 0)
-        {
+        
             Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponDrill>();
             CurPlayer->SetCurWeapon(NewWeapon);
-        }
+        
         break;
     }
     default:
@@ -390,6 +388,7 @@ void WeaponInterFace::Start()
 	}
 	// 4번쨰 인퍼페이스 
 
+    // 파이어펀치 
 	{
         FireFunch = GetLevel()->CreateActor<Button>();
         FireFunch->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1327,673 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
@@ -834,6 +833,25 @@ void WeaponInterFace::Start()
         TorchUI->EffectCameraOff();
         TorchUI->On();
     }
+    {
+        firepnch = CreateRender(WormsRenderOrder::WeaPonUI);
+        firepnch->SetImage("firepnch.Bmp");
+        firepnch->SetPosition({ 1327,673 });
+        firepnch->SetScale({ 28, 28 });
+        firepnch->EffectCameraOff();
+        firepnch->On();
+    }
+    {
+        drill = CreateRender(WormsRenderOrder::WeaPonUI);
+        drill->SetImage("drill.Bmp");
+        drill->SetPosition({ 1357,760 });
+        drill->SetScale({ 28, 28 });
+        drill->EffectCameraOff();
+        drill->On();
+    }
+
+
+
     {
         X = CreateRender(WormsRenderOrder::WeaPonUI);
         X->SetImage("X.Bmp");
