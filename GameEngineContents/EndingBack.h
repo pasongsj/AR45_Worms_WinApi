@@ -23,7 +23,11 @@ protected:
 private:
 
     GameEngineRender* Ending = nullptr;
-   
+    GameEngineRender* BlackGround = nullptr;
+    GameEngineRender* BlackGroundAlpha = nullptr;
+    GameEngineRender* EndingWrite = nullptr;
+
+    float BlackAlpha = 0;
 };
 
 

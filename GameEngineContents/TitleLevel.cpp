@@ -76,6 +76,11 @@ void TitleLevel::Loading()
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Armageddon_10.BMP"));
 	}
 
+    {
+        GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("testEnding.BMP"));
+    }
+
+
 	
 	CreateActor<TitleBack>();
 }

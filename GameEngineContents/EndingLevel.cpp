@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include "EndingBack.h"
 EndingLevel::EndingLevel()
 {
 
@@ -22,6 +23,9 @@ void EndingLevel::Loading()
     {
         GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Worms_EndingBackDrop.BMP"));
     }
+   
+
+    CreateActor<EndingBack>();
 
 }
 
