@@ -20,40 +20,37 @@ void PetrolEffect::Start()
 
 void PetrolEffect::Update(float _DeltaTime)
 {
-    int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
-  /*  float RandomX = 0.0f;
-
-    if (0 > WindDir)
-    {
-        GameEngineRandom::MainRandom.RandomFloat(0, 15);
-    }
-
-    else if (0 < WindDir)
-    {
-        GameEngineRandom::MainRandom.RandomFloat(-15, 0);
-    }
-    else if (0 == WindDir)
-    {
-        GameEngineRandom::MainRandom.RandomFloat(-10, 10);
-    }
-
-    MoveDir.x += RandomX;*/
-
-    MoveDir.x += WindDir;
-
     if (false == IsJump)
     {
         MoveDir.y -= 120.0f;                 //JumpPower
         IsJump = true;
     }
 
+    int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
+    MoveDir.x += WindDir*0.5f;
 
     for (int i = 0; i < NumOfPetrol; ++i)
     {
         GravityApplied(_DeltaTime);                                             //중력 적용
-
-
         if (true == IsGroundCheck(AllPetrolPos[i]))
+        {  
+            AllPetrolGroundcheck[i] = true;
+        }
+        else
+        {
+            float4 NextPos = AllPetrolPos[i] + (MoveDir * _DeltaTime);
+            float4 CurPos = AllPetrolPos[i];
+            NextPos = PullUp(NextPos, CurPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
+
+            AllPetrolPos[i] = float4::Zero;
+            AllPetrolPos[i].x += (MoveDir.x * MoveSpeed);
+            AllPetrolPos[i].y += (MoveDir.y * MoveSpeed);
+            AllPetrol[i]->SetMove(AllPetrolPos[i] * _DeltaTime);
+
+            AllPetrolPos[i] = AllPetrol[i]->GetPosition();
+        }
+
+        if (true == IsAllGroundCheck())
         {
             MoveDir = float4::Zero;
             LiveTime -= _DeltaTime;
@@ -70,26 +67,21 @@ void PetrolEffect::Update(float _DeltaTime)
                 Death();
             }
         }
-        else
+    }
+}
+
+bool PetrolEffect::IsAllGroundCheck()
+{
+    for (int i = 0; i < NumOfPetrol; ++i)
+    {
+        if (false == AllPetrolGroundcheck[i])
         {
-            float4 NextPos = AllPetrolPos[i] + (MoveDir * _DeltaTime);
-            float4 CurPos = AllPetrolPos[i];
-            NextPos = PullUp(NextPos, CurPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
-
-            AllPetrolPos[i] = float4::Zero;
-            AllPetrolPos[i].x += (MoveDir.x * MoveSpeed);
-            AllPetrolPos[i].y += (MoveDir.y * MoveSpeed);
-            AllPetrol[i]->SetMove(AllPetrolPos[i] * _DeltaTime);
-
-            AllPetrolPos[i] = AllPetrol[i]->GetPosition();
+            return false;
         }
     }
 
-   
-
-  
+    return true;
 }
-
 
 
 void PetrolEffect::CreatePetrolEffect(int _NumOfPetrol, float4 _StartPos)
@@ -99,9 +91,11 @@ void PetrolEffect::CreatePetrolEffect(int _NumOfPetrol, float4 _StartPos)
 
     AllPetrol.clear();
     AllPetrolPos.clear();
+    AllPetrolGroundcheck.clear();
 
     AllPetrol.reserve(NumOfPetrol);
     AllPetrolPos.reserve(NumOfPetrol);
+    AllPetrolGroundcheck.reserve(NumOfPetrol);
 
     for (int i = 0; i < NumOfPetrol; i++)
     {
@@ -117,6 +111,7 @@ void PetrolEffect::CreatePetrolEffect(int _NumOfPetrol, float4 _StartPos)
         NewPetrol->ChangeAnimation("Petrol_30");
         AllPetrol.push_back(NewPetrol);
         AllPetrolPos.push_back(Pos);
+        AllPetrolGroundcheck.push_back(false);
     }
 }
 

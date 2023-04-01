@@ -21,11 +21,14 @@ protected:
 
 private:
     bool IsExplosion = false;
+    bool IsPetrolEffectEnd = false;
 
+    int Count = 2;
     int Gauge = 150;
     int BombScale = 100;
 
     //수치조정 필요
+    float WaitTime = 0.1f;
     float MaxDmg = 50;
     float MinDmg = 20;
     float MinKnockBackPower = 35.0f;
@@ -49,6 +52,5 @@ private:
     void AnimCheck();                               //애니메이션 체크 및 변경
     void ExplosionAnimationOff();
     void ExplosionEffectInit();
-
 };
 

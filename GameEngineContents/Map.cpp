@@ -166,12 +166,9 @@ void Map::Start()
     }
 
     std::string LevelName = "Play";
-    //PlayLevel일 때만, 맵 오브젝트를 생성해서 맵에 적용
-    //TestLevel에서도 허용하게 되면, 맵 start가 2번 돌면서
-    //TestLevel에서 생성한 오브젝트와 PlayLevel에서 생성한 오브젝트들이 
-    //모두 하나의 맵에 적용됨(Map이 static)
     if (LevelName == GetLevel()->GetName())
     {
+        //데코적용
         int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 6);
         for (int i = 0; i < NumOfObj; i++)
         {
@@ -180,16 +177,22 @@ void Map::Start()
             Deco->SetPos(pos);
             Deco->MergeMap();
         }
+
+
+        //맵에 오일드럼통 4개 미리 배치
+        for (int i = 0; i < 4; ++i)
+        {
+            Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+            Object->SetPos(Object->GetMapObjPos());
+        }
     }
-
-
-    //기본적으로 맵이 세팅되면 5개 정도의 드럼통이 미리 생성되어 있어야 함
 }
 
 void Map::Update(float _DeltaTime)
 {
     WaitTime -= _DeltaTime;
 
+    //일정 시간이 지나면 랜덤한 개수의 회복 아이템이 랜덤한 위치에서 드랍됨
     if (0.0f >= WaitTime)
     {
         int NumOfObj = GameEngineRandom::MainRandom.RandomInt(0, 4);
@@ -205,9 +208,7 @@ void Map::Update(float _DeltaTime)
 	//{
 	//	float4 Pos = GetLevel()->GetMousePosToCamera();
 	//	//MapModifier::MainModifier->CreateHole(Pos, 20);
- //       //Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
- //       ////Object->SetPos(Object->GetMapObjPos());
- //       //Object->SetPos(Pos);
+ //     
  //       PetrolEffect* NewEffect = GetLevel()->CreateActor<PetrolEffect>(WormsRenderOrder::MapObject);
  //       NewEffect->CreatePetrolEffect(5, Pos);
 
@@ -218,16 +219,14 @@ void Map::Update(float _DeltaTime)
     {
         Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
         Object->SetPos(Object->GetMapObjPos());
-        
-
+   
         return;
     }
 
     if (true == GameEngineInput::IsDown("OilDrumButton"))
     {
         Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        //Object->SetPos(Object->GetMapObjPos());
-        Object->SetPos({ 400, 100 });
+        Object->SetPos({ 600, 100 });
 
         return;
     }

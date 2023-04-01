@@ -7,6 +7,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "GlobalValue.h"
 #include "MapModifier.h"
+#include "PetrolEffect.h"
 #include "ContentsEnums.h"
 #include "Player.h"
 #include "Weapon.h"
@@ -38,7 +39,7 @@ void Drum::Start()
 
     //Collision
     MapObjCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Drum));
-    MapObjCol->SetScale({ 20.0f, 27.0f });
+    MapObjCol->SetScale({ 20.0f, 33.0f });
     MapObjCol->SetPosition(GetPos());
     MapObjCol->SetDebugRenderType(CT_CirCle);
 
@@ -48,6 +49,7 @@ void Drum::Start()
 
 void Drum::Update(float _DeltaTime)
 {
+
     if (GameEngineInput::IsDown("DebugCollision"))
     {
         GetLevel()->DebugRenderSwitch();
@@ -60,6 +62,29 @@ void Drum::Update(float _DeltaTime)
     {
        MapObjRender->Off();
        Explosion();
+    }
+   
+    if (true == IsExplosion && false == IsPetrolEffectEnd)
+    {
+        WaitTime -= _DeltaTime;
+        if (0 == Count)
+        {
+            IsPetrolEffectEnd = true;
+        }
+
+        if (0 >= WaitTime)
+        {
+            PetrolEffect* NewEffect = GetLevel()->CreateActor<PetrolEffect>(WormsRenderOrder::MapObject);
+            NewEffect->CreatePetrolEffect(15, MapObjRender->GetActorPlusPos());
+            
+            WaitTime = 0.1f;
+            --Count;
+        }
+    }
+
+    if (true == IsUnderWaterCheck())                                   //바다에 빠지면 액터 제거
+    {
+        Death();
     }
 
     ExplosionAnimationOff();
@@ -78,27 +103,23 @@ void Drum::HitWeaponCheck()
 {
     if (nullptr != MapObjCol)
     {
-        if (true == MapObjCol->Collision({.TargetGroup = static_cast<int>(WormsCollisionOrder::Weapon), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }))
+        if (true == MapObjCol->Collision({.TargetGroup = static_cast<int>(WormsCollisionOrder::MapModifier), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle })
+            || true == MapObjCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Weapon), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle })
+            )
         {
-         /*   Player* CurPlayer = GlobalValue::gValue.GetPlayer();
-            std::string WeaponName = CurPlayer->GetCurWeapon()->GetWeaponName();
-
-            if ("Drill" != WeaponName)
-            {
-            }*/
             Gauge = 0;
         }
     }
 }
 
+
 void Drum::HitPlayerCheck()
 {
     float4 Pos = GetPos();
-    MapModifier::MainModifier->SetModifierColScale({ 50, 50 });                                              //Modifier 충돌체의 크기를 먼저 세팅
+    MapModifier::MainModifier->SetModifierColScale({ 100, 100 });                                              //Modifier 충돌체의 크기를 먼저 세팅
     MapModifier::MainModifier->CreateHole(Pos, BombScale);
 
     GameEngineCollision* ModifierCollision = MapModifier::MainModifier->GetModifierCollision();
-
     AttackPlayer(ModifierCollision);
 }
 
@@ -154,24 +175,15 @@ void Drum::Explosion() //폭발
         ExplosionElipse->On();
         ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
 
+        PootTextAnimation->SetPosition(MapObjRender->GetPosition());
+        PootTextAnimation->On();
+        PootTextAnimation->ChangeAnimation("Poot", 0);
 
-
-
-        if (true == ExplosionCircle->GameEngineRender::IsAnimationEnd())
-        {
-            ExplosionAnimationOff();
-        }
 
       
         HitPlayerCheck();                                                                       //플레이어에게 데미지 적용(폭발 반경에 있다면)
-
-        //CreatePetrolEffect();
     }
 }
-
-
-
-
 
 
 bool Drum::CheckCollision(GameEngineCollision* _Col)
@@ -215,26 +227,6 @@ void Drum::AnimCheck()
     }
 }
 
-void Drum::ExplosionAnimationOff()
-{
-    if (ExplosionCircle->IsAnimationEnd() == true)
-    {
-        ExplosionCircle->ChangeAnimation("Idle");
-        ExplosionCircle->Off();
-    }
-    if (ExplosionElipse->IsAnimationEnd() == true)
-    {
-        ExplosionElipse->ChangeAnimation("Idle");
-        ExplosionElipse->Off();
-    }
-
-    if (PootTextAnimation->IsAnimationEnd() == true)
-    {
-        PootTextAnimation->ChangeAnimation("Idle");
-        PootTextAnimation->Off();
-    }
-}
-
 void Drum::ExplosionEffectInit()
 {
     ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::MapObject);
@@ -262,3 +254,22 @@ void Drum::ExplosionEffectInit()
     PootTextAnimation->Off();
 }
 
+void Drum::ExplosionAnimationOff()
+{
+    if (ExplosionCircle->IsAnimationEnd() == true)
+    {
+        ExplosionCircle->ChangeAnimation("Idle");
+        ExplosionCircle->Off();
+    }
+    if (ExplosionElipse->IsAnimationEnd() == true)
+    {
+        ExplosionElipse->ChangeAnimation("Idle");
+        ExplosionElipse->Off();
+    }
+
+    if (PootTextAnimation->IsAnimationEnd() == true)
+    {
+        PootTextAnimation->ChangeAnimation("Idle");
+        PootTextAnimation->Off();
+    }
+}
