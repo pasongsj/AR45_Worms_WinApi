@@ -167,24 +167,25 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
-
-			//if (ColPlayer->GetIsMyTurn() == false)
-			{
-				float4 Range = (ColPlayer->GetPos() - GetPos());
-				if (abs(Range.y) < abs(Range.x))
-				{
-					ReturnValue.y += 1;
-				}
-				else if (Range.x > 0)
-				{
-					ReturnValue.x += 1;
-				}
-				else
-				{
-					ReturnValue.x -= 1;
-				}
-				return ReturnValue;
-			}
+            if (CurPlayer == ColPlayer)
+            {
+                continue;
+            }
+            float4 Range = (ColPlayer->GetPos() - GetPos());
+            if (abs(Range.y) < abs(Range.x))
+            {
+                ReturnValue.y += 1;
+            }
+            else if (Range.x > 0)
+            {
+                ReturnValue.x += 1;
+            }
+            else
+            {
+                ReturnValue.x -= 1;
+            }
+            return ReturnValue;
+		
 		}
 	}
 
@@ -264,10 +265,10 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
         for (int i = 0; i < CollisionList.size(); i++)
         {
             Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
-            if (ColPlayer == CurPlayer) // Gun은 본인에게 데미지를 주지 않음
-            {
-                return;
-            }
+            //if (ColPlayer == CurPlayer) // Gun은 본인에게 데미지를 주지 않음?? 주더라?
+            //{
+            //    continue;
+            //}
             float4 Distance = _Col->GetActorPlusPos() - GetPos(); //폭발 구점
 
             float Ratio = Distance.Size() / _refDistance > 1 ? 1 : Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정

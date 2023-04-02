@@ -34,6 +34,8 @@ private:
     //클러스터
     float ClusterSpeed = 100.0f; // 클러스터 폭탄 Speed
     bool isClusterFire = false;
+    bool isClusterExplosion = false;
+    float WaitTime = 0.0f;
 
     // 에임 조준선
     GameEngineRender* AimingLine = nullptr;
@@ -48,6 +50,7 @@ private:
     std::vector<GameEngineRender*> ClusterRender;           // 잔여 클러스터 랜더
     std::vector<GameEngineCollision*> ClusterCollision;     // 잔여 클러스터 콜리전
     std::vector<float4> ClusterDir;
+    std::vector<float4> ClusterSmokeInterval;
 
 
     // 폭발 애니메이션 랜더 
@@ -78,5 +81,7 @@ private:
     bool isDone();                          // MainBomb가 터지고, 모든 Cluster 가 터졌는지
 
     float4 CulWindMoveVec(float _DeltaTime); //바람 추가 
+
+    void MakeSmoke(); // 클러스터
 };
 

@@ -32,23 +32,6 @@ void WeaponClusterBomb::Start()
     WeaponName = "ClusterBomb";
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
-
-    for (int i = 0;i < 6;i++)
-    {
-        GameEngineRender* NewClusterRender = CreateRender("cluster.bmp",WormsRenderOrder::Weapon);
-        NewClusterRender->SetScale({ 24,24 });
-        NewClusterRender->SetRotFilter("clusterRot.bmp");
-
-        GameEngineCollision* NewClusterCollision = CreateCollision(WormsCollisionOrder::Weapon);
-        NewClusterCollision->SetScale(NewClusterRender->GetScale());
-
-        ClusterRender.push_back(NewClusterRender);
-        ClusterCollision.push_back(NewClusterCollision);
-        ClusterDir.push_back(float4::Zero);
-
-    }
-    ClusterOff();
-    //AllWeapons[WeaponName] = this;
     WeaponNumber = static_cast<int>(WeaponNum::ClusterBomb);
 
     // 터지는 애니메이션 랜더
@@ -129,11 +112,21 @@ void WeaponClusterBomb::Update(float _DeltaTime)
 
     if (true == isClusterFire)
     {
+
         ClusterFiring(_DeltaTime);
-        if (true == isDone())
+
+        if (true == isClusterExplosion)
         {
-            isWeaponDone = true;
-            GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+            if (0.0f == WaitTime)
+            {
+                WaitTime = GetLiveTime() + 2.0f;
+            }
+            else if (GetLiveTime() > WaitTime && true == isDone())
+            {
+                isWeaponDone = true;
+                GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+
+            }
         }
     }
 
@@ -268,10 +261,13 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
         ClusterRender[i]->SetAngle(ClusterDir[i].GetAnagleDeg());
         ClusterRender[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
         ClusterCollision[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
+        MakeSmoke();
 
-        if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+        float4 CheckedCol = CheckCollisionSide(ClusterCollision[i]);
+        if (CheckedCol.Size() > 0) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
+        //if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
         {
-
+            isClusterExplosion = true;
             GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
             BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
             BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
@@ -413,6 +409,41 @@ void WeaponClusterBomb::WeaponClusterBombInit()
     isFire = false;
     WeaponRender->Off();
     WeaponCollision->Off();
+
+    for (int i = 0;i < 6;i++)
+    {
+        GameEngineRender* NewClusterRender = CreateRender("cluster.bmp", WormsRenderOrder::Weapon);
+        NewClusterRender->SetScale({ 24,24 });
+        NewClusterRender->SetRotFilter("clusterRot.bmp");
+
+        GameEngineCollision* NewClusterCollision = CreateCollision(WormsCollisionOrder::Weapon);
+        NewClusterCollision->SetScale(NewClusterRender->GetScale());
+
+        ClusterRender.push_back(NewClusterRender);
+        ClusterCollision.push_back(NewClusterCollision);
+        ClusterDir.push_back(float4::Zero);
+        ClusterSmokeInterval.push_back(float4::Zero);
+
+    }
+    ClusterOff();
+}
+
+void WeaponClusterBomb::MakeSmoke()
+{
+    for (int i = 0;i < ClusterRender.size();i++)
+    {
+        float4 ClusterPos = ClusterRender[i]->GetPosition();
+        if ((ClusterPos - ClusterSmokeInterval[i]).Size() > 70)
+        {
+            ClusterSmokeInterval[i] = ClusterPos;
+            GameEngineRender* Smoke = CreateRender("BazSmoke.bmp", static_cast<int>(WormsRenderOrder::Weapon));
+            Smoke->SetPosition(ClusterPos);
+            Smoke->SetScale({ 60, 60 });
+            Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "BazSmoke.bmp", .Start = 0, .End = 63, .InterTime = 0.00001f , .Loop = false });
+            Smoke->SetAlpha(GameEngineRandom::MainRandom.RandomInt(100, 160));
+            Smoke->ChangeAnimation("Smoke");
+        }
+    }
 }
 
 
@@ -429,6 +460,7 @@ void WeaponClusterBomb::ClusterOn(float4 _Pos)
         ClusterDir[i] = RandomPos.NormalizeReturn();
         ClusterRender[i]->SetPosition(_Pos/*+ RandomPos*/);
         ClusterCollision[i]->SetPosition(_Pos/*+ RandomPos*/);
+        ClusterSmokeInterval[i] = _Pos;
     }
 }
 void WeaponClusterBomb::ClusterOff()

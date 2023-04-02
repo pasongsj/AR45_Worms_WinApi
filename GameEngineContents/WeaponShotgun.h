@@ -16,7 +16,7 @@ public:
 	WeaponShotgun& operator=(const WeaponShotgun& _Other) = delete;
 	WeaponShotgun& operator=(WeaponShotgun&& _Other) noexcept = delete;
 
-	void ResetWeapon();
+	//void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -25,26 +25,34 @@ protected:
 
 private:
 
+    float AimIndex = 15;
+    int NextAimIndex = 15;
+    bool isExplosion = false;
+
 	int BulletCount = 2;
+
+    //bool isIsFireAnimationDone = false;
+
+    float LoadDelay = 0.0f;
+    float WeaponDoneTime = 0.0f;
+
+	GameEngineRender* AimingLine = nullptr;
 
 	std::vector <GameEngineCollision*> ShotGunCollision;							// index에 해당하는 총알 콜리전
 	std::vector <float4> ShotGunDir;												// index에 해당하는 총알 발사 방향
-	GameEngineRender* AimingLine = nullptr;
-
-
 	std::vector<bool> isShooted;													// index에 해당하는 총알이 발사되었는지
+
+
 
 	bool IsDone();
 	void WeaponShotgunInit();														// 총알 추가
-	void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// 총알 이동
+	//void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// 총알 이동
 	void Firing(float _DeltaTime);	
 	void CheckFiring();
-
-    float AimIndex = 15;
-    int NextAimIndex = 15;
     void SetAimFrameIndex();
 
-    bool isIsFireAnimationDone = false;
+    void Aiming(float _DeltaTime);
+
 
 };
 
