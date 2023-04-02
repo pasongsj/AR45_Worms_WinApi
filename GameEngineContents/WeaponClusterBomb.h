@@ -22,46 +22,61 @@ protected:
     void Update(float _DeltaTime) override;
 
 private:
+    // 발사전
+    float AimIndex = 12;
+    int NextAimIndex = 15;
 
-    void WeaponClusterBombInit();
+    //발사 후
+    bool isExplosion = false; // MainBomb 폭발체크
+    bool isPress = false;
+    int MainBombScale = 104;
 
-    bool isExplosion = false;
+    //클러스터
+    float ClusterSpeed = 100.0f; // 클러스터 폭탄 Speed
+    bool isClusterFire = false;
 
-    void SetCharge(); // charge
-    void Firing(float _DeltaTime);
-    void ResetWeapon();
-
+    // 에임 조준선
     GameEngineRender* AimingLine = nullptr;
+    // 차지 애니메이션
+    GameEngineRender* ChargeAnimation = nullptr;
 
+    // 메인 폭탄 이미지랜더, 콜리전
     GameEngineRender* WeaponRender = nullptr;		        //렌더
     GameEngineCollision* WeaponCollision = nullptr;	        //콜리전
 
+    //클러스터
     std::vector<GameEngineRender*> ClusterRender;           // 잔여 클러스터 랜더
     std::vector<GameEngineCollision*> ClusterCollision;     // 잔여 클러스터 콜리전
     std::vector<float4> ClusterDir;
 
-    //렌더, 애니메이션 
+
+    // 폭발 애니메이션 랜더 
     GameEngineRender* ExplosionCircle = nullptr;
     GameEngineRender* ExplosionElipse = nullptr;
     GameEngineRender* BiffTextAnimation = nullptr;
     GameEngineRender* PowTextAnimation = nullptr;
 
-    GameEngineRender* ChargeAnimation = nullptr;
+    void WeaponClusterBombInit();   // 시작 시 폭탄 이미지 설정함수
 
-    float ClusterSpeed = 100.0f;
+    void SetAimFrameIndex();        // 현재 각도에 맞는 Frame Index찾는 함수
 
-    void ClusterFiring(float _DeltaTime);
-    void ClusterOn(float4 _Pos);
-    void ClusterOff();
+    void SetCharge();               // 차지 게이지 설정
 
-    float4 DropDir = float4::Zero;
-    bool isDone();
+    void Aiming(float _DeltaTime);  // 조준에 맞는 설정 변경
+
+    void Firing(float _DeltaTime);   // 발사에 맞는 설정 변경
+
+    void CheckAnimationDone();          // 폭발 애니메이션 랜더 끄기
 
 
-    float AimIndex = 15;
-    int NextAimIndex = 15;
-    int MainBombScale = 208;
+    void ClusterFiring(float _DeltaTime);   // Cluster발사
 
-    void SetAimFrameIndex();
+    void ClusterOn(float4 _Pos);            // ClusterRender모두 On
+
+    void ClusterOff();                      // ClusterRender모두 Off
+
+    bool isDone();                          // MainBomb가 터지고, 모든 Cluster 가 터졌는지
+
+    float4 CulWindMoveVec(float _DeltaTime); //바람 추가 
 };
 

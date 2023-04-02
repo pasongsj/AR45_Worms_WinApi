@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include "GlobalValue.h"
 
 WeaponClusterBomb::WeaponClusterBomb()
 {
@@ -18,11 +19,11 @@ WeaponClusterBomb::~WeaponClusterBomb()
 void WeaponClusterBomb::Start()
 {
     // 수류탄 기본 설정 -- 상수값 조정 필요
-    MoveSpeed = 1000.0f; // 임시값
+    MoveSpeed = 1200.0f; // 임시값
     Gravity = 1.0f;// 임시값
-    Timer = 2.0f;// 임시값
+    Timer = 1.5;// 임시값
     //Dir = float4::Right;
-    BombScale = 122;
+    BombScale = 61;
 
     MaxDmg = 30;
     MinDmg = 14;
@@ -54,7 +55,7 @@ void WeaponClusterBomb::Start()
     ExplosionCircle = CreateRender("circle50.bmp", WormsRenderOrder::Weapon);
     ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp", .Start = 0, .End = 8, .InterTime = 0.05f , .Loop = false });
     ExplosionCircle->CreateAnimation({ .AnimationName = "Idle", .ImageName = "circle50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    ExplosionCircle->SetScale({ 240, 240 });
+    ExplosionCircle->SetScale({ 104, 104 });
 
     ExplosionCircle->ChangeAnimation("Idle");
     ExplosionCircle->Off();
@@ -62,7 +63,7 @@ void WeaponClusterBomb::Start()
     ExplosionElipse = CreateRender("Elipse50.bmp", WormsRenderOrder::Weapon);
     ExplosionElipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse50.bmp", .Start = 0, .End = 19, .InterTime = 0.03f , .Loop = false });
     ExplosionElipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse50.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    ExplosionElipse->SetScale({ 360, 360 });
+    ExplosionElipse->SetScale({ 104 * 1.5f, 104 * 1.5f });
 
     ExplosionElipse->ChangeAnimation("Idle");
     ExplosionElipse->Off();
@@ -70,7 +71,7 @@ void WeaponClusterBomb::Start()
     BiffTextAnimation = CreateRender("Biff.bmp", WormsRenderOrder::Weapon);
     BiffTextAnimation->CreateAnimation({ .AnimationName = "Biff", .ImageName = "Biff.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
     BiffTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Biff.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    BiffTextAnimation->SetScale({ 208, 208 });
+    BiffTextAnimation->SetScale({ 104, 104 });
 
     BiffTextAnimation->ChangeAnimation("Idle");
     BiffTextAnimation->Off();
@@ -79,7 +80,7 @@ void WeaponClusterBomb::Start()
     PowTextAnimation = CreateRender("Pow.bmp", WormsRenderOrder::Weapon);
     PowTextAnimation->CreateAnimation({ .AnimationName = "Pow", .ImageName = "Pow.bmp", .Start = 0, .End = 11, .InterTime = 0.02f , .Loop = false });
     PowTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Pow.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
-    PowTextAnimation->SetScale({ 61, 61 });
+    PowTextAnimation->SetScale({ BombScale, BombScale });
 
     PowTextAnimation->ChangeAnimation("Idle");
     PowTextAnimation->Off();
@@ -110,39 +111,117 @@ void WeaponClusterBomb::Update(float _DeltaTime)
         SetCurPlayer();
     }
 
-    if (false == isFire)
+    if (false == isFire) //발사가 안되었다면
     {
-        //SetCurPlayer(); // 플레이어 전환버튼 때문에 추가
-        SetAimFrameIndex();
-        if (AimIndex != NextAimIndex && CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
+        Aiming(_DeltaTime);
+    }
+    else // true == isFire
+    {
+        if (false == isExplosion) // 발사되고 아직 터지기 전
         {
-            float Ratio = (6 * _DeltaTime > 1 ? 1 : 6 * _DeltaTime);
-            AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
-            CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
-            AimingLine->On();
-            AimingLine->SetPosition(Dir * 200); // 조준선 이동
-            if (Dir.x > 0)
-            {
-                AimingLine->SetAngle(Dir.GetAnagleDeg());
-            }
-            else
-            {
-                AimingLine->SetAngle(-Dir.GetAnagleDeg());
-            }
+            Firing(_DeltaTime);
         }
-        else
+        else   
         {
-            AimingLine->Off();
+            CheckAnimationDone();
         }
     }
 
-    Firing(_DeltaTime);
-    ClusterFiring(_DeltaTime);
-
-    if (true == isDone())
+    if (true == isClusterFire)
     {
-        isWeaponDone = true;
-        GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+        ClusterFiring(_DeltaTime);
+        if (true == isDone())
+        {
+            isWeaponDone = true;
+            GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
+        }
+    }
+
+
+}
+void WeaponClusterBomb::CheckAnimationDone()
+{
+    if (true == ExplosionCircle->IsAnimationEnd())
+    {
+        ExplosionCircle->Off();
+        ExplosionCircle->ChangeAnimation("Idle");
+    }
+    if (true == ExplosionElipse->IsAnimationEnd())
+    {
+        ExplosionElipse->Off();
+        ExplosionElipse->ChangeAnimation("Idle");
+    }
+    if (true == BiffTextAnimation->IsAnimationEnd())
+    {
+        BiffTextAnimation->Off();
+        BiffTextAnimation->ChangeAnimation("Idle");
+    }
+    if (true == PowTextAnimation->IsAnimationEnd())
+    {
+        PowTextAnimation->Off();
+        PowTextAnimation->ChangeAnimation("Idle");
+    }
+}
+
+void WeaponClusterBomb::Aiming(float _DeltaTime)
+{
+    if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
+    {
+        // 위치
+        float4 PlayerPos = CurPlayer->GetPos();
+        Dir = GetShootDir();
+        SetPos(PlayerPos);
+
+        // 조준선
+        SetAimFrameIndex();
+        AimingLine->On();
+
+        // lerf한 프레임 변경
+        float Ratio = (3 * _DeltaTime > 1 ? 1 : 3 * _DeltaTime);
+        AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+
+        // FrameIndex 설정
+        CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
+        AimingLine->SetPosition(Dir * 150); // 조준선 이동
+
+        if (Dir.x > 0)  //조준선 회전
+        {
+            AimingLine->SetAngle(Dir.GetAnagleDeg());
+        }
+        else
+        {
+            AimingLine->SetAngle(-Dir.GetAnagleDeg());
+        }
+
+        // 발사 체크
+        if (true == PressShoot())
+        {
+            if (false == isPress)
+            {
+                ChargeAnimation->On();
+                ChargeAnimation->ChangeAnimation("Charge", 0);
+                ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
+                isPress = true;
+            }
+            SetCharge();// 차징포인트 계산
+        }
+
+        if (isEndCharging() == true) // 발사체크2
+        {
+            ChargeAnimation->Off();
+            AimingLine->Off();
+
+            WeaponRender->On();
+            WeaponCollision->On();
+
+            MoveSpeed *= Charge;
+            isFire = true;
+        }
+
+    }
+    else
+    {
+        AimingLine->Off();
     }
 }
 
@@ -174,166 +253,132 @@ void WeaponClusterBomb::SetAimFrameIndex()
 
 void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
 {
-    if (true == isExplosion)
+
+    // 클러스터 카메라 이동 
+    float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), ClusterRender[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 10);
+    GetLevel()->SetCameraPos(CamPos);
+    for (int i = 0;i < ClusterRender.size();i++)
     {
-        if (true == ExplosionCircle->IsAnimationEnd())
+        if (false == ClusterCollision[i]->IsUpdate())
         {
-            ExplosionCircle->Off();
-            ExplosionCircle->ChangeAnimation("Idle");
+            continue;
         }
-        if (true == ExplosionElipse->IsAnimationEnd())
+        ClusterDir[i].y = ClusterDir[i].y + Gravity * 10 * _DeltaTime;
+
+        ClusterRender[i]->SetAngle(ClusterDir[i].GetAnagleDeg());
+        ClusterRender[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
+        ClusterCollision[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
+
+        if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
         {
-            ExplosionElipse->Off();
-            ExplosionElipse->ChangeAnimation("Idle");
+
+            GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
+            BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+            BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
+
+            AttackPlayer(BombCollision); // 임시값
+
+            // 약간의 수정이 필요함
+            ExplosionCircle->SetPosition(ClusterCollision[i]->GetPosition());
+            ExplosionCircle->On();
+            ExplosionCircle->ChangeAnimation("Explosion", 0);
+
+            ExplosionElipse->SetPosition(ClusterCollision[i]->GetPosition());
+            ExplosionElipse->On();
+            ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+
+            PowTextAnimation->SetPosition(ClusterCollision[i]->GetPosition());
+            PowTextAnimation->On();
+            PowTextAnimation->ChangeAnimation("Pow", 0);
+
+            MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), BombScale);
+            ClusterRender[i]->Off();
+            ClusterCollision[i]->Off();
         }
-        if (true == BiffTextAnimation->IsAnimationEnd())
-        {
-            BiffTextAnimation->Off();
-            BiffTextAnimation->ChangeAnimation("Idle");
-        }
-        if (true == PowTextAnimation->IsAnimationEnd())
-        {
-            PowTextAnimation->Off();
-            PowTextAnimation->ChangeAnimation("Idle");
-        }
 
-        // 클러스터 카메라 이동 
-        GetLevel()->SetCameraPos(ClusterRender[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
-        for (int i = 0;i < ClusterRender.size();i++)
-        {
-            if (false == ClusterCollision[i]->IsUpdate())
-            {
-                continue;
-            }
-            ClusterDir[i].y = ClusterDir[i].y + Gravity * 10 * _DeltaTime;
-
-            ClusterRender[i]->SetAngle(ClusterDir[i].GetAnagleDeg());
-            ClusterRender[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
-            ClusterCollision[i]->SetMove(ClusterDir[i] * _DeltaTime * ClusterSpeed);
-
-            if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
-            {
-                GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-                BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
-
-                AttackPlayer(BombCollision); // 임시값
-
-                // 약간의 수정이 필요함
-                ExplosionCircle->SetPosition(ClusterCollision[i]->GetPosition());
-                ExplosionCircle->On();
-                ExplosionCircle->ChangeAnimation("Explosion", 0);
-
-                ExplosionElipse->SetPosition(ClusterCollision[i]->GetPosition());
-                ExplosionElipse->On();
-                ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
-
-                PowTextAnimation->SetPosition(ClusterCollision[i]->GetPosition());
-                PowTextAnimation->On();
-                PowTextAnimation->ChangeAnimation("Pow", 0);
-
-                MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), BombScale);
-                ClusterRender[i]->Off();
-                ClusterCollision[i]->Off();
-            }
-
-        }
     }
+    
 }
 
 
 void WeaponClusterBomb::Firing(float _DeltaTime)
 {
-    if (false == isFire) // 발사하기 전
-    {
-        float4 PlayerPos = CurPlayer->GetPos();
-        Dir = GetShootDir();
-        SetPos(PlayerPos);
-        if (true == PressShoot())
-        {
-            if (false == ChargeAnimation->IsUpdate())
-            {
-                ChargeAnimation->On();
-                ChargeAnimation->ChangeAnimation("Charge", 0);
-                ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
-            }
-            SetCharge();// 차징포인트 계산
-        }
-        if (isEndCharging() == true) // 발사체크
-        {
-            ChargeAnimation->Off();
-            Dir *= Charge;
-            isFire = true;
-            AimingLine->Off();
-            WeaponRender->On();
-        }
+    // 발사중 true == isFire 
 
+    // 카메라 이동
+    float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 10);
+    GetLevel()->SetCameraPos(CamPos);
+
+    Timer -= _DeltaTime;
+    if (false == isExplosion)// && true == isFire)
+    {
+        Dir.y = Dir.y + Gravity * _DeltaTime; // dt동안 중력의 영향
+
+        float4 MoveVec = CulWindMoveVec(_DeltaTime);
+
+        WeaponRender->SetMove(MoveVec);
+        WeaponCollision->SetMove(MoveVec);
+
+        if (Timer > 1.5f - 0.08f)// 보정값 ( 땅에 박히는 오류 )
+        {
+            return;
+        }
+        float4 CheckedCol = CheckCollisionSide(WeaponCollision);
+        if (Dir.x * CheckedCol.x > 0) // 방향이 달라
+        {
+            WeaponRender->SetMove(-MoveVec);
+            WeaponCollision->SetMove(-MoveVec);
+
+            Dir.x = -Dir.x * 0.5f;										  //  x값은 마찰고려값
+            Dir.y = -Dir.y * 0.25f;
+        }
+        else if (Dir.x * CheckedCol.x < 0 || CheckedCol.x == 0 && CheckedCol.y > 0)// 방향이 같아 or 좌우 이동x
+        {
+            WeaponRender->SetMove({ 0, -MoveVec.y });
+            WeaponCollision->SetMove({ 0, -MoveVec.y });
+            Dir.x = Dir.x * 0.5f;
+            Dir.y = -Dir.y * 0.25f;
+        }
+        else if (CheckedCol == float4::Up)
+        {
+            WeaponRender->SetMove(-MoveVec);
+            WeaponCollision->SetMove(-MoveVec);
+            Dir *= 0.1f;
+        }
     }
 
-    else // 발사 중
+    //타이머 체크 -> 큰 폭발 체크
+    if (Timer < 0 && isExplosion == false)
     {
-        // 카메라 이동
-        GetLevel()->SetCameraPos(WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+        GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
+        BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+        BombCollision->SetScale(float4{ static_cast<float>(MainBombScale) });
 
-        Timer -= _DeltaTime;
-        if (false == isExplosion)// && true == isFire)
-        {
-            Dir.y = Dir.y + Gravity * _DeltaTime; // dt동안 중력의 영향
+        AttackPlayer(BombCollision);// 임시값
 
-            WeaponRender->SetMove(Dir * MoveSpeed  * _DeltaTime);
-            WeaponCollision->SetMove(Dir * MoveSpeed  * _DeltaTime);
+        ExplosionCircle->SetPosition(WeaponRender->GetPosition());
+        ExplosionCircle->On();
+        ExplosionCircle->ChangeAnimation("Explosion", 0);
+        ExplosionCircle->SetScale({ BombScale,BombScale });
 
-            if (Timer > 2.0f - 0.1f)
-            {
-                return;
-            }
-            float4 CheckedCol = CheckCollisionSide(WeaponCollision);
-            if (Dir.x * CheckedCol.x > 0) // 방향이 달라
-            {
-                WeaponRender->SetMove(-Dir * MoveSpeed  * _DeltaTime);
-                WeaponCollision->SetMove(-Dir * MoveSpeed  * _DeltaTime);
+        ExplosionElipse->SetPosition(WeaponRender->GetPosition());
+        ExplosionElipse->On();
+        ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
+        ExplosionElipse->SetScale({ BombScale,BombScale });
 
-                Dir.x = -Dir.x * 0.5f;										  //  x값은 마찰고려값
-                Dir.y = -Dir.y * 0.25f;
-            }
+        BiffTextAnimation->SetPosition(WeaponRender->GetPosition());
+        BiffTextAnimation->On();
+        BiffTextAnimation->ChangeAnimation("Biff", 0);
 
-            else if (Dir.x * CheckedCol.x < 0 || CheckedCol.x == 0 && CheckedCol.y > 0)// 방향이 같아 or 좌우 이동x
-            {
-                WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed  * _DeltaTime });
-                WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed  * _DeltaTime });
-                Dir.x = Dir.x * 0.5f;
-                Dir.y = -Dir.y * 0.25f;
-            }
-        }
+        MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), MainBombScale);
+        isExplosion = true;
+        WeaponRender->Off();
+        WeaponCollision->Off();
 
-        //타이머 체크 -> 큰 폭발 체크
-        if (Timer < 0 && isExplosion == false)
-        {
-            GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-            BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
-            BombCollision->SetScale(float4{ static_cast<float>(MainBombScale) });
-
-            AttackPlayer(BombCollision);// 임시값
-
-            ExplosionCircle->SetPosition(WeaponRender->GetPosition());
-            ExplosionCircle->On();
-            ExplosionCircle->ChangeAnimation("Explosion", 0);
-
-            ExplosionElipse->SetPosition(WeaponRender->GetPosition());
-            ExplosionElipse->On();
-            ExplosionElipse->ChangeAnimation("ExplosionElipse", 0);
-
-            BiffTextAnimation->SetPosition(WeaponRender->GetPosition());
-            BiffTextAnimation->On();
-            BiffTextAnimation->ChangeAnimation("Biff", 0);
-
-            MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), MainBombScale);
-            isExplosion = true;
-            WeaponRender->Off();
-            WeaponCollision->Off();
-            ClusterOn(WeaponRender->GetPosition());
-        }
+        ClusterOn(WeaponRender->GetPosition());
+        isClusterFire = true;
     }
+    
 }
 
 void WeaponClusterBomb::SetCharge() // Charging으로 함수이름 통일
@@ -355,23 +400,6 @@ void WeaponClusterBomb::SetCharge() // Charging으로 함수이름 통일
     }
 }
 
-void WeaponClusterBomb::ResetWeapon()
-{
-
-    isFire = false;
-    isExplosion = false;
-    Timer = 2.0f;
-    if (nullptr == WeaponRender)
-    {
-        return;
-    }
-    WeaponRender->On();
-    WeaponRender->SetPosition(float4::Zero);
-
-    WeaponCollision->On();
-    WeaponCollision->SetPosition(float4::Zero);
-
-}
 
 void WeaponClusterBomb::WeaponClusterBombInit()
 {
@@ -381,9 +409,10 @@ void WeaponClusterBomb::WeaponClusterBombInit()
     WeaponRender->SetScale({ 30,30 }); // 임시 설정 값 
 
     WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
-    WeaponCollision->SetScale(WeaponRender->GetScale());
+    WeaponCollision->SetScale({15,25});
     isFire = false;
     WeaponRender->Off();
+    WeaponCollision->Off();
 }
 
 
@@ -413,7 +442,7 @@ void WeaponClusterBomb::ClusterOff()
 
 bool WeaponClusterBomb::isDone()
 {
-    if (true == isFire && true == isExplosion)
+    if (true == isFire && true == isExplosion && true == isClusterFire)
     {
         for (int i = 0;i < ClusterCollision.size();i++)
         {
@@ -425,4 +454,17 @@ bool WeaponClusterBomb::isDone()
         return true;
     }
     return false;
+}
+
+
+float4 WeaponClusterBomb::CulWindMoveVec(float _DeltaTime)
+{
+    //if (abs(Dir.x * MoveSpeed) > 2000)
+    //{
+    //    return Dir * MoveSpeed * _DeltaTime;
+    //}
+    //Dir.x += GlobalValue::gValue.GetWindPhase() * 0.1f * _DeltaTime; 가속
+    float4 ReturnVec = Dir * MoveSpeed * _DeltaTime;
+    ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 7) * (MoveSpeed / 2) * _DeltaTime; // 등속
+    return ReturnVec;
 }

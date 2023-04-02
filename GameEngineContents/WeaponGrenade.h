@@ -27,28 +27,45 @@ protected:
 
 private:
 
-	void WeaponGrenadeInit();
 
 	bool isExplosion = false;
+    bool isPress = false;
+    float AimIndex = 12;
+    int NextAimIndex = 15;
 
-	void SetCharge(); // charge
-	void Firing(float _DeltaTime);
-
+    // 에임 조준선
     GameEngineRender* AimingLine = nullptr;
+    // 차지 애니메이션
+    GameEngineRender* ChargeAnimation = nullptr;
 
+    // 폭탄 이미지랜더, 콜리전
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
-    //렌더, 애니메이션 
-    GameEngineRender* ExplosionCircle = nullptr;
-    GameEngineRender* ExplosionElipse = nullptr;
-    GameEngineRender* PootTextAnimation = nullptr;
+    // 폭발 애니메이션 랜더
+    //GameEngineRender* ExplosionCircle = nullptr;
+    //GameEngineRender* ExplosionElipse = nullptr;
+    //GameEngineRender* PootTextAnimation = nullptr;
+    
+    // 시작 시 폭탄 이미지 설정함수
+	void WeaponGrenadeInit();
 
-    GameEngineRender* ChargeAnimation = nullptr;
-
-    float AimIndex = 15;
-    int NextAimIndex = 15;
+    // 현재 각도에 맞는 Frame Index찾는 함수
     void SetAimFrameIndex();
 
+    // 차지 게이지 설정
+	void SetCharge(); // charge
+	
+    // 조준에 맞는 설정 변경
+    void Aiming(float _DeltaTime);
+    
+    // 발사에 맞는 설정 변경
+    void Firing(float _DeltaTime);
+
+    //바람 추가
+    float4 CulWindMoveVec(float _DeltaTime);
+
+    // 폭발 애니메이션 랜더 끄기
+    void CheckExplosion();
 };
 

@@ -160,6 +160,7 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 {
 	float4 ReturnValue = float4::Zero;
 	std::vector<GameEngineCollision*> CollisionList;
+    float CheckScale = _Col->GetScale().hx();
 
 	if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
@@ -188,15 +189,22 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 	}
 
 	// 30 30 20,40
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 10,0 }, RGB(255, 0, 255)))
+    if(RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)) &&
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -CheckScale }, RGB(255, 0, 255)) &&
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,CheckScale }, RGB(255, 0, 255)))
+    {
+        return float4::Up;
+    }
+
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)))
 	{
 		ReturnValue.x += 1;
 	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -10,0 }, RGB(255, 0, 255)))
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -CheckScale }, RGB(255, 0, 255)))
 	{
 		ReturnValue.x -= 1;
 	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,2  }, RGB(255, 0, 255)))
+	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,CheckScale }, RGB(255, 0, 255)))
 	{
 		ReturnValue.y += 1;
 	}
