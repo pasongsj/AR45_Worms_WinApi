@@ -100,7 +100,7 @@ void AllPlayerHpUI::Start()
         rStartPos.y += 17.f;
     }
 
-    fMaxHP = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().iPlayerHp;
+    fMaxHP = static_cast<float>(GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().iPlayerHp);
 }
 
 void AllPlayerHpUI::Update(float _DeltaTime)

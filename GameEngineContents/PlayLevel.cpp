@@ -825,6 +825,61 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	SetCameraMove(MoveCam * fCamMoveSpeed * _DeltaTime);
 }
 
+void PlayLevel::SetRandomPos(float _Interval)
+{
+    vecPlayerRandPos.clear();
+
+    float4 StartPos = { 0.f, 0.f };
+
+    GameEngineImage* pColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetColMapName());
+
+    float4 CheckScale = float4{ _Interval ,_Interval };
+    float4 ColImageScale = pColImage->GetImageScale();                                                         //실제 맵 크기에서 가로, 세로 범위를 줄임
+
+    int iGroundPoint = 0;
+
+    for (; StartPos.y < ColImageScale.y; StartPos.y += CheckScale.y)
+    {
+        for (StartPos.x = 0.f; StartPos.x < ColImageScale.x; StartPos.x += CheckScale.x)
+        {
+            float4 MidPos = StartPos + CheckScale.half();
+            float4 MidDownPos = { MidPos.x, MidPos.y + CheckScale.hy() };
+            float4 LeftDownPos = { MidDownPos.x - CheckScale.hx(), MidDownPos.y };
+            float4 RightDownPos = { MidDownPos.x + CheckScale.hx(), MidDownPos.y };
+
+            if (RGB(0, 0, 255) == pColImage->GetPixelColor(MidDownPos, RGB(255, 0, 255)))
+            {
+                ++iGroundPoint;
+            }
+           
+            if (RGB(0, 0, 255) == pColImage->GetPixelColor(LeftDownPos, RGB(255, 0, 255)))
+            {
+                ++iGroundPoint;
+            }
+            
+            if (RGB(0, 0, 255) == pColImage->GetPixelColor(RightDownPos, RGB(255, 0, 255)))
+            {
+                ++iGroundPoint;
+            }            
+
+            if (3 == iGroundPoint)
+            {
+                int iRandXPos = GameEngineRandom::MainRandom.RandomInt(LeftDownPos.ix(), RightDownPos.ix());
+                MidDownPos.x = static_cast<float>(iRandXPos);
+
+                while (RGB(0, 0, 255) == pColImage->GetPixelColor(MidDownPos, RGB(255, 0, 255)))
+                {
+                    MidDownPos.y -= 1;
+                }
+              
+                vecPlayerRandPos.push_back(MidDownPos);
+            }
+            
+            iGroundPoint = 0;
+        }
+    }
+}
+
 
 
 
@@ -928,6 +983,7 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    SetRandomPos(300.f);
     {
         Map* Actor = CreateActor<Map>();
     }
@@ -941,7 +997,6 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         vecTurnEnd.reserve(LevelSet.iPlayerNum);
         for (size_t i = 0; i < vecAllPlayer.capacity(); i++)
         {
-            int iRandxPos = GameEngineRandom::MainRandom.RandomInt(0, 30);
 
             vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
             vecTurnEnd.push_back(false);
@@ -949,13 +1004,11 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
             vecAllPlayer[i]->SetHP(LevelSet.iPlayerHp);
 
-           
             float4 StartPos = float4{ 400,50 };
-            //StartPos.x *= i + 1;
-            StartPos.x += iRandxPos;
             vecAllPlayer[i]->SetPos(StartPos);
-            
-            
+
+            //int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, vecPlayerRandPos.size()-1);
+            //vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);              
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
@@ -966,6 +1019,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
         SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
     }
+
     {
         WeaponInterFace* Actor = CreateActor<WeaponInterFace>();
     }

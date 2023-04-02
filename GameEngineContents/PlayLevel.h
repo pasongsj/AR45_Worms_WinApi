@@ -46,7 +46,7 @@ protected:
 
 private:
 	int iPlayerNumber = -1;
-	//Player* pCurPlayer = nullptr;
+    std::vector<float4> vecPlayerRandPos;
 	std::vector<Player*> vecAllPlayer;
 
 
@@ -67,6 +67,7 @@ private:
 
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
+    void SetRandomPos(float _Interval);
 
     LevelSetting LevelSet = {};
 
