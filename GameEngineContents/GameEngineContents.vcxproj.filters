@@ -1,191 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="WormsCore.h" />
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="CenterLevel.h">
-      <Filter>Center</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEnums.h" />
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Play</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Play\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapModifier.h">
-      <Filter>Play\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEnums.h" />
-    <ClInclude Include="TitleBack.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Play\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponInterFace.h" />
-    <ClInclude Include="GlobalValue.h" />
-    <ClInclude Include="TestLevel.h">
-      <Filter>Test</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponHandgun.h">
-      <Filter>Weapon\F3</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponMinigun.h">
-      <Filter>Weapon\F3</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponShotgun.h">
-      <Filter>Weapon\F3</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponUzi.h">
-      <Filter>Weapon\F3</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponBazooka.h">
-      <Filter>Weapon\F1</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponSheep.h">
-      <Filter>Weapon\F5</Filter>
-    </ClInclude>
-    <ClInclude Include="Leaf.h">
-      <Filter>Play\WindEtc</Filter>
-    </ClInclude>
-    <ClInclude Include="WindUI.h">
-      <Filter>Play\WindEtc</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponClusterBomb.h">
-      <Filter>Weapon\F2</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseObject.h" />
-    <ClInclude Include="HomingMissile.h">
-      <Filter>Weapon\F1</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponAirStrike.h">
-      <Filter>Weapon\F6</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponTorch.h">
-      <Filter>Weapon\F7</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerGetDamagedUI.h">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHPUI.h">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AllPlayerHpUI.h">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MainTitleBack.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="MainTitleLevel.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Star.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerGrave.h">
-      <Filter>Play\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponGrenade.h">
-      <Filter>Weapon\F2</Filter>
-    </ClInclude>
-    <ClInclude Include="TurnTimeUI.h">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Cusor.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Lobby.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyLevel.h">
-      <Filter>Title</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDecoration.h">
-      <Filter>Play\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponFirePunch.h">
-      <Filter>Weapon\F4</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponDrill.h">
-      <Filter>Weapon\F7</Filter>
-    </ClInclude>
-    <ClInclude Include="SmokeSparkEffect.h">
-      <Filter>Weapon\F3</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Drum.h">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Medikit.h">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-    <ClInclude Include="EndingLevel.h" />
-    <ClInclude Include="EndingBack.h" />
-=======
-    <ClInclude Include="PetrolEffect.h">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClInclude>
->>>>>>> Stashed changes
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="EndingBack.cpp" />
+    <ClCompile Include="EndingLevel.cpp" />
+    <ClCompile Include="GlobalValue.cpp" />
+    <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="WormsCore.cpp" />
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>Title</Filter>
+    <ClCompile Include="AllPlayerHpUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
-    <ClCompile Include="CenterLevel.cpp">
-      <Filter>Center</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Play\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="MapModifier.cpp">
-      <Filter>Play\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleBack.cpp">
-      <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Player_Animation.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player_State.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponInterFace.cpp" />
-    <ClCompile Include="WeaponMinigun.cpp">
-      <Filter>Weapon\F3</Filter>
+    <ClCompile Include="PlayerGrave.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponShotgun.cpp">
-      <Filter>Weapon\F3</Filter>
+    <ClCompile Include="PlayerWeaponState.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponUzi.cpp">
-      <Filter>Weapon\F3</Filter>
+    <ClCompile Include="PlayerGetDamagedUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponHandgun.cpp">
-      <Filter>Weapon\F3</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponBazooka.cpp">
-      <Filter>Weapon\F1</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponSheep.cpp">
-      <Filter>Weapon\F5</Filter>
-    </ClCompile>
-    <ClCompile Include="TestLevel.cpp">
-      <Filter>Test</Filter>
+    <ClCompile Include="PlayerHPUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
     <ClCompile Include="Leaf.cpp">
       <Filter>Play\WindEtc</Filter>
@@ -193,51 +33,32 @@
     <ClCompile Include="WindUI.cpp">
       <Filter>Play\WindEtc</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponClusterBomb.cpp">
-      <Filter>Weapon\F2</Filter>
+    <ClCompile Include="Drum.cpp">
+      <Filter>Play\Map\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="Player_Animation.cpp">
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Medikit.cpp">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDecoration.cpp">
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapModifier.cpp">
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="MouseObject.cpp" />
-    <ClCompile Include="HomingMissile.cpp">
-      <Filter>Weapon\F1</Filter>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Play</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponAirStrike.cpp">
-      <Filter>Weapon\F6</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponTorch.cpp">
-      <Filter>Weapon\F7</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHPUI.cpp">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerGetDamagedUI.cpp">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AllPlayerHpUI.cpp">
-      <Filter>Play\Player\PlayerUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWeaponState.cpp">
-      <Filter>Play\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="MainTitleBack.cpp">
-      <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="MainTitleLevel.cpp">
-      <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Star.cpp">
-      <Filter>Title</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerGrave.cpp">
-      <Filter>Play\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponGrenade.cpp">
-      <Filter>Weapon\F2</Filter>
-    </ClCompile>
-    <ClCompile Include="TurnTimeUI.cpp">
-      <Filter>Play\Player\PlayerUI</Filter>
+    <ClCompile Include="CenterLevel.cpp">
+      <Filter>Center</Filter>
     </ClCompile>
     <ClCompile Include="Cusor.cpp">
       <Filter>Title</Filter>
@@ -248,88 +69,260 @@
     <ClCompile Include="LobbyLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="MapDecoration.cpp">
-      <Filter>Play\Map</Filter>
+    <ClCompile Include="MainTitleBack.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MainTitleLevel.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBack.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PetrolEffect.cpp">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnTimeUI.cpp">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SmokeSparkEffect.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingMissile.cpp">
+      <Filter>Weapon\F1</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBazooka.cpp">
+      <Filter>Weapon\F1</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponClusterBomb.cpp">
+      <Filter>Weapon\F2</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponGrenade.cpp">
+      <Filter>Weapon\F2</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponMinigun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponHandgun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponShotgun.cpp">
+      <Filter>Weapon\F3</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponUzi.cpp">
+      <Filter>Weapon\F3</Filter>
     </ClCompile>
     <ClCompile Include="WeaponFirePunch.cpp">
       <Filter>Weapon\F4</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponSheep.cpp">
+      <Filter>Weapon\F5</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAirStrike.cpp">
+      <Filter>Weapon\F6</Filter>
+    </ClCompile>
     <ClCompile Include="WeaponDrill.cpp">
       <Filter>Weapon\F7</Filter>
     </ClCompile>
-    <ClCompile Include="SmokeSparkEffect.cpp">
+    <ClCompile Include="WeaponTorch.cpp">
+      <Filter>Weapon\F7</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponInterFace.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EndingBack.h" />
+    <ClInclude Include="EndingLevel.h" />
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="MouseObject.h" />
+    <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="WormsCore.h" />
+    <ClInclude Include="AllPlayerHpUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGrave.h">
+      <Filter>Play\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGetDamagedUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHPUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>Play\WindEtc</Filter>
+    </ClInclude>
+    <ClInclude Include="WindUI.h">
+      <Filter>Play\WindEtc</Filter>
+    </ClInclude>
+    <ClInclude Include="Drum.h">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Medikit.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDecoration.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapModifier.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Play\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterLevel.h">
+      <Filter>Center</Filter>
+    </ClInclude>
+    <ClInclude Include="Cusor.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Lobby.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MainTitleBack.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MainTitleLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleBack.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PetrolEffect.h">
+      <Filter>Play\Map\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnTimeUI.h">
+      <Filter>Play\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SmokeSparkEffect.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="HomingMissile.h">
+      <Filter>Weapon\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponBazooka.h">
+      <Filter>Weapon\F1</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponClusterBomb.h">
+      <Filter>Weapon\F2</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponGrenade.h">
+      <Filter>Weapon\F2</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponMinigun.h">
       <Filter>Weapon\F3</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalValue.cpp" />
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Drum.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Medikit.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="EndingLevel.cpp" />
-    <ClCompile Include="EndingBack.cpp" />
-=======
-    <ClCompile Include="PetrolEffect.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
->>>>>>> Stashed changes
+    </ClInclude>
+    <ClInclude Include="WeaponHandgun.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponShotgun.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponUzi.h">
+      <Filter>Weapon\F3</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponFirePunch.h">
+      <Filter>Weapon\F4</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponSheep.h">
+      <Filter>Weapon\F5</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponAirStrike.h">
+      <Filter>Weapon\F6</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponDrill.h">
+      <Filter>Weapon\F7</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponTorch.h">
+      <Filter>Weapon\F7</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponInterFace.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
-      <UniqueIdentifier>{dbe06dfd-001e-4f83-800b-981e80d33e75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Title">
-      <UniqueIdentifier>{e319163e-7f2f-4f80-b187-882031d15de9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Center">
-      <UniqueIdentifier>{e22b4451-24a8-41b8-8a4d-637a173a2372}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon">
-      <UniqueIdentifier>{2fb70536-a1e2-4cfa-b96c-8b40110dc234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Play\Map">
-      <UniqueIdentifier>{73d77194-5812-4306-8014-e0fc45caa6d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Test">
-      <UniqueIdentifier>{5892ccdb-0504-4db6-8493-534a1f331bd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Play\Player">
-      <UniqueIdentifier>{9dfcc9c0-f48f-4242-913c-1ed40b1d78d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon\F3">
-      <UniqueIdentifier>{997e149e-9783-4176-b653-e310f1ea285d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon\F1">
-      <UniqueIdentifier>{1e7782f9-2d02-4dfb-acb1-e72793bfa6a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon\F6">
-      <UniqueIdentifier>{f62b037a-9724-4695-a15e-bc7418340d95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon\F2">
-      <UniqueIdentifier>{99b989f3-1722-4751-be71-f239379cc4a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Weapon\F5">
-      <UniqueIdentifier>{12ee0452-325a-4b53-a3d9-4895c7a7616b}</UniqueIdentifier>
+      <UniqueIdentifier>{c39afafe-4803-4a48-8cc5-67b1187d53ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play\WindEtc">
-      <UniqueIdentifier>{11c06892-4145-489c-bb05-18b64b4efa78}</UniqueIdentifier>
+      <UniqueIdentifier>{9245e623-f23d-4b5d-ae4b-14828410b05e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Weapon\F7">
-      <UniqueIdentifier>{6a77a253-e678-40f6-bbee-1983de46a695}</UniqueIdentifier>
+    <Filter Include="Play\Player">
+      <UniqueIdentifier>{897f61c8-6185-4087-a5c7-9b5dbc032562}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play\Player\PlayerUI">
-      <UniqueIdentifier>{68498ee4-a358-49f4-ae97-5d21e0252703}</UniqueIdentifier>
+      <UniqueIdentifier>{6d28f730-acc5-4396-bb59-227c0d72b1ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Weapon\F4">
-      <UniqueIdentifier>{6b05709f-d235-4691-b430-0aeadfabef8f}</UniqueIdentifier>
+    <Filter Include="Play\Map">
+      <UniqueIdentifier>{e0eef520-4ce7-4788-9805-324f16b28888}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play\Map\MapObject">
-      <UniqueIdentifier>{bdb42b21-c6c2-46b1-89b3-ea047b3b0b2c}</UniqueIdentifier>
+      <UniqueIdentifier>{ed120e74-02c8-444d-a5b1-3d0cd975afc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Center">
+      <UniqueIdentifier>{07bf280c-e820-4e05-a16e-248328d533ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Title">
+      <UniqueIdentifier>{7a03d1bc-973b-436c-a59a-c80ee584a25e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{74ae8178-ae37-4175-8ba2-e85787b5de4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{c871cac6-022e-4704-8ff5-f70253a33a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F1">
+      <UniqueIdentifier>{a6b4ef46-ea00-4534-bd7a-73f090f7eb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F2">
+      <UniqueIdentifier>{1f6d55b6-f4d3-42c3-b140-b1303cb123c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F3">
+      <UniqueIdentifier>{a383c9b5-c58b-4996-a584-8b8eb7ffb1fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F4">
+      <UniqueIdentifier>{b4b4eaf2-c135-4654-b7b2-7d77e917b71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F5">
+      <UniqueIdentifier>{a0f68e55-2475-44f5-9f06-1657292e2354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F6">
+      <UniqueIdentifier>{bf5f74bd-beb3-4c22-9d0d-ec9da56c01bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F7">
+      <UniqueIdentifier>{ad61acc4-312f-484e-9924-1de6f58ff5ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
