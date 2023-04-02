@@ -16,7 +16,6 @@ public:
 	WeaponHandgun& operator=(const WeaponHandgun& _Other) = delete;
 	WeaponHandgun& operator=(WeaponHandgun&& _Other) noexcept = delete;
 
-	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -25,7 +24,9 @@ protected:
 private:
 
 	int BulletCount = 6;
-	float DelayTime = 0.1f;
+	float DelayTime = 0.0f;
+    float WaitingTime = 1.5f;
+    bool isExplosion = false;
 
 	GameEngineRender* AimingLine = nullptr;
 	std::vector <GameEngineCollision*> HandgunCollision;							// index에 해당하는 총알 콜리전
@@ -36,11 +37,13 @@ private:
 	void Firing(float _DeltaTime);
 	void CheckFiring();
 
-    float AimIndex = 15;
+    float AimIndex = 12;
     int NextAimIndex = 15;
     void SetAimFrameIndex();
 
     bool isIsFireAnimationDone = false;
+
+    void Aiming(float _DeltaTime);
 
 };
 

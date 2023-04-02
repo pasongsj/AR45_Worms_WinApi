@@ -119,7 +119,7 @@ void WeaponClusterBomb::Update(float _DeltaTime)
         {
             if (0.0f == WaitTime)
             {
-                WaitTime = GetLiveTime() + 2.0f;
+                WaitTime = GetLiveTime() + 1.5;
             }
             else if (GetLiveTime() > WaitTime && true == isDone())
             {
@@ -161,7 +161,7 @@ void WeaponClusterBomb::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos();
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
         Dir = GetShootDir();
         SetPos(PlayerPos);
 

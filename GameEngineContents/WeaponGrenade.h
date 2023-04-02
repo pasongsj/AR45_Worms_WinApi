@@ -32,6 +32,7 @@ private:
     bool isPress = false;
     float AimIndex = 12;
     int NextAimIndex = 15;
+    float WaitTime = 0.0f;
 
     // 에임 조준선
     GameEngineRender* AimingLine = nullptr;

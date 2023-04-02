@@ -16,7 +16,6 @@ public:
 	WeaponUzi& operator=(const WeaponUzi& _Other) = delete;
 	WeaponUzi& operator=(WeaponUzi&& _Other) noexcept = delete;
 
-	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -26,6 +25,8 @@ private:
 
 	int BulletCount = 10;
 	float DelayTime = 0.1f;
+    float WaitingTime = 1.5f;
+    bool isExplosion = false;
 
 	GameEngineRender* AimingLine = nullptr;
 	std::vector <GameEngineCollision*> UziCollision;							// index에 해당하는 총알 콜리전
@@ -43,6 +44,7 @@ private:
     void SetAimFrameIndex();
 
     bool isIsFireAnimationDone = false;
+    void Aiming(float _DeltaTime);
 
 };
 

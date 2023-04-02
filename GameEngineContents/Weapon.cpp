@@ -159,6 +159,15 @@ float Weapon::GetChargeTime()
 float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 {
 	float4 ReturnValue = float4::Zero;
+
+    // ¸Ê ¹ÛÀ¸·Î ³ª°¬´ÂÁö Ã¼Å©
+    float4 _Pos = _Col->GetActorPlusPos();
+    if (!(-640 <= _Pos.x && _Pos.x < 4480 && -743 <= _Pos.y && _Pos.y < 1310))
+    {
+        return ReturnValue;
+    }
+
+
 	std::vector<GameEngineCollision*> CollisionList;
     float CheckScale = _Col->GetScale().hx();
 
@@ -188,6 +197,8 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 		
 		}
 	}
+
+
 
 	// 30 30 20,40
     if(RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)) &&

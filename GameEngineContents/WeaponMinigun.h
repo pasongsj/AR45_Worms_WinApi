@@ -16,7 +16,6 @@ public:
 	WeaponMinigun& operator=(const WeaponMinigun& _Other) = delete;
 	WeaponMinigun& operator=(WeaponMinigun&& _Other) noexcept = delete;
 
-	void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -26,6 +25,8 @@ private:
 
 	int BulletCount = 20;
 	float DelayTime = 0.05f;
+    float WaitingTime = 1.5f;
+    bool isExplosion = false;
 
 	GameEngineRender* AimingLine = nullptr;
 	std::vector <GameEngineCollision*> MinigunCollision;							// index에 해당하는 총알 콜리전
@@ -41,6 +42,7 @@ private:
     void SetAimFrameIndex();
 
     bool isIsFireAnimationDone = false;
+    void Aiming(float _DeltaTime);
 
 };
 
