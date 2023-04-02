@@ -473,60 +473,91 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 
 
-void Player::SetMoveDirWithAngle(float _Angle)
+void Player::SetMoveDirWithAngle(WallCheckDir _Dir)
 {
-    const float _AngleValue = 22.5;
-    
     if ("Left_" == DirString)
     {
-        if (_Angle >= _AngleValue * 3 && _Angle <= _AngleValue * 5)
+        switch (_Dir)
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측
+        case WallCheckDir::LeftUpBoth:
+        {
+            MoveDir = { -MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if (_Angle >= _AngleValue && _Angle <= _AngleValue * 3)
+        case WallCheckDir::LeftDownBoth:
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측 상단
+            MoveDir = { -MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if (_Angle >= _AngleValue * 5 && _Angle <= _AngleValue * 7)
+        case WallCheckDir::Up:
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측 하단
+            MoveDir = { MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if ((_Angle >= 0.0f && _Angle <= _AngleValue) || (_Angle >= 360 - _AngleValue && _Angle <= 360.0f))
+        case WallCheckDir::LeftUp:
         {
-            MoveDir = { MoveDir.x, -MoveDir.y };  // 상단
+            MoveDir = { (-MoveDir.x), (MoveDir.y) };
+            break;
         }
-        else if (_Angle >= _AngleValue * 7 && _Angle <= _AngleValue * 9)
+        case WallCheckDir::Left:
         {
-            MoveDir = { MoveDir.x, -MoveDir.y };  // 하단
+            MoveDir = { (-MoveDir.x), (MoveDir.y) };
+            break;
+        }
+        case WallCheckDir::LeftDown:
+        {
+            MoveDir = { (-MoveDir.x), (MoveDir.y) };
+            break;
+        }
+        case WallCheckDir::Down:
+        {
+            MoveDir = { (MoveDir.x), (-MoveDir.y) };
+            break;
         }
 
-
+        }
     }
-
-    if ("Right_" == DirString)
+    else if ("Right_" == DirString)
     {
-        if (_Angle >= _AngleValue * 11 && _Angle <= _AngleValue * 13)
+        switch (_Dir)
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측
+        case WallCheckDir::RightUpBoth:
+        {
+            MoveDir = { -MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if (_Angle >= _AngleValue * 13 && _Angle <= _AngleValue * 15)
+        case WallCheckDir::RightDownBoth:
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측 상단
+            MoveDir = { -MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if (_Angle >= _AngleValue * 9 && _Angle <= _AngleValue * 11)
+        case WallCheckDir::Up:
         {
-            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측 하단
+            MoveDir = { MoveDir.x , -MoveDir.y };
+            break;
         }
-        else if ((_Angle >= 0.0f && _Angle <= _AngleValue) || (_Angle >= 360 - _AngleValue && _Angle <= 360.0f))
+        case WallCheckDir::RightUp:
         {
-            MoveDir = { MoveDir.x, -MoveDir.y };  // 상단
+            MoveDir = { (-MoveDir.x ), (MoveDir.y ) };
+            break;
         }
-        else if (_Angle >= _AngleValue * 7 && _Angle <= _AngleValue * 9)
+        case WallCheckDir::Right:
         {
-            MoveDir = { MoveDir.x, -MoveDir.y };  // 하단
+            MoveDir = { (-MoveDir.x), (MoveDir.y) };
+            break;
+        }
+        case WallCheckDir::RightDown:
+        {
+            MoveDir = { (-MoveDir.x), (MoveDir.y) };
+            break;
+        }
+        case WallCheckDir::Down:
+        {
+            MoveDir = { (MoveDir.x), (-MoveDir.y) };
+            break;
+        }
         }
     }
-
 
     if (MoveDir.x > 0.0f)
     {
@@ -687,14 +718,17 @@ void Player::Render(float _DeltaTime)
 		PlayerIsGround = PlayerIsGround + std::to_string(IsGround);
 		GameEngineLevel::DebugTextPush(PlayerIsGround);
 
+        std::string PlayerDirString = "PlayerDirString = ";
+        PlayerDirString = PlayerDirString + DirString;
+        GameEngineLevel::DebugTextPush(PlayerDirString);
+
         //float4 NextPos = (GetPos() + MoveDir * _DeltaTime) - GetLevel()->GetCameraPos();
 
         float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };
 
         float Angle = 0.0f;
 
-        //360도로 변경해야 함
-        for (; Angle < 360.0f; ++Angle)
+       /* for (; Angle < 360.0f; ++Angle)
         {
             float4 CheckPos = { 0.0f, -SetMoveDirRadius };
             CheckPos.RotaitonZDeg(-Angle);
@@ -711,7 +745,7 @@ void Player::Render(float _DeltaTime)
                 CheckImagePos.iy() + 1
             );
 
-        }
+        }*/
 
 
         //Rectangle(DoubleDC,

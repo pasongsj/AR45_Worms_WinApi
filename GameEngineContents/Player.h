@@ -35,10 +35,14 @@ enum class WallCheckDir
     Down,
     Left,
     Right,
-    LeftUp,
-    LeftDown,
-    RightUp,
-    RightDown
+    LeftUp, //좌측 상단
+    LeftDown, //좌측 하단
+    RightUp, //우측 상단
+    RightDown, //우측 하단
+    LeftUpBoth,
+    LeftDownBoth,
+    RightUpBoth,
+    RightDownBoth
 };
 
 // 설명 : 플레이어 클래스
@@ -186,11 +190,11 @@ private:
 	float RightMoveAngle = 0.0f; 
     const float AngleLimit = 7.0f; //각도 제한용 상수
 
-    void SetMoveDirWithAngle(float _Angle); // 공중에서 벽에 닿았을 때, MoveDir을 변경하는 함수
     const float SetMoveDirRadius = 5.0f;
     const float SetMoveDIrCenterPos = -4.0f;
 
     bool GetPlayerWallCheck(WallCheckDir _Dir); //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
+    void SetMoveDirWithAngle(WallCheckDir _Dir); // 공중에서 벽에 닿았을 때, MoveDir을 변경하는 함수
 
     void PlayerPixelCheck();
     bool LeftPixelCheck = false;
