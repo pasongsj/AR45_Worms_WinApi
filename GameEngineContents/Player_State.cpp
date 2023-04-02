@@ -383,6 +383,11 @@ void Player::JumpUpdate(float _DeltaTime)
         StateCalValue = GetPos().y;
     }
 
+    if (false == IsGround)
+    {
+        StateCalBool3 = false;
+    }
+
     StateCalTime += _DeltaTime;
 
     float testvalue = 0.5f;
@@ -390,13 +395,12 @@ void Player::JumpUpdate(float _DeltaTime)
     if (true == AnimationRender->IsAnimationEnd() && true == StateCalBool)
     {
         //점프를 시작하려 할때, 상단 픽셀이 comlimage와 맞닿아 있다면,
-        if (true == UpPixelCheck /*|| true == LeftUpPixelCheck || true == RightUpPixelCheck*/)
+        if (true == UpPixelCheck)
         {
             ChangeState(PlayerState::IDLE);
             return;
         }
 
-        SetMove({ 0, -5.0f });
         DownPixelCheck = false;
 
         if ("Right_" == DirString)
@@ -416,20 +420,10 @@ void Player::JumpUpdate(float _DeltaTime)
         StateCalBool = false;
     }
 
-    if (StateCalBool == false)
+    if (StateCalBool == false && false == StateCalBool3)
     {
-        //둘다 닿아있을때 천천히 떨어지는 버그 방지
-        if (true == RightDownPixelCheck && true == LeftDownPixelCheck)
-        {
-            MoveDir = { 0.0f, MoveDir.y };
-        }
-        //상단 픽셀 둘다 닿아있을 때 
-        if (true == RightUpPixelCheck && true == LeftUpPixelCheck)
-        {
-            MoveDir = { 0.0f , -MoveDir.y };
-        }
 
-        else if (true == LeftUpPixelCheck && "Left_" == DirString)
+        if (true == LeftUpPixelCheck && "Left_" == DirString)
         {
             DirString = "Right_";
             MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
@@ -457,7 +451,6 @@ void Player::JumpUpdate(float _DeltaTime)
             MoveDir = { (-MoveDir.x * testvalue), (MoveDir.y * testvalue) };
 
         }
-
         else if (true == DownPixelCheck)
         {
             MoveDir = float4::Zero;
@@ -666,8 +659,6 @@ void Player::FlyAwayStart()
 {
     AnimationDir = DirString;
 
-    SetMove({ 0, -5.0f });
-
     std::string AnimationName = "FlyAway";
     std::string AnimationText = AnimationDir.data() + AnimationName;
     AnimationRender->ChangeAnimation(AnimationText);
@@ -688,26 +679,8 @@ void Player::FlyAwayUpdate(float _DeltaTime)
 
     float testvalue = 0.5f;
 
-    //왼쪽 상단과 오른쪽 상단, 왼쪽 하단과 오른쪽 하단이 동시에 만나면 생기는 버그 수정
-    if (true == LeftUpPixelCheck && true == RightUpPixelCheck)
-    {
-        SetMove({ 0.0f, 1.0f });
-
-        MoveDir *= 0.01f;
-
-        ChangeState(PlayerState::Sliding);
-        return;
-    }
-    else if (true == LeftDownPixelCheck && true == RightDownPixelCheck)
-    {
-        SetMove({ 0.0f, -1.0f });
-
-        MoveDir *= 0.01f;
-
-        ChangeState(PlayerState::Sliding);
-        return;
-    }
-    else if (true == LeftUpPixelCheck && "Left_" == DirString)
+  
+    if (true == LeftUpPixelCheck && "Left_" == DirString)
     {
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
@@ -809,22 +782,9 @@ void Player::SlidingUpdate(float _DeltaTime)
     }
 
     float testvalue = 0.5f;
-
-
-    //왼쪽 상단과 오른쪽 상단, 왼쪽 하단과 오른쪽 하단이 동시에 만나면 생기는 버그 수정
-    //프레임당 픽셀중 하나씩만 충돌함
-    if (true == LeftUpPixelCheck && true == RightUpPixelCheck)
+ 
+    if (true == LeftUpPixelCheck && "Left_" == DirString)
     {
-        MoveDir *= 0.01f;
-    }
-    else if (true == LeftDownPixelCheck && true == RightDownPixelCheck)
-    {
-        MoveDir *= 0.01f;
-    }
-    else if (true == LeftUpPixelCheck && "Left_" == DirString)
-    {
-        SetMove({ 1.0f, 1.0f });
-
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
 
@@ -834,7 +794,7 @@ void Player::SlidingUpdate(float _DeltaTime)
     }
     else if (true == RightUpPixelCheck && "Right_" == DirString)
     {
-        SetMove({ -1.0f, 1.0f });
+       
 
         DirString = "Left_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
@@ -845,8 +805,6 @@ void Player::SlidingUpdate(float _DeltaTime)
     }
     else if (true == RightDownPixelCheck && "Right_" == DirString)
     {
-        SetMove({ -1.0f, 1.0f });
-
         DirString = "Left_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
 
@@ -856,8 +814,6 @@ void Player::SlidingUpdate(float _DeltaTime)
     }
     else if (true == LeftDownPixelCheck && "Left_" == DirString)
     {
-        SetMove({ 1.0f, -1.0f });
-
         DirString = "Right_";
         MoveDir = { (-MoveDir.x * testvalue), (-MoveDir.y * testvalue) };
 
@@ -867,8 +823,6 @@ void Player::SlidingUpdate(float _DeltaTime)
     }
     else if (true == UpPixelCheck)
     {
-        SetMove({ 0.0f, 1.0f });
-
         MoveDir = { (MoveDir.x * testvalue) , (-MoveDir.y * testvalue) };
     }
     else if (true == LeftPixelCheck && "Left_" == DirString)

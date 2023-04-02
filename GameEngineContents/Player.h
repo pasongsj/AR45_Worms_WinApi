@@ -29,6 +29,18 @@ enum class PlayerAngleDir
     Right,
 };
 
+enum class WallCheckDir
+{
+    Up,
+    Down,
+    Left,
+    Right,
+    LeftUp,
+    LeftDown,
+    RightUp,
+    RightDown
+};
+
 // 설명 : 플레이어 클래스
 class Weapon;
 class GameEngineImage;
@@ -129,7 +141,7 @@ protected:
 
 private:
 	void Test(); //테스트용 함수
-	
+    
     void CreateAnimation();
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
@@ -167,13 +179,18 @@ private:
 	void IsGroundCheck();
 	std::string AnimationDir = "";
     void MoveCalculation(float _DeltaTime);
-    bool NextPosWallCheck(float4 _NextPos);
 
     bool ReturnCanIMove(PlayerAngleDir _Dir);
 	void SetMoveAngle(); 	//이동시 플레이어의 좌우의 픽셀을 체크하여, 앵글을 넣음
 	float LeftMoveAngle = 0.0f; 
 	float RightMoveAngle = 0.0f; 
     const float AngleLimit = 7.0f; //각도 제한용 상수
+
+    void SetMoveDirWithAngle(float _Angle); // 공중에서 벽에 닿았을 때, MoveDir을 변경하는 함수
+    const float SetMoveDirRadius = 5.0f;
+    const float SetMoveDIrCenterPos = -4.0f;
+
+    bool GetPlayerWallCheck(WallCheckDir _Dir); //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
 
     void PlayerPixelCheck();
     bool LeftPixelCheck = false;
@@ -187,6 +204,7 @@ private:
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
+    float JumpForce = 250.0f;
 
 	void GravityApplied(float _DeltaTime); //중력적용
 

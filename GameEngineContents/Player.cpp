@@ -213,7 +213,6 @@ void Player::CheckTurn()
 
 void Player::Update(float _DeltaTime)
 {
-	//MoveDir = float4::Zero; //매 프레임마다 MoveDir 초기화
     PlayerPixelCheck();
     UpdateState(_DeltaTime);
    
@@ -239,7 +238,7 @@ void Player::MoveCalculation(float _DeltaTime)
 	float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
     
     NextPos = PullUpCharacter(NextPos, _DeltaTime);
-	
+
     SetMoveAngle();
 
     if (true == IsGround)
@@ -275,96 +274,107 @@ void Player::IsGroundCheck()
 
 void Player::PlayerPixelCheck()
 {
-    //float4 PlayerLeftPixel = { GetPos().x - 10, GetPos().y - 10 };
-    //float4 PlayerRightPixel = { GetPos().x + 10, GetPos().y - 10 };
-    //float4 PlayerUpPixel = { GetPos().x , GetPos().y - 20 };
-    //float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1 };
-    //float4 PlayerLeftUpPixel = { GetPos().x - 10, GetPos().y - 20};
-    //float4 PlayerRightUpPixel = { GetPos().x + 10, GetPos().y - 20 };
-    //float4 PlayerLeftDownPixel = { GetPos().x - 10, GetPos().y + 1 };
-    //float4 PlayerRightDownPixel = { GetPos().x + 10, GetPos().y + 1 };
+    float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };						                           
+    float Angle = 0.0f;
 
-    float4 PlayerLeftPixel = { GetPos().x - 10.0f, GetPos().y - 11.0f };
-    float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y -11.0f };
-    float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
-    float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
-    float4 PlayerLeftUpPixel = { GetPos().x - 8.0f, GetPos().y - 19.0f };
-    float4 PlayerRightUpPixel = { GetPos().x + 8.0f, GetPos().y - 19.0f };
-    float4 PlayerLeftDownPixel = { GetPos().x - 8.0f, GetPos().y - 2.0f };
-    float4 PlayerRightDownPixel = { GetPos().x + 8.0f, GetPos().y - 2.0f };
+    for (; Angle < 360.0f; ++Angle)
+    {
+        float4 CheckPos = { 0.0f, -SetMoveDirRadius };		                                        
+        CheckPos.RotaitonZDeg(-Angle);				                                        
+        CheckPos += CenterPos;						                                       
 
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftPixel, RGB(0, 0, 0)))
-    {
-        LeftPixelCheck = true;
-    }
-    else
-    {
-        LeftPixelCheck = false;
-    }
+        const float AngleValue = 22.5;
 
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightPixel, RGB(0, 0, 0)))
-    {
-        RightPixelCheck = true;
-    }
-    else
-    {
-        RightPixelCheck = false;
-    }
 
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerUpPixel, RGB(0, 0, 0)))
-    {
-        UpPixelCheck = true;
+        if ((Angle >= 0.0f && Angle <= AngleValue) || (Angle >= 360.0f - AngleValue && Angle <= 360.0f))
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                UpPixelCheck = true;
+            }
+            else
+            {
+                UpPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue && Angle <= AngleValue * 3) //좌측 상단
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                LeftUpPixelCheck = true;
+            }
+            else
+            {
+                LeftUpPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 3 && Angle <= AngleValue * 5) // 좌측
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                LeftPixelCheck = true;
+            }
+            else
+            {
+                LeftPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 5 && Angle <= AngleValue * 7) //좌측 하단
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                LeftDownPixelCheck = true;
+            }
+            else
+            {
+                LeftDownPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 7 && Angle <= AngleValue * 9) //하단
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                DownPixelCheck = true;
+            }
+            else
+            {
+                DownPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 9 && Angle <= AngleValue * 11) // 우측 하단
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                RightDownPixelCheck = true;
+            }
+            else
+            {
+                RightDownPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 11 && Angle <= AngleValue * 13) // 우측
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                RightPixelCheck = true;
+            }
+            else
+            {
+                RightPixelCheck = false;
+            }
+        }
+        else if (Angle >= AngleValue * 13 && Angle <= AngleValue * 15) //우측 상단
+        {
+            if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
+            {
+                RightUpPixelCheck = true;
+            }
+            else
+            {
+                RightUpPixelCheck = false;
+            }
+        }     
     }
-    else
-    {
-        UpPixelCheck = false;
-    }
-
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerDownPixel, RGB(0, 0, 0)))
-    {
-        DownPixelCheck = true;
-    }
-    else
-    {
-        DownPixelCheck = false;
-    }
-
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftUpPixel, RGB(0, 0, 0)))
-    {
-        LeftUpPixelCheck = true;
-    }
-    else
-    {
-        LeftUpPixelCheck = false;
-    }
-
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightUpPixel, RGB(0, 0, 0)))
-    {
-        RightUpPixelCheck = true;
-    }
-    else
-    {
-        RightUpPixelCheck = false;
-    }
-
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerLeftDownPixel, RGB(0, 0, 0)))
-    {
-        LeftDownPixelCheck = true;
-    }
-    else
-    {
-        LeftDownPixelCheck = false;
-    }
-
-    if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerRightDownPixel, RGB(0, 0, 0)))
-    {
-        RightDownPixelCheck = true;
-    }
-    else
-    {
-        RightDownPixelCheck = false;
-    }
-
 }
 
 void Player::SetMoveAngle()
@@ -446,8 +456,6 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 		return _NextPos;
 	}
 
-    float4 NextMoveDir = MoveDir;
-
 	while (true)
 	{
 		MoveDir.y -= 1;
@@ -461,6 +469,128 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 		return _NextPos;
 	}
+}
+
+
+
+void Player::SetMoveDirWithAngle(float _Angle)
+{
+    const float _AngleValue = 22.5;
+    
+    if ("Left_" == DirString)
+    {
+        if (_Angle >= _AngleValue * 3 && _Angle <= _AngleValue * 5)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측
+        }
+        else if (_Angle >= _AngleValue && _Angle <= _AngleValue * 3)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측 상단
+        }
+        else if (_Angle >= _AngleValue * 5 && _Angle <= _AngleValue * 7)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 좌측 하단
+        }
+        else if ((_Angle >= 0.0f && _Angle <= _AngleValue) || (_Angle >= 360 - _AngleValue && _Angle <= 360.0f))
+        {
+            MoveDir = { MoveDir.x, -MoveDir.y };  // 상단
+        }
+        else if (_Angle >= _AngleValue * 7 && _Angle <= _AngleValue * 9)
+        {
+            MoveDir = { MoveDir.x, -MoveDir.y };  // 하단
+        }
+
+
+    }
+
+    if ("Right_" == DirString)
+    {
+        if (_Angle >= _AngleValue * 11 && _Angle <= _AngleValue * 13)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측
+        }
+        else if (_Angle >= _AngleValue * 13 && _Angle <= _AngleValue * 15)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측 상단
+        }
+        else if (_Angle >= _AngleValue * 9 && _Angle <= _AngleValue * 11)
+        {
+            MoveDir = { -MoveDir.x, MoveDir.y };  // 우측 하단
+        }
+        else if ((_Angle >= 0.0f && _Angle <= _AngleValue) || (_Angle >= 360 - _AngleValue && _Angle <= 360.0f))
+        {
+            MoveDir = { MoveDir.x, -MoveDir.y };  // 상단
+        }
+        else if (_Angle >= _AngleValue * 7 && _Angle <= _AngleValue * 9)
+        {
+            MoveDir = { MoveDir.x, -MoveDir.y };  // 하단
+        }
+    }
+
+
+    if (MoveDir.x > 0.0f)
+    {
+        DirString = "Right_";
+    }
+    else
+    {
+        DirString = "Left_";
+    }
+}
+
+bool Player::GetPlayerWallCheck(WallCheckDir _Dir)  //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
+{
+    float Radius = 5.0f;
+    float Angle = 0.0f;
+
+    float4 CenterPos = { GetPos().x, GetPos().y - 4.0f };
+
+
+    switch (_Dir)
+    {
+    case WallCheckDir::Up:
+    {
+        for (; Angle < 360.0f; ++Angle)
+        {
+            float4 CheckPos = { 0.0f, -Radius };
+            CheckPos.RotaitonZDeg(Angle);
+            CheckPos += CenterPos;
+            int Value = 0;
+        }
+        break;
+    }
+    case WallCheckDir::Down:
+    {
+        break;
+    }
+    case WallCheckDir::Left:
+    {
+        break;
+    }
+    case WallCheckDir::Right:
+    {
+        break;
+    }
+    case WallCheckDir::LeftUp:
+    {
+        break;
+    }
+    case WallCheckDir::LeftDown:
+    {
+        break;
+    }
+    case WallCheckDir::RightUp:
+    {
+        break;
+    }
+    case WallCheckDir::RightDown:
+    {
+        break;
+    }
+    }
+
+
+    return true;
 }
 
 
@@ -514,9 +644,28 @@ void Player::SetPlayerAnimationFrame(int _Frame)
 void Player::Render(float _DeltaTime)
 {
 	HDC DoubleDC = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-	//float4 ActorPos = GetPos() - GetLevel()->GetCameraPos();
+	float4 ActorPos = GetPos() - GetLevel()->GetCameraPos();
 
-	////위치 확인용
+  /*  float Angle = 0.0f;
+    float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };
+
+    for (; Angle < 90.0f; ++Angle)
+    {
+        float4 CheckPos = { 0.0f, -SetMoveDirRadius };
+        CheckPos.RotaitonZDeg(-Angle);
+        CheckPos += CenterPos;
+        float4 CameraCheckPos = CheckPos - GetLevel()->GetCameraPos();
+
+        Rectangle(DoubleDC,
+            CameraCheckPos.ix() - 1,
+            CameraCheckPos.iy() - 1,
+            CameraCheckPos.ix() + 1,
+            CameraCheckPos.iy() + 1
+        );
+    }
+*/
+
+	//위치 확인용
 	//Rectangle(DoubleDC,
 	//	ActorPos.ix() - 5,
 	//	ActorPos.iy() - 5,
@@ -540,13 +689,38 @@ void Player::Render(float _DeltaTime)
 
         //float4 NextPos = (GetPos() + MoveDir * _DeltaTime) - GetLevel()->GetCameraPos();
 
+        float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };
+
+        float Angle = 0.0f;
+
+        //360도로 변경해야 함
+        for (; Angle < 360.0f; ++Angle)
+        {
+            float4 CheckPos = { 0.0f, -SetMoveDirRadius };
+            CheckPos.RotaitonZDeg(-Angle);
+            CheckPos += CenterPos;
+            float4 CheckImagePos = CheckPos - GetLevel()->GetCameraPos();
+
+
+            const float AngleValue = 22.5;
+
+            Rectangle(DoubleDC,
+                CheckImagePos.ix() - 1,
+                CheckImagePos.iy() - 1,
+                CheckImagePos.ix() + 1,
+                CheckImagePos.iy() + 1
+            );
+
+        }
+
+
         //Rectangle(DoubleDC,
         //    NextPos.ix() - 5,
         //    NextPos.iy() - 5,
         //    NextPos.ix() + 5,
         //    NextPos.iy() + 5
         //);
-        float4 PlayerLeftPixel = { GetPos().x - 10.0f, GetPos().y - 11.0f };
+    /*    float4 PlayerLeftPixel = { GetPos().x - 10.0f, GetPos().y - 11.0f };
         float4 PlayerRightPixel = { GetPos().x + 10.0f, GetPos().y - 11.0f };
         float4 PlayerUpPixel = { GetPos().x , GetPos().y - 21.0f };
         float4 PlayerDownPixel = { GetPos().x , GetPos().y + 1.0f };
@@ -612,7 +786,7 @@ void Player::Render(float _DeltaTime)
             PlayerRightDownPixel.iy() - 1,
             PlayerRightDownPixel.ix() + 1,
             PlayerRightDownPixel.iy() + 1
-        );
+        );*/
 
         if (nullptr != CurWeapon)
         {
