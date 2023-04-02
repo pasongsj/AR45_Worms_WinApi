@@ -28,6 +28,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineBase/GameEngineFile.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
@@ -46,6 +47,17 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::SoundLoad()
 {
+    GameEngineDirectory Dir;
+    Dir.MoveParentToDirectory("ContentsResources");
+    Dir.Move("ContentsResources");
+    Dir.Move("Sound");
+
+    std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+    for (size_t i = 0; i < Files.size(); i++)
+    {
+        GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+    }
 
 }
 
@@ -1029,6 +1041,12 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         WindUI* WindUIActor = CreateActor<WindUI>();
 
     }
+
+
+    GameEngineResources::GetInst().SoundPlay("startround.wav");
+
+    BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
+    
     
     //CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();

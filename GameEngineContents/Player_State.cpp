@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "Weapon.h"
 
 void Player::ChangeState(PlayerState _State)
@@ -369,6 +370,8 @@ void Player::JumpStart()
     StateCalBool2 = true;
     StateCalBool3 = true;
     StateCalValue = 0.0f;
+
+    GameEngineResources::GetInst().SoundPlay("JUMP2.wav");
 }
 void Player::JumpUpdate(float _DeltaTime)
 {
@@ -533,6 +536,8 @@ void Player::DeadStart()
     std::string AnimationName = "Die";
     std::string AnimationText = AnimationDir.data() + AnimationName;
     AnimationRender->ChangeAnimation(AnimationText);
+
+    GameEngineResources::GetInst().SoundPlay("OHDEAR.wav");
 }
 
 void Player::DeadUpdate(float _DeltaTime)

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include <vector>
 #include "GlobalValue.h"
 
@@ -36,6 +37,8 @@ public:
     }
 
     void GameSetCheck();
+
+    GameEngineSoundPlayer BgmPlayer;
 	
 protected:
 	void Loading() override;
