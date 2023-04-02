@@ -391,6 +391,7 @@ void Player::JumpUpdate(float _DeltaTime)
     StateCalTime += _DeltaTime;
 
     float testvalue = 0.5f;
+    float FrictionValue = 0.7f;
 
     if (true == AnimationRender->IsAnimationEnd() && true == StateCalBool)
     {
@@ -436,17 +437,17 @@ void Player::JumpUpdate(float _DeltaTime)
         if (true == LeftPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Left);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == RightPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Right);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == DownPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Down);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == LeftUpPixelCheck)
         {
@@ -458,7 +459,7 @@ void Player::JumpUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::LeftUp);
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == RightUpPixelCheck)
         {
@@ -470,12 +471,12 @@ void Player::JumpUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::RightUp);
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == UpPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Up);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
 
         else if (true == LeftDownPixelCheck)
@@ -489,7 +490,7 @@ void Player::JumpUpdate(float _DeltaTime)
                 SetMoveDirWithAngle(WallCheckDir::LeftDown);
 
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
         else if (true == RightDownPixelCheck)
         {
@@ -501,7 +502,7 @@ void Player::JumpUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::RightDown);
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
     }
 
@@ -670,6 +671,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
     }
 
     float testvalue = 0.5f;
+    float FrictionValue = 0.7f;
 
     if (StateCalBool == true)
     {
@@ -678,7 +680,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         if (true == LeftPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Left);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -686,7 +688,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         else if (true == RightPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Right);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -694,10 +696,9 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         else if (true == DownPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Down);
-            MoveDir *= 0.8f;
 
-            ChangeState(PlayerState::Sliding);
-            return;
+            MoveDir = { MoveDir.x * FrictionValue , MoveDir.y * (FrictionValue * 1 / 2) };
+
         }
         else if (true == LeftUpPixelCheck)
         {
@@ -709,7 +710,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::LeftUp);
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -726,7 +727,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             }
 
 
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -734,7 +735,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         else if (true == UpPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Up);
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
         }
 
         else if (true == LeftDownPixelCheck)
@@ -748,7 +749,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
                 SetMoveDirWithAngle(WallCheckDir::LeftDown);
 
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -763,7 +764,7 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::RightDown);
             }
-            MoveDir *= 0.8f;
+            MoveDir *= FrictionValue;
 
             ChangeState(PlayerState::Sliding);
             return;
