@@ -94,7 +94,7 @@ void WeaponGrenade::CheckExplosion()
     {
         PootTextAnimation->Off();
     }
-    if (Timer < -2.0f)
+    if (WaitTime < GetLiveTime())
     {
         isWeaponDone = true;
         GetLevel()->SetCameraPos(GetPos() - GameEngineWindow::GetScreenSize().half()); //다음 턴 Player로 카메라 이동- 삭제필요
@@ -107,7 +107,7 @@ void WeaponGrenade::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos();
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
         Dir = GetShootDir();
         SetPos(PlayerPos);
 
@@ -272,6 +272,7 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         isExplosion = true;
         WeaponRender->Off();
         WeaponCollision->Off();
+        WaitTime = GetLiveTime() + 1.5;
 
     }
 

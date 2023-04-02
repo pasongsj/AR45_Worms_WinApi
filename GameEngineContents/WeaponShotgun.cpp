@@ -22,7 +22,7 @@ void WeaponShotgun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
-	MoveSpeed = 2500;
+	MoveSpeed = 3000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -52,14 +52,13 @@ void WeaponShotgun::Update(float _DeltaTime)
         SetCurPlayer();// 플레이어 전환버튼 때문에 추가
 	}
 
-    if (WeaponDoneTime < GetLiveTime())
-    {
-        GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());
-        WeaponDoneTime = 0.0f;
-    }
     if (false == isFire) //발사가 안되었다면
     {
         Aiming(_DeltaTime);
+        if (WaitingTime < GetLiveTime())
+        {
+            GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());
+        }
     }
     else
     {
@@ -85,7 +84,7 @@ void  WeaponShotgun::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos();
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
         Dir = GetShootDir();
         SetPos(PlayerPos);
 
@@ -97,7 +96,7 @@ void  WeaponShotgun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("ShotgunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150 + float4{ 0, -10 }); // 조준선 이동
+        AimingLine->SetPosition(Dir * 150); // 조준선 이동
 
         if (Dir.x > 0)
         {
@@ -151,6 +150,7 @@ void WeaponShotgun::CheckFiring()
 			if (isShooted[i] == false)
 			{
 				isShooted[i] = true;
+                ShotGunCollision[i]->On();
 				ShotGunDir[i] = Dir; // 발사시 방향설정
                 //isIsFireAnimationDone = true;
                 AimingLine->Off();
@@ -178,12 +178,21 @@ void WeaponShotgun::Firing(float _DeltaTime)
 	{
 		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate()) // 현재 On인 총알
 		{
-
             float4 MoveVec = ShotGunDir[i] * _DeltaTime * MoveSpeed;
             ShotGunCollision[i]->SetMove(MoveVec);
-			if (0 < CheckCollisionSide(ShotGunCollision[i]).Size()) // 콜리전 체크(플레이어, 맵)
+            float4 CheckCollision = CheckCollisionSide(ShotGunCollision[i]);
+            if (CheckCollision == float4::Up &&Dir.Size() > 0.001f)
+            {
+                ShotGunCollision[i]->SetMove(-MoveVec);
+                Dir *= 0.3f;
+                return;
+            }
+            // 카메라 이동
+            float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), ShotGunCollision[i]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
+            GetLevel()->SetCameraPos(CamPos);
+
+			if (0 < CheckCollision.Size() || Dir.Size() < 0.001f) // 콜리전 체크(플레이어, 맵)
 			{
-                ShotGunCollision[i]->SetMove(-MoveVec * 0.1f);
                 // 연기이펙트
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(ShotGunCollision[i]->GetActorPlusPos());
@@ -211,12 +220,8 @@ void WeaponShotgun::Firing(float _DeltaTime)
                     isFire = false;
 
                 }
-                WeaponDoneTime = GetLiveTime() + 1.0f;
-                CurPlayer->ChangePlayerAnimation("Idle");
+                WaitingTime = GetLiveTime() + 1.5f;
 			}
-            // 카메라 이동
-            float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), ShotGunCollision[i]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 50);
-            GetLevel()->SetCameraPos(CamPos);
 		}
 	}
 
@@ -228,7 +233,7 @@ void WeaponShotgun::WeaponShotgunInit()
 	// ShotGun은 랜더이미지가 존재하지 않음
 	GameEngineCollision* Collision = CreateCollision(WormsCollisionOrder::Weapon);
 	Collision->SetScale({ 10,10 });
-    Collision->SetPosition({ 0,-10 });
+    Collision->Off();
 
 	ShotGunCollision.push_back(Collision);
 	isShooted.push_back(false);
@@ -247,7 +252,7 @@ bool WeaponShotgun::IsDone()
 		}
 
 	}
-    if (WeaponDoneTime > GetLiveTime())
+    if (WaitingTime > GetLiveTime())
     {
         return false;
     }

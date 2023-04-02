@@ -16,7 +16,6 @@ public:
 	WeaponShotgun& operator=(const WeaponShotgun& _Other) = delete;
 	WeaponShotgun& operator=(WeaponShotgun&& _Other) noexcept = delete;
 
-	//void ResetWeapon();
 
 protected:
 	void Start() override;
@@ -25,16 +24,14 @@ protected:
 
 private:
 
+	int BulletCount = 2;
     float AimIndex = 15;
     int NextAimIndex = 15;
     bool isExplosion = false;
 
-	int BulletCount = 2;
-
-    //bool isIsFireAnimationDone = false;
 
     float LoadDelay = 0.0f;
-    float WeaponDoneTime = 0.0f;
+    float WaitingTime = 0.0f;
 
 	GameEngineRender* AimingLine = nullptr;
 
@@ -46,7 +43,6 @@ private:
 
 	bool IsDone();
 	void WeaponShotgunInit();														// ÃÑ¾Ë Ãß°¡
-	//void WeaponMove(GameEngineCollision* _Col, float _DeltaTime, float4 _Dir);		// ÃÑ¾Ë ÀÌµ¿
 	void Firing(float _DeltaTime);	
 	void CheckFiring();
     void SetAimFrameIndex();
