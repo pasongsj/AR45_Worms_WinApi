@@ -22,7 +22,7 @@ WeaponTorch::~WeaponTorch()
 void WeaponTorch::Start()
 {
     TorchInit();
-    PrevTime = clock();
+    PrevTime = static_cast<float>(clock());
 }
 void WeaponTorch::Update(float _DeltaTime)
 {
@@ -108,7 +108,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
     float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale * 0.5f};
 
-    MapModifier::MainModifier->CreateHole(HolePos, BombScale);
+    MapModifier::MainModifier->CreateHole(HolePos, static_cast<int>(BombScale));
 
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
     HoleCollision->SetMove({ Dir.x * 10.0f , 0 });
@@ -127,7 +127,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
 void WeaponTorch::Timer()
 {
-    CurTime = clock();
+    CurTime = static_cast<float>(clock());
 
     TimeCount = (CurTime - PrevTime) / 1000.0f;
 

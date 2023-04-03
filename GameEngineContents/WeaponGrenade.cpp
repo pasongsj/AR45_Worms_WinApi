@@ -173,7 +173,7 @@ void WeaponGrenade::SetAimFrameIndex()
         Angle = 180 - Angle;
     }
 
-    NewIndex = Angle / 5 + 15;
+    NewIndex = static_cast<int>(Angle / 5 + 15);
 
     if (NewIndex < 0)
     {
@@ -221,7 +221,7 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         {
             WeaponRender->SetMove({ 0, -MoveVec.y });       //WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
             WeaponCollision->SetMove({ 0, -MoveVec.y });    //WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
-            Dir.x = Dir.x * 0.5;
+            Dir.x = Dir.x * 0.5f;
             Dir.y = -Dir.y * 0.25f;
         }
         else if(CheckedCol == float4::Up)
@@ -256,7 +256,7 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         BombCollision->SetPosition(float4::Zero);
 
         // 땅 파이게
-        MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), BombScale);
+        MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), static_cast<int>(BombScale));
 
 
 
@@ -264,7 +264,7 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         isExplosion = true;
         WeaponRender->Off();
         WeaponCollision->Off();
-        WaitTime = GetLiveTime() + 1.5;
+        WaitTime = GetLiveTime() + 1.5f;
 
     }
 

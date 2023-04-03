@@ -266,7 +266,7 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
 	// 플레이어 체크
 	std::vector<GameEngineCollision*> CollisionList;
 
-    int Radius = BombScale / 2;
+    int Radius = static_cast<int>(BombScale / 2);
 
 	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{

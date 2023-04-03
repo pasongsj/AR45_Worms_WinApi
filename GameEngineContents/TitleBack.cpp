@@ -120,7 +120,7 @@ void TitleBack::Update(float _DeltaTime)
 	if (IntroCheck == false)
 	{
 		IntroLogColor += 200 * _DeltaTime;
-		InTro->SetAlpha(IntroLogColor);
+		InTro->SetAlpha(static_cast<int>(IntroLogColor));
 
 		if (IntroLogColor >= 254)
 		{
@@ -143,7 +143,7 @@ void TitleBack::Update(float _DeltaTime)
 				IntroLogColor += 200 * _DeltaTime;
 			}
 
-			InTro->SetAlpha(255 - IntroLogColor);
+			InTro->SetAlpha(static_cast<int>(255 - IntroLogColor));
 		}
 
 		if (IntroLogColor > 253)
@@ -191,7 +191,7 @@ void TitleBack::Update(float _DeltaTime)
 			WriteCheck = true;
 		}
 
-		WhiteBackGround->SetAlpha(255 - WhiteColor);
+		WhiteBackGround->SetAlpha(static_cast<int>(255 - WhiteColor));
 	}
 	if (WriteCheck == true)
 	{
@@ -249,7 +249,7 @@ void TitleBack::Update(float _DeltaTime)
     if(finialCheck ==true)
     {
         BlackAlpha += 200 * _DeltaTime;
-        backGround->SetAlpha(BlackAlpha);
+        backGround->SetAlpha(static_cast<int>(BlackAlpha));
 
 
     }

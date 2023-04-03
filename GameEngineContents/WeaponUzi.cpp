@@ -148,7 +148,7 @@ void WeaponUzi::SetAimFrameIndex()
         Angle = 180 - Angle;
     }
 
-    NewIndex = Angle / 5 + 15;
+    NewIndex = static_cast<int>(Angle / 5 + 15);
 
     if (NewIndex < 0)
     {
@@ -210,7 +210,7 @@ void WeaponUzi::Firing(float _DeltaTime)
 
 
                 AttackPlayerGun(BombCollision, 500);																				  // 3. Bomb콜리전 Player Check
-                MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), BombScale);					  // 4. 구멍 만들기
+                MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
 
                 UziCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;

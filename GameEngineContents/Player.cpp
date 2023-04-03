@@ -170,14 +170,14 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 
         }
 
-        DisplayDamageUI(_Damage);
+        DisplayDamageUI(static_cast<float>(_Damage));
 	}
 }
 
 void Player::DisplayDamageUI(float _Damage)
 {
     PlayerGetDamagedUI* DamagedUI = GetLevel()->CreateActor<PlayerGetDamagedUI>();
-    DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, _Damage);
+    DamagedUI->SetDamagedUI(PlayerHPNumberImageStringView, static_cast<int>(_Damage));
 
     float4 DamagedUIPos = { HPUI->GetPos().x, HPUI->GetPos().y - 20.0f };
     DamagedUI->SetPos(DamagedUIPos);

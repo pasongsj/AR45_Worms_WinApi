@@ -119,7 +119,7 @@ void WeaponClusterBomb::Update(float _DeltaTime)
         {
             if (0.0f == WaitTime)
             {
-                WaitTime = GetLiveTime() + 1.5;
+                WaitTime = GetLiveTime() + 1.5f;
             }
             else if (GetLiveTime() > WaitTime && true == isDone())
             {
@@ -226,7 +226,7 @@ void WeaponClusterBomb::SetAimFrameIndex()
         Angle = 180 - Angle;
     }
 
-    NewIndex = Angle / 5 + 15;
+    NewIndex = static_cast<int>(Angle / 5 + 15);
 
     if (NewIndex < 0)
     {
@@ -279,7 +279,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
             PowTextAnimation->On();
             PowTextAnimation->ChangeAnimation("Pow", 0);
 
-            MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), BombScale);
+            MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), static_cast<int>(BombScale));
             ClusterRender[i]->Off();
             ClusterCollision[i]->Off();
         }
