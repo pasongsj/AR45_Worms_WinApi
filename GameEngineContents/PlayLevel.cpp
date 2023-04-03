@@ -770,10 +770,9 @@ void PlayLevel::PlayerChange(float _DeltaTime)
         //}
 
         //현재 플레이어의 턴 종료
-        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
         GlobalValue::gValue.GetPlayer()->SetPlayerState(PlayerState::IDLE);
-
         GlobalValue::gValue.GetPlayer()->GetCurWeapon()->Death();
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
 
         //다음 플레이어가 현재 플레이어가됨
         GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
