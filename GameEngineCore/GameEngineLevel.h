@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineObject.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 // Ό³Έν :
 class GameEngineCore;
@@ -68,12 +69,47 @@ public:
 
 	void SetCameraMove(const float4& _MoveValue)
 	{
-		CameraPos += _MoveValue;
+        float4 Result = CameraPos + _MoveValue ;
+        float4 Value = _MoveValue;
+        if (Result.x < -1920.f)
+        {
+            Value.x = 0.f;
+        }
+        if (Result.x > 4480.f)
+        {
+            Value.x = 0.f;
+        }
+        if (Result.y < -1465.f)
+        {
+            Value.y = 0.f;
+        }
+        if (Result.y > 750.f)
+        {
+            Value.y = 0.f;
+        }
+		CameraPos += Value;
 	}
 
 	void SetCameraPos(const float4& _CameraPos)
 	{
-		CameraPos = _CameraPos;
+        float4 Result = _CameraPos ;
+        if (Result.x<-1920.f)
+        {
+            Result.x = -1920.f;
+        }
+        if (Result.x > 4480.f)
+        {
+            Result.x = 4480.f;
+        }
+        if (Result.y < -1465.f)
+        {
+            Result.y = -1465.f;
+        }
+        if (Result.y > 750.f)
+        {
+            Result.y = 750.f;
+        }
+		CameraPos = Result;
 	}
 
 	float4 GetCameraPos()
@@ -154,7 +190,7 @@ protected:
 
 private:
 	static bool IsDebugRender;
-
+    float4 ScreenSize = GameEngineWindow::GetScreenSize();
 	float4 CameraPos = float4::Zero;
 
 	static float4 TextOutStart;
