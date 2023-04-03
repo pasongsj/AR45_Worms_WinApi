@@ -238,6 +238,11 @@ void GameEngineRender::ImageRender(float _DeltaTime)
 			{
 				MsgAssert("회전시킬수 없는 이미지 입니다. 필터가 존재하지 않습니다.");
 			}
+            // -180도 회전 이미지 오류 예외처리
+            if (-180.0f == Angle)
+            {
+                Angle = Angle + 0.1f;
+            }
 
 			GameEngineWindow::GetDoubleBufferImage()->PlgCopy(Image, Frame, RenderPos, GetScale(), Angle, RotationFilter);
 		}
@@ -258,6 +263,11 @@ void GameEngineRender::ImageRender(float _DeltaTime)
 			{
 				MsgAssert("회전시킬수 없는 이미지 입니다. 필터가 존재하지 않습니다.");
 			}
+            // -180도 회전 이미지 오류 예외처리
+            if (-180.0f == Angle)
+            {
+                Angle = Angle + 0.1f;
+            }
 
 			GameEngineWindow::GetDoubleBufferImage()->PlgCopy(Image, RenderPos, GetScale(), { 0, 0 }, Image->GetImageScale(), Angle, RotationFilter);
 		}

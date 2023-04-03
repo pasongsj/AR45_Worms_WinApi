@@ -96,16 +96,8 @@ void  WeaponShotgun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("ShotgunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150); // 조준선 이동
-
-        if (Dir.x > 0)
-        {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
-        }
-        else
-        {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
-        }
+        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
         CheckFiring(); // 방향체크, 발사 체크
     }

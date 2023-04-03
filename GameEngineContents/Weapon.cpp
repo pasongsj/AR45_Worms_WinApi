@@ -152,6 +152,12 @@ bool Weapon::CheckCollision(GameEngineCollision* _Col)
 		}
 	}
 
+    if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }))
+    {
+        return true;
+    }
+
+
 	// 맵체크
 	else if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos(), RGB(0, 0, 255)) && _Col->GetActorPlusPos().y > 0 && _Col->GetActorPlusPos().x > 0) //맵에 닿으면 사라짐
 	{
@@ -178,9 +184,10 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 
     // 맵 밖으로 나갔는지 체크
     float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
-    if (!(-640 <= _Pos.x && _Pos.x < 4480 && -743 <= _Pos.y && _Pos.y < 1310))
+    if (!(-640 <= _Pos.x && _Pos.x < 5600 && -743 <= _Pos.y && _Pos.y < 1300))
     {
-        return ReturnValue;
+        Timer = 0;
+        return float4::Up;
     }
 
 
@@ -214,6 +221,12 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 		}
 	}
 
+    CollisionList.clear();
+    if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+    {
+        float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
+        return Range;
+    }
 
 
 	// 30 30 20,40
@@ -264,9 +277,21 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
             {
                 continue;
             }
+            if (ColPlayer->GetPlayerState() == PlayerState::FlyAway) // 임시 예외 처리 코드
+            {
+                continue;
+            }
             float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos(); //폭발 구점
 
-            float Ratio = Distance.Size() / Radius > 1 ? 1 : Distance.Size() / Radius;
+            float Ratio = Distance.Size() / Radius;
+            if (Ratio < 0)
+            {
+                Ratio = 0;
+            }
+            else if (Ratio > 1)
+            {
+                Ratio = 1;
+            }
 
             int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / Radius) + MinDmg * (Distance.Size() / Radius));
             float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / Radius) + MinKnockBackPower * (Distance.Size() / Radius);
@@ -304,8 +329,15 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
             //}
             float4 Distance = _Col->GetActorPlusPos() - GetPos(); //폭발 구점
 
-            float Ratio = Distance.Size() / _refDistance > 1 ? 1 : Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정
-
+            float Ratio = Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정
+            if (Ratio < 0)
+            {
+                Ratio = 0;
+            }
+            else if (Ratio > 1)
+            {
+                Ratio = 1;
+            }
 
             int proportional_dmg = static_cast<int>(MaxDmg * (1 - Ratio) + MinDmg * Ratio); // 가까울수록 높은 데미지
             float proportional_power = MaxKnockBackPower * (1 - Ratio) + MinKnockBackPower * Ratio;

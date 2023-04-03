@@ -175,16 +175,8 @@ void WeaponClusterBomb::Aiming(float _DeltaTime)
 
         // FrameIndex 설정
         CurPlayer->ChangePlayerAnimation("ClusterBombAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150); // 조준선 이동
-
-        if (Dir.x > 0)  //조준선 회전
-        {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
-        }
-        else
-        {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
-        }
+        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
         // 발사 체크
         if (true == PressShoot())

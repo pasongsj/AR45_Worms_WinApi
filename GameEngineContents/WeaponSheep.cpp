@@ -344,7 +344,7 @@ void WeaponSheep::SheepJump(float _DeltaTime)
 
 void WeaponSheep::Timer()
 {
-    CurTime = clock();
+    CurTime = static_cast<float>(clock());
 
     TimeCount = (CurTime - PrevTime) / 1000.0f;
 

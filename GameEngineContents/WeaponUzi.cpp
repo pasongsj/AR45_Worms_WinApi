@@ -98,16 +98,8 @@ void WeaponUzi::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150); // 조준선 이동
-
-        if (Dir.x > 0)
-        {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
-        }
-        else
-        {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
-        }
+        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
         CheckFiring(); // 방향체크, 발사 체크
     }
@@ -182,15 +174,7 @@ void WeaponUzi::Firing(float _DeltaTime)
             if (isShooted[i] == false)
             {
                 isShooted[i] = true;
-                UziCollision[i]->On(); UziCollision[i]->On();
-                if (0 == (1 & i))
-                {
-                    UziCollision[i]->SetMove({ 0,2.0f * i });
-                }
-                else
-                {
-                    UziCollision[i]->SetMove({ 0,-2.0f * i });
-                }
+                UziCollision[i]->On();
                 break;
             }
 

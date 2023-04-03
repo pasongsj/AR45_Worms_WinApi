@@ -63,16 +63,9 @@ void WeaponHandgun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("HandgunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150); // 조준선 이동
+        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
-        if (Dir.x > 0)
-        {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
-        }
-        else
-        {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
-        }
 
         CheckFiring(); // 방향체크, 발사 체크
     }
@@ -187,11 +180,11 @@ void WeaponHandgun::Firing(float _DeltaTime)
                 HandgunCollision[i]->On();
                 if (0 == (1 & i))
                 {
-                    HandgunCollision[i]->SetMove({ 0,2.0f*i });
+                    HandgunCollision[i]->SetMove({ 0,1.0f*i });
                 }
                 else
                 {
-                    HandgunCollision[i]->SetMove({ 0,-2.0f * i });
+                    HandgunCollision[i]->SetMove({ 0,-1.0f * i });
                 }
                 break;
             }

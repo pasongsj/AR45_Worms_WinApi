@@ -97,16 +97,8 @@ void WeaponMinigun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("MinigunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150); // 조준선 이동
-
-        if (Dir.x > 0)
-        {
-            AimingLine->SetAngle(Dir.GetAnagleDeg());
-        }
-        else
-        {
-            AimingLine->SetAngle(-Dir.GetAnagleDeg());
-        }
+        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
         CheckFiring(); // 방향체크, 발사 체크
     }
@@ -176,7 +168,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
     float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), MinigunCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
     GetLevel()->SetCameraPos(CamPos);
 
-    SetPos(CurPlayer->GetPos());
+    //SetPos(CurPlayer->GetPos() + float4{ 0,-15 });
 
     DelayTime -= _DeltaTime;
     if (DelayTime < 0)
@@ -188,18 +180,6 @@ void WeaponMinigun::Firing(float _DeltaTime)
             {
                 isShooted[i] = true;
                 MinigunCollision[i]->On();
-                if (MinigunCollision[i]->GetActorPlusPos().y  < GetPos().y)
-                {
-                    int a = 0;
-                }
-                if (0 == (1 & i))
-                {
-                    MinigunCollision[i]->SetMove({ 0,2.0f * i });
-                }
-                else
-                {
-                    MinigunCollision[i]->SetMove({ 0,-2.0f * i });
-                }
                 break;
             }
 
@@ -232,12 +212,12 @@ void WeaponMinigun::Firing(float _DeltaTime)
                 Smoke->CreateSmokeSpark(3, 1, BombScale);
 
                 GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetPosition(GetPos() + MinigunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동
+                BombCollision->SetPosition(MinigunCollision[i]->GetActorPlusPos());											  // 2. Bomb 콜리전 이동
                 BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
 
                 AttackPlayerGun(BombCollision, 500);																				  // 3. Bomb콜리전 Player Check
-                MapModifier::MainModifier->CreateHole(GetPos() + MinigunCollision[i]->GetPosition(), BombScale);					  // 4. 구멍 만들기
+                MapModifier::MainModifier->CreateHole(MinigunCollision[i]->GetActorPlusPos(), BombScale);					  // 4. 구멍 만들기
 
                 MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;
