@@ -171,7 +171,7 @@ private:
 	//플레이어 UI관련 (HP, 화살표이미지)
 	PlayerHPUI* HPUI = nullptr; //플레이어 HP를 보여줄 넘버 렌더러 
 	float DamagedTime = 0.0f;
-	std::string_view PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
+	std::string PlayerHPNumberImageStringView; //플레이어의 HPNumberImage 이름
 	
 	//플레이어의 방향에 따라 다른 애니메이션을 하게끔 
 	void DirCheck(const std::string_view& _AnimationName, int _CurIndex = 0);

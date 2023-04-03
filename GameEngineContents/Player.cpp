@@ -61,16 +61,16 @@ void Player::Start()
 
 void Player::SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage) //HP 이미지 등을 세팅해주는 메서드
 {
-	PlayerHPNumberImageStringView = _HPNumberImage;
+	PlayerHPNumberImageStringView = _HPNumberImage.data();
 
 	HPUI = GetLevel()->CreateActor<PlayerHPUI>();
-	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage, &PlayerHP);
+	HPUI->SetPlayerHPUI(PlayerHPNumberImageStringView, _NametagImage, _ArrowImage, &PlayerHP);
 }
 
 void Player::SetIsMyTurn(bool _Value)
 {
 	IsMyTurn = _Value;
-	HPUI->SetSelectPlayerRender(_Value);
+	HPUI->SetSelectPlayerRender(_Value);    
 
     if (WeaponNum::None == CurWeaponNum)
     {
@@ -185,12 +185,20 @@ void Player::DisplayDamageUI(float _Damage)
 
 void Player::CheckTurn()
 {
-    if (false == IsMyTurn || nullptr == CurWeapon)
+    if (CurWeapon!=nullptr && false == IsMyTurn)
+    {
+        CurWeaponNum = static_cast<WeaponNum>(CurWeapon->GetWeaponNumber());
+        CurWeapon->Death();
+        CurWeapon = nullptr;
+        StateValue = PlayerState::IDLE;
+    }
+
+    if (false == IsMyTurn)
     {
         return;
     }
 
-    if (true == CurWeapon->IsWeaponDone())
+    if (CurWeapon!= nullptr&&true == CurWeapon->IsWeaponDone())
     {
         SetIsMyTurn(false);
         SetCanIMove(true);
@@ -209,19 +217,30 @@ void Player::CheckTurn()
         CurWeapon->Death();
         CurWeapon = nullptr;
     }
+    
 }
 
 void Player::Update(float _DeltaTime)
 {
+    //CheckTurn();
+    //PlayerPixelCheck();
+    //IsGroundCheck();   
+    //MoveCalculation(_DeltaTime);
+    //UpdateState(_DeltaTime);	
+    //CheckAlive();
+    //제가 생각하는 순서
+
     PlayerPixelCheck();
     UpdateState(_DeltaTime);
-   
+
     MoveCalculation(_DeltaTime);
-	
+
     CheckAlive();
 
     IsGroundCheck();
     CheckTurn();
+
+
     Test();
 
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정

@@ -50,7 +50,7 @@ void Player::EquipWeaponUpdate(float _DeltatTime)
             }
         }
     }
-    if (true == CurWeapon->IsWeaponDone())
+    if (nullptr!= CurWeapon &&true == CurWeapon->IsWeaponDone())
     {
         ChangeState(PlayerState::IDLE);
         return;
