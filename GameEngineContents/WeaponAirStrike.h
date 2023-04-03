@@ -50,13 +50,15 @@ private:
 
     void MarkerInit();
 
-    void TimeCounting();
+    void Timer();
 
     bool isTimeSet = false;
 
     float CurTime = 0.0f;
     float PrevTime = 0.0f;
     float TimeCount = 0.0f;
+    
+    float CameraTimeCount = 0.0f;
 
 	GameEngineRender* Airplane = nullptr;
 

@@ -71,6 +71,12 @@ void WeaponTorch::TorchInit()
 
     BombScale = 20.0f;
 
+    MinDmg = 10.0f;
+    MaxDmg = 10.0f;
+
+    MinKnockBackPower = 100.0f;
+    MaxKnockBackPower = 100.0f;
+
     WeaponName = "Torch";
 }
 
@@ -100,11 +106,20 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
     float4 Dir = CurPlayer->GetPlayerDir();
 
-    //float4 RectPos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale * 0.5f};
     float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale * 0.5f};
 
-    //MapModifier::MainModifier->CreateRect(RectPos, 15, BombScale);
     MapModifier::MainModifier->CreateHole(HolePos, BombScale);
+
+    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+    HoleCollision->SetMove({ Dir.x * 10.0f , 0 });
+
+    attackTimeCount += TimeCount;
+
+    if(attackTimeCount >= 0.5f)
+    {
+        AttackPlayer(HoleCollision);
+        attackTimeCount = 0;
+    }
 
     CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);
   

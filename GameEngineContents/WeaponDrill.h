@@ -25,7 +25,7 @@ private:
 
     void DrillInit();
     void Timer();
-    void Drilling();
+    void Drilling(float _DeltaTime);
 
     bool isAttack = false;
 

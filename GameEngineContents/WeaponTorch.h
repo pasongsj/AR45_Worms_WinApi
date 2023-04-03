@@ -39,6 +39,8 @@ private:
     float CurTime = 0.0f;
     float PrevTime = 0.0f;
 
+    float attackTimeCount = 0.0f;
+
     float TimeCount = 0.0f;
 
     float4 StartPos = { 0, 0 };

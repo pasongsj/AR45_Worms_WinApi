@@ -157,6 +157,14 @@ void HomingMissile::Firing(float _DeltaTime)
 
         WeaponRender->SetAngle(PrevAngle);
 
+        HomingSoundCount += TimeCount;
+
+        if (HomingSoundCount > 0.4f)
+        {
+            GameEngineResources::GetInst().SoundPlay("Homing.wav");
+            HomingSoundCount = 0.0f;
+        }
+
         if (MoveSpeed < 0)
         {
             PrevDir = Dir;
@@ -305,6 +313,8 @@ void HomingMissile::Explosion()
 {
     if (WeaponRender->IsUpdate() == true)
     {
+        GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
+
         MapModifier::MainModifier->CreateHole(WeaponRender->GetActorPlusPos(), BombScale);
 
         ExplosionCircle->SetPosition(WeaponRender->GetPosition());
@@ -319,6 +329,7 @@ void HomingMissile::Explosion()
         PootTextAnimation->On();
         PootTextAnimation->ChangeAnimation("Poot", 0);
 
+        GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
         DamageToPlayer();
     }
 
@@ -402,7 +413,7 @@ void HomingMissile::ChargingRenderOn()
 
     ChargingTimeCount += TimeCount;
 
-    if (ChargingTimeCount > 0.05)
+    if (ChargingTimeCount > 0.08)
     {
         ChargingRender[CountingIndex]->SetPosition(StartPos + float4{ Dir.x * 4 * (CountingIndex + 1), Dir.y * 4 * (CountingIndex + 1) });
         ChargingRender[CountingIndex]->On();
@@ -411,8 +422,6 @@ void HomingMissile::ChargingRenderOn()
 
         CountingIndex++;
     }
-
-
 }
 
 void HomingMissile::ChargingRenderOff()
@@ -439,18 +448,29 @@ void HomingMissile::MarkerInit()
 
 void HomingMissile::Charging()
 {
-    if (GameEngineInput::IsPress("Shoot"))
+
+    if (GameEngineInput::IsPress("Shoot") == true)
     {
         ChargingRenderOn();
-        MoveSpeed = GetChargeTime() * 900.0f;
+        MoveSpeed = GetChargeTime() * 1250.0f;
+
+        if (isSoundPlay_Charging == false && isSoundPlay_WATCHTHIS == false)
+        {
+            GameEngineResources::GetInst().SoundPlay("Charging.wav");
+            GameEngineResources::GetInst().SoundPlay("WATCHTHIS.wav");
+
+            isSoundPlay_Charging = true;
+            isSoundPlay_WATCHTHIS = true;
+        }
 
         if (MoveSpeed > 1500.0f)
         {
             MoveSpeed = 1500.0f;
         }
     }
-    else if (GameEngineInput::IsUp("Shoot"))
+    else if (GameEngineInput::IsUp("Shoot") == true)
     {
+        GameEngineResources::GetInst().SoundPlay("Shoot.wav");
         ChargingRenderOff();
         isAttack = true;
     }

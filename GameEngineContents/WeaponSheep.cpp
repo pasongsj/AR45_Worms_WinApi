@@ -30,7 +30,7 @@ void WeaponSheep::Update(float _DeltaTime)
 {		
     Timer();
 
-    if (isShoot == true && GameEngineInput::IsDown("Shoot"))
+    if (isShoot == true && GameEngineInput::IsDown("Shoot") == true)
     {
         Explosion();
     }
@@ -38,9 +38,10 @@ void WeaponSheep::Update(float _DeltaTime)
     //앞뒤 경사각 수시로 기록
     CheckMoveAngle();
     
-	if (GameEngineInput::IsDown("Shoot"))
+	if (GameEngineInput::IsDown("Shoot") == true && isShoot == false)
 	{
 		isShoot = true;
+        GameEngineResources::GetInst().SoundPlay("Sheep.wav");
 	}
 
 	if(isShoot == true && isExplosion == false)
@@ -99,7 +100,7 @@ void WeaponSheep::WeaponSheepInit()
 	
     ScreenSize = GameEngineWindow::GetScreenSize();
 
-    BombScale = 308.0f;
+    BombScale = 208.0f;
 
 	Gravity = 0.0f; //임시 설정값
 
@@ -202,6 +203,7 @@ void WeaponSheep::SheepWalking(float _DeltaTime)
         if (Num == 0)
         {
             isJump = true;
+            GameEngineResources::GetInst().SoundPlay("Sheep.wav");
         }
     }
 }
@@ -275,6 +277,7 @@ bool WeaponSheep::CanIMove()
 
 void WeaponSheep::Explosion()
 {
+    GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
     MapModifier::MainModifier->CreateHole(GetPos(), BombScale);
     WeaponRender->Off();
     WeaponCollision->Off();

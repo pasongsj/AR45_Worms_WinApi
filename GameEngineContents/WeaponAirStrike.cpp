@@ -25,10 +25,14 @@ void WeaponAirStrike::Start()
 	WeaponAirStrikeInit();
     DebrisInit();
     MarkerInit();
+
+    PrevTime = clock();
 }
 
 void WeaponAirStrike::Update(float _DeltaTime)
 {
+    Timer();
+
 	Attack(_DeltaTime);
     DebrisAnimation(_DeltaTime);
     ExplosionAnimationOff();
@@ -130,10 +134,12 @@ void WeaponAirStrike::SetAirPlanePos()
 
 void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 {
-    if (GameEngineInput::IsDown("Shoot"))
+    if (GameEngineInput::IsDown("Shoot") == true)
     {
         Airplane->On();
         Marker->Off();
+
+        GameEngineResources::GetInst().SoundPlay("Airstrike.wav");
         isFire = true;
     }
 
@@ -180,14 +186,13 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 
 	for (int i = 0; i < MissileList.size(); i++)
 	{
-		MissileList[i]->SetMove(Dir * 400.0f * _DeltaTime);
-		MissileCollisionList[i]->SetMove(Dir * 400.0f * _DeltaTime);
+		MissileList[i]->SetMove(Dir * 600.0f * _DeltaTime);
+		MissileCollisionList[i]->SetMove(Dir * 600.0f * _DeltaTime);
 
         MissileList[i]->SetAngle(-Dir.GetAnagleDeg());
 	}
 
 	CurPos = MissileList[MissileNum / 2]->GetPosition();
-
 }
 
 void WeaponAirStrike::MissileInit()
@@ -250,6 +255,8 @@ void WeaponAirStrike::Explosion()
 	{
 		if (MissileCollisionList[i]->IsUpdate() == true && CheckCollision(MissileCollisionList[i]) == true)
 		{
+            GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
+
 			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), BombScale);
 			MissileCollisionList[i]->Off();
 			MissileList[i]->Off();
@@ -289,9 +296,9 @@ void WeaponAirStrike::CameraUpdate(float _DeltaTime)
         }
     }
 
-    TimeCounting();
+    CameraTimeCount += TimeCount;
 
-    if (TimeCount >= 3.0f && fLerpRatio < 1)
+    if (CameraTimeCount >= 2.0f && fLerpRatio < 1)
     {
         CurPlayerPos = CurPlayer->GetPos();
         PrevCamPos = GetLevel()->GetCameraPos();
@@ -387,6 +394,10 @@ void WeaponAirStrike::DebrisAnimation(float _DeltaTime)
     {
         return;
     }
+    if (ExplosionCount == 0)
+    {
+        return;
+    }
 
     for (int i = 0; i < MissileNum; i++)
     {
@@ -415,17 +426,11 @@ void WeaponAirStrike::DebrisAnimation(float _DeltaTime)
     }
 }
 
-void WeaponAirStrike::TimeCounting()
+void WeaponAirStrike::Timer()
 {
-    if (isTimeSet == false)
-    {
-        PrevTime = clock();
-        isTimeSet = true;
-    }
-
     CurTime = clock();
 
-    TimeCount += (CurTime - PrevTime) / 1000;
+    TimeCount = (CurTime - PrevTime) / 1000;
 
     PrevTime = CurTime;
 }

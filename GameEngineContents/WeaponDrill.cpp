@@ -37,7 +37,7 @@ void WeaponDrill::Update(float _DeltaTime)
 
     if (isAttack == true)
     {
-        Drilling();
+        Drilling(_DeltaTime);
     }
 
 }
@@ -57,7 +57,10 @@ void WeaponDrill::DrillInit()
 
     WeaponNumber = static_cast<int>(WeaponNum::Drill);
 
-    BombScale = 15;
+    BombScale = 30;
+    
+    MinDmg = 10;
+    MaxDmg = 10;
 
     WeaponName = "Drill";
 }
@@ -71,7 +74,7 @@ void WeaponDrill::Timer()
     PrevTime = CurTime;
 }
 
-void WeaponDrill::Drilling()
+void WeaponDrill::Drilling(float _DeltaTime)
 {
     isFire = true;
 
@@ -90,7 +93,11 @@ void WeaponDrill::Drilling()
     {
         DrillCycleTime = 0.0f;
         float4 HolePos = { StartPos.x, CurPlayer->GetPos().y};
-
         MapModifier::MainModifier->CreateHole(HolePos, BombScale);
+
+        GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+        AttackPlayer(HoleCollision);
     }
+
+    CurPlayer->SetMove(float4::Down * 10.0f * _DeltaTime);
 }

@@ -53,8 +53,13 @@ private:
     bool isAiming = false;
     bool isAimSet = false;
 
+    bool isSoundPlay_Charging = false;
+    bool isSoundPlay_WATCHTHIS = false;
+
     int AngleIndex = 16;
     int CurIndex = 16;
+
+    float HomingSoundCount = 0.0f;
 
     float ChargingTimeCount = 0.0f;
     float CameraTimeCount = 0.0f;
