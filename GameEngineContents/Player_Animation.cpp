@@ -207,8 +207,8 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchOn", .ImageName = "FirePunchOnLeft.bmp",.Start = 0, .End = 25, .InterTime = 0.015f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchOn", .ImageName = "FirePunchOnRight.bmp", .Start = 0, .End = 25, .InterTime = 0.015f, .Loop = false });
 
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchAfter", .ImageName = "FirePunchAfterLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.03f, .Loop = false });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchAfter", .ImageName = "FirePunchAfterRight.bmp", .Start = 0, .End = 12, .InterTime = 0.03f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_FirePunchAfter", .ImageName = "FirePunchAfterLeft.bmp",.Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchAfter", .ImageName = "FirePunchAfterRight.bmp", .Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
 
     }
 }

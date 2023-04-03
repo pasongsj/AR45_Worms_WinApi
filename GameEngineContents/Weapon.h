@@ -81,8 +81,6 @@ protected:
 
 	GameEngineImage* MapCollision = nullptr;		//충돌맵
 
-	//GameEngineRender* WeaponRender = nullptr;		//렌더
-	//GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
 	Player* CurPlayer = nullptr;
 	float Timer = 0.0f;								// 타이머
@@ -92,13 +90,18 @@ protected:
 	virtual void Init() {};
 	virtual bool CheckCollision(GameEngineCollision* _Col); // 가상화 삭제여부 추후 고민
 
-	float GetChargeTime();
 	float4 CheckCollisionSide(GameEngineCollision* _Col);
 	float4 GetShootDir();
+    
+    // Shoot  Key와 관련된 커맨드
+    bool DownShoot();
 	bool PressShoot();
+    bool UpShoot();
+	float GetChargeTime();
+
 	bool isEndCharging();
 	void SetCurPlayer();
-	void AttackPlayer(GameEngineCollision* _Col);
+	void AttackPlayer(GameEngineCollision* _Col,bool _AttackSelf = true);
     void AttackPlayerGun(GameEngineCollision* _Col, float _Distance);
 
     void ExplosionEffectInit(float _CircleDiameter);

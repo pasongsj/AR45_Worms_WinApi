@@ -23,7 +23,7 @@ void WeaponFirePunch::Start()
     MoveSpeed = 200;							// 무기속력
 
     Dir = float4::Up;						// 무기 진행 방향
-    BombScale = 13;
+    BombScale = 26;
 
     MaxDmg = 45;
     MinDmg = 21;
@@ -35,9 +35,11 @@ void WeaponFirePunch::Start()
     WeaponName = "FirePunch";							// 무기 이름
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");		//충돌맵
+    PunchCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    PunchCollision->SetPosition({ 0,-25 });
+    PunchCollision->SetScale({ 20,20 });
 
-    //Player* CurPlayer = nullptr;
-    Timer = 1.5f;								// 타이머
+    Timer = 0.45f;								// 타이머
 }
 
 void WeaponFirePunch::Update(float _DeltaTime)
@@ -69,6 +71,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
         }
         else
         {
+            SetPos(CurPlayer->GetPos());
             if (Timer > 0) // 위쪽으로 펀치
             {
                 Timer -= _DeltaTime;
@@ -86,14 +89,12 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 }
 
                 CurPlayer->SetPos(StartPos); // 플레이어 이동
+                //GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
+                //BombCollision->SetPosition(StartPos + float4{0,-60});											                                       // 2. Bomb 콜리전 이동
+                //BombCollision->SetScale({ 20,20 });
+                AttackPlayer(PunchCollision,false);																	  // 3. Bomb콜리전 Player Check
 
-                GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetPosition(CurPlayer->GetPos() + float4{0,-35});											                                       // 2. Bomb 콜리전 이동
-                BombCollision->SetScale({ 20,20 });
-
-                AttackPlayer(BombCollision);																						  // 3. Bomb콜리전 Player Check
-
-                MapModifier::MainModifier->CreateHole(StartPos + float4{0,-10}, BombScale);                                         //4. createHole
+                MapModifier::MainModifier->CreateHole(PunchCollision->GetActorPlusPos(), BombScale);                                         //4. createHole
             }
             else // 펀치가 끝났다면
             {

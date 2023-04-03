@@ -65,15 +65,31 @@ float4 Weapon::GetShootDir()
 
 }
 
+bool Weapon::DownShoot()
+{
+    if (GameEngineInput::IsDown("Shoot")) 
+    {
+        return true;
+    }
+    return false;
+}
 
 bool Weapon::PressShoot()
 {
-	if (GameEngineInput::IsPress("Shoot")) // 상하
-	{
-		return true;
-	}
-
+    if (GameEngineInput::IsPress("Shoot")) 
+    {
+        return true;
+    }
 	return false;
+}
+
+bool Weapon::UpShoot()
+{
+    if (GameEngineInput::IsUp("Shoot"))
+    {
+        return true;
+    }
+    return false;
 }
 
 bool Weapon::isEndCharging()
@@ -161,7 +177,7 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 	float4 ReturnValue = float4::Zero;
 
     // 맵 밖으로 나갔는지 체크
-    float4 _Pos = _Col->GetActorPlusPos();
+    float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
     if (!(-640 <= _Pos.x && _Pos.x < 4480 && -743 <= _Pos.y && _Pos.y < 1310))
     {
         return ReturnValue;
@@ -225,7 +241,7 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 }
 
 
-void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
+void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확인 필요함
 {                   // 폭발 CollisionScale설정 필요                                   :_Col->SetScale({ static_cast<float>(BombScale * 2) });
                     // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
 
@@ -244,7 +260,13 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col) // 임시 수정 완료
 		for (int i = 0; i < CollisionList.size(); i++)
 		{
 			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+            if (_AttackSelf == false && ColPlayer == CurPlayer)
+            {
+                continue;
+            }
             float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos(); //폭발 구점
+
+            float Ratio = Distance.Size() / Radius > 1 ? 1 : Distance.Size() / Radius;
 
             int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / Radius) + MinDmg * (Distance.Size() / Radius));
             float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / Radius) + MinKnockBackPower * (Distance.Size() / Radius);

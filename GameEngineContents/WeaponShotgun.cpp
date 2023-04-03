@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineInput.h>
+
 
 #include "MapModifier.h"
 #include "Player.h"
@@ -143,7 +143,7 @@ void WeaponShotgun::SetAimFrameIndex()
 
 void WeaponShotgun::CheckFiring()
 {
-	if (true == GameEngineInput::IsDown("Shoot")) // 발사체크
+	if (true == DownShoot()) // 발사체크
 	{
 		for (int i = 0; i < BulletCount; i++)
 		{
