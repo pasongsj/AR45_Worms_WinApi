@@ -124,7 +124,7 @@ void PetrolEffect::CreateFireEffect(float _DeltaTime)
 
         AllPetrolPos[i].x += Dir.x * _DeltaTime*10;
         AllPetrolPos[i].y += Dir.y * _DeltaTime*10;
-        MapModifier::MainModifier->CreateHole(AllPetrolPos[i], 6);
+        MapModifier::MainModifier->CreateHole(AllPetrolPos[i], 6, false);
     }
 
 }

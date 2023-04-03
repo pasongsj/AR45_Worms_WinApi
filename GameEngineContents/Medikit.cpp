@@ -123,23 +123,9 @@ void Medikit::RecoveryCheck()
 
     if (true == MapObjCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionPlayer))
     {
-       //Player* CurPlayer = GlobalValue::gValue.GetPlayer();
-
         for (int i = 0; i < CollisionPlayer.size(); i++)
         {
-            int PlayerHp = dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->GetPlayerHP();
-            //int PlayerHp = CurPlayer->GetPlayerHP();
-
-            if (100 <= PlayerHp + Recovery)//PlayerHP의 Max를 알 수 있어야 함
-            {
-                //CurPlayer->SetHP(100);
-                dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->SetHP(100);
-            }
-            else
-            {
-                //GlobalValue::gValue.GetPlayer()->SetHP(PlayerHp+Recovery);
-                dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->SetHP(PlayerHp + Recovery);
-            }
+            dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->UsingHealkit(Recovery);
         }
         Death();
     }

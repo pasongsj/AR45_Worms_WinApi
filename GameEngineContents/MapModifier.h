@@ -18,10 +18,10 @@ public:
 	MapModifier& operator=(MapModifier&& _Other) noexcept = delete;
 
 	//원형으로 땅을 깎는 함수(지름 필요)
-	void CreateHole(float4 _Pos, int _Diameter);
+	void CreateHole(float4 _Pos, int _Diameter, bool _DrawLine = true);
 
     //사각형으로 땅을 깎는 함수(직사각형 가로와 세로 크기 필요)
-    void CreateRect(float4 _Pos, int _Horz, int _Vert);
+    void CreateRect(float4 _Pos, int _Horz, int _Vert, bool _DrawLine = true);
 
 	//충돌체 포인터 얻는 함수
 	GameEngineCollision* GetModifierCollision()
@@ -47,7 +47,7 @@ private:
 	
 	
 	//맵의 건물과 닿은 곳에 구분선을 넣는 함수
-	void DrawPixel(float4 _Pos, int _Radius);
+    void DrawPixel(float4 _Pos, int _Radius);
     //맵의 건물과 닿은 곳에 구분선을 넣는 함수_사각형 버전
     void DrawPixelRect(float4 _Pos, int _Horz, int _Vert);
 };

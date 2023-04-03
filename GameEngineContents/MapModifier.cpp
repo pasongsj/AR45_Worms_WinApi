@@ -43,7 +43,7 @@ void MapModifier::SetModifierColScale(float4 _Scale)
 }
 
 
-void MapModifier::CreateHole(float4 _Pos, int _Diameter)
+void MapModifier::CreateHole(float4 _Pos, int _Diameter, bool _DrawLine)
 {
     int Radius = _Diameter / 2;
     ModifierCollision->SetPosition(_Pos);
@@ -90,8 +90,12 @@ void MapModifier::CreateHole(float4 _Pos, int _Diameter)
 		SelectObject(MapDc, OldPen);
 		DeleteObject(MyPen);
 	}
-    //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
-	DrawPixel(_Pos, Radius);
+
+    if (true == _DrawLine)
+    {
+        //충돌맵과 맞닿은 부분의 픽셀에 색을 넣는 함수
+	    DrawPixel(_Pos, Radius);
+    }
 
 	//ColMap에 그림
 	{
@@ -116,7 +120,7 @@ void MapModifier::CreateHole(float4 _Pos, int _Diameter)
 
 }
 
-void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
+void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert, bool _DrawLine)
 {
     ModifierCollision->SetPosition(_Pos);
 
@@ -169,7 +173,11 @@ void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert)
         DeleteObject(MyBrush);                                                  //생성한 브러쉬 삭제
 
     }
-    DrawPixelRect(_Pos, HalfHorz, HalfVert);
+
+    if (true == _DrawLine)
+    {
+        DrawPixelRect(_Pos, HalfHorz, HalfVert);
+    }
 
     //ColMap에 그림
     {
