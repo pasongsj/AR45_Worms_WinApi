@@ -123,7 +123,7 @@ void WeaponShotgun::SetAimFrameIndex()
         Angle = 180 - Angle;
     }
 
-    NewIndex = Angle / 5 + 15;
+    NewIndex = static_cast<int>(Angle / 5 + 15);
 
     if (NewIndex < 0)
     {
@@ -197,12 +197,12 @@ void WeaponShotgun::Firing(float _DeltaTime)
                 // shotgun은 다른 총들과 다르게 최대 데미지가 크기때문에 BombScale을 재 설정한다.
                 float4 Dis = BombCollision->GetActorPlusPos() - GetPos();
                 float Dis_Ratio = (Dis.Size() / 500) > 1 ? 1 : Dis.Size() / 500;
-                BombScale = static_cast<int>(MaxKnockBackPower * (1 - Dis_Ratio) + MinKnockBackPower * Dis_Ratio);
+                BombScale = MaxKnockBackPower * (1 - Dis_Ratio) + MinKnockBackPower * Dis_Ratio;
                 BombCollision->SetScale(float4{ static_cast<float>(BombScale) });  // 폭탄크기 재설정
 
                 AttackPlayerGun(BombCollision, 500);																// 3. Bomb콜리전 Player Check
 
-				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), BombScale);	// 4. 구멍 만들기
+				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), static_cast<int>(BombScale));	// 4. 구멍 만들기
 
 				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;

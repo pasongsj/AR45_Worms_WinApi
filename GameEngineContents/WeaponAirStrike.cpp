@@ -26,7 +26,7 @@ void WeaponAirStrike::Start()
     DebrisInit();
     MarkerInit();
 
-    PrevTime = clock();
+    PrevTime = static_cast<float>(clock());
 }
 
 void WeaponAirStrike::Update(float _DeltaTime)
@@ -257,7 +257,7 @@ void WeaponAirStrike::Explosion()
 		{
             GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
 
-			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), BombScale);
+			MapModifier::MainModifier->CreateHole(MissileCollisionList[i]->GetActorPlusPos(), static_cast<int>(BombScale));
 			MissileCollisionList[i]->Off();
 			MissileList[i]->Off();
 
@@ -428,7 +428,7 @@ void WeaponAirStrike::DebrisAnimation(float _DeltaTime)
 
 void WeaponAirStrike::Timer()
 {
-    CurTime = clock();
+    CurTime = static_cast<float>(clock());
 
     TimeCount = (CurTime - PrevTime) / 1000;
 
@@ -564,6 +564,6 @@ void WeaponAirStrike::MarkerInit()
     Marker = CreateRender("Marker.bmp", WormsRenderOrder::Weapon);
     Marker->SetScale({ 60, 60 });
 
-    Marker->CreateAnimation({ .AnimationName = "MarkerOn",.ImageName = "Marker.bmp",.Start = 0,.End = 9,.InterTime = 0.05 ,. Loop = true });
+    Marker->CreateAnimation({ .AnimationName = "MarkerOn",.ImageName = "Marker.bmp",.Start = 0,.End = 9,.InterTime = 0.05f ,. Loop = true });
     Marker->Off();
 }

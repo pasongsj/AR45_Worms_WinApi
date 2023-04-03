@@ -24,7 +24,7 @@ void WeaponSheep::Start()
 {
 	WeaponSheepInit();
     DebrisInit();
-    PrevTime = clock();
+    PrevTime = static_cast<float>(clock());
 }
 void WeaponSheep::Update(float _DeltaTime)
 {		
@@ -278,7 +278,7 @@ bool WeaponSheep::CanIMove()
 void WeaponSheep::Explosion()
 {
     GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
-    MapModifier::MainModifier->CreateHole(GetPos(), BombScale);
+    MapModifier::MainModifier->CreateHole(GetPos(), static_cast<int>(BombScale));
     WeaponRender->Off();
     WeaponCollision->Off();
     

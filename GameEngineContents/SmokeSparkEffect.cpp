@@ -11,11 +11,11 @@ SmokeSparkEffect::~SmokeSparkEffect()
 {
 }
 
-void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, int _Scale)
+void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, float _Scale)
 {
     SmokeCnt = _Smoke;
     SparkCnt = _Spark;
-    int BombScale = _Scale / 2;
+    float BombScale = _Scale / 2;
 
     AllSmoke.clear();
     AllSmokeDir.clear();

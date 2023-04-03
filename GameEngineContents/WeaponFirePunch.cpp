@@ -94,7 +94,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 //BombCollision->SetScale({ 20,20 });
                 AttackPlayer(PunchCollision,false);																	  // 3. BombÄÝ¸®Àü Player Check
 
-                MapModifier::MainModifier->CreateHole(PunchCollision->GetActorPlusPos(), BombScale);                                         //4. createHole
+                MapModifier::MainModifier->CreateHole(PunchCollision->GetActorPlusPos(), static_cast<int>(BombScale));                                         //4. createHole
             }
             else // ÆÝÄ¡°¡ ³¡³µ´Ù¸é
             {

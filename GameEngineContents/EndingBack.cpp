@@ -40,7 +40,7 @@ void EndingBack::Update(float _DeltaTime)
     {
         BlackAlpha += 200 * _DeltaTime;
 
-        BlackGroundAlpha->SetAlpha(255 - BlackAlpha);
+        BlackGroundAlpha->SetAlpha(static_cast<int>(255 - BlackAlpha));
        // EndingWrite->SetAlpha(255-);
     }
 

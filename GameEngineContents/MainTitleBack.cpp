@@ -105,7 +105,7 @@ void MainTitleBack::Update(float _DeltaTime)
     {
         BlackAlpha += 200 * _DeltaTime;
 
-        BlackBackGround->SetAlpha(255 - BlackAlpha);
+        BlackBackGround->SetAlpha(static_cast<int>(255 - BlackAlpha));
     }
     if (BlackAlpha > 253)
     {

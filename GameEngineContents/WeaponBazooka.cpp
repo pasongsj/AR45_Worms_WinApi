@@ -249,7 +249,7 @@ void WeaponBazooka::Explosion() //Æø¹ß
         PootTextAnimation->On();
         PootTextAnimation->ChangeAnimation("Poot", 0);
 
-        MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), BombScale);
+        MapModifier::MainModifier->CreateHole(WeaponRender->GetPosition(), static_cast<int>(BombScale));
 
         DebrisAnimation(0.0f);
 
@@ -340,7 +340,7 @@ void WeaponBazooka::BazAiming()
 			Angle = 180 - Angle;
 		}
 
-		Bazindex = Angle / 5 + 15;
+		Bazindex = static_cast<int>(Angle / 5 + 15);
 
 		if (Bazindex < 0)
 		{
@@ -455,7 +455,7 @@ void WeaponBazooka::MakeSmoke()
 
 void WeaponBazooka::Timer()
 {
-    CurTime = clock();
+    CurTime = static_cast<float>(clock());
     TimeCount = (CurTime - PrevTime) / 1000;
     PrevTime = CurTime;
 }

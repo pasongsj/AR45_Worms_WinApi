@@ -14,7 +14,7 @@ public:
 	SmokeSparkEffect& operator=(const SmokeSparkEffect& _Other) = delete;
 	SmokeSparkEffect& operator=(SmokeSparkEffect&& _Other) noexcept = delete;
 
-    void CreateSmokeSpark(int _Smoke, int _Spark, int _Scale);
+    void CreateSmokeSpark(int _Smoke, int _Spark, float _Scale);
 
     bool IsEnd()
     {

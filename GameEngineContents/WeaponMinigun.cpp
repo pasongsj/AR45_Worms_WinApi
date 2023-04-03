@@ -124,7 +124,7 @@ void WeaponMinigun::SetAimFrameIndex()
         Angle = 180 - Angle;
     }
 
-    NewIndex = Angle / 5 + 15;
+    NewIndex = static_cast<int>(Angle / 5 + 15);
 
     if (NewIndex < 0)
     {
@@ -201,7 +201,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
             if (CheckCollision == float4::Up && Dir.Size() > 0.001f)
             {
                 MinigunCollision[i]->SetMove(-Dir * _DeltaTime * MoveSpeed);
-                Dir *= 0.3;
+                Dir *= 0.3f;
                 return;
             }
 
@@ -217,7 +217,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
 
 
                 AttackPlayerGun(BombCollision, 500);																				  // 3. Bomb콜리전 Player Check
-                MapModifier::MainModifier->CreateHole(MinigunCollision[i]->GetActorPlusPos(), BombScale);					  // 4. 구멍 만들기
+                MapModifier::MainModifier->CreateHole(MinigunCollision[i]->GetActorPlusPos(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
 
                 MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;

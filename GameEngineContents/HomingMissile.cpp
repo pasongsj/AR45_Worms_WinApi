@@ -30,7 +30,7 @@ void HomingMissile::Start()
     MarkerInit();
     DebrisInit();
 
-    PrevTime = clock();
+    PrevTime = static_cast<float>(clock());
 
 }
 
@@ -187,8 +187,8 @@ void HomingMissile::Firing(float _DeltaTime)
 
     else if (isHoming == false && isHomingSet == true)
     {
-        int PrevNum = PrevAngle / 360 ;
-        int TargetNum = TargetAngle / 360;
+        int PrevNum = static_cast<int>(PrevAngle / 360) ;
+        int TargetNum = static_cast<int>(TargetAngle / 360);
         float PrevAngleRM = abs(PrevAngle) - abs(PrevNum) * 360;
         float TargetAngleRM = abs(TargetAngle) - abs(TargetNum) * 360;
 
@@ -262,7 +262,7 @@ void HomingMissile::Aiming()
             Angle = 180 - Angle;
         }
 
-        AngleIndex = Angle / 5 + 15;
+        AngleIndex = static_cast<int>(Angle / 5 + 15);
 
         if (AngleIndex < 0)
         {
@@ -315,7 +315,7 @@ void HomingMissile::Explosion()
     {
         GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
 
-        MapModifier::MainModifier->CreateHole(WeaponRender->GetActorPlusPos(), BombScale);
+        MapModifier::MainModifier->CreateHole(WeaponRender->GetActorPlusPos(), static_cast<int>(BombScale));
 
         ExplosionCircle->SetPosition(WeaponRender->GetPosition());
         ExplosionCircle->On();
@@ -442,7 +442,7 @@ void HomingMissile::MarkerInit()
     Marker = CreateRender("Marker.bmp", WormsRenderOrder::Weapon);
     Marker->SetScale({ 60, 60 });
 
-    Marker->CreateAnimation({ .AnimationName = "MarkerOn",.ImageName = "Marker.bmp",.Start = 0,.End = 9,.InterTime = 0.05 ,. Loop = true });
+    Marker->CreateAnimation({ .AnimationName = "MarkerOn",.ImageName = "Marker.bmp",.Start = 0,.End = 9,.InterTime = 0.05f ,. Loop = true });
     Marker->Off();
 }
 
@@ -586,7 +586,7 @@ void HomingMissile::MakeSmoke()
 
 void HomingMissile::Timer()
 {
-    CurTime = clock();
+    CurTime = static_cast<float>(clock());
 
     TimeCount = (CurTime - PrevTime) / 1000.0f;
 
