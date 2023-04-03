@@ -120,6 +120,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+    int HoverCount =0;
 	GameEngineRender* ButtonRender = nullptr;
 	GameEngineCollision* ButtonCollision = nullptr;
 	int PointTargetGroup = 0;

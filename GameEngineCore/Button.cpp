@@ -1,6 +1,7 @@
 #include "Button.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineResources.h>
 Button::Button() 
 {
 	State = ButtonState::Release;
@@ -67,6 +68,8 @@ void Button::Update(float _DeltaTime)
             if (ClickPtrEnum!=nullptr)
             {
                 ClickPtrEnum(this, iEnum);
+
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
             else
             {
@@ -86,6 +89,7 @@ void Button::Update(float _DeltaTime)
 	switch (State)
 	{
 	case ButtonState::Release:
+        HoverCount = 0;
 		CurImageName = ReleaseImageName;
 		ButtonRender->SetImage(ReleaseImageName);
 		if (-1 != ReleaseIndex)
@@ -109,7 +113,11 @@ void Button::Update(float _DeltaTime)
         Hover = true;
 		float4 MousePoisition = GameEngineWindow::GetMousePosition();
 		float4 ActorPos = ButtonCollision->GetActorPlusPos();
-
+        ++HoverCount;
+        if (1== HoverCount)
+        {
+            GameEngineResources::GetInst().SoundPlay("LoadingTick.wav");
+        }
 		
 
 		CurImageName = HoverImageName;
