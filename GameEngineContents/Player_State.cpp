@@ -326,7 +326,7 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Left))
         {
             MoveDir = float4::Left * MoveSpeed;
-            MoveDir += float4::Down * Gravity;
+            //MoveDir += float4::Down * Gravity;
         }
         else
         {
@@ -340,7 +340,7 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Right))
         {
             MoveDir = float4::Right * MoveSpeed;
-            MoveDir += float4::Down * Gravity;
+            //MoveDir += float4::Down * Gravity;
         }
         else
         {

@@ -444,31 +444,62 @@ bool Player::ReturnCanIMove(PlayerAngleDir _Dir)
 
 float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 {
-    float4 ColImageScale = ColImage->GetImageScale();
+ //   float4 ColImageScale = ColImage->GetImageScale();
 
-    if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+ //   if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+ //   {
+ //       return _NextPos;
+ //   }
+
+	//if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
+	//{
+	//	return _NextPos;
+	//}
+
+	//while (true)
+	//{
+	//	MoveDir.y -= 1;
+
+	//	_NextPos = GetPos() + MoveDir * _DeltaTime;
+
+	//	if (RGB(0, 0, 255) == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
+	//	{
+	//		continue;
+	//	}
+
+	//	return _NextPos;
+	//}
+
+    //float4 ColImageScale = ColImage->GetImageScale();
+
+    //if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+    //{
+    //    return _NextPos;
+    //}
+
+    //if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
+    //{
+    //    return _NextPos;
+    //}
+
+    float4 PlayerPos = { GetPos().x ,GetPos().y + 1.0f};
+
+    while (true)
     {
-        return _NextPos;
+
+        if (RGB(0, 0, 255) == ColImage->GetPixelColor(PlayerPos, RGB(0, 0, 255)))
+        {
+            PlayerPos.y -= 1;
+
+            continue;
+        }
+        else
+        {
+            SetPos(PlayerPos);
+            return _NextPos;
+        }
     }
 
-	if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
-	{
-		return _NextPos;
-	}
-
-	while (true)
-	{
-		MoveDir.y -= 1;
-
-		_NextPos = GetPos() + MoveDir * _DeltaTime;
-
-		if (RGB(0, 0, 255) == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
-		{
-			continue;
-		}
-
-		return _NextPos;
-	}
 }
 
 
