@@ -61,10 +61,10 @@ void Player::Start()
 
 void Player::SetHPUI(const std::string_view& _HPNumberImage, const std::string_view& _NametagImage, const std::string_view& _ArrowImage) //HP 이미지 등을 세팅해주는 메서드
 {
-	PlayerHPNumberImageStringView = _HPNumberImage.data();
+	PlayerHPNumberImageStringView = _HPNumberImage;
 
 	HPUI = GetLevel()->CreateActor<PlayerHPUI>();
-	HPUI->SetPlayerHPUI(PlayerHPNumberImageStringView, _NametagImage, _ArrowImage, &PlayerHP);
+	HPUI->SetPlayerHPUI(_HPNumberImage, _NametagImage, _ArrowImage, &PlayerHP);
 }
 
 void Player::SetIsMyTurn(bool _Value)
