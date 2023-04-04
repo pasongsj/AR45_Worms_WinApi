@@ -209,6 +209,12 @@ void Player::IdleStart()
 }
 void Player::IdleUpdate(float _DeltaTime)
 {
+    if (CurWeapon != nullptr && false == IsMyTurn)
+    {
+        CurWeapon->Death();
+        CurWeapon = nullptr;
+    }
+
     GravityApplied(_DeltaTime);
 
     StateCalTime += _DeltaTime;
