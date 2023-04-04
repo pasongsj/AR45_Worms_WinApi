@@ -8,6 +8,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "MouseObject.h"
 #include "Star.h"
 #include "Cusor.h"
@@ -55,7 +56,11 @@ void MainTitleBack::Start()
    MouseSelect->SetScale({ 480,300 });
    MouseSelect->Off();
 
-
+   vecHoverCheck.reserve(4);
+   for (size_t i = 0; i < vecHoverCheck.capacity(); i++)
+   {
+       vecHoverCheck.push_back(0);
+   }
 
    {
        MainPlayCollision = CreateCollision();
@@ -125,9 +130,14 @@ void MainTitleBack::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == MainPlayCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[0] += 1;
             MouseSelect->SetPosition({ 400,400 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
+        }
+        else
+        {
+            vecHoverCheck[0] = 0;
         }
     }
 
@@ -136,9 +146,14 @@ void MainTitleBack::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == OptionCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point  ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[1] += 1;
             MouseSelect->SetPosition({ 900,720 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
+        }
+        else
+        {
+            vecHoverCheck[1] = 0;
         }
     }
     if (nullptr != multiCollision)
@@ -146,6 +161,7 @@ void MainTitleBack::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == multiCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point  ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[2] += 1;
             MouseSelect->SetPosition({ 900,400 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
@@ -156,19 +172,37 @@ void MainTitleBack::Update(float _DeltaTime)
 
 
         }
+        else
+        {
+            vecHoverCheck[2] = 0;
+        }
     }
     if (nullptr != netCollision)
     {
         std::vector<GameEngineCollision*> collision;
         if (true == netCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[3] += 1;
             MouseSelect->SetPosition({ 400,720 });
             MouseSelect->SetScale({ 480,300 });
             MouseSelect->On();
         }
+        else
+        {
+            vecHoverCheck[3] = 0;
+        }
     }
 
 
+    for (size_t i = 0; i < vecHoverCheck.size(); i++)
+    {
+        if (1 == vecHoverCheck[i])
+        {
+            GameEngineResources::GetInst().SoundPlay("loadingtick.wav");
+            return;
+        }
+
+    }
 }
 
 void MainTitleBack::Render(float _DeltaTime)

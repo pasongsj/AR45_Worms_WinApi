@@ -39,5 +39,6 @@ private:
     GameEngineCollision* MainPlayCollision = nullptr;
 
 
+    std::vector<int> vecHoverCheck;
 };
 

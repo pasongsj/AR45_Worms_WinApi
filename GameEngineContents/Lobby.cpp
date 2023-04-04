@@ -8,6 +8,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "MouseObject.h"
 #include "Cusor.h"
 #include "Star.h"
@@ -355,6 +356,12 @@ void Lobby::Start()
 
    MouseObject* Object = GetLevel()->CreateActor<MouseObject>();
    Cusor* cusor = GetLevel()->CreateActor<Cusor>();
+   vecHoverCheck.reserve(13);
+
+   for (size_t i = 0; i < vecHoverCheck.capacity(); i++)
+   {
+       vecHoverCheck.push_back(0);
+   }
 }
 
 void Lobby::Update(float _DeltaTime)
@@ -369,7 +376,7 @@ void Lobby::Update(float _DeltaTime)
         Actor->SetMove({ RandomX ,RandomY });
         Time = 0;
     }
-
+    
     MouseSelect->Off();
     OptionSelect->Off();
     OptionsSelect->Off();
@@ -379,15 +386,20 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == GameStartCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[0]+=1;
             MouseSelect->SetPosition({ 1040,750 });
             MouseSelect->SetScale({ 392, 126 });
 
             MouseSelect->On();
-
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 GameEngineCore::GetInst()->ChangeLevel("Play");
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
+        }
+        else
+        {
+            vecHoverCheck[0] = 0;
         }
 
         
@@ -398,10 +410,15 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == ExitCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[1] += 1;
             MouseSelect->SetPosition({ 1125,870 });
             MouseSelect->SetScale({ 224, 72 });
 
             MouseSelect->On();
+        }
+        else
+        {
+            vecHoverCheck[1] = 0;
         }
     }
     
@@ -410,10 +427,16 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == MapCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[2] += 1;
             if (GameEngineInput::IsDown("LeftClock"))
             {             
-                ++MapChoice;             
+                ++MapChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
+        }
+        else
+        {
+            vecHoverCheck[2] = 0;
         }
     }
 
@@ -422,9 +445,14 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == OptionCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[3] += 1;
             OptionSelect->On();
             OptionSelect->SetPosition({ 470,530 });
 
+        }
+        else
+        {
+            vecHoverCheck[3] = 0;
         }
     }
 
@@ -433,10 +461,15 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == WeaponCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[4] += 1;
 
             OptionSelect->On();
             OptionSelect->SetPosition({ 185, 530 });
-        }      
+        }
+        else
+        {
+            vecHoverCheck[4] = 0;
+        }
     }
 
     if (nullptr != TurnCollision)
@@ -444,6 +477,7 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == TurnCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[5] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 90,740 });
 
@@ -452,8 +486,13 @@ void Lobby::Update(float _DeltaTime)
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++TurnChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
 
+        }
+        else
+        {
+            vecHoverCheck[5] = 0;
         }
     }
 
@@ -462,14 +501,20 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == RoundCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[6] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 180,740 });
 
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++RoundChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
 
+        }
+        else
+        {
+            vecHoverCheck[6] = 0;
         }
     }
 
@@ -478,13 +523,19 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == WinsCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[7] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 270,740 });
 
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++WinChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
+        }
+        else
+        {
+            vecHoverCheck[7] = 0;
         }
     }
 
@@ -493,14 +544,20 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == WormsCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[8] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 360,740 });
 
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++WormsChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
 
+        }
+        else
+        {
+            vecHoverCheck[8] = 0;
         }
     }
 
@@ -509,16 +566,22 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == HpCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[9] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 450,740 });
 
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++HpChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
 
 
             
+        }
+        else
+        {
+            vecHoverCheck[9] = 0;
         }
     }
     if (nullptr != SelectOnCollision)
@@ -526,42 +589,64 @@ void Lobby::Update(float _DeltaTime)
         std::vector<GameEngineCollision*> collision;
         if (true == SelectOnCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[10] += 1;
             OptionsSelect->On();
             OptionsSelect->SetPosition({ 540,740 });
 
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++TeleportChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
         }
+        else
+        {
+            vecHoverCheck[10] = 0;
+        }
+        
     }
     if (nullptr != PlayerCollision && PlayerChoice < 6)
     {
         std::vector<GameEngineCollision*> collision;
         if (true == PlayerCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
+            vecHoverCheck[11] += 1;
         
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++PlayerChoice;
                 --PlayerDown;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
         }
+        else
+        {
+            vecHoverCheck[11] = 0;
+        }
+        
     }
     if (nullptr != PlayerDownCollision && PlayerDown < 6)
     {
         std::vector<GameEngineCollision*> collision;
         if (true == PlayerDownCollision->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::WeaPonInterFace), .TargetColType = CT_Point ,.ThisColType = CT_Rect }, collision))
         {
-
+            vecHoverCheck[12] += 1;
+           
             if (GameEngineInput::IsDown("LeftClock"))
             {
                 ++PlayerDown;
                 --PlayerChoice;
+                GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
             }
         }
+        else
+        {
+            vecHoverCheck[12] = 0;
+        }
+        
     }
 
+    
 
     Mapchoice();
     Turnchoice();
@@ -572,6 +657,16 @@ void Lobby::Update(float _DeltaTime)
     Teleportchoice();
     Playerchoice();
     Playerdown();
+
+    for (size_t i = 0; i < vecHoverCheck.size(); i++)
+    {
+        if (1 == vecHoverCheck[i])
+        {
+            GameEngineResources::GetInst().SoundPlay("loadingtick.wav");
+            return;
+        }
+
+    }
 }
 void Lobby::Mapchoice()
 {

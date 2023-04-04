@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include "GlobalValue.h"
+#include <vector>
 
 class Lobby : public GameEngineActor
 {
@@ -131,5 +132,7 @@ private:
     float Time = 0;
 
     LevelSetting SetLevel = {};
+
+    std::vector<int> vecHoverCheck;
 };
 
