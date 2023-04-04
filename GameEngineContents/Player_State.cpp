@@ -284,10 +284,16 @@ void Player::MoveStart()
 {
     DirCheck("Move");
     StateCalTime = 0.0f;
+    StateCalTime2 = 0.3f;
+
     StateCalValue = 0.0f;
+
 }
 void Player::MoveUpdate(float _DeltaTime)
 {
+    StateCalTime2 += _DeltaTime;
+    StateCalTime3 += _DeltaTime;
+
 	//동시에 누르면 진행하지 않음
 	if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
 	{
@@ -302,7 +308,8 @@ void Player::MoveUpdate(float _DeltaTime)
 		return;
 	}
 
-    if (false == IsGround)
+
+    if (false == IsGround && false == DownPixelCheck && false == RightDownPixelCheck && false == LeftDownPixelCheck)
     {
         MoveDir.y = 0.0f;
         StateCalTime += _DeltaTime;
@@ -313,6 +320,12 @@ void Player::MoveUpdate(float _DeltaTime)
     }
 
     DirCheck("Move");
+
+    if (StateCalTime2 > 0.28f)
+    {
+        PlaySoundOnce("Walk1.wav");
+        StateCalTime2 = 0.0f;
+    }
 
     if (StateCalTime > 0.05f)
     {
@@ -326,6 +339,8 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Left))
         {
             MoveDir = float4::Left * MoveSpeed;
+            GravityApplied(_DeltaTime);
+
             //MoveDir += float4::Down * Gravity;
         }
         else
@@ -340,6 +355,7 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Right))
         {
             MoveDir = float4::Right * MoveSpeed;
+            GravityApplied(_DeltaTime);
             //MoveDir += float4::Down * Gravity;
         }
         else
@@ -350,7 +366,6 @@ void Player::MoveUpdate(float _DeltaTime)
     }
     
 
-	
 }
 void Player::MoveEnd()
 {
@@ -371,7 +386,6 @@ void Player::JumpStart()
     StateCalBool3 = true;
     StateCalValue = 0.0f;
 
-    GameEngineResources::GetInst().SoundPlay("JUMP2.wav");
 }
 void Player::JumpUpdate(float _DeltaTime)
 {
@@ -429,6 +443,8 @@ void Player::JumpUpdate(float _DeltaTime)
         std::string AnimationName = "FlyUp";
         std::string AnimationText = AnimationDir.data() + AnimationName;
         AnimationRender->ChangeAnimation(AnimationText);
+
+        GameEngineResources::GetInst().SoundPlay("JUMP2.wav");
 
         StateCalBool = false;
     }
@@ -491,7 +507,6 @@ void Player::JumpUpdate(float _DeltaTime)
             else
             {
                 SetMoveDirWithAngle(WallCheckDir::LeftDown);
-
             }
             MoveDir *= FrictionValue;
         }
@@ -562,6 +577,8 @@ void Player::WinStart()
     std::string AnimationName = "Win";
     std::string AnimationText = AnimationDir.data() + AnimationName;
     AnimationRender->ChangeAnimation(AnimationText);
+
+    PlaySoundOnce("Victory.wav");
 }
 
 void Player::WinUpdate(float _DeltatTime)
@@ -600,6 +617,9 @@ void Player::FlyDownUpdate(float _DeltaTime)
             {
                 //이후 데미지 받음
                 ChangeState(PlayerState::Sliding);
+
+                RandomDamagedSound();
+
                 return;
             }
             else
@@ -638,6 +658,7 @@ void Player::FlyDownEnd()
 void Player::FacePlantStart()
 {
     AnimationRender->ChangeAnimation("FacePlant");
+    PlaySoundOnce("FacePlant.wav");
 }
 
 void Player::FacePlantUpdate(float _DeltaTime)
@@ -687,6 +708,8 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             SetMoveDirWithAngle(WallCheckDir::Left);
             MoveDir *= FrictionValue;
 
+            RandomDamagedSound();
+
             ChangeState(PlayerState::Sliding);
             return;
         }
@@ -695,15 +718,20 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             SetMoveDirWithAngle(WallCheckDir::Right);
             MoveDir *= FrictionValue;
 
+            RandomDamagedSound();
+
             ChangeState(PlayerState::Sliding);
             return;
         }
         else if (true == DownPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Down);
-
             MoveDir = { MoveDir.x * FrictionValue , MoveDir.y * (FrictionValue * 1 / 2) };
 
+            RandomDamagedSound();
+
+            ChangeState(PlayerState::Sliding);
+            return;
         }
         else if (true == LeftUpPixelCheck)
         {
@@ -716,6 +744,8 @@ void Player::FlyAwayUpdate(float _DeltaTime)
                 SetMoveDirWithAngle(WallCheckDir::LeftUp);
             }
             MoveDir *= FrictionValue;
+
+            RandomDamagedSound();
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -730,9 +760,9 @@ void Player::FlyAwayUpdate(float _DeltaTime)
             {
                 SetMoveDirWithAngle(WallCheckDir::RightUp);
             }
-
-
             MoveDir *= FrictionValue;
+
+            RandomDamagedSound();
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -740,9 +770,11 @@ void Player::FlyAwayUpdate(float _DeltaTime)
         else if (true == UpPixelCheck)
         {
             SetMoveDirWithAngle(WallCheckDir::Up);
+
+            RandomDamagedSound();
+
             MoveDir *= FrictionValue;
         }
-
         else if (true == LeftDownPixelCheck)
         {
             if (true == DownPixelCheck)
@@ -755,6 +787,8 @@ void Player::FlyAwayUpdate(float _DeltaTime)
 
             }
             MoveDir *= FrictionValue;
+
+            RandomDamagedSound();
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -770,6 +804,8 @@ void Player::FlyAwayUpdate(float _DeltaTime)
                 SetMoveDirWithAngle(WallCheckDir::RightDown);
             }
             MoveDir *= FrictionValue;
+
+            RandomDamagedSound();
 
             ChangeState(PlayerState::Sliding);
             return;
@@ -793,6 +829,7 @@ void Player::SlidingStart()
     AnimationRender->ChangeAnimation(AnimationText);
 
     StateCalTime = 0.0f;
+    StateCalTime2 = 0.0f;
 }
 
 void Player::SlidingUpdate(float _DeltaTime)
@@ -800,11 +837,12 @@ void Player::SlidingUpdate(float _DeltaTime)
     GravityApplied(_DeltaTime);
 
     StateCalTime += _DeltaTime;
+    StateCalTime2 += _DeltaTime;
 
     float FrictionValue = 0.7f;
 
     //하단 픽셀들중 하나가 닿아있고, movedir의 속도가 줄어있다면,
-    if (MoveDir.Size() <= 20.0f && (true == DownPixelCheck || true == LeftDownPixelCheck || true == RightDownPixelCheck))
+    if (MoveDir.Size() <= 30.0f && (true == DownPixelCheck || true == LeftDownPixelCheck || true == RightDownPixelCheck))
     {
         ChangeState(PlayerState::StandUp);
         return;
@@ -813,17 +851,38 @@ void Player::SlidingUpdate(float _DeltaTime)
     if (true == LeftPixelCheck)
     {
         SetMoveDirWithAngle(WallCheckDir::Left);
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
+
     }
     else if (true == RightPixelCheck)
     {
         SetMoveDirWithAngle(WallCheckDir::Right);
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
     else if (true == DownPixelCheck)
     {
         SetMoveDirWithAngle(WallCheckDir::Down);
         
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir = { MoveDir.x * FrictionValue , MoveDir.y * (FrictionValue * 1 / 2) };
        
     }
@@ -837,6 +896,13 @@ void Player::SlidingUpdate(float _DeltaTime)
         {
             SetMoveDirWithAngle(WallCheckDir::LeftUp);
         }
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
     else if (true == RightUpPixelCheck)
@@ -849,11 +915,25 @@ void Player::SlidingUpdate(float _DeltaTime)
         {
             SetMoveDirWithAngle(WallCheckDir::RightUp);
         }
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
     else if (true == UpPixelCheck)
     {
         SetMoveDirWithAngle(WallCheckDir::Up);
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
 
@@ -868,6 +948,13 @@ void Player::SlidingUpdate(float _DeltaTime)
             SetMoveDirWithAngle(WallCheckDir::LeftDown);
 
         }
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
     else if (true == RightDownPixelCheck)
@@ -880,6 +967,13 @@ void Player::SlidingUpdate(float _DeltaTime)
         {
             SetMoveDirWithAngle(WallCheckDir::RightDown);
         }
+
+        if (MoveDir.Size() >= 30.0f && StateCalTime2 >= 1.0f)
+        {
+            RandomDamagedSound();
+            StateCalTime2 = 0.0f;
+        }
+
         MoveDir *= FrictionValue;
     }
 }

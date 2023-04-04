@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 #include "GlobalValue.h"
 #include "PlayerHPUI.h"
@@ -72,16 +73,23 @@ void Player::SetIsMyTurn(bool _Value)
 	IsMyTurn = _Value;
 	HPUI->SetSelectPlayerRender(_Value);    
 
-    if (WeaponNum::None == CurWeaponNum)
-    {
-        return;
-    }
+
 
     //본인 턴이고, CurWeapon의 개수가 0이 아니라면 생성함
-    if (true == _Value && WeaponCount[static_cast<int>(CurWeaponNum)] != 0)
+    if (true == _Value) 
     {
-        StateCalTime = 0.0f; //플레이어 아이들 애니메이션에서 특정 시간 있다가 무기를 들게끔
-        GlobalValue::gValue.SetWeapon(CurWeaponNum);
+        PlaySoundOnce("PlayerSelect.wav");
+
+        if (WeaponNum::None == CurWeaponNum)
+        {
+            return;
+        }
+
+        if (WeaponCount[static_cast<int>(CurWeaponNum)] != 0)
+        {
+            StateCalTime = 0.0f; //플레이어 아이들 애니메이션에서 특정 시간 있다가 무기를 들게끔
+            GlobalValue::gValue.SetWeapon(CurWeaponNum);
+        }
     }
 }
 
@@ -105,7 +113,6 @@ void Player::Test()
 {
 	if (GameEngineInput::IsDown("TestButton") && IsMyTurn == true)
 	{
-
         float4 TestDir = float4::Up;
         if (GameEngineInput::IsPress("MoveRight") == true)
         {
@@ -118,7 +125,7 @@ void Player::Test()
 
         float Power = 400.0f;
 
-		Damaged(10, TestDir, Power);
+		Damaged(1, TestDir, Power);
         //ChangeState(PlayerState::Win);
 
         //UsingHealkit(50);
@@ -144,6 +151,11 @@ void Player::TestChangeDeadState()
 
 void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 {
+    if (PlayerHP <= 0)
+    {
+        return;
+    }
+
 	if (DamagedTime >= 0.0f)
 	{
 		PlayerHP -= _Damage;
@@ -222,23 +234,22 @@ void Player::CheckTurn()
 
 void Player::Update(float _DeltaTime)
 {
-    //CheckTurn();
-    //PlayerPixelCheck();
-    //IsGroundCheck();   
-    //MoveCalculation(_DeltaTime);
-    //UpdateState(_DeltaTime);	
-    //CheckAlive();
+    PlayerPixelCheck();
+    IsGroundCheck();   
+    UpdateState(_DeltaTime);
+    MoveCalculation(_DeltaTime);
+    CheckTurn();
     //제가 생각하는 순서
 
-    PlayerPixelCheck();
-    UpdateState(_DeltaTime);
+    CheckAlive(); //임시로 죽었는지 확인하여 죽었다면 스테이트 변경
 
-    MoveCalculation(_DeltaTime);
 
-    CheckAlive();
-
-    IsGroundCheck();
-    CheckTurn();
+    //PlayerPixelCheck();
+    //UpdateState(_DeltaTime);
+    //MoveCalculation(_DeltaTime);
+    //CheckAlive();
+    //IsGroundCheck();
+    //CheckTurn();
 
 
     Test();
@@ -463,12 +474,12 @@ bool Player::ReturnCanIMove(PlayerAngleDir _Dir)
 
 float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 {
- //   float4 ColImageScale = ColImage->GetImageScale();
+    float4 ColImageScale = ColImage->GetImageScale();
 
- //   if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
- //   {
- //       return _NextPos;
- //   }
+    if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+    {
+        return _NextPos;
+    }
 
 	//if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
 	//{
@@ -488,18 +499,6 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 	//	return _NextPos;
 	//}
-
-    //float4 ColImageScale = ColImage->GetImageScale();
-
-    //if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
-    //{
-    //    return _NextPos;
-    //}
-
-    //if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
-    //{
-    //    return _NextPos;
-    //}
 
     float4 PlayerPos = { GetPos().x ,GetPos().y + 1.0f};
 
@@ -952,6 +951,41 @@ void Player::SetGraveObject(const std::string_view& _GraveImage)
 bool Player::IsPlayerAnimationEnd()
 {
 	return AnimationRender->IsAnimationEnd();
+}
+
+void Player::PlaySoundOnce(const std::string_view& _Text)
+{
+    GameEngineSoundPlayer Sound = GameEngineResources::GetInst().SoundPlayToControl(_Text.data());
+    Sound.LoopCount(1);
+}
+
+void Player::RandomDamagedSound()
+{
+    int Random = GameEngineRandom::MainRandom.RandomInt(0, 5);
+
+    switch (Random)
+    {
+    case 0:
+        PlaySoundOnce("OW1.wav");
+        break;
+    case 1:
+        PlaySoundOnce("OW2.wav");
+        break;
+    case 2:
+        PlaySoundOnce("OW3.wav");
+        break;
+    case 3:
+        PlaySoundOnce("OOFF1.wav");
+        break;
+    case 4:
+        PlaySoundOnce("OOFF2.wav");
+        break;
+    case 5:
+        PlaySoundOnce("OOFF3.wav");
+        break;
+    default:
+        break;
+    }
 }
 
 //enum class WeaponNum
