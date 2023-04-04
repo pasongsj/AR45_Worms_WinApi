@@ -200,9 +200,13 @@ void Player::CheckTurn()
     if (CurWeapon!=nullptr && false == IsMyTurn)
     {
         CurWeaponNum = static_cast<WeaponNum>(CurWeapon->GetWeaponNumber());
-        CurWeapon->Death();
-        CurWeapon = nullptr;
-        StateValue = PlayerState::IDLE;
+       /* CurWeapon->Death();
+        CurWeapon = nullptr;*/
+
+        
+        ChangeState(PlayerState::IDLE);
+
+        //StateValue = PlayerState::IDLE;
     }
 
     if (false == IsMyTurn)
