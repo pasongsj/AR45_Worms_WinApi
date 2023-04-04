@@ -38,6 +38,7 @@ void EndingBack::Update(float _DeltaTime)
 {
     if (BlackAlpha < 200)
     {
+        
         BlackAlpha += 150 * _DeltaTime;
 
         BlackGroundAlpha->SetAlpha(static_cast<int>(255 - BlackAlpha));
