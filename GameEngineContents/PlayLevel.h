@@ -51,7 +51,7 @@ private:
 	int iPlayerNumber = -1;
     std::vector<float4> vecPlayerRandPos;
 	std::vector<Player*> vecAllPlayer;
-
+    std::vector<std::string_view> vecPlayerUIImage;
 
 	bool bCamMove = false;
     std::vector<bool> vecTurnEnd;
@@ -63,7 +63,8 @@ private:
 	float fCamMoveSpeed = 500.f;
 
 	float4 ScreenSize = float4::Zero;
-	void SoundLoad();
+    void SetUIImage();
+    void SoundLoad();
 	void ImageLoad();
 	void KeyLoad();
 	void CreateLeaf(float _DeltaTime);

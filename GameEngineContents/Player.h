@@ -96,6 +96,11 @@ public:
         return TurnCheckValue;
     }
 
+    void SetGraveString(std::string_view& _ImageString)
+    {
+        PlayerGraveImageStringView = _ImageString;
+    }
+
     void SetPlayerState(PlayerState _State);
 
     void DisplayDamageUI(float _Damage); //데미지 UI를 띄우는 함수
@@ -103,6 +108,7 @@ public:
 	void ChangePlayerAnimation(const std::string_view& _AnimationName, int _CurIndex = 0); //플레이어 애니메이션 변경
 	void SetPlayerAnimationFrame(int _Frame); // 조준 상태일 때 프레임을 고정
 	void Damaged(int _Damage, float4 _Dir = float4::Zero, float _Power = 0); //플레이어가 데미지를 받는 함수
+    
 
 	//플레이어 상태를 받아옴
 	PlayerState GetPlayerState()

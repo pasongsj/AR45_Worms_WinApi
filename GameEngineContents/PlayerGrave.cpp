@@ -137,6 +137,9 @@ void PlayerGrave::DirCheck()
     {
         if (true == DownPixelCheck)
         {
+            GameEngineSoundPlayer Sound = GameEngineResources::GetInst().SoundPlayToControl("GraveBounce.wav");
+            Sound.LoopCount(1);
+
             MoveDir = { MoveDir.x, MoveDir.y * - 0.5f };
             CurrentDir = GraveDir::Up;
             ++JumpTime;

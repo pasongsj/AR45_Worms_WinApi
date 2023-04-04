@@ -639,6 +639,7 @@ void Player::FlyDownUpdate(float _DeltaTime)
             {
                 //이후 데미지 받음
                 ChangeState(PlayerState::Sliding);
+                DamagedValue += static_cast<int>(Value) % 10;
 
                 RandomDamagedSound();
 
@@ -660,6 +661,8 @@ void Player::FlyDownUpdate(float _DeltaTime)
             if (Value >= 50.0f)
             {
                 //데미지 받음
+                DamagedValue += static_cast<int>(Value) % 10;
+
                 ChangeState(PlayerState::FacePlant);
                 return;
             }
@@ -679,6 +682,8 @@ void Player::FlyDownEnd()
 
 void Player::FacePlantStart()
 {
+
+
     AnimationRender->ChangeAnimation("FacePlant");
     PlaySoundOnce("FacePlant.wav");
 }
@@ -687,7 +692,7 @@ void Player::FacePlantUpdate(float _DeltaTime)
 {
     if (AnimationRender->IsAnimationEnd())
     {
-        ChangeState(PlayerState::IDLE);
+        ChangeState(PlayerState::Angry);
         return;
     }
 }
@@ -1048,7 +1053,6 @@ void Player::AngryStart()
         ChangeState(PlayerState::IDLE);
         return;
     }
-
 
     if (PlayerHP <= 0)
     {
