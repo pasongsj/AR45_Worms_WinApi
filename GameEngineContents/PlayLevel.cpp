@@ -189,6 +189,7 @@ void PlayLevel::ImageLoad()
         //무기 효과
         Dir.Move("Effect");
         {
+            GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TimerBack.bmp"));
 		    GameEngineImage* BazSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BazSmoke.bmp"));
 		    BazSmoke->Cut(1, 64);
 

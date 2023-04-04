@@ -28,16 +28,16 @@ void WeaponFirePunch::Start()
     MaxDmg = 45;
     MinDmg = 21;
 
-    MaxKnockBackPower = 13 * 3; // 오류 날 가능성 높음
-    MinKnockBackPower = 13 * 3;
+    MaxKnockBackPower = 100; // 오류 날 가능성 높음
+    MinKnockBackPower = 50;
 
     WeaponNumber = static_cast<int>(WeaponNum::FirePunch);							// 무기 이름에 해당하는 Number
     WeaponName = "FirePunch";							// 무기 이름
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");		//충돌맵
     PunchCollision = CreateCollision(WormsCollisionOrder::Weapon);
-    PunchCollision->SetPosition({ 0,-25 });
-    PunchCollision->SetScale({ 20,20 });
+    PunchCollision->SetPosition({ 0,25 });
+    PunchCollision->SetScale({ 30,30 });
 
     Timer = 0.45f;								// 타이머
 }
@@ -94,7 +94,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 //BombCollision->SetScale({ 20,20 });
                 AttackPlayer(PunchCollision,false);																	  // 3. Bomb콜리전 Player Check
 
-                MapModifier::MainModifier->CreateHole(PunchCollision->GetActorPlusPos(), static_cast<int>(BombScale));                                         //4. createHole
+                MapModifier::MainModifier->CreateHole(StartPos, static_cast<int>(BombScale));                                         //4. createHole
             }
             else // 펀치가 끝났다면
             {

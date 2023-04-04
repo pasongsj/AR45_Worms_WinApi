@@ -1,5 +1,6 @@
 #pragma once
 #include "Weapon.h"
+#include <GameEngineCore/NumberRenderObject.h>
 
 // 설명 : F2-2 ClusterBomb 클러스터 폭탄 : 땅에 닿으면 폭발하는 클러스터가 방출된다
 
@@ -51,6 +52,10 @@ private:
     std::vector<GameEngineCollision*> ClusterCollision;     // 잔여 클러스터 콜리전
     std::vector<float4> ClusterDir;
     std::vector<float4> ClusterSmokeInterval;
+
+    //타이머 랜더
+    GameEngineRender* TimerRenderBack = nullptr;
+    NumberRenderObject TimerRender;
 
 
     // 폭발 애니메이션 랜더 

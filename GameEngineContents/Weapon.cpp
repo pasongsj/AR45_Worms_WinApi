@@ -266,7 +266,7 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
 	// 플레이어 체크
 	std::vector<GameEngineCollision*> CollisionList;
 
-    int Radius = static_cast<int>(BombScale / 2);
+    int Radius = static_cast<int>(BombScale);
 
 	if (_Col != nullptr && true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
@@ -277,26 +277,25 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
             {
                 continue;
             }
-            if (ColPlayer->GetPlayerState() == PlayerState::FlyAway) // 임시 예외 처리 코드
+            if (ColPlayer->GetPlayerState() == PlayerState::FlyAway || ColPlayer->GetPlayerState() == PlayerState::FacePlant) // 임시 예외 처리 코드
             {
                 continue;
             }
             float4 Distance = ColPlayer->GetPos() - _Col->GetActorPlusPos(); //폭발 구점
 
             float Ratio = Distance.Size() / Radius;
-            if (Ratio < 0)
+            if (Ratio <= 0)
             {
                 Ratio = 0;
             }
-            else if (Ratio > 1)
+            else if (Ratio >= 1)
             {
                 Ratio = 1;
             }
 
-            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Distance.Size() / Radius) + MinDmg * (Distance.Size() / Radius));
-            float proportional_power = MaxKnockBackPower * (1 - Distance.Size() / Radius) + MinKnockBackPower * (Distance.Size() / Radius);
+            int proportional_dmg = static_cast<int>(MaxDmg * (1 - Ratio) + MinDmg * (Ratio));
+            float proportional_power = MaxKnockBackPower * (1 - Ratio) + MinKnockBackPower * (Ratio);
             Distance.Normalize();
-
             //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
             ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
 		    //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
@@ -330,11 +329,11 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
             float4 Distance = _Col->GetActorPlusPos() - GetPos(); //폭발 구점
 
             float Ratio = Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정
-            if (Ratio < 0)
+            if (Ratio <= 0)
             {
                 Ratio = 0;
             }
-            else if (Ratio > 1)
+            else if (Ratio >= 1)
             {
                 Ratio = 1;
             }

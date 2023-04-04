@@ -1,8 +1,11 @@
 #pragma once
 #include "Weapon.h"
+#include <GameEngineCore/NumberRenderObject.h>
+
 
 // 설명 : F2-1 Grenade 수류탄
 class MapModifier;
+
 class WeaponGrenade : public Weapon
 {
 public:
@@ -43,10 +46,9 @@ private:
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
 
-    // 폭발 애니메이션 랜더
-    //GameEngineRender* ExplosionCircle = nullptr;
-    //GameEngineRender* ExplosionElipse = nullptr;
-    //GameEngineRender* PootTextAnimation = nullptr;
+    //타이머 랜더
+    GameEngineRender* TimerRenderBack = nullptr;
+    NumberRenderObject TimerRender;
     
     // 시작 시 폭탄 이미지 설정함수
 	void WeaponGrenadeInit();

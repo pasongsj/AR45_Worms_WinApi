@@ -84,6 +84,18 @@ void WeaponClusterBomb::Start()
     AimingLine->SetRotFilter("AimingLineRot.bmp");
     AimingLine->SetScale({ 20,20 });
 
+    // 타이머
+    TimerRenderBack = CreateRender("TimerBack.bmp", WormsRenderOrder::UI);
+    TimerRenderBack->SetScaleToImage();
+    TimerRenderBack->Off();
+
+    TimerRender.SetOwner(this);
+    TimerRender.SetCameraEffect(true);
+    TimerRender.SetImage("RedNumberRender.bmp", { 15, 15 }, 10, RGB(255, 0, 255));
+    TimerRender.SetAlign(Align::Center);
+    TimerRender.SetValue(Timer);
+    TimerRender.Off();
+
 }
 
 void WeaponClusterBomb::Update(float _DeltaTime)
@@ -201,6 +213,9 @@ void WeaponClusterBomb::Aiming(float _DeltaTime)
 
             MoveSpeed *= Charge;
             isFire = true;
+            // 타이머랜더
+            TimerRenderBack->On();
+            TimerRender.On();
         }
 
     }
@@ -333,11 +348,17 @@ void WeaponClusterBomb::Firing(float _DeltaTime)
             WeaponCollision->SetMove(-MoveVec);
             Dir *= 0.1f;
         }
+        TimerRenderBack->SetPosition(WeaponRender->GetPosition() - float4{ 30,30 });
+        TimerRender.SetRenderPos(WeaponRender->GetPosition() - float4{ 30,30 });
+        TimerRender.SetValue(static_cast<int>(Timer) + 1);
     }
+
 
     //타이머 체크 -> 큰 폭발 체크
     if (Timer < 0 && isExplosion == false)
     {
+        TimerRenderBack->Off();
+        TimerRender.Off();
         GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
         BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
         BombCollision->SetScale(float4{ static_cast<float>(MainBombScale) });
