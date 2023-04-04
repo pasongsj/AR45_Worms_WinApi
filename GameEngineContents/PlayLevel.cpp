@@ -92,7 +92,10 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* ColMapImage4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain_Ground.bmp"));
 
         //BackGround
-		GameEngineImage* sky = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
+		//GameEngineImage* sky = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
+
+        //teste==============================================================================================
+        GameEngineImage* sky2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient2.bmp"));
 	
 		GameEngineImage* Mountain = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
         Mountain->Cut(4, 1);

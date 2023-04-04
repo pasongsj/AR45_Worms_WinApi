@@ -30,6 +30,7 @@ public:
 	}
 
     void SetModifierColScale(float4 _Scale);
+    void SetModifierColPosition(float4 _Pos);
 	
 protected:
 	void Start() override;

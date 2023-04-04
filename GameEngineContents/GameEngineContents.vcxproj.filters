@@ -33,9 +33,6 @@
     <ClCompile Include="WindUI.cpp">
       <Filter>Play\WindEtc</Filter>
     </ClCompile>
-    <ClCompile Include="Drum.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>Play\Map\MapObject</Filter>
     </ClCompile>
@@ -90,9 +87,6 @@
     <ClCompile Include="TestLevel.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="PetrolEffect.cpp">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClCompile>
     <ClCompile Include="TurnTimeUI.cpp">
       <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
@@ -139,6 +133,12 @@
       <Filter>Weapon\F7</Filter>
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
+    <ClCompile Include="Drum.cpp">
+      <Filter>OilDrum</Filter>
+    </ClCompile>
+    <ClCompile Include="PetrolEffect.cpp">
+      <Filter>OilDrum</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EndingBack.h" />
@@ -164,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="WindUI.h">
       <Filter>Play\WindEtc</Filter>
-    </ClInclude>
-    <ClInclude Include="Drum.h">
-      <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="MapObject.h">
       <Filter>Play\Map\MapObject</Filter>
@@ -222,9 +219,6 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="PetrolEffect.h">
-      <Filter>Play\Map\MapObject</Filter>
-    </ClInclude>
     <ClInclude Include="TurnTimeUI.h">
       <Filter>Play\Player\PlayerUI</Filter>
     </ClInclude>
@@ -271,6 +265,12 @@
       <Filter>Weapon\F7</Filter>
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
+    <ClInclude Include="Drum.h">
+      <Filter>OilDrum</Filter>
+    </ClInclude>
+    <ClInclude Include="PetrolEffect.h">
+      <Filter>OilDrum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -323,6 +323,9 @@
     </Filter>
     <Filter Include="Weapon\F7">
       <UniqueIdentifier>{ad61acc4-312f-484e-9924-1de6f58ff5ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OilDrum">
+      <UniqueIdentifier>{a1bf286c-f772-4633-9943-61e27dcce01f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

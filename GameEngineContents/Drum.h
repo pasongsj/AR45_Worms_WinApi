@@ -15,6 +15,11 @@ public:
 	Drum& operator=(const Drum& _Other) = delete;
 	Drum& operator=(Drum&& _Other) noexcept = delete;
 
+    void DamageDrum(int _Value)
+    {
+        Gauge -= _Value;
+    }
+
 protected:
     void Start() override;
     void Update(float _DeltaTime) override;
@@ -26,9 +31,10 @@ private:
     int Count = 2;
     int Gauge = 150;
     int BombScale = 100;
+    int NumOfPetrol = 0;                          //생성할 오일 입자 수
 
     //수치조정 필요
-    float WaitTime = 0.1f;
+    float RangeX = 100.0f;                         //생성할 오일 입자의 x값 범위
     float MaxDmg = 50;
     float MinDmg = 20;
     float MinKnockBackPower = 35.0f;
@@ -52,5 +58,8 @@ private:
     void AnimCheck();                               //애니메이션 체크 및 변경
     void ExplosionAnimationOff();
     void ExplosionEffectInit();
+
+    void CreatePetrol(int _NumOfPetrol);            //오일 입자 생성
+    std::vector<GameEngineActor*> AllPetrols;
 };
 

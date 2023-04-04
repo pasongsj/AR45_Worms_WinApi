@@ -39,6 +39,7 @@ enum class WormsCollisionOrder
 	Weapon,
     Medikit,
     Drum,
+    Petrol,
 	MapModifier,
 	WeaPonInterFace
 };

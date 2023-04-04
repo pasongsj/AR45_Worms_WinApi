@@ -50,7 +50,7 @@ private:
     int NumOfObj = 0;
 
 
-    float WaitTime = 25.0f;
+    float WaitTime = 40.0f;
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 
@@ -66,7 +66,7 @@ private:
 	float4 WaveAnimPos3 = { 1920.0f, 1492.0f };
 	float4 WaveAnimPos4 = { 1920.0f, 1537.0f };
 
-	float4 BackScale = { 7680.0f, 1116.0f };             //sky의 크기
+	float4 BackScale = { 7680.0f, 1116.0f };             //mountain, wave의 크기
 	float4 WaveScale = { 7680.0f, 165.0f };              //Wave의 크기
 
 	std::string MapName = "";

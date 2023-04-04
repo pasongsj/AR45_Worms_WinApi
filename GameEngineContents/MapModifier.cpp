@@ -42,6 +42,10 @@ void MapModifier::SetModifierColScale(float4 _Scale)
     ModifierCollision->SetScale(_Scale);
 }
 
+void MapModifier::SetModifierColPosition(float4 _Pos)
+{
+     ModifierCollision->SetPosition(_Pos);
+}
 
 void MapModifier::CreateHole(float4 _Pos, int _Diameter, bool _DrawLine)
 {
@@ -117,7 +121,6 @@ void MapModifier::CreateHole(float4 _Pos, int _Diameter, bool _DrawLine)
 		SelectObject(ColMapDc, OldPen);
 		DeleteObject(MyPen);
 	}
-
 }
 
 void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert, bool _DrawLine)

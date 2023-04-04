@@ -66,20 +66,11 @@ void Drum::Update(float _DeltaTime)
    
     if (true == IsExplosion && false == IsPetrolEffectEnd)
     {
-        WaitTime -= _DeltaTime;
-        if (0 == Count)
-        {
-            IsPetrolEffectEnd = true;
-        }
 
-        if (0 >= WaitTime)
-        {
-            PetrolEffect* NewEffect = GetLevel()->CreateActor<PetrolEffect>(WormsRenderOrder::MapObject);
-            NewEffect->CreatePetrolEffect(15, MapObjRender->GetActorPlusPos());
-            
-            WaitTime = 0.1f;
-            --Count;
-        }
+        CreatePetrol(15);
+
+        IsPetrolEffectEnd = true;
+        Death();
     }
 
     if (true == IsUnderWaterCheck())                                   //바다에 빠지면 액터 제거
@@ -97,6 +88,33 @@ void Drum::Update(float _DeltaTime)
 
     SetMove(MoveDir * _DeltaTime);                                  //이동 적용
 }
+
+
+
+
+void Drum::CreatePetrol(int _NumOfPetrol)
+{
+    NumOfPetrol = _NumOfPetrol;
+
+    AllPetrols.clear();
+  
+    AllPetrols.reserve(NumOfPetrol);
+   
+
+    for (int i = 0; i < NumOfPetrol; i++)
+    {
+        float4 Pos = GetPos();
+        Pos.x += GameEngineRandom::MainRandom.RandomFloat(-RangeX, RangeX);
+
+        PetrolEffect* NewPetrol = GetLevel()->CreateActor<PetrolEffect>();
+        NewPetrol->SetPos(Pos);
+
+        AllPetrols.push_back(NewPetrol);
+    }
+}
+
+
+
 
 
 void Drum::HitWeaponCheck()

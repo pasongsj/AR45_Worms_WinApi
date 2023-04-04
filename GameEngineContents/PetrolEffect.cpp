@@ -1,8 +1,10 @@
 #include "PetrolEffect.h"
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include "GlobalValue.h"
 #include "MapModifier.h"
+#include "Drum.h"
 #include "ContentsEnums.h"
 
 PetrolEffect::PetrolEffect() 
@@ -16,118 +18,146 @@ PetrolEffect::~PetrolEffect()
 void PetrolEffect::Start()
 {
     SetColImage();
+
+    PetrolRender = CreateRender(static_cast<int>(WormsRenderOrder::MapObject));
+    PetrolRender->SetPosition(GetPos());
+    PetrolRender->SetScale({ 30, 30 });
+
+    PetrolRender->CreateAnimation({ .AnimationName = "Petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
+    PetrolRender->ChangeAnimation("Petrol_30");
+
+    PetrolCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Petrol));
+    PetrolCol->SetScale({ 5, 5 });
+    PetrolCol->SetPosition(GetPos());
 }
 
 void PetrolEffect::Update(float _DeltaTime)
 {
     if (false == IsJump)
     {
-        MoveDir.y -= 120.0f;                 //JumpPower
+        MoveDir.y -= 100.0f;                 //JumpPower
         IsJump = true;
     }
 
-    int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
-    MoveDir.x += WindDir*0.5f;
-
-    for (int i = 0; i < NumOfPetrol; ++i)
+    if (false == IsWindEffectEnd)
     {
-        GravityApplied(_DeltaTime);                                             //중력 적용
-        if (true == IsGroundCheck(AllPetrolPos[i]))
-        {  
-            AllPetrolGroundcheck[i] = true;
-        }
-        else
+        int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
+        MoveDir.x += WindDir*0.1f;
+    }
+
+    GravityApplied(_DeltaTime);
+    
+    SetMove(MoveDir * _DeltaTime);
+
+
+    float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
+    NextPos = PullUp(NextPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
+
+    void IsWallCheck(float4 _Pos);
+
+    if (true == IsGroundCheck(GetPos()))
+    {
+        IsWindEffectEnd = true;
+        LiveTime -= _DeltaTime;
+        WaitTime -= _DeltaTime;
+
+        if (0.0f >= WaitTime)
         {
-            float4 NextPos = AllPetrolPos[i] + (MoveDir * _DeltaTime);
-            float4 CurPos = AllPetrolPos[i];
-            NextPos = PullUp(NextPos, CurPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
-
-            AllPetrolPos[i] = float4::Zero;
-            AllPetrolPos[i].x += (MoveDir.x * MoveSpeed);
-            AllPetrolPos[i].y += (MoveDir.y * MoveSpeed);
-            AllPetrol[i]->SetMove(AllPetrolPos[i] * _DeltaTime);
-
-            AllPetrolPos[i] = AllPetrol[i]->GetPosition();
-        }
-
-        if (true == IsAllGroundCheck())
-        {
-            MoveDir = float4::Zero;
-            LiveTime -= _DeltaTime;
-            WaitTime -= _DeltaTime;
-
-            if (0.0f >= WaitTime)
+            CreateFireEffect(_DeltaTime);
+           
+            if (false == IsDamageToDrum)
             {
-                CreateFireEffect(_DeltaTime);
-                WaitTime = 1.5f;
+                IsDamageToDrum = true;
+                //HitDrumCheck();
             }
-
-            if (0.0f >= LiveTime)
-            {
-                Death();
-            }
+            WaitTime = 0.3f;
         }
-    }
-}
 
-bool PetrolEffect::IsAllGroundCheck()
-{
-    for (int i = 0; i < NumOfPetrol; ++i)
-    {
-        if (false == AllPetrolGroundcheck[i])
+        if (0.0f >= LiveTime)
         {
-            return false;
+            Death();
+        }
+
+        MoveDir.y = 0.0f;
+    }
+    
+
+}
+
+
+//보류
+void PetrolEffect::HitDrumCheck()
+{
+    std::vector<GameEngineCollision*> CollisionDrum;
+
+
+    if (true == PetrolCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionDrum))
+    {
+        for (int i = 0; i < CollisionDrum.size(); i++)
+        {
+            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(1);
         }
     }
 
-    return true;
 }
 
-
-void PetrolEffect::CreatePetrolEffect(int _NumOfPetrol, float4 _StartPos)
-{
-
-    NumOfPetrol = _NumOfPetrol;
-
-    AllPetrol.clear();
-    AllPetrolPos.clear();
-    AllPetrolGroundcheck.clear();
-
-    AllPetrol.reserve(NumOfPetrol);
-    AllPetrolPos.reserve(NumOfPetrol);
-    AllPetrolGroundcheck.reserve(NumOfPetrol);
-
-    for (int i = 0; i < NumOfPetrol; i++)
-    {
-        float4 Pos = _StartPos;
-        Pos.x += GameEngineRandom::MainRandom.RandomFloat(-Scale, Scale);
-
-        GameEngineRender* NewPetrol = CreateRender(WormsRenderOrder::MapObject);
-        NewPetrol->SetPosition(Pos);
-
-        NewPetrol->SetScale({ 30, 30 });
-
-        NewPetrol->CreateAnimation({ .AnimationName = "Petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
-        NewPetrol->ChangeAnimation("Petrol_30");
-        AllPetrol.push_back(NewPetrol);
-        AllPetrolPos.push_back(Pos);
-        AllPetrolGroundcheck.push_back(false);
-    }
-}
 
 void PetrolEffect::CreateFireEffect(float _DeltaTime)
 {
     float RandX = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
     Dir.x = RandX;
-    for (int i = 0; i < NumOfPetrol; ++i)
-    {
+    MoveDir.x += Dir.x * _DeltaTime * 10;
 
-        AllPetrolPos[i].x += Dir.x * _DeltaTime*10;
-        AllPetrolPos[i].y += Dir.y * _DeltaTime*10;
-        MapModifier::MainModifier->CreateHole(AllPetrolPos[i], 6, false);
+    SetPos(GetPos() + MoveDir * _DeltaTime);
+
+    MapModifier::MainModifier->CreateHole(GetPos(), 8, false);
+}
+
+
+
+float4 PetrolEffect::PullUp(float4 _NextPos, float _DeltaTime)
+{
+    if (nullptr == ColImage)
+    {
+        MsgAssert("ColImage가 nullptr입니다.");
     }
 
+    if (Blue != ColImage->GetPixelColor(_NextPos, Blue))
+    {
+        return _NextPos;
+    }
+
+    while (true)
+    {
+         MoveDir.y -= 1;
+
+        _NextPos = GetPos() + MoveDir * _DeltaTime;
+
+        if (Blue == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 0)))
+        {
+            continue;
+        }
+
+        return _NextPos;
+    }
 }
+
+void PetrolEffect::IsWallCheck(float4 _Pos)
+{
+    float4 CheckRPos = _Pos + float4::Right;
+    float4 checkLPos = _Pos + float4::Left;
+
+    if (Blue == ColImage->GetPixelColor(CheckRPos, RGB(0, 0, 0)))
+    {
+        SetPos({ GetPos().x + 1, GetPos().y });
+    }
+    
+    if (Blue == ColImage->GetPixelColor(checkLPos, RGB(0, 0, 0)))
+    {
+        SetPos({ GetPos().x - 1, GetPos().y });
+    }
+}
+
 
 bool PetrolEffect::IsGroundCheck(float4 _Pos)
 {
@@ -146,32 +176,4 @@ bool PetrolEffect::IsGroundCheck(float4 _Pos)
 void PetrolEffect::GravityApplied(float _DeltaTime)
 {
     MoveDir += (float4::Down * Gravity * _DeltaTime);
-}
-
-
-float4 PetrolEffect::PullUp(float4 _NextPos, float4 _CurPos, float _DeltaTime)
-{
-    if (nullptr == ColImage)
-    {
-        MsgAssert("ColImage가 nullptr입니다.");
-    }
-
-    if (Blue != ColImage->GetPixelColor(_NextPos, Blue))
-    {
-        return _NextPos;
-    }
-
-    while (true)
-    {
-        MoveDir.y -= 1;
-
-        _NextPos = _CurPos + MoveDir * _DeltaTime;
-
-        if (Blue == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 0)))
-        {
-            continue;
-        }
-
-        return _NextPos;
-    }
 }

@@ -74,13 +74,6 @@ void Map::Start()
         GameEngineInput::CreateKey("OilDrumButton", 'O');
     }
 
-    //마우스 좌측 키 입력 생성
-    if (false == GameEngineInput::IsKey("LandHole"))
-    {
-        GameEngineInput::CreateKey("LandHole", VK_LBUTTON);
-    }
-
-
     //MapRender 생성
     MapRender = CreateRender(WormsRenderOrder::Map);
     MapRender->SetImage(MapName);
@@ -99,19 +92,26 @@ void Map::Start()
     }
 
     //BackGround_Sky
+    //{
+    //    GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
+    //    BackGround->SetImage("gradient.bmp");
+    //    BackGround->SetPosition(MapScale.half());
+    //    BackGround->SetScaleToImage();
+    //}
+    //BackGround_Sky
     {
         GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
-        BackGround->SetImage("gradient.bmp");
+        BackGround->SetImage("gradient2.bmp");
         BackGround->SetPosition(MapScale.half());
         BackGround->SetScaleToImage();
     }
-    //BackGround_Mountain
-    {
-        GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
-        BackGround->SetImage("Midground.bmp");
-        BackGround->SetPosition(MountainPos);
-        BackGround->SetScale(BackScale);
-    }
+    ////BackGround_Mountain
+    //{
+    //    GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
+    //    BackGround->SetImage("Midground.bmp");
+    //    BackGround->SetPosition(MountainPos);
+    //    BackGround->SetScale(BackScale);
+    //}
     //BackGround_Wave
     {
         GameEngineRender* WaveBack = CreateRender(WormsRenderOrder::BackGround);
@@ -195,25 +195,15 @@ void Map::Update(float _DeltaTime)
     //일정 시간이 지나면 랜덤한 개수의 회복 아이템이 랜덤한 위치에서 드랍됨
     if (0.0f >= WaitTime)
     {
-        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(0, 4);
+        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(0, 3);
         for (int i = 0; i < NumOfObj; ++i)
         {
             Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
             Object->SetPos(Object->GetMapObjPos());
         }
-        WaitTime = 25.0f;
+        WaitTime = 40.0f;
     }
 	
-	//if (true == GameEngineInput::IsDown("LandHole"))
-	//{
-	//	float4 Pos = GetLevel()->GetMousePosToCamera();
-	//	//MapModifier::MainModifier->CreateHole(Pos, 20);
- //     
- //       PetrolEffect* NewEffect = GetLevel()->CreateActor<PetrolEffect>(WormsRenderOrder::MapObject);
- //       NewEffect->CreatePetrolEffect(5, Pos);
-
-	//	return;
-	//}
 
     if (true == GameEngineInput::IsDown("MediKitButton"))
     {
@@ -225,8 +215,12 @@ void Map::Update(float _DeltaTime)
 
     if (true == GameEngineInput::IsDown("OilDrumButton"))
     {
+        float RandX = GameEngineRandom::MainRandom.RandomFloat(500, 700);
+
+        MapModifier::MainModifier->SetModifierColPosition({ 0.0f, 0.0f });
+
         Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        Object->SetPos({ 600, 100 });
+        Object->SetPos({ RandX, 100 });
 
         return;
     }

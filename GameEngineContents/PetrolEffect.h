@@ -23,30 +23,37 @@ protected:
 
 private:
     bool IsJump = false;
+    bool IsDamageToDrum = false;
+    bool IsWindEffectEnd = false;
 
-    int NumOfPetrol = 0;
 
-    float Scale = 100.0f;
     float Gravity = 900.0f;
     float MoveSpeed = 5.0f;
-    float WaitTime = 1.5f;
-    float LiveTime = 7.0f;
+    float WaitTime = 0.3f;
+    float LiveTime = 2.0f;
 
     float4 Dir = float4::Zero;
     float4 MoveDir = float4::Zero;
 
-    std::vector<bool> AllPetrolGroundcheck;
-    std::vector<GameEngineRender*> AllPetrol;
-    std::vector<float4> AllPetrolPos;
 
+  
 
+    void IsWallCheck(float4 _Pos);
     bool IsGroundCheck(float4 _Pos);
 
     void GravityApplied(float _DeltaTime);
-    float4 PullUp(float4 _NextPos, float4 _CurPos, float _DeltaTime);
+    float4 PullUp(float4 _NextPos,  float _DeltaTime);
 
     void CreateFireEffect(float _DeltaTime);
+   
+    void HitDrumCheck();
 
-    bool IsAllGroundCheck();
+
+    GameEngineRender* PetrolRender = nullptr;
+    GameEngineCollision* PetrolCol = nullptr;
+
+
 };
+
+
 
