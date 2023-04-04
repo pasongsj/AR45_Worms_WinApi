@@ -14,14 +14,14 @@ enum class PlayerState
     Dead,
     Win,
 
-    FlyDown,
-    FacePlant,
+    FlyDown,   //점프 애니메이션 후 몇초 이따가 flydown으로
+    FacePlant, //이동 중에 낙사 데미지를 받음
 
-    Damaged,
+    FlyAway, //데미지를 받았을 때
+    Sliding, //flyaway후 벽에 닿으면
+    StandUp, //슬라이딩 후 일어남
 
-    FlyAway,
-    Sliding,
-    StandUp,
+    Angry, //데미지 ui를 띄우며 화난 애니메이션이 나오는 상태
 
 };
 
@@ -163,6 +163,8 @@ private:
     void CheckAlive();
     void TestChangeDeadState();
 
+    int DamagedValue = 0; //데미지 받은 값을 저장함
+
     void CheckTurn();
     bool IsMyTurn = false; //내 턴인지 체크
 
@@ -284,9 +286,9 @@ private:
     void StandUpUpdate(float _DeltaTime);
     void StandUpEnd();
 
-    void DamagedStart();
-    void DamagedUpdate(float _DeltaTime);
-    void DamagedEnd();
+    void AngryStart();
+    void AngryUpdate(float _DeltaTime);
+    void AngryEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();

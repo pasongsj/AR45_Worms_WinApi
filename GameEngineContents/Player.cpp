@@ -132,22 +132,22 @@ void Player::Test()
 	}
 }
 
-void Player::CheckAlive()
-{
-    if (PlayerHP <= 0)
-    {
-        TestChangeDeadState();
-    }
-}
+//void Player::CheckAlive()
+//{
+//    if (PlayerHP <= 0)
+//    {
+//        TestChangeDeadState();
+//    }
+//}
 
-void Player::TestChangeDeadState()
-{
-    if (true == IsAlive)
-    {
-        ChangeState(PlayerState::Dead);
-        IsAlive = false;
-    }
-}
+//void Player::TestChangeDeadState()
+//{
+//    if (true == IsAlive)
+//    {
+//        ChangeState(PlayerState::Dead);
+//        IsAlive = false;
+//    }
+//}
 
 void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 {
@@ -158,7 +158,6 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 
 	if (DamagedTime >= 0.0f)
 	{
-		PlayerHP -= _Damage;
 		DamagedTime = 0.0f;
 		
         if (_Dir == float4::Zero)
@@ -182,7 +181,9 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
 
         }
 
-        DisplayDamageUI(static_cast<float>(_Damage));
+        DamagedValue += _Damage;
+
+        
 	}
 }
 
@@ -238,7 +239,6 @@ void Player::CheckTurn()
 
 void Player::Update(float _DeltaTime)
 {
-
     IsGroundCheck();   
     
     PlayerPixelCheck(_DeltaTime);
@@ -248,7 +248,7 @@ void Player::Update(float _DeltaTime)
     CheckTurn();
     //제가 생각하는 순서
 
-    CheckAlive(); //임시로 죽었는지 확인하여 죽었다면 스테이트 변경
+    //CheckAlive(); //임시로 죽었는지 확인하여 죽었다면 스테이트 변경
 
 
     //PlayerPixelCheck();
@@ -951,9 +951,25 @@ void Player::Render(float _DeltaTime)
 
 void Player::PlayerDead()
 {
+    SetGraveObject(PlayerGraveImageStringView);
+
+    if (true == IsMyTurn)
+    {
+        SetIsMyTurn(false);
+
+    }
+
+    if (nullptr != GetCurWeapon())
+    {
+        CurWeapon->Death();
+        CurWeapon = nullptr;
+    }
+
+    IsAlive = false;
+
     Off();
     HPUI->Off();
-    SetGraveObject(PlayerGraveImageStringView);
+
 }
 
 void Player::SetGraveObject(const std::string_view& _GraveImage)

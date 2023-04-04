@@ -285,6 +285,9 @@ void PlayLevel::ImageLoad()
             GameEngineImage* WinLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WinLeft.bmp"));
             WinLeft->Cut(1, 14);
 
+            GameEngineImage* AngryLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AngryLeft.bmp"));
+            AngryLeft->Cut(1, 17);
+
 			GameEngineImage* FlyUpLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyupLeft.bmp"));
 			FlyUpLeft->Cut(1, 2);
             GameEngineImage* FlyLinkLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyLinkLeft.bmp"));
@@ -420,6 +423,8 @@ void PlayLevel::ImageLoad()
             FlyLinkRight->Cut(1, 7);
 			GameEngineImage* FlyDownRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlydownRight.bmp"));
 			FlyDownRight->Cut(1, 2);
+            GameEngineImage* AngryRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("AngryRight.bmp"));
+            AngryRight->Cut(1, 17);
 
             GameEngineImage* FlyAwayRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FlyAwayRight.bmp"));
             FlyAwayRight->Cut(1, 32);

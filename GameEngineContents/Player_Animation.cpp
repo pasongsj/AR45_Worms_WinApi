@@ -21,6 +21,9 @@ void Player::CreateAnimation()
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_Die", .ImageName = "DieLeft.bmp", .Start = 0, .End = 59, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Left_Win", .ImageName = "WinLeft.bmp", .Start = 0, .End = 13, .InterTime = 0.05f });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_Angry", .ImageName = "AngryLeft.bmp", .Start = 0, .End = 16, .InterTime = 0.05f });
+
     }
     {
         //¿ìÃø
@@ -37,6 +40,8 @@ void Player::CreateAnimation()
 
         AnimationRender->CreateAnimation({ .AnimationName = "Right_Die", .ImageName = "DieRight.bmp", .Start = 0, .End = 59, .InterTime = 0.05f });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_Win", .ImageName = "WinRight.bmp", .Start = 0, .End = 13, .InterTime = 0.05f });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_Angry", .ImageName = "AngryRight.bmp", .Start = 0, .End = 16, .InterTime = 0.05f });
     }
 
 

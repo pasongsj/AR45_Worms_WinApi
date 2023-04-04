@@ -69,6 +69,11 @@ void Player::ChangeState(PlayerState _State)
         StandUpStart();
         break;
     }
+    case PlayerState::Angry:
+    {
+        AngryStart();
+        break;
+    }
 	default:
 		break;
 	}
@@ -128,6 +133,11 @@ void Player::ChangeState(PlayerState _State)
     case PlayerState::StandUp:
     {
         StandUpEnd();
+        break;
+    }
+    case PlayerState::Angry:
+    {
+        AngryEnd();
         break;
     }
 	default:
@@ -192,6 +202,11 @@ void Player::UpdateState(float _DeltaTime)
     case PlayerState::StandUp:
     {
         StandUpUpdate(_DeltaTime);
+        break;
+    }
+    case PlayerState::Angry:
+    {
+        AngryUpdate(_DeltaTime);
         break;
     }
 	default:
@@ -559,6 +574,7 @@ void Player::DeadStart()
     AnimationRender->ChangeAnimation(AnimationText);
 
     GameEngineResources::GetInst().SoundPlay("OHDEAR.wav");
+
 }
 
 void Player::DeadUpdate(float _DeltaTime)
@@ -1004,12 +1020,77 @@ void Player::StandUpUpdate(float _DeltaTime)
 
     if (AnimationRender->IsAnimationEnd())
     {
-        ChangeState(PlayerState::IDLE);
+        ChangeState(PlayerState::Angry);
         return;
     }
 }
 
 void Player::StandUpEnd()
+{
+
+}
+
+void Player::AngryStart()
+{
+    if (DamagedValue > 0)
+    {
+        DisplayDamageUI(static_cast<float>(DamagedValue));
+
+        PlayerHP -= DamagedValue;
+        DamagedValue = 0;
+    }
+    else
+    {
+        ChangeState(PlayerState::IDLE);
+        return;
+    }
+
+
+    if (PlayerHP <= 0)
+    {
+        ChangeState(PlayerState::Dead);
+        return;
+    }
+
+    AnimationDir = DirString;
+
+    std::string AnimationName = "Angry";
+    std::string AnimationText = AnimationDir.data() + AnimationName;
+    AnimationRender->ChangeAnimation(AnimationText);
+
+    PlaySoundOnce("Angry.wav");
+
+    StateCalTime = 0.0f;
+
+
+
+}
+void Player::AngryUpdate(float _DeltaTime)
+{
+    GravityApplied(_DeltaTime);
+
+    StateCalTime += _DeltaTime;
+
+    if (true == IsGround)
+    {
+        MoveDir = float4::Zero;
+    }
+
+    if (AnimationRender->IsAnimationEnd())
+    {
+        ChangeState(PlayerState::IDLE);
+        return;
+
+        //if (true == IsMyTurn)
+        //{
+        //    //SetIsMyTurn(false);
+        //    ChangeState(PlayerState::IDLE);
+        //    return;
+        //}
+
+    }
+}
+void Player::AngryEnd()
 {
 
 }
