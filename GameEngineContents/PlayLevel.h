@@ -74,6 +74,12 @@ private:
     void SetRandomPos(float _Interval);
     bool DamageAnimCheck();
 
+    bool bWin = false;
+    bool bDraw = false;
+
+    float fWinTime = 0.f;
+    float fAnimTime = 0.f;
+
     LevelSetting LevelSet = {};
 
 	Wind AddWind;

@@ -707,6 +707,7 @@ void PlayLevel::KeyLoad()
 		GameEngineInput::CreateKey("WeaponUp", 'W');
 		GameEngineInput::CreateKey("WeaponDown", 'S');
 		GameEngineInput::CreateKey("Shoot", VK_SPACE);
+        GameEngineInput::CreateKey("SetPos", 'R');
 
         GameEngineInput::CreateKey("DebugSwitch", 'P');
 	}
@@ -739,9 +740,10 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	{
 		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
-    
 
-    if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() ||GameEngineInput::IsDown("ChangePlayer"))
+    GameSetCheck();
+
+    if ((false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() || GameEngineInput::IsDown("ChangePlayer") ))
     {   
         if (false == DamageAnimCheck())
         {
@@ -802,6 +804,32 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 			GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
 		}
 	}
+
+    if (true == bWin)
+    {
+        fWinTime += _DeltaTime;
+        
+        if (fWinTime>2.f)
+        {
+            if (PlayerState::Win ==GlobalValue::gValue.GetPlayer()->GetPlayerState())
+            {
+                fAnimTime += _DeltaTime;
+                if (fAnimTime > 5.f)
+                {
+                    GameEngineCore::GetInst()->ChangeLevel("Ending");
+                }
+            }
+            else
+            {
+                GlobalValue::gValue.GetPlayer()->SetPlayerState(PlayerState::Win);
+
+                BgmPlayer.Stop();
+                GameEngineResources::GetInst().SoundPlay("CrowdPart2.wav");
+            }            
+            
+        }
+       
+    }
 }
 
 void PlayLevel::MoveCamForMouse(float _DeltaTime)
@@ -924,12 +952,13 @@ void PlayLevel::GameSetCheck()
 
     if (1 == iUpdatePlayer)
     {
-        int a = 0; // win
+        bWin = true;
     }
     
     else if (0 == iUpdatePlayer)
     {
-        int a = 0; // draw
+        bDraw = true;
+        GameEngineCore::GetInst()->ChangeLevel("Ending");
     }
 }
 
@@ -990,7 +1019,7 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
-    GameSetCheck();
+    
 	CreateLeaf(_DeltaTime);     
     
     PlayerChange(_DeltaTime);
@@ -1004,6 +1033,10 @@ void PlayLevel::Update(float _DeltaTime)
     if (GameEngineInput::IsDown("DebugSwitch"))
     {
         GameEngineCore::GetInst()->DebugSwitch();
+    }
+    if (GameEngineInput::IsDown("SetPos"))
+    {
+        GlobalValue::gValue.GetPlayer()->SetPos(GetMousePosToCamera());
     }
 }
 
