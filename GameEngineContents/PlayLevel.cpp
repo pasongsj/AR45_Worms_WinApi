@@ -1009,6 +1009,8 @@ void PlayLevel::Update(float _DeltaTime)
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    SetUIImage();
+
     SetRandomPos(300.f);
     {
         Map* Actor = CreateActor<Map>();
@@ -1029,6 +1031,11 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 
             vecAllPlayer[i]->SetHP(LevelSet.iPlayerHp);
+
+            int UiNumber = i * 4;
+
+            vecAllPlayer[i]->SetHPUI(vecPlayerUIImage[UiNumber], vecPlayerUIImage[UiNumber + 1], vecPlayerUIImage[UiNumber + 2]);
+            vecAllPlayer[i]->SetGraveString(vecPlayerUIImage[UiNumber + 3]);
 
             float4 StartPos = float4{ 400,50 };
             vecAllPlayer[i]->SetPos(StartPos);
@@ -1075,4 +1082,40 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponMinigun>();
     //CreateActor<WeaponClusterBomb>();
     //CreateActor<WeaponShotgun>();
+}
+
+//SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
+
+void PlayLevel::SetUIImage()
+{
+    vecPlayerUIImage.reserve(25);
+    vecPlayerUIImage.push_back("RedNumberRender.bmp");
+    vecPlayerUIImage.push_back("RedNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowRed.bmp");
+    vecPlayerUIImage.push_back("Grave1.bmp");
+
+    vecPlayerUIImage.push_back("BlueNumberRender.bmp");
+    vecPlayerUIImage.push_back("BlueNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowBlue.bmp");
+    vecPlayerUIImage.push_back("Grave2.bmp");
+
+    vecPlayerUIImage.push_back("GreenNumberRender.bmp");
+    vecPlayerUIImage.push_back("GreenNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowGreen.bmp");
+    vecPlayerUIImage.push_back("Grave3.bmp");
+
+    vecPlayerUIImage.push_back("PinkNumberRender.bmp");
+    vecPlayerUIImage.push_back("PinkNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowPink.bmp");
+    vecPlayerUIImage.push_back("Grave4.bmp");
+
+    vecPlayerUIImage.push_back("YellowNumberRender.bmp");
+    vecPlayerUIImage.push_back("YellowNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowYellow.bmp");
+    vecPlayerUIImage.push_back("Grave5.bmp");
+
+    vecPlayerUIImage.push_back("MintNumberRender.bmp");
+    vecPlayerUIImage.push_back("MintNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowMint.bmp");
+    vecPlayerUIImage.push_back("Grave6.bmp");
 }

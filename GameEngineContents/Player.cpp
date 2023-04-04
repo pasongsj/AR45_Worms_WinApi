@@ -52,11 +52,11 @@ void Player::Start()
 		GameEngineInput::CreateKey("TestButton", 'M');
 	}
 
-    PlayerGraveImageStringView = "Grave5.bmp";
+    
 
     SetWeaponCount();
 
-	SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
+	//SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");
 	ChangeState(PlayerState::IDLE);
 }
 
@@ -72,8 +72,6 @@ void Player::SetIsMyTurn(bool _Value)
 {
 	IsMyTurn = _Value;
 	HPUI->SetSelectPlayerRender(_Value);    
-
-
 
     //본인 턴이고, CurWeapon의 개수가 0이 아니라면 생성함
     if (true == _Value) 
@@ -866,6 +864,11 @@ void Player::PlayerDead()
     SetGraveObject(PlayerGraveImageStringView);
     TurnCheckValue = true;
     IsAlive = false;
+
+    if (true == IsMyTurn)
+    {
+        SetIsMyTurn(false);
+    }
 
     if (nullptr != GetCurWeapon())
     {

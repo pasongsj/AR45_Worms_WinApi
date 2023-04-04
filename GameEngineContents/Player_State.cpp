@@ -421,7 +421,7 @@ void Player::JumpUpdate(float _DeltaTime)
         StateCalValue = GetPos().y;
     }
 
-    if (false == IsGround)
+    if (false == IsGround && false == DownPixelCheck)
     {
         StateCalBool3 = false;
     }
@@ -449,7 +449,7 @@ void Player::JumpUpdate(float _DeltaTime)
                 ChangeState(PlayerState::IDLE);
                 return;
             }
-            MoveDir += (float4::Up + float4::Right) * JumpForce;
+            MoveDir += (float4::Up + float4::Up + float4::Right).NormalizeReturn() * JumpForce;
         }
         else
         {
@@ -458,7 +458,7 @@ void Player::JumpUpdate(float _DeltaTime)
                 ChangeState(PlayerState::IDLE);
                 return;
             }
-            MoveDir += (float4::Up + float4::Left) * JumpForce;
+            MoveDir += (float4::Up + float4::Up + float4::Left).NormalizeReturn() * JumpForce;
         }
 
         std::string AnimationName = "FlyUp";
@@ -474,12 +474,12 @@ void Player::JumpUpdate(float _DeltaTime)
     {
         GravityApplied(_DeltaTime);
 
-        if (true == LeftPixelCheck)
+        if (true == LeftPixelCheck && "Left_" == DirString)
         {
             SetMoveDirWithAngle(WallCheckDir::Left);
             MoveDir *= FrictionValue;
         }
-        else if (true == RightPixelCheck)
+        else if (true == RightPixelCheck && "Right_" == DirString)
         {
             SetMoveDirWithAngle(WallCheckDir::Right);
             MoveDir *= FrictionValue;
@@ -519,7 +519,7 @@ void Player::JumpUpdate(float _DeltaTime)
             MoveDir *= FrictionValue;
         }
 
-        else if (true == LeftDownPixelCheck)
+        else if (true == LeftDownPixelCheck && "Left_" == DirString)
         {
             if (true == DownPixelCheck)
             {
@@ -531,7 +531,7 @@ void Player::JumpUpdate(float _DeltaTime)
             }
             MoveDir *= FrictionValue;
         }
-        else if (true == RightDownPixelCheck)
+        else if (true == RightDownPixelCheck && "Right_" == DirString)
         {
             if (true == DownPixelCheck)
             {
@@ -639,6 +639,7 @@ void Player::FlyDownUpdate(float _DeltaTime)
             {
                 //이후 데미지 받음
                 ChangeState(PlayerState::Sliding);
+                DamagedValue += static_cast<int>(Value) % 10;
 
                 RandomDamagedSound();
 
@@ -660,6 +661,8 @@ void Player::FlyDownUpdate(float _DeltaTime)
             if (Value >= 50.0f)
             {
                 //데미지 받음
+                DamagedValue += static_cast<int>(Value) % 10;
+
                 ChangeState(PlayerState::FacePlant);
                 return;
             }
@@ -679,6 +682,8 @@ void Player::FlyDownEnd()
 
 void Player::FacePlantStart()
 {
+
+
     AnimationRender->ChangeAnimation("FacePlant");
     PlaySoundOnce("FacePlant.wav");
 }
@@ -687,7 +692,7 @@ void Player::FacePlantUpdate(float _DeltaTime)
 {
     if (AnimationRender->IsAnimationEnd())
     {
-        ChangeState(PlayerState::IDLE);
+        ChangeState(PlayerState::Angry);
         return;
     }
 }
@@ -1049,7 +1054,6 @@ void Player::AngryStart()
         return;
     }
 
-
     if (PlayerHP <= 0)
     {
         ChangeState(PlayerState::Dead);
@@ -1081,6 +1085,11 @@ void Player::AngryUpdate(float _DeltaTime)
     if (AnimationRender->IsAnimationEnd())
     {
         TurnCheckValue = true;
+
+        if (true == IsMyTurn)
+        {
+            SetIsMyTurn(false);
+        }
         ChangeState(PlayerState::IDLE);
         return;
 
