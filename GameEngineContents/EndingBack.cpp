@@ -36,9 +36,9 @@ void EndingBack::Start()
 
 void EndingBack::Update(float _DeltaTime)
 {
-    if (BlackAlpha < 100)
+    if (BlackAlpha < 200)
     {
-        BlackAlpha += 200 * _DeltaTime;
+        BlackAlpha += 150 * _DeltaTime;
 
         BlackGroundAlpha->SetAlpha(static_cast<int>(255 - BlackAlpha));
        // EndingWrite->SetAlpha(255-);
