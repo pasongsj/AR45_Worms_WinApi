@@ -23,6 +23,11 @@ void MapObject::SetColImage()
     //ColImg Setting
     std::string ColMapName = Map::MainMap->GetColMapName();
     ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
+
+    if (nullptr == ColImage)
+    {
+        MsgAssert("ColImage가 nullptr입니다.");
+    }
 }
 
 float4 MapObject::GetMapObjPos()
@@ -72,6 +77,11 @@ bool MapObject::IsGroundCheck()
 {
     float4 GroundCheckPos = GetPos() + float4::Down;                                    //검사 대상 위치: 이미지의 중앙 하단부에서 한 칸 아랫 지점
     GroundCheckPos.y += ObjScale.hy();
+
+    if (nullptr == ColImage)
+    {
+        MsgAssert("ColImage가 nullptr입니다.");
+    }
 
     if (Blue == ColImage->GetPixelColor(GroundCheckPos, RGB(0, 0, 0)))
     {

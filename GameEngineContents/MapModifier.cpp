@@ -32,10 +32,6 @@ void MapModifier::Start()
 	ModifierCollision->SetDebugRenderType(CT_CirCle);
 }
 
-void MapModifier::Update(float _DeltaTime)
-{
-	
-}
 
 void MapModifier::SetModifierColScale(float4 _Scale)
 {
@@ -211,6 +207,12 @@ void MapModifier::DrawPixel(float4 _Pos, int _Radius)
 	std::string ColMapName = Map::MainMap->GetColMapName();
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
 
+    if (nullptr == ColImage)
+    {
+        MsgAssert("충돌검사를 위한 ColImage가 nullptr입니다.");
+        return;
+    }
+
 	int lineThick = 2;
     float Radius = static_cast<float>(_Radius);
     float Angle = 0.0f;
@@ -259,6 +261,12 @@ void MapModifier::DrawPixelRect(float4 _Pos, int _Horz, int _Vert)
 
     std::string ColMapName = Map::MainMap->GetColMapName();
     GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
+
+    if (nullptr == ColImage)
+    {
+        MsgAssert("충돌검사를 위한 ColImage가 nullptr입니다.");
+        return;
+    }
 
     int lineThick = 2;
     float Horizon = static_cast<float>(_Horz);

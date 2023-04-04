@@ -169,7 +169,7 @@ void Map::Start()
     if (LevelName == GetLevel()->GetName())
     {
         //데코적용
-        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 6);
+        int NumOfObj = GameEngineRandom::MainRandom.RandomInt(1, 4);
         for (int i = 0; i < NumOfObj; i++)
         {
             MapDecoration* Deco = GetLevel()->CreateActor<MapDecoration>(WormsRenderOrder::Map);
@@ -179,8 +179,8 @@ void Map::Start()
         }
 
 
-        //맵에 오일드럼통 4개 미리 배치
-        for (int i = 0; i < 4; ++i)
+        //맵에 오일드럼통 3개 미리 배치
+        for (int i = 0; i < 3; ++i)
         {
             Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
             Object->SetPos(Object->GetMapObjPos());
@@ -192,7 +192,7 @@ void Map::Update(float _DeltaTime)
 {
     WaitTime -= _DeltaTime;
 
-    //일정 시간이 지나면 랜덤한 개수의 회복 아이템이 랜덤한 위치에서 드랍됨
+    //일정 시간이 지나면 랜덤한 개수의 회복 아이템이 랜덤한 위치에서 드랍
     if (0.0f >= WaitTime)
     {
         int NumOfObj = GameEngineRandom::MainRandom.RandomInt(0, 3);
@@ -231,7 +231,7 @@ void Map::Update(float _DeltaTime)
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown("DebugMode"))							//디버깅 모드_충돌맵 혹은 맵을 볼 수 있음
+	if (true == GameEngineInput::IsDown("DebugMode"))							    //디버깅 모드_충돌맵 혹은 맵을 볼 수 있음
 	{
 		if (false == IsColMap)
 		{

@@ -34,7 +34,6 @@ public:
 	
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 
 private:
 	int Blue	    = RGB(0, 0, 255);

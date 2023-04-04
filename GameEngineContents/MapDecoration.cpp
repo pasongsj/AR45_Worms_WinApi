@@ -161,7 +161,7 @@ void MapDecoration::MakeRandomPosSets()
                 ++M_Count;
             }
 
-            if (2 <= B_Count && 2 <= M_Count && Blue != ColImage->GetPixelColor(Center, Magenta))
+            if (3 <= B_Count && 2 <= M_Count && Blue != ColImage->GetPixelColor(Center, Magenta))
             {
                 RandPosSets.push_back(Center);
             }

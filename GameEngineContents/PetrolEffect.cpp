@@ -66,16 +66,12 @@ void PetrolEffect::Update(float _DeltaTime)
         {
             CreateFireEffect(_DeltaTime);
            
-            if (false == IsDamageToDrum)
-            {
-                IsDamageToDrum = true;
-                //HitDrumCheck();
-            }
-            WaitTime = 0.3f;
+            HitDrumCheck();
+
+            WaitTime = 0.2f;
         }
         MoveDir.y = 0.0f;
     }
-    
 
     if (0.0f >= LiveTime)
     {
@@ -94,7 +90,7 @@ void PetrolEffect::HitDrumCheck()
     {
         for (int i = 0; i < CollisionDrum.size(); i++)
         {
-            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(1);
+            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(5);
         }
     }
 
@@ -104,8 +100,7 @@ void PetrolEffect::HitDrumCheck()
 void PetrolEffect::CreateFireEffect(float _DeltaTime)
 {
     float RandX = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
-    Dir.x = RandX;
-    MoveDir.x += Dir.x * _DeltaTime * 10;
+    MoveDir.x += RandX * _DeltaTime * 10;
 
     SetPos(GetPos() + MoveDir * _DeltaTime);
 

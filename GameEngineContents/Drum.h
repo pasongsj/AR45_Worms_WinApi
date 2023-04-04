@@ -27,14 +27,14 @@ protected:
 private:
     bool IsExplosion = false;
     bool IsPetrolEffectEnd = false;
+  
 
-    int Count = 2;
     int Gauge = 150;
     int BombScale = 100;
     int NumOfPetrol = 0;                          //생성할 오일 입자 수
 
     //수치조정 필요
-    float RangeX = 100.0f;                         //생성할 오일 입자의 x값 범위
+    float RangeX = 70.0f;                         //생성할 오일 입자의 x값 범위
     float MaxDmg = 50;
     float MinDmg = 20;
     float MinKnockBackPower = 35.0f;
@@ -60,6 +60,5 @@ private:
     void ExplosionEffectInit();
 
     void CreatePetrol(int _NumOfPetrol);            //오일 입자 생성
-    std::vector<GameEngineActor*> AllPetrols;
 };
 

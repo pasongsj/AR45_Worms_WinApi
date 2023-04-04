@@ -49,7 +49,6 @@ void Drum::Start()
 
 void Drum::Update(float _DeltaTime)
 {
-
     if (GameEngineInput::IsDown("DebugCollision"))
     {
         GetLevel()->DebugRenderSwitch();
@@ -64,13 +63,11 @@ void Drum::Update(float _DeltaTime)
        Explosion();
     }
    
-    if (true == IsExplosion && false == IsPetrolEffectEnd)
+    if (true == IsExplosion)
     {
+        CreatePetrol(12);
 
-        CreatePetrol(15);
-
-        IsPetrolEffectEnd = true;
-        Death();
+        Death();                                                       //Petrol 입자를 생성하고 난 뒤, 더이상 드럼통은 필요없으므로 제거
     }
 
     if (true == IsUnderWaterCheck())                                   //바다에 빠지면 액터 제거
@@ -90,16 +87,14 @@ void Drum::Update(float _DeltaTime)
 }
 
 
-
-
 void Drum::CreatePetrol(int _NumOfPetrol)
 {
-    NumOfPetrol = _NumOfPetrol;
+    if (0 >= _NumOfPetrol)
+    {
+        MsgAssert("생성할 oil 입자의 수는 0 이하가 될 수 없습니다.");
+    }
 
-    AllPetrols.clear();
-  
-    AllPetrols.reserve(NumOfPetrol);
-   
+    NumOfPetrol = _NumOfPetrol;
 
     for (int i = 0; i < NumOfPetrol; i++)
     {
@@ -108,13 +103,8 @@ void Drum::CreatePetrol(int _NumOfPetrol)
 
         PetrolEffect* NewPetrol = GetLevel()->CreateActor<PetrolEffect>();
         NewPetrol->SetPos(Pos);
-
-        AllPetrols.push_back(NewPetrol);
     }
 }
-
-
-
 
 
 void Drum::HitWeaponCheck()
@@ -197,8 +187,6 @@ void Drum::Explosion() //폭발
         PootTextAnimation->On();
         PootTextAnimation->ChangeAnimation("Poot", 0);
 
-
-      
         HitPlayerCheck();                                                                       //플레이어에게 데미지 적용(폭발 반경에 있다면)
     }
 }
