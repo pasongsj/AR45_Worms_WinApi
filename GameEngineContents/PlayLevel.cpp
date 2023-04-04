@@ -1032,7 +1032,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
             vecAllPlayer[i]->SetHP(LevelSet.iPlayerHp);
 
-            int UiNumber = i * 4;
+            int UiNumber = static_cast<int>(i) * 4;
 
             vecAllPlayer[i]->SetHPUI(vecPlayerUIImage[UiNumber], vecPlayerUIImage[UiNumber + 1], vecPlayerUIImage[UiNumber + 2]);
             vecAllPlayer[i]->SetGraveString(vecPlayerUIImage[UiNumber + 3]);
@@ -1040,7 +1040,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             float4 StartPos = float4{ 400,50 };
             vecAllPlayer[i]->SetPos(StartPos);
 
-            //int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, vecPlayerRandPos.size()-1);
+            //int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
             //vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);              
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);

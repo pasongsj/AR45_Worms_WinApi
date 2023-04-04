@@ -60,7 +60,7 @@ void WeaponGrenade::Start()
     TimerRender.SetCameraEffect(true);
     TimerRender.SetImage("RedNumberRender.bmp", { 15, 15 }, 10, RGB(255, 0, 255));
     TimerRender.SetAlign(Align::Center);
-    TimerRender.SetValue(Timer);
+    TimerRender.SetValue(static_cast<int>(Timer));
     TimerRender.Off();
 
 }
