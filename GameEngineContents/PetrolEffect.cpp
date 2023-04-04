@@ -53,12 +53,13 @@ void PetrolEffect::Update(float _DeltaTime)
     float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
     NextPos = PullUp(NextPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
 
-    void IsWallCheck(float4 _Pos);
+    //IsWallCheck(GetPos());
+
+    LiveTime -= _DeltaTime;
 
     if (true == IsGroundCheck(GetPos()))
     {
         IsWindEffectEnd = true;
-        LiveTime -= _DeltaTime;
         WaitTime -= _DeltaTime;
 
         if (0.0f >= WaitTime)
@@ -72,16 +73,14 @@ void PetrolEffect::Update(float _DeltaTime)
             }
             WaitTime = 0.3f;
         }
-
-        if (0.0f >= LiveTime)
-        {
-            Death();
-        }
-
         MoveDir.y = 0.0f;
     }
     
 
+    if (0.0f >= LiveTime)
+    {
+        Death();
+    }
 }
 
 
