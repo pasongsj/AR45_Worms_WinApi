@@ -234,9 +234,12 @@ void Player::CheckTurn()
 
 void Player::Update(float _DeltaTime)
 {
-    PlayerPixelCheck();
+
     IsGroundCheck();   
+    
+    PlayerPixelCheck(_DeltaTime);
     UpdateState(_DeltaTime);
+    
     MoveCalculation(_DeltaTime);
     CheckTurn();
     //제가 생각하는 순서
@@ -285,7 +288,6 @@ void Player::MoveCalculation(float _DeltaTime)
     }
 
     SetMove(MoveDir * _DeltaTime);
-
 }
 
 void Player::IsGroundCheck()
@@ -302,9 +304,14 @@ void Player::IsGroundCheck()
 	}
 }
 
-void Player::PlayerPixelCheck()
+void Player::PlayerPixelCheck(float _Deltatime)
 {
-    float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };						                           
+    float4 NextPos = GetPos() + (MoveDir * _Deltatime);
+
+    //float4 CenterPos = { GetPos().x, GetPos().y + SetMoveDIrCenterPos };
+
+    float4 CenterPos = { NextPos.x, NextPos.y + SetMoveDIrCenterPos };
+
     float Angle = 0.0f;
 
     for (; Angle < 360.0f; ++Angle)
@@ -524,6 +531,7 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
 void Player::SetMoveDirWithAngle(WallCheckDir _Dir)
 {
+
     if ("Left_" == DirString)
     {
         switch (_Dir)
@@ -618,12 +626,14 @@ void Player::SetMoveDirWithAngle(WallCheckDir _Dir)
     }
 }
 
-bool Player::GetPlayerWallCheck(WallCheckDir _Dir)  //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
+bool Player::GetPlayerWallCheck(WallCheckDir _Dir, float _DeltaTime)  //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
 {
     float Radius = 5.0f;
     float Angle = 0.0f;
 
-    float4 CenterPos = { GetPos().x, GetPos().y - 4.0f };
+    float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
+
+    float4 CenterPos = { NextPos.x, NextPos.y - 4.0f };
 
 
     switch (_Dir)

@@ -17,6 +17,8 @@ enum class PlayerState
     FlyDown,
     FacePlant,
 
+    Damaged,
+
     FlyAway,
     Sliding,
     StandUp,
@@ -196,10 +198,10 @@ private:
     const float SetMoveDirRadius = 5.0f;
     const float SetMoveDIrCenterPos = -4.0f;
 
-    bool GetPlayerWallCheck(WallCheckDir _Dir); //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
+    bool GetPlayerWallCheck(WallCheckDir _Dir, float _DeltaTime); //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
     void SetMoveDirWithAngle(WallCheckDir _Dir); // 공중에서 벽에 닿았을 때, MoveDir을 변경하는 함수
 
-    void PlayerPixelCheck();
+    void PlayerPixelCheck(float _Deltatime);
     bool LeftPixelCheck = false;
     bool RightPixelCheck = false;
     bool UpPixelCheck = false;
@@ -281,6 +283,10 @@ private:
     void StandUpStart();
     void StandUpUpdate(float _DeltaTime);
     void StandUpEnd();
+
+    void DamagedStart();
+    void DamagedUpdate(float _DeltaTime);
+    void DamagedEnd();
 
 	//기본 스테이트 관련 함수
 	//void Start();
