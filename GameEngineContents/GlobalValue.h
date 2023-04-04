@@ -79,7 +79,7 @@ private:
 
 struct LevelSetting
 {
-    float fTime  = 15.f;
+    float fTime  = 60.f;
     int iPlayerHp = 100;
     int iPlayerNum = 2;
     int iTurnRandom = 0;

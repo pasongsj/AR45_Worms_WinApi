@@ -805,7 +805,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 		}
 	}
 
-    if (true == bWin)
+    if (true == bWin&& false == GameEngineCore::GetInst()->IsDebug())
     {
         fWinTime += _DeltaTime;
         
@@ -814,7 +814,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
             if (PlayerState::Win ==GlobalValue::gValue.GetPlayer()->GetPlayerState())
             {
                 fAnimTime += _DeltaTime;
-                if (fAnimTime > 5.f)
+                if (fAnimTime > 6.f)
                 {
                     GameEngineCore::GetInst()->ChangeLevel("Ending");
                 }
@@ -825,6 +825,8 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 
                 BgmPlayer.Stop();
                 GameEngineResources::GetInst().SoundPlay("CrowdPart2.wav");
+                GameEngineResources::GetInst().SoundPlay("win.wav");
+
             }            
             
         }
@@ -1070,11 +1072,11 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             vecAllPlayer[i]->SetHPUI(vecPlayerUIImage[UiNumber], vecPlayerUIImage[UiNumber + 1], vecPlayerUIImage[UiNumber + 2]);
             vecAllPlayer[i]->SetGraveString(vecPlayerUIImage[UiNumber + 3]);
 
-            float4 StartPos = float4{ 400,50 };
-            vecAllPlayer[i]->SetPos(StartPos);
+            //float4 StartPos = float4{ 400,50 };
+            //vecAllPlayer[i]->SetPos(StartPos);
 
-            //int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
-            //vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);              
+            int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
+            vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);              
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
