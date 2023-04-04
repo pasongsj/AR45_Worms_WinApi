@@ -150,6 +150,9 @@ private:
 	GameEngineRender* AnimationRender = nullptr;  //애니메이션 렌더러
 	GameEngineCollision* BodyCollision = nullptr; //공격 받았는지 여부를 확인하기 위한 콜리전
 
+    void PlaySoundOnce(const std::string_view& _Text);
+    void RandomDamagedSound();
+
     //플레이어 스테이터스 관련 (HP,움직일 수 있는지,생존여부)
     bool CanIMove = true;
     int PlayerHP = 100;
@@ -208,7 +211,7 @@ private:
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
-    float JumpForce = 250.0f;
+    float JumpForce = 200.0f;
 
 	void GravityApplied(float _DeltaTime); //중력적용
 
@@ -225,6 +228,7 @@ private:
 
     float StateCalTime = 0.0f; //스테이트 내에서 시간 계산이 필요할 때
     float StateCalTime2 = 0.0f;
+    float StateCalTime3 = 0.0f;
     bool StateCalBool = true;
     bool StateCalBool2 = true;
     bool StateCalBool3 = true;
