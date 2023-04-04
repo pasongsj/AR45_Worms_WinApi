@@ -182,7 +182,7 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
         }
 
         DamagedValue += _Damage;
-
+        TurnCheckValue = false;
         
 	}
 }
@@ -208,14 +208,14 @@ void Player::CheckTurn()
         ChangeState(PlayerState::IDLE);
 
         //StateValue = PlayerState::IDLE;
-    }
+    }   
 
     if (false == IsMyTurn)
     {
         return;
     }
 
-    if (CurWeapon!= nullptr&&true == CurWeapon->IsWeaponDone())
+    if (CurWeapon!= nullptr && true == CurWeapon->IsWeaponDone() && TurnCheckValue == true)
     {
         SetIsMyTurn(false);
         SetCanIMove(true);
@@ -246,18 +246,6 @@ void Player::Update(float _DeltaTime)
     
     MoveCalculation(_DeltaTime);
     CheckTurn();
-    //제가 생각하는 순서
-
-    //CheckAlive(); //임시로 죽었는지 확인하여 죽었다면 스테이트 변경
-
-
-    //PlayerPixelCheck();
-    //UpdateState(_DeltaTime);
-    //MoveCalculation(_DeltaTime);
-    //CheckAlive();
-    //IsGroundCheck();
-    //CheckTurn();
-
 
     Test();
 
@@ -492,25 +480,6 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
         return _NextPos;
     }
 
-	//if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
-	//{
-	//	return _NextPos;
-	//}
-
-	//while (true)
-	//{
-	//	MoveDir.y -= 1;
-
-	//	_NextPos = GetPos() + MoveDir * _DeltaTime;
-
-	//	if (RGB(0, 0, 255) == ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
-	//	{
-	//		continue;
-	//	}
-
-	//	return _NextPos;
-	//}
-
     float4 PlayerPos = { GetPos().x ,GetPos().y + 1.0f};
 
     while (true)
@@ -628,63 +597,6 @@ void Player::SetMoveDirWithAngle(WallCheckDir _Dir)
     {
         DirString = "Left_";
     }
-}
-
-bool Player::GetPlayerWallCheck(WallCheckDir _Dir, float _DeltaTime)  //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
-{
-    float Radius = 5.0f;
-    float Angle = 0.0f;
-
-    float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
-
-    float4 CenterPos = { NextPos.x, NextPos.y - 4.0f };
-
-
-    switch (_Dir)
-    {
-    case WallCheckDir::Up:
-    {
-        for (; Angle < 360.0f; ++Angle)
-        {
-            float4 CheckPos = { 0.0f, -Radius };
-            CheckPos.RotaitonZDeg(Angle);
-            CheckPos += CenterPos;
-            int Value = 0;
-        }
-        break;
-    }
-    case WallCheckDir::Down:
-    {
-        break;
-    }
-    case WallCheckDir::Left:
-    {
-        break;
-    }
-    case WallCheckDir::Right:
-    {
-        break;
-    }
-    case WallCheckDir::LeftUp:
-    {
-        break;
-    }
-    case WallCheckDir::LeftDown:
-    {
-        break;
-    }
-    case WallCheckDir::RightUp:
-    {
-        break;
-    }
-    case WallCheckDir::RightDown:
-    {
-        break;
-    }
-    }
-
-
-    return true;
 }
 
 
@@ -952,20 +864,14 @@ void Player::Render(float _DeltaTime)
 void Player::PlayerDead()
 {
     SetGraveObject(PlayerGraveImageStringView);
-
-    if (true == IsMyTurn)
-    {
-        SetIsMyTurn(false);
-
-    }
+    TurnCheckValue = true;
+    IsAlive = false;
 
     if (nullptr != GetCurWeapon())
     {
         CurWeapon->Death();
         CurWeapon = nullptr;
     }
-
-    IsAlive = false;
 
     Off();
     HPUI->Off();

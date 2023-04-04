@@ -91,6 +91,11 @@ public:
         return PlayerHP;
     }
 
+    bool GetTurnCheckValue() //false = 턴 체크 불가능
+    {
+        return TurnCheckValue;
+    }
+
     void SetPlayerState(PlayerState _State);
 
     void DisplayDamageUI(float _Damage); //데미지 UI를 띄우는 함수
@@ -160,8 +165,6 @@ private:
     int PlayerHP = 100;
     int MaxHP = 100;
     bool IsAlive = true;
-    void CheckAlive();
-    void TestChangeDeadState();
 
     int DamagedValue = 0; //데미지 받은 값을 저장함
 
@@ -200,7 +203,6 @@ private:
     const float SetMoveDirRadius = 5.0f;
     const float SetMoveDIrCenterPos = -4.0f;
 
-    bool GetPlayerWallCheck(WallCheckDir _Dir, float _DeltaTime); //현재 그 방향이 벽과 맞닿아 있는지를 가져옴 
     void SetMoveDirWithAngle(WallCheckDir _Dir); // 공중에서 벽에 닿았을 때, MoveDir을 변경하는 함수
 
     void PlayerPixelCheck(float _Deltatime);
@@ -216,6 +218,8 @@ private:
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
     float JumpForce = 200.0f;
+
+    bool TurnCheckValue = true;
 
 	void GravityApplied(float _DeltaTime); //중력적용
 

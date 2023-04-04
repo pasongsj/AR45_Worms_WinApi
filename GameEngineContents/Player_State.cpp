@@ -706,9 +706,13 @@ void Player::FlyAwayStart()
     std::string AnimationText = AnimationDir.data() + AnimationName;
     AnimationRender->ChangeAnimation(AnimationText);
 
+    RandomDamagedSound();
+
     StateCalTime = 0.0f;
     StateCalTime2 = 0.0f;
     StateCalBool = false;
+
+
 }
 
 void Player::FlyAwayUpdate(float _DeltaTime)
@@ -1062,8 +1066,6 @@ void Player::AngryStart()
 
     StateCalTime = 0.0f;
 
-
-
 }
 void Player::AngryUpdate(float _DeltaTime)
 {
@@ -1078,6 +1080,7 @@ void Player::AngryUpdate(float _DeltaTime)
 
     if (AnimationRender->IsAnimationEnd())
     {
+        TurnCheckValue = true;
         ChangeState(PlayerState::IDLE);
         return;
 
