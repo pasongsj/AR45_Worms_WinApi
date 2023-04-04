@@ -421,7 +421,7 @@ void Player::JumpUpdate(float _DeltaTime)
         StateCalValue = GetPos().y;
     }
 
-    if (false == IsGround)
+    if (false == IsGround && false == DownPixelCheck)
     {
         StateCalBool3 = false;
     }
@@ -449,7 +449,7 @@ void Player::JumpUpdate(float _DeltaTime)
                 ChangeState(PlayerState::IDLE);
                 return;
             }
-            MoveDir += (float4::Up + float4::Right) * JumpForce;
+            MoveDir += (float4::Up + float4::Up + float4::Right).NormalizeReturn() * JumpForce;
         }
         else
         {
@@ -458,7 +458,7 @@ void Player::JumpUpdate(float _DeltaTime)
                 ChangeState(PlayerState::IDLE);
                 return;
             }
-            MoveDir += (float4::Up + float4::Left) * JumpForce;
+            MoveDir += (float4::Up + float4::Up + float4::Left).NormalizeReturn() * JumpForce;
         }
 
         std::string AnimationName = "FlyUp";
@@ -474,12 +474,12 @@ void Player::JumpUpdate(float _DeltaTime)
     {
         GravityApplied(_DeltaTime);
 
-        if (true == LeftPixelCheck)
+        if (true == LeftPixelCheck && "Left_" == DirString)
         {
             SetMoveDirWithAngle(WallCheckDir::Left);
             MoveDir *= FrictionValue;
         }
-        else if (true == RightPixelCheck)
+        else if (true == RightPixelCheck && "Right_" == DirString)
         {
             SetMoveDirWithAngle(WallCheckDir::Right);
             MoveDir *= FrictionValue;
@@ -519,7 +519,7 @@ void Player::JumpUpdate(float _DeltaTime)
             MoveDir *= FrictionValue;
         }
 
-        else if (true == LeftDownPixelCheck)
+        else if (true == LeftDownPixelCheck && "Left_" == DirString)
         {
             if (true == DownPixelCheck)
             {
@@ -531,7 +531,7 @@ void Player::JumpUpdate(float _DeltaTime)
             }
             MoveDir *= FrictionValue;
         }
-        else if (true == RightDownPixelCheck)
+        else if (true == RightDownPixelCheck && "Right_" == DirString)
         {
             if (true == DownPixelCheck)
             {
@@ -1081,6 +1081,11 @@ void Player::AngryUpdate(float _DeltaTime)
     if (AnimationRender->IsAnimationEnd())
     {
         TurnCheckValue = true;
+
+        if (true == IsMyTurn)
+        {
+            SetIsMyTurn(false);
+        }
         ChangeState(PlayerState::IDLE);
         return;
 

@@ -867,6 +867,11 @@ void Player::PlayerDead()
     TurnCheckValue = true;
     IsAlive = false;
 
+    if (true == IsMyTurn)
+    {
+        SetIsMyTurn(false);
+    }
+
     if (nullptr != GetCurWeapon())
     {
         CurWeapon->Death();

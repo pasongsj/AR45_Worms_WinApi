@@ -217,7 +217,7 @@ private:
 
 	float MoveSpeed = 50.0f;
 	float Gravity = 500.0f;
-    float JumpForce = 200.0f;
+    float JumpForce = 300.0f;
 
     bool TurnCheckValue = true;
 
