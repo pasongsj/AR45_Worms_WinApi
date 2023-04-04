@@ -739,9 +739,14 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	{
 		MsgAssert("PlayerNumber가 -1 입니다.");
 	}
+    
 
     if (false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() ||GameEngineInput::IsDown("ChangePlayer"))
-    {       
+    {   
+        if (false == DamageAnimCheck())
+        {
+            return;
+        }
         if(true == GameEngineCore::GetInst()->IsDebug())
         {
             GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
@@ -885,6 +890,20 @@ void PlayLevel::SetRandomPos(float _Interval)
             iGroundPoint = 0;
         }
     }
+}
+
+bool PlayLevel::DamageAnimCheck()
+{
+    std::vector<Player*> vecPlayer = GlobalValue::gValue.GetAllPlayer();
+    for (size_t i = 0; i < vecPlayer.size(); i++)
+    {        
+        if (false == vecPlayer[i]->GetTurnCheckValue())
+        {
+            return false;
+        }
+    }
+    return true;
+    
 }
 
 

@@ -71,6 +71,7 @@ private:
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
     void SetRandomPos(float _Interval);
+    bool DamageAnimCheck();
 
     LevelSetting LevelSet = {};
 
