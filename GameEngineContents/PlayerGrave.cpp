@@ -20,7 +20,6 @@ void PlayerGrave::Start()
 
 void PlayerGrave::Update(float _DeltaTime)
 {
-
     GravePixelCheck();
     DirCheck();
     GravityApplied(_DeltaTime);
@@ -58,6 +57,13 @@ void PlayerGrave::MoveCalculation(float _DeltaTime)
 
 float4 PlayerGrave::PullUpObject(float4 _NextPos, float _DeltaTime)
 {
+    float4 ColImageScale = ColImage->GetImageScale();
+
+    if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
+    {
+        return _NextPos;
+    }
+
     if (RGB(0, 0, 255) != ColImage->GetPixelColor(_NextPos, RGB(0, 0, 255)))
     {
         return _NextPos;

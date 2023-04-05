@@ -475,6 +475,11 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 
     if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
     {
+        if (_NextPos.y > ColImageScale.y)
+        {
+            Drowning();
+        }
+
         return _NextPos;
     }
 
@@ -878,7 +883,28 @@ void Player::PlayerDead()
 
     Off();
     HPUI->Off();
+}
 
+void Player::Drowning()
+{
+    TurnCheckValue = true;
+    IsAlive = false;
+
+    PlaySoundOnce("Drowning.wav");
+
+    if (true == IsMyTurn)
+    {
+        SetIsMyTurn(false);
+    }
+
+    if (nullptr != GetCurWeapon())
+    {
+        CurWeapon->Death();
+        CurWeapon = nullptr;
+    }
+
+    Off();
+    HPUI->Off();
 }
 
 void Player::SetGraveObject(const std::string_view& _GraveImage)

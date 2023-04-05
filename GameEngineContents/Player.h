@@ -184,6 +184,8 @@ private:
     void SetGraveObject(const std::string_view& _GraveImage);
     std::string_view PlayerGraveImageStringView;
 
+    void Drowning(); //플레이어가 익사로 사망시 실행하는 함수
+
 	//플레이어 UI관련 (HP, 화살표이미지)
 	PlayerHPUI* HPUI = nullptr; //플레이어 HP를 보여줄 넘버 렌더러 
 	float DamagedTime = 0.0f;
