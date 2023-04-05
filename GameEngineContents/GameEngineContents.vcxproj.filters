@@ -268,15 +268,6 @@
       <Filter>Weapon\F7</Filter>
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
-    <ClInclude Include="Drum.h">
-      <Filter>OilDrum</Filter>
-    </ClInclude>
-    <ClInclude Include="PetrolEffect.h">
-      <Filter>OilDrum</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponCarpetBomb.h">
-      <Filter>Weapon\F10</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

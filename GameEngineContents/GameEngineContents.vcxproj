@@ -35,6 +35,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Lobby.h" />
+    <ClInclude Include="LobbyChangePlay.h" />
     <ClInclude Include="LobbyLevel.h" />
     <ClInclude Include="MainTitleBack.h" />
     <ClInclude Include="MainTitleLevel.h" />
@@ -189,6 +190,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="LobbyChangePlay.cpp" />
     <ClCompile Include="LobbyLevel.cpp" />
     <ClCompile Include="MainTitleBack.cpp" />
     <ClCompile Include="MainTitleLevel.cpp" />

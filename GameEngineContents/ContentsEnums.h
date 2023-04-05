@@ -14,7 +14,7 @@ enum class WormsRenderOrder
 	WeaPonInterFace,
     WeaPonUI,
     Cusor,
-
+    LobbyChange,
 };
 enum class WormsTitle
 {

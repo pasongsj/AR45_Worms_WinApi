@@ -22,6 +22,7 @@
 #include "AllPlayerHpUI.h"
 #include "TurnTimeUI.h"
 #include "WeaponFirePunch.h"
+#include "LobbyChangePlay.h"
 
 
 #include <GameEngineBase/GameEngineDirectory.h>
@@ -643,7 +644,11 @@ void PlayLevel::ImageLoad()
             {
                 GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("X.bmp"));
             }
+            {
+                GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("cdrom.bmp"));
+                WaeponInterface->Cut(1, 25);
 
+            }
 		}
 
 
@@ -1101,7 +1106,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
         TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
         WindUI* WindUIActor = CreateActor<WindUI>();
-
+        LobbyChangePlay* Actor = CreateActor<LobbyChangePlay>();
     }
 
 
