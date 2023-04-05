@@ -29,6 +29,11 @@ void WeaponBazooka::Update(float _DeltaTime)
 {
     Timer();
 
+    if (CurPlayer->GetPlayerState() != PlayerState::EQUIPWEAPON)
+    {
+        AimingLine->Off();
+    }
+
 	if(isAttack == false)
 	{
 		firing(_DeltaTime);
@@ -82,11 +87,17 @@ void WeaponBazooka::WeaponBazookaInit()
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
 
 	WeaponRender->SetRotFilter("bazookaRot.bmp");
-	BombScale = 208;
+	BombScale = 104;
     MinDmg = 35;
     MaxDmg = 75;
 
 	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+
+
+    AimingLine = CreateRender(WormsRenderOrder::Weapon);
+    AimingLine->SetImage("AimingLine.bmp");
+    AimingLine->SetRotFilter("AimingLineRot.bmp");
+    AimingLine->SetScale({ 20,20 });
 
 	WeaponRender->SetPosition({ 500, 200 }); //임시 설정값
 	WeaponRender->SetScaleToImage(); //임시 설정값
@@ -329,6 +340,9 @@ void WeaponBazooka::BazAiming()
 	else if (isAiming == true)
 	{		
 		float Angle = ShootDir.GetAnagleDeg();
+
+        AimingLine->On();
+        AimingLine->SetPosition(CurPlayer->GetPos() + ShootDir * 150.0f);
 
 		if (ShootDir.x > 0 && Angle > 270)
 		{

@@ -48,6 +48,7 @@ void HomingMissile::Update(float _DeltaTime)
     else
     {
         CurIndex = 16;
+        AimingLine->Off();
         isAiming = false;
         isAimSet = false;
     }
@@ -96,7 +97,7 @@ void HomingMissile::HomingMissileInit()
 
     WeaponRender->SetRotFilter("HomingRot.bmp");
 
-    BombScale = 208;
+    BombScale = 104;
     MinDmg = 35;
     MaxDmg = 75;
 
@@ -104,6 +105,11 @@ void HomingMissile::HomingMissileInit()
 
     WeaponRender->SetScaleToImage(); //임시 설정값
     WeaponRender->Off();
+
+    AimingLine = CreateRender(WormsRenderOrder::Weapon);
+    AimingLine->SetImage("AimingLine.bmp");
+    AimingLine->SetRotFilter("AimingLineRot.bmp");
+    AimingLine->SetScale({ 20,20 });
 
     WeaponCollision->SetScale({ 30,30 });
     WeaponCollision->Off();
@@ -251,6 +257,9 @@ void HomingMissile::Aiming()
         Dir = GetShootDir();
 
         float Angle = Dir.GetAnagleDeg();
+
+        AimingLine->On();
+        AimingLine->SetPosition(CurPlayer->GetPos() + Dir * 150.0f);
 
         if (Dir.x > 0 && Angle > 270)
         {

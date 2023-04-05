@@ -65,6 +65,7 @@ private:
     float CameraTimeCount = 0.0f;
     float4 PrevDir = { 0,0 };
 
+    GameEngineRender* AimingLine = nullptr;
     GameEngineRender* WeaponRender = nullptr;
     GameEngineCollision* WeaponCollision = nullptr;
 

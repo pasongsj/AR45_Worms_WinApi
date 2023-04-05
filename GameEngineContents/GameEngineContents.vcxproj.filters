@@ -139,6 +139,9 @@
     <ClCompile Include="PetrolEffect.cpp">
       <Filter>OilDrum</Filter>
     </ClCompile>
+    <ClCompile Include="WeaponCarpetBomb.cpp">
+      <Filter>Weapon\F10</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EndingBack.h" />
@@ -271,6 +274,9 @@
     <ClInclude Include="PetrolEffect.h">
       <Filter>OilDrum</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponCarpetBomb.h">
+      <Filter>Weapon\F10</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
@@ -326,6 +332,9 @@
     </Filter>
     <Filter Include="OilDrum">
       <UniqueIdentifier>{a1bf286c-f772-4633-9943-61e27dcce01f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon\F10">
+      <UniqueIdentifier>{8ab1b9af-c98a-4ed0-94e2-5cac74ff8121}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

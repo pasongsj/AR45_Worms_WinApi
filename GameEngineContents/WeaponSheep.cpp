@@ -100,7 +100,7 @@ void WeaponSheep::WeaponSheepInit()
 	
     ScreenSize = GameEngineWindow::GetScreenSize();
 
-    BombScale = 208.0f;
+    BombScale = 104.0f;
 
 	Gravity = 0.0f; //임시 설정값
 

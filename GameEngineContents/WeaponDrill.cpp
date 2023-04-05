@@ -40,6 +40,16 @@ void WeaponDrill::Update(float _DeltaTime)
         Drilling(_DeltaTime);
     }
 
+    if (isDrillEnd == true)
+    {
+        TurnChangeCount += TimeCount;
+
+        if (TurnChangeCount >= 1.0f)
+        {
+            isWeaponDone = true;
+        }
+    }
+
 }
 
 void WeaponDrill::Render(float _DeltaTime)
@@ -83,7 +93,8 @@ void WeaponDrill::Drilling(float _DeltaTime)
     if (DrillOnTime >= 4.0f)
     {
         isAttack = false;
-        isWeaponDone = true;
+        isDrillEnd = true;
+        CurPlayer->ChangePlayerAnimation("DrillOff");
         return;
     }
 

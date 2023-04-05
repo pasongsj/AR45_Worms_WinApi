@@ -58,7 +58,7 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 
 	WeaponNumber = static_cast<int>(WeaponNum::AirStrike);
 
-    BombScale = 122;
+    BombScale = 122.0f;
 
     MinDmg = 24;
     MaxDmg = 45;

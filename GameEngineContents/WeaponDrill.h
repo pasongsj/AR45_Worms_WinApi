@@ -28,6 +28,9 @@ private:
     void Drilling(float _DeltaTime);
 
     bool isAttack = false;
+    bool isDrillEnd = false;
+
+    float TurnChangeCount = 0.0f;
 
     float TimeCount = 0.0f;
     float CurTime = 0.0f;
