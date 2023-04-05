@@ -61,6 +61,7 @@ void Map::Start()
 
         //디버깅 모드_충돌맵 확인
         GameEngineInput::CreateKey("DebugMode", '9');
+        GameEngineInput::CreateKey("DebugingText", '7');
     }
 
     //맵 오브젝트용 키 입력 생성
@@ -92,26 +93,12 @@ void Map::Start()
     }
 
     //BackGround_Sky
-    //{
-    //    GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
-    //    BackGround->SetImage("gradient.bmp");
-    //    BackGround->SetPosition(MapScale.half());
-    //    BackGround->SetScaleToImage();
-    //}
-    //BackGround_Sky
     {
         GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
         BackGround->SetImage("gradient2.bmp");
         BackGround->SetPosition(MapScale.half());
         BackGround->SetScaleToImage();
     }
-    ////BackGround_Mountain
-    //{
-    //    GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
-    //    BackGround->SetImage("Midground.bmp");
-    //    BackGround->SetPosition(MountainPos);
-    //    BackGround->SetScale(BackScale);
-    //}
     //BackGround_Wave
     {
         GameEngineRender* WaveBack = CreateRender(WormsRenderOrder::BackGround);
@@ -233,20 +220,24 @@ void Map::Update(float _DeltaTime)
 	{
 		if (false == IsColMap)
 		{
-			IsColMap = true;
+			IsColMap = !IsColMap;
 			MapRender->Off();
 			ColMapRender->On();
 		}
 		else
 		{
-			IsColMap = false;
+			IsColMap = !IsColMap;
 			MapRender->On();
 			ColMapRender->Off();
+
+
 		}
 	}
 
-	std::string PlayLevel = "FreeMoveSwitch Key : 0, DebugMode Key: 9";
-	GameEngineLevel::DebugTextPush(PlayLevel);
+    if (true == GameEngineInput::IsDown("DebugingText"))							    //디버깅 모드_충돌맵 혹은 맵을 볼 수 있음
+    {
+        IsShowText = !IsShowText;
+    }
 }
 
 bool FreeMove = false;
@@ -294,7 +285,11 @@ HDC Map::GetColMapDC() const
 
 void Map::Render(float _DeltaTime)
 {
-	std::string MousePosStr = "MousePosition : ";
-	MousePosStr += GetLevel()->GetMousePosToCamera().ToString();
-	GameEngineLevel::DebugTextPush(MousePosStr);
+    if (true == IsShowText)
+    {
+        std::string MousePosStr = "MousePosition : ";
+        MousePosStr += GetLevel()->GetMousePosToCamera().ToString();
+        GameEngineLevel::DebugTextPush(MousePosStr);
+    }
+    
 }

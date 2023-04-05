@@ -102,11 +102,22 @@ void PetrolEffect::HitDrumCheck()
 
 void PetrolEffect::CreateFireEffect(float _DeltaTime)
 {
-    float RandX = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
-    int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
-    MoveDir.x += WindDir * _DeltaTime*MoveSpeed;
-    MoveDir.x += RandX * _DeltaTime * MoveSpeed;
-    MoveDir.y += 20*_DeltaTime * MoveSpeed;
+    float RandX = 0.0f;
+    float WindDir = static_cast<float>(GlobalValue::gValue.GetWindPhase());                           //WindPhase(-10 ~ 10)
+
+    if (0 > WindDir)
+    {
+       RandX = GameEngineRandom::MainRandom.RandomFloat(-50, -1);
+    }
+    else
+    {
+       RandX = GameEngineRandom::MainRandom.RandomFloat(1, 50);
+    }
+
+
+    MoveDir.x += RandX* _DeltaTime * MoveSpeed;
+    MoveDir.y += 10*_DeltaTime * MoveSpeed;
+   
     SetPos(GetPos() + MoveDir * _DeltaTime);
 
     MapModifier::MainModifier->CreateHole(GetPos(), 8, false);

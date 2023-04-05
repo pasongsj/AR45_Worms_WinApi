@@ -65,7 +65,7 @@ void Drum::Update(float _DeltaTime)
    
     if (true == IsExplosion)
     {
-        CreatePetrol(50);
+        CreatePetrol(30);
 
         Death();                                                       //Petrol 입자를 생성하고 난 뒤, 더이상 드럼통은 필요없으므로 제거
     }

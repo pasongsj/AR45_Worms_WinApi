@@ -46,6 +46,7 @@ protected:
 
 private:
 	bool IsColMap = false;								//픽셀 충돌맵의 랜더링 여부
+    bool IsShowText = false;
 
     int NumOfObj = 0;
 

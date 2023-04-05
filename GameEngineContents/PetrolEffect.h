@@ -29,10 +29,10 @@ private:
     bool IsWindEffectEnd = false;
   
     float JumpPower = -100.0f;
-    float Gravity = 900.0f;
+    float Gravity = 500.0f;
     float MoveSpeed = 150.0f;
     float WaitTime = 0.2f;
-    float LiveTime = 2.5f;
+    float LiveTime = 2.0f;
 
     float4 MoveDir = float4::Zero;
 
