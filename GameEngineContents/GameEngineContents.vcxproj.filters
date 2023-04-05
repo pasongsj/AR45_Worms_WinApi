@@ -134,10 +134,10 @@
     </ClCompile>
     <ClCompile Include="WeaponInterFace.cpp" />
     <ClCompile Include="Drum.cpp">
-      <Filter>OilDrum</Filter>
+      <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClCompile>
     <ClCompile Include="PetrolEffect.cpp">
-      <Filter>OilDrum</Filter>
+      <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClCompile>
     <ClCompile Include="WeaponCarpetBomb.cpp">
       <Filter>Weapon\F10</Filter>
@@ -321,7 +321,7 @@
     <Filter Include="Weapon\F7">
       <UniqueIdentifier>{ad61acc4-312f-484e-9924-1de6f58ff5ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OilDrum">
+    <Filter Include="Play\Map\MapObject\OilDrum">
       <UniqueIdentifier>{a1bf286c-f772-4633-9943-61e27dcce01f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Weapon\F10">

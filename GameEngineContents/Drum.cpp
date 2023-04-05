@@ -65,7 +65,7 @@ void Drum::Update(float _DeltaTime)
    
     if (true == IsExplosion)
     {
-        CreatePetrol(12);
+        CreatePetrol(50);
 
         Death();                                                       //Petrol 입자를 생성하고 난 뒤, 더이상 드럼통은 필요없으므로 제거
     }
@@ -99,7 +99,6 @@ void Drum::CreatePetrol(int _NumOfPetrol)
     for (int i = 0; i < NumOfPetrol; i++)
     {
         float4 Pos = GetPos();
-        Pos.x += GameEngineRandom::MainRandom.RandomFloat(-RangeX, RangeX);
 
         PetrolEffect* NewPetrol = GetLevel()->CreateActor<PetrolEffect>();
         NewPetrol->SetPos(Pos);
@@ -111,11 +110,13 @@ void Drum::HitWeaponCheck()
 {
     if (nullptr != MapObjCol)
     {
+        //무기 충돌체 생성되면 Modifier충돌 검사 제거할 예정
         if (true == MapObjCol->Collision({.TargetGroup = static_cast<int>(WormsCollisionOrder::MapModifier), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle })
             || true == MapObjCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Weapon), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle })
             )
         {
             Gauge = 0;
+            MapObjCol->Off();
         }
     }
 }

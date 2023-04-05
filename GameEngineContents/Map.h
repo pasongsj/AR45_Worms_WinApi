@@ -60,8 +60,8 @@ private:
 	float4 WaveBackPos = { 1920.0f, 1950.0f };			//Wave BackGround 위치 
 
 
-    float4 WaveAnimPos0 = { 1920.0f, 1347.0f };			//Wave Animation 위치	
-	float4 WaveAnimPos1 = { 1920.0f, 1402.0f };
+    float4 WaveAnimPos0 = { 1920.0f, 1340.0f };			//Wave Animation 위치	
+	float4 WaveAnimPos1 = { 1920.0f, 1400.0f };
 	float4 WaveAnimPos2 = { 1920.0f, 1447.0f };
 	float4 WaveAnimPos3 = { 1920.0f, 1492.0f };
 	float4 WaveAnimPos4 = { 1920.0f, 1537.0f };

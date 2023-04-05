@@ -179,8 +179,8 @@ void Map::Start()
         }
 
 
-        //맵에 오일드럼통 3개 미리 배치
-        for (int i = 0; i < 3; ++i)
+        //맵에 오일드럼통 5개 미리 배치
+        for (int i = 0; i < 5; ++i)
         {
             Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
             Object->SetPos(Object->GetMapObjPos());
@@ -215,12 +215,10 @@ void Map::Update(float _DeltaTime)
 
     if (true == GameEngineInput::IsDown("OilDrumButton"))
     {
-        float RandX = GameEngineRandom::MainRandom.RandomFloat(500, 700);
-
         MapModifier::MainModifier->SetModifierColPosition({ 0.0f, 0.0f });
 
         Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        Object->SetPos({ RandX, 100 });
+        Object->SetPos(Object->GetMapObjPos());
 
         return;
     }

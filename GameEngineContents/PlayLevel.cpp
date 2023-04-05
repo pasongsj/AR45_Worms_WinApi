@@ -143,10 +143,13 @@ void PlayLevel::ImageLoad()
 
             GameEngineImage* OilDrum4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("oildrum4.bmp"));
             OilDrum4->Cut(1, 20);
-
+            
             //Petroleum Effect
             GameEngineImage* Petrol30 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("petrol30.bmp"));
             Petrol30->Cut(1, 20);
+
+            GameEngineImage* Petrol40 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("petrol40.bmp"));
+            Petrol40->Cut(1, 20);
         }
 
         Dir.MoveParent();

@@ -21,10 +21,10 @@ void PetrolEffect::Start()
 
     PetrolRender = CreateRender(static_cast<int>(WormsRenderOrder::MapObject));
     PetrolRender->SetPosition(GetPos());
-    PetrolRender->SetScale({ 30, 30 });
+    PetrolRender->SetScale({ 45, 45 });
 
-    PetrolRender->CreateAnimation({ .AnimationName = "Petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
-    PetrolRender->ChangeAnimation("Petrol_30");
+    PetrolRender->CreateAnimation({ .AnimationName = "petrol_40", .ImageName = "petrol40.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
+    PetrolRender->ChangeAnimation("petrol_40");
 
     PetrolCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Petrol));
     PetrolCol->SetScale({ 5, 5 });
@@ -35,37 +35,39 @@ void PetrolEffect::Update(float _DeltaTime)
 {
     if (false == IsJump)
     {
-        MoveDir.y -= 100.0f;                 //JumpPower
+        float RandDir = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(-1, 1));
+        float RandSpeed = static_cast<float>(GameEngineRandom::MainRandom.RandomInt(20, 80));
+        MoveDir.x += RandDir * RandSpeed;
+        MoveDir.y += JumpPower;
         IsJump = true;
     }
 
-    if (false == IsWindEffectEnd)
+
+    if (false == IsGroundCheck(GetPos()) && false == IsGravityOff)
     {
-        int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
-        MoveDir.x += WindDir*0.1f;
-    }
-
-    GravityApplied(_DeltaTime);
+        GravityApplied(_DeltaTime);
     
-    SetMove(MoveDir * _DeltaTime);
+        SetMove(MoveDir * _DeltaTime);
 
 
-    float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
-    NextPos = PullUp(NextPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
-
-    //IsWallCheck(GetPos());
+        float4 NextPos = GetPos() + (MoveDir * _DeltaTime);
+        NextPos = PullUp(NextPos, _DeltaTime);                          //중력에 의해 하강한 위치값을 다시 땅위로 끌어올림
+    }
+    else
+    {
+        IsGravityOff = true;
+    }
 
     LiveTime -= _DeltaTime;
 
+
     if (true == IsGroundCheck(GetPos()))
     {
-        IsWindEffectEnd = true;
         WaitTime -= _DeltaTime;
 
         if (0.0f >= WaitTime)
         {
             CreateFireEffect(_DeltaTime);
-           
             HitDrumCheck();
 
             WaitTime = 0.2f;
@@ -91,6 +93,7 @@ void PetrolEffect::HitDrumCheck()
         for (int i = 0; i < CollisionDrum.size(); i++)
         {
             dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(5);
+            PetrolCol->Off();
         }
     }
 
@@ -100,8 +103,10 @@ void PetrolEffect::HitDrumCheck()
 void PetrolEffect::CreateFireEffect(float _DeltaTime)
 {
     float RandX = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
-    MoveDir.x += RandX * _DeltaTime * 10;
-
+    int WindDir = GlobalValue::gValue.GetWindPhase();                           //WindPhase(-10 ~ 10)
+    MoveDir.x += WindDir * _DeltaTime*MoveSpeed;
+    MoveDir.x += RandX * _DeltaTime * MoveSpeed;
+    MoveDir.y += 20*_DeltaTime * MoveSpeed;
     SetPos(GetPos() + MoveDir * _DeltaTime);
 
     MapModifier::MainModifier->CreateHole(GetPos(), 8, false);
@@ -135,23 +140,6 @@ float4 PetrolEffect::PullUp(float4 _NextPos, float _DeltaTime)
         return _NextPos;
     }
 }
-
-void PetrolEffect::IsWallCheck(float4 _Pos)
-{
-    float4 CheckRPos = _Pos + float4::Right;
-    float4 checkLPos = _Pos + float4::Left;
-
-    if (Blue == ColImage->GetPixelColor(CheckRPos, RGB(0, 0, 0)))
-    {
-        SetPos({ GetPos().x + 1, GetPos().y });
-    }
-    
-    if (Blue == ColImage->GetPixelColor(checkLPos, RGB(0, 0, 0)))
-    {
-        SetPos({ GetPos().x - 1, GetPos().y });
-    }
-}
-
 
 bool PetrolEffect::IsGroundCheck(float4 _Pos)
 {
