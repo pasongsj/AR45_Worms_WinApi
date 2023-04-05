@@ -1,4 +1,5 @@
 #include "TurnTimeUI.h"
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCore.h>
@@ -40,6 +41,7 @@ void TurnTimeUI::Update(float _DeltaTime)
     {
         pCurPlayer = GlobalValue::gValue.GetPlayer();
         fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
+        IsFire = false;
         return;
     }
 
@@ -48,15 +50,15 @@ void TurnTimeUI::Update(float _DeltaTime)
         return;
     }
 
-    if (pCurPlayer->GetCurWeapon() != nullptr)
+    CheckFire();
+    
+    if (IsFire)
     {
-        if (true == pCurPlayer->GetCurWeapon()->IsFiring())
-        {
-            return;
-        }
+        return;
     }
+   
 
-    //fTurnTime -= _DeltaTime;
+    fTurnTime -= _DeltaTime;
 
     if (fTurnTime <= 0.f)
     {
@@ -66,4 +68,12 @@ void TurnTimeUI::Update(float _DeltaTime)
     }
 
     pTimeRender.SetValue(static_cast<int>(fTurnTime));
+}
+
+void TurnTimeUI::CheckFire()
+{
+    if (nullptr!=pCurPlayer->GetCurWeapon()&& GameEngineInput::IsDown("Shoot"))
+    {
+        IsFire = true;
+    }
 }

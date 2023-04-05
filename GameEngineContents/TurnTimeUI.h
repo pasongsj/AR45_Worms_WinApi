@@ -26,7 +26,9 @@ private:
     NumberRenderObject pTimeRender;
     GameEngineRender* pTimeEdgeRender = nullptr;
     Player* pCurPlayer = nullptr;
-
+    bool IsFire = false;
     float fTurnTime = 46.f;
+
+    void CheckFire();
 };
 
