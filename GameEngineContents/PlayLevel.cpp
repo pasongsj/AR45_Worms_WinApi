@@ -241,6 +241,12 @@ void PlayLevel::ImageLoad()
             GameEngineImage* ChargeAni = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ChargeAni.bmp"));
             ChargeAni->Cut(1, 16);
 
+            GameEngineImage* starSmoke = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("starEffect.bmp"));
+            starSmoke->Cut(1, 10);
+
+            GameEngineImage* FireHit = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("firehit.bmp"));
+            FireHit->Cut(1, 9);
+
             GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ChargeAniRot.bmp"));
 
             Dir.MoveParent();

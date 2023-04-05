@@ -27,7 +27,8 @@ private:
 
     float4 StartPos = float4::Zero;
 
-    float EffectTimer = 0.05f;
+    float EffectTimer = 0.03f;
+    float HitTimer = 0.1f;
     GameEngineCollision* PunchCollision = nullptr;
 };
 

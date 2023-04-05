@@ -101,7 +101,7 @@ protected:
 
 	bool isEndCharging();
 	void SetCurPlayer();
-	void AttackPlayer(GameEngineCollision* _Col,bool _AttackSelf = true);
+	bool AttackPlayer(GameEngineCollision* _Col,bool _AttackSelf = true);
     void AttackPlayerGun(GameEngineCollision* _Col, float _Distance);
 
     void ExplosionEffectInit(float _CircleDiameter);

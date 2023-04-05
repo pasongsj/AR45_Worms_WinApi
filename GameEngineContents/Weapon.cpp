@@ -254,10 +254,11 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 }
 
 
-void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확인 필요함
+bool Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확인 필요함
 {                   // 폭발 CollisionScale설정 필요                                   :_Col->SetScale({ static_cast<float>(BombScale * 2) });
                     // _Col->GetActorPlusPos()가 정확한 폭발 위치가 되게 설정 필요
 
+    int HitCnt = 0;
 	if (nullptr == _Col)
 	{
 		MsgAssert("체크할 콜리전이 없습니다.");
@@ -300,8 +301,15 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
             ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
 
 		    //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
+
+            ++HitCnt;
         }
 	}
+    if (HitCnt > 0)
+    {
+        return true;
+    }
+    return false;
 }
 
 

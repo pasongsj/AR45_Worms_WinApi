@@ -7,6 +7,7 @@
 #include "MapModifier.h"
 #include "SmokeSparkEffect.h"
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 WeaponFirePunch::WeaponFirePunch()
 {
@@ -67,32 +68,44 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 CurPlayer->ChangePlayerAnimation("FirePunchFire");
                 isFire = true;
                 StartPos = CurPlayer->GetPos();
+                SetPos(StartPos);
             }
         }
         else
         {
-            SetPos(CurPlayer->GetPos());
+            //float4 CurPos = CurPlayer->GetPos();
             if (Timer > 0) // 위쪽으로 펀치
             {
                 Timer -= _DeltaTime;
                 EffectTimer -= _DeltaTime;
+                HitTimer -= _DeltaTime;
                 if ((StartPos + Dir * _DeltaTime * 300.0f).y > 0)
                 {
                     StartPos += Dir * _DeltaTime * 300.0f;
                 }
+                CurPlayer->SetPos(StartPos); // 플레이어 이동
+                PunchCollision->SetPosition(StartPos - GetPos());
+
                 if (EffectTimer < 0) // - 수정필요 스모크 대신 이펙트로 변경 필요함
                 {
-                    SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
-                    Smoke->SetPos(StartPos);
-                    Smoke->CreateSmokeSpark(1, 0, BombScale);
-                    EffectTimer = 0.05f;
+                    GameEngineRender* StarSmoke = CreateRender(WormsRenderOrder::Weapon);
+                    StarSmoke->SetPosition(PunchCollision->GetPosition() + float4{GameEngineRandom::MainRandom.RandomFloat(-15.0f,15.0f)});
+                    StarSmoke->SetScale({ 60, 60 });
+                    StarSmoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "starEffect.bmp", .Start = 0, .End = 9, .InterTime = 0.1f , .Loop = false });
+                    StarSmoke->ChangeAnimation("Smoke");
+                    EffectTimer = 0.03f;
                 }
 
-                CurPlayer->SetPos(StartPos); // 플레이어 이동
-                //GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
-                //BombCollision->SetPosition(StartPos + float4{0,-60});											                                       // 2. Bomb 콜리전 이동
-                //BombCollision->SetScale({ 20,20 });
-                AttackPlayer(PunchCollision,false);																	  // 3. Bomb콜리전 Player Check
+
+                if (true == AttackPlayer(PunchCollision, false) && HitTimer <0)																  // 3. Bomb콜리전 Player Check
+                {
+                    GameEngineRender* StarSmoke = CreateRender(WormsRenderOrder::Weapon);
+                    StarSmoke->SetPosition(PunchCollision->GetPosition() );
+                    StarSmoke->SetScale({ 50, 50 });
+                    StarSmoke->CreateAnimation({ .AnimationName = "Hit", .ImageName = "firehit.bmp", .Start = 0, .End = 8, .InterTime = 0.1f , .Loop = false });
+                    StarSmoke->ChangeAnimation("Hit");
+                    HitTimer = 0.01f;
+                }
 
                 MapModifier::MainModifier->CreateHole(StartPos, static_cast<int>(BombScale));                                         //4. createHole
             }

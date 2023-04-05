@@ -43,7 +43,7 @@ void WeaponGrenade::Start()
     ChargeAnimation->ChangeAnimation("Charge");
     ChargeAnimation->SetScale({ 64,192 });
     ChargeAnimation->Off();
-    ChargeAnimation->SetPosition({ 0,-10 });
+    //ChargeAnimation->SetPosition({ 0,-10 });
 
     // 임시 조준선 - 수정필요 : 조준선 기준 위치
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
