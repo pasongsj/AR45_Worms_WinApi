@@ -84,7 +84,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 {
     float4 PlayerPos = CurPlayer->GetPos();
 
-    if (StartPos.y != PlayerPos.y)
+    if (abs(StartPos.y - PlayerPos.y) > 1)
     {
         CurPlayer->ChangePlayerAnimation("TorchOn", 7);
 
@@ -107,8 +107,10 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     float4 Dir = CurPlayer->GetPlayerDir();
 
     float4 HolePos = { PlayerPos.x + Dir.x * 10.0f , StartPos.y - BombScale * 0.5f};
+    float4 RectPos = { PlayerPos.x, StartPos.y - BombScale * 0.5f};
 
     MapModifier::MainModifier->CreateHole(HolePos, static_cast<int>(BombScale));
+    MapModifier::MainModifier->CreateRect(RectPos, 20, static_cast<int>(BombScale));
 
     GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
     HoleCollision->SetMove({ Dir.x * 10.0f , 0 });
@@ -117,7 +119,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
     if(attackTimeCount >= 0.5f)
     {
-        AttackPlayer(HoleCollision);
+        AttackPlayer(HoleCollision, false);
         attackTimeCount = 0;
     }
 

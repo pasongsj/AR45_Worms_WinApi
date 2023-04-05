@@ -298,6 +298,7 @@ void Weapon::AttackPlayer(GameEngineCollision* _Col, bool _AttackSelf) // 값 확�
             Distance.Normalize();
             //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
             ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+
 		    //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
         }
 	}
@@ -343,7 +344,10 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
             Distance.Normalize();
 
             //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
-            ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+            if(ColPlayer->GetIsMyTurn() == false)
+            {
+                ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
+            }
             //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
         }
     }

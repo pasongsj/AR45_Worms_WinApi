@@ -80,7 +80,7 @@ void WeaponDrill::Drilling(float _DeltaTime)
 
     DrillOnTime += TimeCount;
 
-    if (DrillOnTime >= 5.0f)
+    if (DrillOnTime >= 4.0f)
     {
         isAttack = false;
         isWeaponDone = true;
@@ -89,15 +89,13 @@ void WeaponDrill::Drilling(float _DeltaTime)
 
     DrillCycleTime += TimeCount;
 
-    if (DrillCycleTime >= 0.3f)
+    if (DrillCycleTime >= 0.2f)
     {
         DrillCycleTime = 0.0f;
         float4 HolePos = { StartPos.x, CurPlayer->GetPos().y};
         MapModifier::MainModifier->CreateHole(HolePos, static_cast<int>(BombScale));
 
         GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
-        AttackPlayer(HoleCollision);
+        AttackPlayer(HoleCollision, false);
     }
-
-    CurPlayer->SetMove(float4::Down * 10.0f * _DeltaTime);
 }
