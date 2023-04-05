@@ -473,13 +473,15 @@ float4 Player::PullUpCharacter(float4 _NextPos, float _DeltaTime)
 {
     float4 ColImageScale = ColImage->GetImageScale();
 
+    if (_NextPos.y > ColImageScale.y)
+    {
+        Drowning();
+        return _NextPos;
+
+    }
+
     if (_NextPos.x < 0 || _NextPos.x >ColImageScale.x || _NextPos.y < 0 || _NextPos.y > ColImageScale.y)
     {
-        if (_NextPos.y > ColImageScale.y)
-        {
-            Drowning();
-        }
-
         return _NextPos;
     }
 
