@@ -1060,13 +1060,13 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
     SetUIImage();
 
-    SetRandomPos(300.f);
     {
         Map* Actor = CreateActor<Map>();
     }
     {
         MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
     }
+    SetRandomPos(300.f);
     {
         ScreenSize = GameEngineWindow::GetScreenSize();
 
