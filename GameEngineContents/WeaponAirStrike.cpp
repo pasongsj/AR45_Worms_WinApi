@@ -263,7 +263,7 @@ void WeaponAirStrike::Explosion()
 
             DebrisSet(i);
             ExplosionAnimation(i);
-            DamageToPlayer();
+            DamageToPlayer(i);
 
             ExplosionCount++;
 		}
@@ -435,12 +435,11 @@ void WeaponAirStrike::Timer()
     PrevTime = CurTime;
 }
 
-void WeaponAirStrike::DamageToPlayer()
+void WeaponAirStrike::DamageToPlayer(int _Index)
 {
-    std::vector<GameEngineCollision*> CollisionPlayer;
-
-    MapModifier::MainModifier->SetModifierColScale({ BombScale, BombScale });
-    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
+    GameEngineCollision* HoleCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    HoleCollision->SetScale({ BombScale, BombScale });
+    HoleCollision->SetPosition(MissileCollisionList[_Index]->GetActorPlusPos());
 
     AttackPlayer(HoleCollision);
 }

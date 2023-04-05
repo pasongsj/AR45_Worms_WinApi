@@ -439,11 +439,9 @@ void WeaponBazooka::ChargingRenderOff()
 
 void WeaponBazooka::DamageToPlayer()
 {
-	std::vector<GameEngineCollision*> CollisionPlayer;
-
-    MapModifier::MainModifier->SetModifierColScale({ BombScale, BombScale });
-    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
-
+    GameEngineCollision* HoleCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    HoleCollision->SetScale({ BombScale, BombScale });
+    HoleCollision->SetPosition(WeaponRender->GetPosition());
     AttackPlayer(HoleCollision);
 }
 

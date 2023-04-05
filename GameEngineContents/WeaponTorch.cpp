@@ -77,6 +77,9 @@ void WeaponTorch::TorchInit()
     MinKnockBackPower = 100.0f;
     MaxKnockBackPower = 100.0f;
 
+    HoleCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    HoleCollision->SetScale({ 30, 30 });
+
     WeaponName = "Torch";
 }
 
@@ -112,8 +115,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     MapModifier::MainModifier->CreateHole(HolePos, static_cast<int>(BombScale));
     MapModifier::MainModifier->CreateRect(RectPos, 20, static_cast<int>(BombScale));
 
-    GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
-    HoleCollision->SetMove({ Dir.x * 10.0f , 0 });
+    HoleCollision->SetPosition(HolePos);
 
     attackTimeCount += TimeCount;
 

@@ -6,6 +6,15 @@ class WeaponCarpetBomb : public Weapon
 
 public:
 
+    struct Carpet{
+        GameEngineRender* CarpetRender = nullptr;
+        GameEngineCollision* CarpeCollisionList = nullptr;
+
+        float4 CurPos = { 0,0 };
+        float4 NextPos = { 0,0 };
+        float4 Dir = { 0, 0 };
+    };
+
 	WeaponCarpetBomb();
 	~WeaponCarpetBomb();
 
@@ -18,7 +27,6 @@ protected:
 
 private:
 
-    std::vector<GameEngineRender*> CarpetList;
-    std::vector<GameEngineCollision*> CarpeCollisionList;
+    std::vector<Carpet*> CarpetList;
 };
 

@@ -44,5 +44,7 @@ private:
     float TimeCount = 0.0f;
 
     float4 StartPos = { 0, 0 };
+
+    GameEngineCollision* HoleCollision = nullptr;
 };
 

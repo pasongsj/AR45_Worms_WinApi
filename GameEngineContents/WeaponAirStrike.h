@@ -34,7 +34,7 @@ private:
 	void Explosion();
 	void CameraUpdate(float _DeltaTime);
 
-    void DamageToPlayer();
+    void DamageToPlayer(int _Index);
 
     void DebrisAnimation(float _DeltaTime);
     void DebrisSet(int MissileIndex);

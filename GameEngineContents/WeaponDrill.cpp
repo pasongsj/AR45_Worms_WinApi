@@ -72,6 +72,9 @@ void WeaponDrill::DrillInit()
     MinDmg = 10;
     MaxDmg = 10;
 
+    HoleCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    HoleCollision->SetScale({ 30, 30 });
+
     WeaponName = "Drill";
 }
 
@@ -105,8 +108,8 @@ void WeaponDrill::Drilling(float _DeltaTime)
         DrillCycleTime = 0.0f;
         float4 HolePos = { StartPos.x, CurPlayer->GetPos().y};
         MapModifier::MainModifier->CreateHole(HolePos, static_cast<int>(BombScale));
+        HoleCollision->SetPosition(HolePos);
 
-        GameEngineCollision* HoleCollision = MapModifier::MainModifier->GetModifierCollision();
         AttackPlayer(HoleCollision, false);
     }
 }
