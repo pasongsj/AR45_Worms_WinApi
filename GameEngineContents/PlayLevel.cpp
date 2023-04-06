@@ -1045,7 +1045,6 @@ void PlayLevel::Loading()
    
     GlobalValue::gValue.SetPlayLevel(this);
     //CreateActor<WeaponFirePunch>();
-
 }
 
 bool a = false;
@@ -1150,12 +1149,8 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         GameEngineResources::GetInst().SoundPlay("startround.wav");
 
         BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
-    }
-
-  
+    }  
     
-    
-    //CreateActor<WeaponCarpetBomb>();
     //CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();
     //CreateActor<WeaponSheep>();

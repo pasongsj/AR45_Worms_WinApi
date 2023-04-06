@@ -40,7 +40,7 @@ void HomingMissile::Update(float _DeltaTime)
 
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON)
     {
-        if (isShoot == false)
+        if (isShoot == false && isChargingStart == false)
         {
             Aiming();
         }
@@ -456,9 +456,10 @@ void HomingMissile::MarkerInit()
 
 void HomingMissile::Charging()
 {
-
     if (GameEngineInput::IsPress("Shoot") == true)
     {
+        isChargingStart = true;
+
         ChargingRenderOn();
         MoveSpeed = GetChargeTime() * 1250.0f;
 

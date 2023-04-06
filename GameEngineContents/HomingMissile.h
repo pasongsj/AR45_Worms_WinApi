@@ -52,6 +52,7 @@ private:
     bool isExplosion = false;
     bool isAiming = false;
     bool isAimSet = false;
+    bool isChargingStart = false;
 
     bool isSoundPlay_Charging = false;
     bool isSoundPlay_WATCHTHIS = false;

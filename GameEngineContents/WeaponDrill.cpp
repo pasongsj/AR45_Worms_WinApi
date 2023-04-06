@@ -9,6 +9,7 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 WeaponDrill::WeaponDrill()
 {
@@ -92,6 +93,8 @@ void WeaponDrill::Drilling(float _DeltaTime)
     isFire = true;
 
     DrillOnTime += TimeCount;
+
+    GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());
 
     if (DrillOnTime >= 4.0f)
     {

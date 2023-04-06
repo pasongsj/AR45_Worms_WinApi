@@ -30,7 +30,7 @@ void WeaponSheep::Update(float _DeltaTime)
 {		
     Timer();
 
-    if (isShoot == true && GameEngineInput::IsDown("Shoot") == true)
+    if (isShoot == true && GameEngineInput::IsDown("Shoot") == true && isExplosion == false)
     {
         Explosion();
     }
