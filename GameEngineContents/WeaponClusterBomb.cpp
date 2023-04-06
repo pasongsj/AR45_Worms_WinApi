@@ -21,7 +21,7 @@ void WeaponClusterBomb::Start()
     // 수류탄 기본 설정 -- 상수값 조정 필요
     MoveSpeed = 1200.0f; // 임시값
     Gravity = 1.0f;// 임시값
-    Timer = 1.2;// 임시값
+    Timer = 1.2f;// 임시값
     //Dir = float4::Right;
     BombScale = 61;
 

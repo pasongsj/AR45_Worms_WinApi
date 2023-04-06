@@ -306,7 +306,7 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if (_Carpet->BounceCount == 1)
     {
-        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100.0f);
+        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100);
 
         _Carpet->CarpetRender->Off();
         _Carpet->CarpetCollision->Off();
@@ -321,7 +321,7 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if(_Carpet->BounceCount > 1)
     {
-        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100.0f);
+        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100);
         _Carpet->MoveDir = -_Carpet->RotDir + float4::Up;
         Dir.Normalize();
 

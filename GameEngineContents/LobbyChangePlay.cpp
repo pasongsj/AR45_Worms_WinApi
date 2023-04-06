@@ -50,7 +50,7 @@ void LobbyChangePlay::Update(float _DeltaTime)
         if (UpBlackAlpha < 254.0f)
         {
             UpBlackAlpha += 1000.0f * _DeltaTime;
-            BackGround1->SetAlpha(UpBlackAlpha);
+            BackGround1->SetAlpha(static_cast<int>(UpBlackAlpha));
            
         }
         if (UpBlackAlpha > 254.0f)
@@ -59,7 +59,7 @@ void LobbyChangePlay::Update(float _DeltaTime)
             Animation->Off();
             DownBlackAlpha += 200.0f * _DeltaTime;
 
-            BackGround1->SetAlpha(255.0f - DownBlackAlpha);
+            BackGround1->SetAlpha(static_cast < int>(255.0f - DownBlackAlpha));        
         }
 
         if (DownBlackAlpha > 254.0f)

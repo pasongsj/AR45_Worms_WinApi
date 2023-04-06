@@ -30,7 +30,7 @@ void PlayChangeEnding::Update(float _DeltaTime)
     if (UpBlackAlpha < 253.0f )
     {
        
-        BackGround->SetAlpha(UpBlackAlpha);
+        BackGround->SetAlpha(static_cast<int>(UpBlackAlpha));
 
        
     }
