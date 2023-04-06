@@ -2,7 +2,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "Weapon.h"
-
+#include "LobbyChangePlay.h"
 void Player::ChangeState(PlayerState _State)
 {
 	PlayerState NextState = _State;
@@ -693,9 +693,12 @@ void Player::FlyDownEnd()
 void Player::FacePlantStart()
 {
 
-
-    AnimationRender->ChangeAnimation("FacePlant");
-    PlaySoundOnce("FacePlant.wav");
+    if (LobbyChangePlay::test == false)
+    {
+        AnimationRender->ChangeAnimation("FacePlant");
+        PlaySoundOnce("FacePlant.wav");
+    }
+  
 }
 
 void Player::FacePlantUpdate(float _DeltaTime)

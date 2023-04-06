@@ -6,9 +6,11 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineCore/GameEngineCore.h>
 
+bool LobbyChangePlay::test = false;
+
 LobbyChangePlay::LobbyChangePlay()
 {
-
+    
 }
 
 LobbyChangePlay::~LobbyChangePlay()
@@ -24,8 +26,8 @@ void LobbyChangePlay::Start()
     BackGround->EffectCameraOff();
     Animation = CreateRender(WormsRenderOrder::LobbyChange);
     Animation->SetPosition({ GameEngineWindow::GetScreenSize().half().x ,GameEngineWindow::GetScreenSize().half().y });
-    Animation->SetScale({ 320,320 });
-    Animation->CreateAnimation({ .AnimationName = "TitleAnimation", .ImageName = "cdrom.bmp", .Start = 0, .End = 24, .InterTime = 0.1f,.Loop = false });
+    Animation->SetScale({ 160,160 });
+    Animation->CreateAnimation({ .AnimationName = "TitleAnimation", .ImageName = "cdrom.bmp", .Start = 0, .End = 24, .InterTime = 0.07f,.Loop = false });
     Animation->ChangeAnimation("TitleAnimation");
     Animation->EffectCameraOff();
 
@@ -62,7 +64,10 @@ void LobbyChangePlay::Update(float _DeltaTime)
 
         if (DownBlackAlpha > 254.0f)
         {
-            this->Death();
+            BackGround1->Off();
+            BackGround->Off();
+            Animation->Off();
+            test = true;
         }
 
 

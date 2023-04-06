@@ -14,11 +14,12 @@ public:
     LobbyChangePlay(LobbyChangePlay&& _Other) noexcept = delete;
     LobbyChangePlay& operator=(const LobbyChangePlay& _Other) = delete;
     LobbyChangePlay& operator=(LobbyChangePlay&& _Other) noexcept = delete;
-
+    static bool test;
 protected:
     void Start() override;
     void Update(float _DeltaTime) override;
 
+  
 
 private:
 
@@ -34,5 +35,6 @@ private:
 
     bool AnimationCheck = false;
     bool BlackCheck = false;
+    
 };
 

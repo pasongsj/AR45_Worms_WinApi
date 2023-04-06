@@ -1031,13 +1031,30 @@ void PlayLevel::Loading()
 
 }
 
-
+bool a = false;
 
 void PlayLevel::Update(float _DeltaTime)
 {
+    if (isLoadingOff == false)
+    {
+        LobbyChangePlay* Actor = CreateActor<LobbyChangePlay>();
+        isLoadingOff = true;
+    }
    
+
+    if (LobbyChangePlay::test == false)
+    {
+        return;
+    }
+
+    if (LobbyChangePlay::test == true & false == a)
+    {
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+        a = true;
+    }
+
 	CreateLeaf(_DeltaTime);     
-    
+
     PlayerChange(_DeltaTime);
     
    
@@ -1098,7 +1115,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
         GlobalValue::gValue.SetPlayer(vecAllPlayer[iPlayerNumber]);
 
-        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+        //
         SetCameraPos(GlobalValue::gValue.GetPlayer()->GetPos() - ScreenSize.half());
     }
 
@@ -1109,13 +1126,16 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
         TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
         WindUI* WindUIActor = CreateActor<WindUI>();
-        LobbyChangePlay* Actor = CreateActor<LobbyChangePlay>();
+       
+    }
+    if (LobbyChangePlay::test == true)
+    {
+        GameEngineResources::GetInst().SoundPlay("startround.wav");
+
+        BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
     }
 
-
-    GameEngineResources::GetInst().SoundPlay("startround.wav");
-
-    BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
+  
     
     
     //CreateActor<WeaponAirStrike>();
