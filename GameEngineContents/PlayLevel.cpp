@@ -1024,7 +1024,7 @@ void PlayLevel::GameSetCheck()
 
     for (size_t i = 0; i < vecAllPlayer.size(); i++)
     {
-        if (0>=vecAllPlayer[i]->GetPlayerHP())
+        if (false == vecAllPlayer[i]->IsUpdate())
         {
             --iUpdatePlayer;
         }
@@ -1033,11 +1033,12 @@ void PlayLevel::GameSetCheck()
     if (0 == iUpdatePlayer)
     {
         bDraw = true;
-    }
-    
+        bWin = false;
+    }    
     else if (1 == iUpdatePlayer)
     {
         bWin = true;
+        bDraw = false;
     }
 }
 
