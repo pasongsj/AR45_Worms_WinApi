@@ -25,6 +25,7 @@ protected:
 private:
     GameEngineSoundPlayer Heartbeat;
     GameEngineSoundPlayer Bgm;
+    GameEngineSoundPlayer Nuke;
 
 	GameEngineRender* InTro = nullptr;
 	GameEngineRender* BackDrop = nullptr;

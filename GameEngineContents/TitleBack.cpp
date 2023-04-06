@@ -186,8 +186,8 @@ void TitleBack::Update(float _DeltaTime)
         if (false == BackDrop->IsUpdate())
         {      
             Heartbeat.Stop();
-            Bgm = GameEngineResources::GetInst().SoundPlayToControl("TitleScreen.mp3");           
-            GameEngineResources::GetInst().SoundPlay("meganuke.wav");
+            Bgm = GameEngineResources::GetInst().SoundPlayToControl("TitleScreen.mp3");
+            Nuke = GameEngineResources::GetInst().SoundPlayToControl("meganuke.wav");
         }
 		BackDrop->On();
 		InTroBackGround->Off();
@@ -280,6 +280,7 @@ void TitleBack::Update(float _DeltaTime)
     if (BlackAlpha > 254)
     {
         Bgm.Stop();
+        Nuke.Stop();
         GameEngineCore::GetInst()->ChangeLevel("MainTitle");
     }
 

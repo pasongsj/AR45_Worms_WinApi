@@ -65,6 +65,8 @@ public:
         }
     }
 
+    void SetGridRandomPos(float _Interval);
+
     float4 GetGridRandPos();
 
 protected:
@@ -102,7 +104,6 @@ private:
 	void MoveCamForMouse(float _DeltaTime);
     bool DamageAnimCheck();
 
-    void SetRandomPos(float _Interval);
 
     void Win(float _DeltaTime);
     void Draw(float _DeltaTime);

@@ -885,7 +885,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 	SetCameraMove(MoveCam * fCamMoveSpeed * _DeltaTime);
 }
 
-void PlayLevel::SetRandomPos(float _Interval)
+void PlayLevel::SetGridRandomPos(float _Interval)
 {
     listRandPos.clear();
 
@@ -1163,7 +1163,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
     {
         MapModifier* ModifierActor = CreateActor<MapModifier>(WormsRenderOrder::Map);
     }
-    SetRandomPos(300.f);
+    SetGridRandomPos(300.f);
     {
         ScreenSize = GameEngineWindow::GetScreenSize();
 
