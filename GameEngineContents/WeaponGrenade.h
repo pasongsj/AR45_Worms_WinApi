@@ -69,7 +69,7 @@ private:
     void CheckTimer(float _DeltaTime);
 
     //바람 추가
-    float4 CulWindMoveVec(float _DeltaTime);
+    //float4 CulWindMoveVec(float _DeltaTime);
 
     // 폭발 애니메이션 랜더 끄기
     void CheckExplosion();

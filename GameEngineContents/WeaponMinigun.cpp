@@ -211,12 +211,13 @@ void WeaponMinigun::Firing(float _DeltaTime)
                 Smoke->SetPos(MinigunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(3, 1, BombScale);
 
-                GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);							  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetPosition(MinigunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
+                //GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);							  // 1. Bomb 콜리전 가져오기
+                //BombCollision->SetPosition(MinigunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동
+                //BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
+                MinigunCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });
 
 
-                AttackPlayerGun(BombCollision, 500);																				  // 3. Bomb콜리전 Player Check
+                AttackPlayerGun(MinigunCollision[i], 500);																				  // 3. Bomb콜리전 Player Check
                 MapModifier::MainModifier->CreateHole(MinigunCollision[i]->GetActorPlusPos(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
 
                 MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전

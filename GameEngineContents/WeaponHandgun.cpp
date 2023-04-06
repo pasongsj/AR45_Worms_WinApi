@@ -215,12 +215,13 @@ void WeaponHandgun::Firing(float _DeltaTime)
                 Smoke->SetPos(HandgunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
 
-                GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);
-                BombCollision->SetPosition(HandgunCollision[i]->GetPosition());							  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
+/*                GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);
+                BombCollision->SetPosition(HandgunCollision[i]->GetPosition());		*/					  // 1. Bomb 콜리전 가져오기'
+                //BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
+                HandgunCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });
 
 
-                AttackPlayerGun(BombCollision, 500);																				  // 3. Bomb콜리전 Player Check
+                AttackPlayerGun(HandgunCollision[i], 500);																				  // 3. Bomb콜리전 Player Check
                 MapModifier::MainModifier->CreateHole(GetPos() + HandgunCollision[i]->GetPosition(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
 
                 HandgunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전

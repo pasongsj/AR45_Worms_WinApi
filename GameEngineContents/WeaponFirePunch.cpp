@@ -63,12 +63,16 @@ void WeaponFirePunch::Update(float _DeltaTime)
     {
         if (false == isFire) 
         {
-            if (true == GameEngineInput::IsUp("Shoot")) // 스페이스바를 뗏다면
+            if (true == UpShoot()) // 스페이스바를 뗏다면
             {
                 CurPlayer->ChangePlayerAnimation("FirePunchFire");
                 isFire = true;
                 StartPos = CurPlayer->GetPos();
                 SetPos(StartPos);
+            }
+            else if (true == PressShoot() && GetChargeTime() > 0.7f)
+            {
+                CurPlayer->ChangePlayerAnimation("FirePunchCharging",7);
             }
         }
         else
@@ -108,7 +112,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                     HitTimer = 0.1f;
                 }
 
-                MapModifier::MainModifier->CreateHole(StartPos, static_cast<int>(BombScale));                                         //4. createHole
+                MapModifier::MainModifier->CreateHole(StartPos + float4(0,-20), static_cast<int>(BombScale));                                         //4. createHole
             }
             else // 펀치가 끝났다면
             {
@@ -117,9 +121,13 @@ void WeaponFirePunch::Update(float _DeltaTime)
                     CurPlayer->ChangePlayerAnimation("FirePunchAfter");
                     isAfterAnimation = true;
                 }
-                else if (true == CurPlayer->IsPlayerAnimationEnd()) // 떨어지는 애니메이션이 끝났다면
+                else
                 {
-                    isWeaponDone = true; // 무기종료
+                    CurPlayer->SetMove(float4(0, 120*_DeltaTime));
+                    if (true == CurPlayer->IsPlayerAnimationEnd()) // 떨어지는 애니메이션이 끝났다면
+                    {
+                        isWeaponDone = true; // 무기종료
+                    }
                 }
             }
         }

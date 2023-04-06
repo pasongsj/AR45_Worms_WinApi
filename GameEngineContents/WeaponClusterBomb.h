@@ -85,8 +85,10 @@ private:
 
     bool isDone();                          // MainBomb가 터지고, 모든 Cluster 가 터졌는지
 
-    float4 CulWindMoveVec(float _DeltaTime); //바람 추가 
+    //float4 CulWindMoveVec(float _DeltaTime); //바람 추가 
 
-    void MakeSmoke(); // 클러스터
+    void MakeSmoke();                       // 클러스터
+    
+    void CheckTimer(float _DeltaTime);      // 타이머 폭발 체크
 };
 

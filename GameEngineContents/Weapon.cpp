@@ -216,61 +216,6 @@ float4 Weapon::CheckSide(float4 _Vec)
     return ReturnNull;
 
 
-    //if (abs(_X) + 0.5f < abs(_Y))
-    //{
-    //    if (_Y > 0)
-    //    {
-    //        return float4{ 0,0,1,0 };
-    //        //return static_cast<int>(WeaponCollisionCheck::DOWN);
-    //    }
-    //    else
-    //    {
-    //        return float4{ 0,0,0,1 };
-    //        //return static_cast<int>(WeaponCollisionCheck::UP);
-    //    }
-    //}
-
-    //if (_X > 0)
-    //{
-    //    if (abs(_X) > abs(_Y) + 0.5f)
-    //    {
-    //        return float4{ 1,0,0,0 };
-    //        //return static_cast<int>(WeaponCollisionCheck::RIGHT);
-    //    }
-    //    else
-    //    {
-    //        if (_Y > 0)
-    //        {
-    //            return float4{ 1,0,1,0 };
-    //            //return static_cast<int>(WeaponCollisionCheck::DOWNRIGHT);
-    //        }
-    //        else
-    //        {
-    //            return float4{ 1,0,0,1 };
-    //            //return static_cast<int>(WeaponCollisionCheck::UPRIGHT);
-    //        }
-    //    }
-    //}
-    //else if (_X < 0)
-    //{
-    //    if (abs(_X) > abs(_Y) + 0.5f)
-    //    {
-    //        return static_cast<int>(WeaponCollisionCheck::LEFT);
-    //    }
-    //    else
-    //    {
-    //        if (_Y > 0)
-    //        {
-    //            return static_cast<int>(WeaponCollisionCheck::DOWNLEFT);
-    //        }
-    //        else
-    //        {
-    //            return static_cast<int>(WeaponCollisionCheck::UPLEFT);
-    //        }
-    //    }
-    //}
-    //return static_cast<int>(WeaponCollisionCheck::ALL);
-
 }
 
 float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
