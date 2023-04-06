@@ -30,6 +30,11 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+
+    GameEngineSoundPlayer BgmPlayer;
+
+
+
     void SetLevelSetting(LevelSetting _set)
     {
         LevelSet = _set;
@@ -39,14 +44,10 @@ public:
        return LevelSet;
     }
 
-    void GameSetCheck();
-
     inline bool IsDebugTextModeOn()
     {
         return IsDebugTextMode;
     }
-
-    GameEngineSoundPlayer BgmPlayer;
 	
     int GetGameSet()
     {
@@ -102,6 +103,7 @@ private:
     void Win(float _DeltaTime);
     void Draw(float _DeltaTime);
 
+    void GameSetCheck();
 
     bool bWin = false;
     bool bDraw = false;
