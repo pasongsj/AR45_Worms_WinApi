@@ -221,7 +221,7 @@ void WeaponBazooka::firing(float _DeltaTime) //น฿ป็
     float WindPower = GlobalValue::gValue.GetWindSpeed();
 
     CurPos = WeaponRender->GetPosition();
-    NextPos = CurPos + (Dir * MoveSpeed + float4{WindPower / 10 , Gravity}) * _DeltaTime;
+    NextPos = CurPos + (Dir * MoveSpeed + float4{WindPower , Gravity}) * _DeltaTime;
 
     Dir = NextPos - CurPos;
     Dir.Normalize();

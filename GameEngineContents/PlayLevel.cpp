@@ -24,6 +24,7 @@
 #include "WeaponFirePunch.h"
 #include "LobbyChangePlay.h"
 #include "PlayChangeEnding.h"
+#include "WeaponCarpetBomb.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -192,6 +193,13 @@ void PlayLevel::ImageLoad()
         GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("cluster.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("clusterRot.bmp"));
 
+        GameEngineImage* CarpetTruckLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetTruckLeft.bmp"));
+        CarpetTruckLeft->Cut(1, 4);
+        GameEngineImage* CarpetTruckRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetTruckRight.bmp"));
+        CarpetTruckRight->Cut(1, 4);
+
+        GameEngineImage* Carpet = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Carpet.bmp"));
+        Carpet->Cut(1, 10);
 
         //무기 효과
         Dir.Move("Effect");
@@ -413,6 +421,10 @@ void PlayLevel::ImageLoad()
             GameEngineImage* FirePunchAfterLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchAfterLeft.bmp"));
             FirePunchAfterLeft->Cut(1, 13);
 
+            GameEngineImage* CarpetOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOffLeft.bmp"));
+            CarpetOffLeft->Cut(1, 10);
+            GameEngineImage* CarpetOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOnLeft.bmp"));
+            CarpetOnLeft->Cut(1, 10);
 		}
 
 		{
@@ -546,6 +558,11 @@ void PlayLevel::ImageLoad()
             FirePunchOnRight->Cut(1, 26);
             GameEngineImage* FirePunchAfterRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FirePunchAfterRight.bmp"));
             FirePunchAfterRight->Cut(1, 13);
+
+            GameEngineImage* CarpetOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOffRight.bmp"));
+            CarpetOffRight->Cut(1, 10);
+            GameEngineImage* CarpetOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOnRight.bmp"));
+            CarpetOnRight->Cut(1, 10);
 
 		}
 		Dir.MoveParent();
@@ -1138,6 +1155,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
   
     
     
+    //CreateActor<WeaponCarpetBomb>();
     //CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();
     //CreateActor<WeaponSheep>();

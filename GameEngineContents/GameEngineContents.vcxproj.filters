@@ -271,7 +271,6 @@
     </ClInclude>
     <ClInclude Include="WeaponInterFace.h" />
     <ClInclude Include="LobbyChangePlay.h" />
-    <ClInclude Include="WeaponCarpetBomb.h" />
     <ClInclude Include="PetrolEffect.h">
       <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClInclude>
@@ -279,6 +278,9 @@
       <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClInclude>
     <ClInclude Include="PlayChangeEnding.h" />
+    <ClInclude Include="WeaponCarpetBomb.h">
+      <Filter>Weapon\F10</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

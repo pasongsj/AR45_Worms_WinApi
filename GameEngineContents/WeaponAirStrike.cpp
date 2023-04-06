@@ -166,8 +166,7 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 }
 
 void WeaponAirStrike::Firing(float _DeltaTime)
-{
-	
+{	
 	if(Dir == float4{0,0})
 	{
 		Dir = TargetPos - MiddleMissileStartPos;

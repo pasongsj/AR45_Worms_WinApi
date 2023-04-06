@@ -61,5 +61,6 @@ enum class WeaponNum
 	AirStrike,			//F6
     Torch,              //F7
     Drill,              //F7
+    Carpet,             //F10
     WeaponCount        //Enum 개수 확인하기위한 Count (마지막에 있어야 함)
 };

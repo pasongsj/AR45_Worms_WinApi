@@ -367,47 +367,6 @@ float4 Weapon::Check4Side(GameEngineCollision* _Col, float4 _NextPos)
         int a = 0;
     }
     return RetrunValue;
-
-        //if (true == S)
-        //{
-        //    if (true == N)
-        //    {
-        //        return static_cast<int>(WeaponCollisionCheck::ALL);
-        //    }
-        //    else if (true == E)
-        //    {
-        //        return static_cast<int>(WeaponCollisionCheck::DOWNRIGHT);
-        //    }
-        //    else if (true == W)
-        //    {
-        //        return static_cast<int>(WeaponCollisionCheck::DOWNLEFT);
-        //    }
-        //    return static_cast<int>(WeaponCollisionCheck::DOWN);
-        //}
-        //else if (true == N)
-        //{
-        //    if (true == E)
-        //    {
-        //        return static_cast<int>(WeaponCollisionCheck::UPRIGHT);
-        //    }
-        //    else if (true == W)
-        //    {
-        //        return static_cast<int>(WeaponCollisionCheck::UPLEFT);
-        //    }
-        //    return static_cast<int>(WeaponCollisionCheck::UP);
-        //}
-        //else if (true == E)
-        //{
-        //    return static_cast<int>(WeaponCollisionCheck::RIGHT);
-        //}
-        //else if (true == W)
-        //{
-        //    return static_cast<int>(WeaponCollisionCheck::LEFT);
-        //}
-    //}
-
-    //return static_cast<int>(WeaponCollisionCheck::ZERO);
-    
 }
 
 

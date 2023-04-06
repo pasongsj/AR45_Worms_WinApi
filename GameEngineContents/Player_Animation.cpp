@@ -216,4 +216,13 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Right_FirePunchAfter", .ImageName = "FirePunchAfterRight.bmp", .Start = 0, .End = 12, .InterTime = 0.05f, .Loop = false });
 
     }
+
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_CarpetOn", .ImageName = "CarpetOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_CarpetOn", .ImageName = "CarpetOnRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_CarpetOff", .ImageName = "CarpetOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_CarpetOff", .ImageName = "CarpetOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+    }
 }
