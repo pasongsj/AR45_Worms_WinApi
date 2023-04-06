@@ -27,7 +27,7 @@ void PetrolEffect::Start()
     PetrolRender->ChangeAnimation("petrol_40");
 
     PetrolCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Petrol));
-    PetrolCol->SetScale({ 5, 5 });
+    PetrolCol->SetScale({ 10, 10 });
     PetrolCol->SetPosition(GetPos());
 }
 
@@ -82,7 +82,6 @@ void PetrolEffect::Update(float _DeltaTime)
 }
 
 
-//º¸·ù
 void PetrolEffect::HitDrumCheck()
 {
     std::vector<GameEngineCollision*> CollisionDrum;
@@ -92,7 +91,7 @@ void PetrolEffect::HitDrumCheck()
     {
         for (int i = 0; i < CollisionDrum.size(); i++)
         {
-            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(5);
+            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(8);
             PetrolCol->Off();
         }
     }

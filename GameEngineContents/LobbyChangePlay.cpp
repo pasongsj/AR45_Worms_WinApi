@@ -45,22 +45,22 @@ void LobbyChangePlay::Update(float _DeltaTime)
     }
     if (AnimationCheck == true)
     {
-        if (UpBlackAlpha < 254)
+        if (UpBlackAlpha < 254.0f)
         {
-            UpBlackAlpha += 1000 * _DeltaTime;
+            UpBlackAlpha += 1000.0f * _DeltaTime;
             BackGround1->SetAlpha(UpBlackAlpha);
            
         }
-        if (UpBlackAlpha > 254)
+        if (UpBlackAlpha > 254.0f)
         {
             BackGround->Off();
             Animation->Off();
-            DownBlackAlpha += 200 * _DeltaTime;
+            DownBlackAlpha += 200.0f * _DeltaTime;
 
-            BackGround1->SetAlpha(255- DownBlackAlpha);
+            BackGround1->SetAlpha(255.0f - DownBlackAlpha);
         }
 
-        if (DownBlackAlpha > 254)
+        if (DownBlackAlpha > 254.0f)
         {
             this->Death();
         }

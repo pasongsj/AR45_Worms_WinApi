@@ -234,9 +234,9 @@ void Map::Update(float _DeltaTime)
 		}
 	}
 
-    if (true == GameEngineInput::IsDown("DebugingText"))							    //µð¹ö±ë ¸ðµå_Ãæµ¹¸Ê È¤Àº ¸ÊÀ» º¼ ¼ö ÀÖÀ½
+    if (true == GameEngineInput::IsDown("DebugingText"))
     {
-        IsShowText = !IsShowText;
+        IsDebugMode = !IsDebugMode;
     }
 }
 
@@ -285,11 +285,10 @@ HDC Map::GetColMapDC() const
 
 void Map::Render(float _DeltaTime)
 {
-    if (true == IsShowText)
+    if (true == IsDebugMode)
     {
         std::string MousePosStr = "MousePosition : ";
         MousePosStr += GetLevel()->GetMousePosToCamera().ToString();
         GameEngineLevel::DebugTextPush(MousePosStr);
-    }
-    
+    }   
 }

@@ -45,11 +45,6 @@ void Medikit::Start()
 
 void Medikit::Update(float _DeltaTime)
 {
-    if (GameEngineInput::IsDown("DebugCollision"))
-    {
-        GetLevel()->DebugRenderSwitch();
-    }
-
     if (true == IsWindApplied() && false == IsChangedAnim)             //처음 공중에서 낙하할 때, 낙하산 애니메이션 적용(1회)
     {
         //공중에 있는 동안은 바람의 영향을 받아야 함
