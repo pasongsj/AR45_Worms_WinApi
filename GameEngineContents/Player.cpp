@@ -154,7 +154,7 @@ void Player::Damaged(int _Damage, float4 _Dir, float _Power)
         return;
     }
 
-	if (DamagedTime >= 0.0f)
+	if (DamagedTime >= 0.5f)
 	{
 		DamagedTime = 0.0f;
 		
