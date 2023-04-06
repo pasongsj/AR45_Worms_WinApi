@@ -15,6 +15,7 @@ TitleBack::~TitleBack()
 
 void TitleBack::Start()
 {
+    
 	InTro = CreateRender("Intro_Logo.bmp", WormsTitle::Intro);
 	InTro->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y});
 	InTro->SetScale(GameEngineWindow::GetScreenSize());

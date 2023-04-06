@@ -208,11 +208,11 @@ void GameEngineCollision::DebugRender()
 	}
 	case CT_Rect:
 	{
-		Rectangle(BackBufferDc,
+		/*Rectangle(BackBufferDc,
 			DebugRenderPos.ix() - GetScale().hix(),
 			DebugRenderPos.iy() - GetScale().hiy(),
 			DebugRenderPos.ix() + GetScale().hix(),
-			DebugRenderPos.iy() + GetScale().hiy());
+			DebugRenderPos.iy() + GetScale().hiy());*/
 		break;
 	}
 	case CT_Max:
