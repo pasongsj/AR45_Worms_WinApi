@@ -1094,35 +1094,24 @@ void PlayLevel::Loading()
     //CreateActor<WeaponFirePunch>();
 }
 
-bool a = false;
 
 void PlayLevel::Update(float _DeltaTime)
 {
-    if (isLoadingOff == false)
-    {
-        LobbyChangePlay* Actor = CreateActor<LobbyChangePlay>();
-        isLoadingOff = true;
-    }
-   
-
-    if (LobbyChangePlay::test == false)
-    {
-        return;
-    }
-    if (LobbyChangePlay::test == true && ismusicOn ==false)
+    if (LobbyChangePlay::test == true && ismusicOn == false)
     {
         GameEngineResources::GetInst().SoundPlay("startround.wav");
 
         BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
+
+        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+
+        TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
         ismusicOn = true;
     }
 
-
-
-    if (LobbyChangePlay::test == true && false == a)
+    if (ismusicOn == false)
     {
-        GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
-        a = true;
+        return;
     }
 
 	CreateLeaf(_DeltaTime);     
@@ -1200,11 +1189,11 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
     }
     {
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
-        TurnTimeUI* pTurnTimeUI = CreateActor< TurnTimeUI>();
         WindUI* WindUIActor = CreateActor<WindUI>();
        
     }
-   
+
+    LobbyChangePlay* Actor = CreateActor<LobbyChangePlay>();
   
     
     
