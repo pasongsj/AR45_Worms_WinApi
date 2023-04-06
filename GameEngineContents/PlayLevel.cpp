@@ -25,6 +25,7 @@
 #include "LobbyChangePlay.h"
 #include "PlayChangeEnding.h"
 #include "WeaponCarpetBomb.h"
+#include "Result.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -34,6 +35,8 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCore.h>
 
 
@@ -605,6 +608,12 @@ void PlayLevel::ImageLoad()
 			GameEngineImage* PlayerHPBackgroundImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerHPBackground.bmp"));
 			Dir.MoveParent();
 		}
+        Dir.MoveParent();
+        Dir.Move("Etc");
+        {
+            GameEngineImage* win = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("win.bmp"));
+            GameEngineImage* draw = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("draw.bmp"));
+        }
 		//UI
 		{
 			{
@@ -772,6 +781,11 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 	}
 
     GameSetCheck();
+    Draw(_DeltaTime);
+    if (bDraw == true)
+    {
+        return;
+    }
 
     if ((false == GlobalValue::gValue.GetPlayer()->GetIsMyTurn() || GameEngineInput::IsDown("ChangePlayer") ))
     {   
@@ -834,34 +848,8 @@ void PlayLevel::PlayerChange(float _DeltaTime)
 			GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
 		}
 	}
-
-    if (true == bWin&& false == GameEngineCore::GetInst()->IsDebug())
-    {
-        fWinTime += _DeltaTime;
-        
-        if (fWinTime>2.f)
-        {
-            if (PlayerState::Win ==GlobalValue::gValue.GetPlayer()->GetPlayerState())
-            {
-                fAnimTime += _DeltaTime;
-                if (fAnimTime > 6.f)
-                {
-                    PlayChangeEnding* Actor = CreateActor<PlayChangeEnding>();
-                }
-            }
-            else
-            {
-                GlobalValue::gValue.GetPlayer()->SetPlayerState(PlayerState::Win);
-
-                BgmPlayer.Stop();
-                GameEngineResources::GetInst().SoundPlay("CrowdPart2.wav");
-                GameEngineResources::GetInst().SoundPlay("win.wav");
-
-            }            
-            
-        }
-       
-    }
+    Win(_DeltaTime);
+    
 }
 
 void PlayLevel::MoveCamForMouse(float _DeltaTime)
@@ -966,6 +954,66 @@ bool PlayLevel::DamageAnimCheck()
     
 }
 
+void PlayLevel::Win(float _DeltaTime)
+{
+    if (true == bWin && false == GameEngineCore::GetInst()->IsDebug())
+    {
+        fWinTime += _DeltaTime;
+
+        if (fWinTime > 2.f)
+        {
+            if (PlayerState::Win == GlobalValue::gValue.GetPlayer()->GetPlayerState())
+            {
+                fAnimTime += _DeltaTime;
+                if (fAnimTime > 6.f)
+                {
+                    PlayChangeEnding* Actor = CreateActor<PlayChangeEnding>();
+                }
+            }
+            else
+            {
+                GlobalValue::gValue.GetPlayer()->SetPlayerState(PlayerState::Win);
+
+                Result* pResult = CreateActor<Result>();
+
+
+                BgmPlayer.Stop();
+                GameEngineResources::GetInst().SoundPlay("CrowdPart2.wav");
+                GameEngineResources::GetInst().SoundPlay("win.wav");
+
+            }
+
+        }
+    }
+}
+
+void PlayLevel::Draw(float _DeltaTime)
+{
+    if (true == bDraw && false == GameEngineCore::GetInst()->IsDebug())
+    {
+        fWinTime += _DeltaTime;
+
+        if (fWinTime > 2.f)
+        {
+            
+           
+           if (fAnimTime > 6.f)
+           {
+               PlayChangeEnding* Actor = CreateActor<PlayChangeEnding>();
+           }
+           
+           if (fAnimTime == 0.f)
+           {
+               Result* pResult = CreateActor<Result>();
+
+               BgmPlayer.Stop();
+               GameEngineResources::GetInst().SoundPlay("draw.wav");
+           }           
+           fAnimTime += _DeltaTime;
+        }
+    }
+}
+
 
 
 
@@ -976,21 +1024,20 @@ void PlayLevel::GameSetCheck()
 
     for (size_t i = 0; i < vecAllPlayer.size(); i++)
     {
-        if (false==vecAllPlayer[i]->IsUpdate())
+        if (0>=vecAllPlayer[i]->GetPlayerHP())
         {
             --iUpdatePlayer;
         }
     }
 
-    if (1 == iUpdatePlayer)
-    {
-        bWin = true;
-    }
-    
-    else if (0 == iUpdatePlayer)
+    if (0 == iUpdatePlayer)
     {
         bDraw = true;
-        GameEngineCore::GetInst()->ChangeLevel("Ending");
+    }
+    
+    else if (1 == iUpdatePlayer)
+    {
+        bWin = true;
     }
 }
 

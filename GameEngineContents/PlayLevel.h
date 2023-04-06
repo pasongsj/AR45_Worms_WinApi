@@ -45,6 +45,21 @@ public:
 
     GameEngineSoundPlayer BgmPlayer;
 	
+    int GetGameSet()
+    {
+        if (true == bWin)
+        {
+            return 1;
+        }
+        if (true== bDraw)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
@@ -80,6 +95,10 @@ private:
 	void MoveCamForMouse(float _DeltaTime);
     void SetRandomPos(float _Interval);
     bool DamageAnimCheck();
+
+    void Win(float _DeltaTime);
+    void Draw(float _DeltaTime);
+
 
     bool bWin = false;
     bool bDraw = false;

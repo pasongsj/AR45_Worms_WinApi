@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="EndingBack.cpp" />
-    <ClCompile Include="EndingLevel.cpp" />
     <ClCompile Include="GlobalValue.cpp" />
-    <ClCompile Include="MouseObject.cpp" />
     <ClCompile Include="WormsCore.cpp" />
     <ClCompile Include="AllPlayerHpUI.cpp">
       <Filter>Play\Player\PlayerUI</Filter>
@@ -28,10 +25,10 @@
       <Filter>Play\Player\PlayerUI</Filter>
     </ClCompile>
     <ClCompile Include="Leaf.cpp">
-      <Filter>Play\WindEtc</Filter>
+      <Filter>Play\Etc</Filter>
     </ClCompile>
     <ClCompile Include="WindUI.cpp">
-      <Filter>Play\WindEtc</Filter>
+      <Filter>Play\Etc</Filter>
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>Play\Map\MapObject</Filter>
@@ -132,7 +129,6 @@
     <ClCompile Include="WeaponTorch.cpp">
       <Filter>Weapon\F7</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponInterFace.cpp" />
     <ClCompile Include="Drum.cpp">
       <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClCompile>
@@ -142,14 +138,30 @@
     <ClCompile Include="WeaponCarpetBomb.cpp">
       <Filter>Weapon\F10</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyChangePlay.cpp" />
-    <ClCompile Include="PlayChangeEnding.cpp" />
+    <ClCompile Include="EndingBack.cpp">
+      <Filter>End</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <Filter>End</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayChangeEnding.cpp">
+      <Filter>End</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyChangePlay.cpp">
+      <Filter>Play\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponInterFace.cpp">
+      <Filter>Play\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseObject.cpp">
+      <Filter>Play\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>Play\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EndingBack.h" />
-    <ClInclude Include="EndingLevel.h" />
     <ClInclude Include="GlobalValue.h" />
-    <ClInclude Include="MouseObject.h" />
     <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="WormsCore.h" />
     <ClInclude Include="AllPlayerHpUI.h">
@@ -165,10 +177,10 @@
       <Filter>Play\Player\PlayerUI</Filter>
     </ClInclude>
     <ClInclude Include="Leaf.h">
-      <Filter>Play\WindEtc</Filter>
+      <Filter>Play\Etc</Filter>
     </ClInclude>
     <ClInclude Include="WindUI.h">
-      <Filter>Play\WindEtc</Filter>
+      <Filter>Play\Etc</Filter>
     </ClInclude>
     <ClInclude Include="MapObject.h">
       <Filter>Play\Map\MapObject</Filter>
@@ -266,28 +278,43 @@
     <ClInclude Include="WeaponTorch.h">
       <Filter>Weapon\F7</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponInterFace.h" />
-    <ClInclude Include="LobbyChangePlay.h" />
     <ClInclude Include="PetrolEffect.h">
       <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClInclude>
     <ClInclude Include="Drum.h">
       <Filter>Play\Map\MapObject\OilDrum</Filter>
     </ClInclude>
-    <ClInclude Include="PlayChangeEnding.h" />
     <ClInclude Include="WeaponCarpetBomb.h">
       <Filter>Weapon\F10</Filter>
     </ClInclude>
     <ClInclude Include="Medikit.h">
       <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="EndingBack.h">
+      <Filter>End</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <Filter>End</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayChangeEnding.h">
+      <Filter>End</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyChangePlay.h">
+      <Filter>Play\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponInterFace.h">
+      <Filter>Play\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseObject.h">
+      <Filter>Play\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Play\Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">
       <UniqueIdentifier>{c39afafe-4803-4a48-8cc5-67b1187d53ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Play\WindEtc">
-      <UniqueIdentifier>{9245e623-f23d-4b5d-ae4b-14828410b05e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play\Player">
       <UniqueIdentifier>{897f61c8-6185-4087-a5c7-9b5dbc032562}</UniqueIdentifier>
@@ -339,6 +366,12 @@
     </Filter>
     <Filter Include="Weapon\F10">
       <UniqueIdentifier>{8ab1b9af-c98a-4ed0-94e2-5cac74ff8121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="End">
+      <UniqueIdentifier>{b64599bd-87db-4eed-9fd9-350c3f264f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Etc">
+      <UniqueIdentifier>{9245e623-f23d-4b5d-ae4b-14828410b05e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
