@@ -1062,8 +1062,17 @@ void PlayLevel::Update(float _DeltaTime)
     {
         return;
     }
+    if (LobbyChangePlay::test == true && ismusicOn ==false)
+    {
+        GameEngineResources::GetInst().SoundPlay("startround.wav");
 
-    if (LobbyChangePlay::test == true & false == a)
+        BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
+        ismusicOn = true;
+    }
+
+
+
+    if (LobbyChangePlay::test == true && false == a)
     {
         GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
         a = true;
@@ -1144,12 +1153,9 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         WindUI* WindUIActor = CreateActor<WindUI>();
        
     }
-    if (LobbyChangePlay::test == true)
-    {
-        GameEngineResources::GetInst().SoundPlay("startround.wav");
-
-        BgmPlayer = GameEngineResources::GetInst().SoundPlayToControl("Forest.mp3");
-    }  
+   
+  
+    
     
     //CreateActor<WeaponAirStrike>();
     //CreateActor<HomingMissile>();

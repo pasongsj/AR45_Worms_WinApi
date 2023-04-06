@@ -77,6 +77,7 @@ private:
     bool bWin = false;
     bool bDraw = false;
     bool isLoadingOff = false;
+    bool ismusicOn = false;
     float fWinTime = 0.f;
     float fAnimTime = 0.f;
 

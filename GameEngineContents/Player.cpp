@@ -76,6 +76,7 @@ void Player::SetIsMyTurn(bool _Value)
     //본인 턴이고, CurWeapon의 개수가 0이 아니라면 생성함
     if (true == _Value) 
     {
+        
         PlaySoundOnce("PlayerSelect.wav");
 
         if (WeaponNum::None == CurWeaponNum)
