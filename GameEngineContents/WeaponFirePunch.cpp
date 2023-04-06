@@ -70,7 +70,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 StartPos = CurPlayer->GetPos();
                 SetPos(StartPos);
             }
-            else if (true == PressShoot() && GetChargeTime() > 0.7f)
+            else if (true == PressShoot() && GetChargeTime() > 0.6f)
             {
                 CurPlayer->ChangePlayerAnimation("FirePunchCharging",7);
             }
@@ -80,6 +80,10 @@ void WeaponFirePunch::Update(float _DeltaTime)
             //float4 CurPos = CurPlayer->GetPos();
             if (Timer > 0) // 위쪽으로 펀치
             {
+                // 카메라 이동
+                float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), StartPos - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 10);
+                GetLevel()->SetCameraPos(CamPos);
+
                 Timer -= _DeltaTime;
                 EffectTimer -= _DeltaTime;
                 HitTimer -= _DeltaTime;

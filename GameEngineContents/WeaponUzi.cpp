@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 #include "MapModifier.h"
 #include "Player.h"
@@ -21,7 +22,7 @@ void WeaponUzi::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Uzi";
-	MoveSpeed = 3000;
+	MoveSpeed = 4000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -40,7 +41,7 @@ void WeaponUzi::Start()
 	AimingLine = CreateRender(WormsRenderOrder::Weapon);
 	AimingLine->SetImage("AimingLine.bmp");
     AimingLine->SetRotFilter("AimingLineRot.bmp");
-	AimingLine->SetScale({ 30,30  });
+	AimingLine->SetScale({ 20,20  });
 
 
 }
@@ -100,7 +101,7 @@ void WeaponUzi::Aiming(float _DeltaTime)
         CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
         AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
         AimingLine->SetAngle(-Dir.GetAnagleDeg());
-
+        float tmp = -Dir.GetAnagleDeg();
         CheckFiring(); // 방향체크, 발사 체크
     }
     else
@@ -175,6 +176,7 @@ void WeaponUzi::Firing(float _DeltaTime)
             {
                 isShooted[i] = true;
                 UziCollision[i]->On();
+                UziCollision[i]->SetMove(float4(0, GameEngineRandom::MainRandom.RandomFloat(-3.0f, 3.0f)));
                 break;
             }
 
@@ -190,23 +192,17 @@ void WeaponUzi::Firing(float _DeltaTime)
                 CurPlayer->ChangePlayerAnimation("Idle");
                 isIsFireAnimationDone = true;
             }
-            UziCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
-            float4 CheckCollision = CheckCollisionSide(UziCollision[i]);
-            if (CheckCollision == float4::Up && Dir.Size() > 0.001f)
+
+            float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
+            float4 CheckCol = Check4Side(UziCollision[i], UziCollision[i]->GetActorPlusPos() + MoveVec);
+            UziCollision[i]->SetMove(MoveVec);
+            if (CheckCol.AddAllVec() > 0)
             {
-                UziCollision[i]->SetMove(-Dir * _DeltaTime * MoveSpeed);
-                Dir *= 0.7f;
-                return;
-            }
-            if (CheckCollision.Size() > 0 || Dir.Size() < 0.001f) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
-            {
+                UziCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(UziCollision[i]->GetActorPlusPos());
-                Smoke->CreateSmokeSpark(3, 1, BombScale);
+                Smoke->CreateSmokeSpark(6, 2, BombScale);
 
-                //GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);								  // 1. Bomb 콜리전 가져오기
-                //BombCollision->SetPosition(UziCollision[i]->GetPosition());												  // 2. Bomb 콜리전 이동
-                //BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
                 UziCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });
 
 

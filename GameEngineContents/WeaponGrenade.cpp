@@ -118,24 +118,26 @@ void WeaponGrenade::Aiming(float _DeltaTime)
 
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
-        // 위치
-        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
-        Dir = GetShootDir();
-        SetPos(PlayerPos);
+        if (isPress == false)
+        {
+            // 위치
+            float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
+            Dir = GetShootDir();
+            SetPos(PlayerPos);
 
 
-        // 조준선
-        SetAimFrameIndex();// Aim 조준선 index 찾기
-        AimingLine->On();
-        // lerf한 프레임 변경
-        float Ratio = (3 * _DeltaTime > 1 ? 1 : 3 * _DeltaTime);
-        AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
+            // 조준선
+            SetAimFrameIndex();// Aim 조준선 index 찾기
+            AimingLine->On();
+            // lerf한 프레임 변경
+            float Ratio = (3 * _DeltaTime > 1 ? 1 : 3 * _DeltaTime);
+            AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
-        // FrameIndex 설정
-        CurPlayer->ChangePlayerAnimation("GrenadeAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
-        AimingLine->SetAngle(-Dir.GetAnagleDeg());
-
+            // FrameIndex 설정
+            CurPlayer->ChangePlayerAnimation("GrenadeAim", static_cast<int>(AimIndex));
+            AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+            AimingLine->SetAngle(-Dir.GetAnagleDeg());
+        }
 
         // 발사 체크
         if (true == PressShoot()) // IsPress
@@ -156,6 +158,8 @@ void WeaponGrenade::Aiming(float _DeltaTime)
 
             WeaponRender->On();
             WeaponCollision->On();
+            NextPosCheckCollision->On();
+
 
             MoveSpeed *= Charge;
             isFire = true;
@@ -221,7 +225,8 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         Dir.y += Gravity * _DeltaTime;
         Dir.x += GlobalValue::gValue.GetWindPhase() / 10 * _DeltaTime;
         float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
-        float4 CheckCol = Check4Side(WeaponCollision, WeaponCollision->GetActorPlusPos() + MoveVec);
+        NextPosCheckCollision->SetPosition(WeaponCollision->GetPosition() + MoveVec);
+        float4 CheckCol = Check4Side(NextPosCheckCollision, NextPosCheckCollision->GetActorPlusPos());
         if (CheckCol.AddAllVec() == 0)
         {
             WeaponRender->SetAngle(Dir.GetAnagleDeg());
@@ -314,7 +319,7 @@ void WeaponGrenade::CheckTimer(float _DeltaTime)
         BombCollision->SetPosition(float4::Zero);
 
         // 땅 파이게
-        //MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), static_cast<int>(BombScale));
+        MapModifier::MainModifier->CreateHole(GetPos() + WeaponCollision->GetPosition(), static_cast<int>(BombScale));
 
 
 
@@ -322,6 +327,7 @@ void WeaponGrenade::CheckTimer(float _DeltaTime)
         isExplosion = true;
         WeaponRender->Off();
         WeaponCollision->Off();
+        NextPosCheckCollision->Off();
         WaitTime = GetLiveTime() + 1.5f;
 
     }
@@ -376,20 +382,15 @@ void WeaponGrenade::WeaponGrenadeInit()
     WeaponCollision->SetScale({ 15,25 });
     WeaponCollision->SetPosition(float4{ 0,-30 });
 
+    NextPosCheckCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
+    NextPosCheckCollision->SetScale({ 15,25 });
+    NextPosCheckCollision->SetPosition(float4{ 0,-30 });
+
+
+
     WeaponRender->Off();
     WeaponCollision->Off();
+    NextPosCheckCollision->Off();
     isFire = false;
     ExplosionEffectInit(BombScale);
 }
-
-//float4 WeaponGrenade::CulWindMoveVec(float _DeltaTime)
-//{
-//    //if (abs(Dir.x * MoveSpeed) > 2000)
-//    //{
-//    //    return Dir * MoveSpeed * _DeltaTime;
-//    //}
-//    //Dir.x += GlobalValue::gValue.GetWindPhase() * 0.1f * _DeltaTime; 가속
-//    float4 ReturnVec = float4(Dir.x + GlobalValue::gValue.GetWindPhase() / 10 * _DeltaTime, Dir.y) * MoveSpeed * _DeltaTime;
-//    //ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 10) * (MoveSpeed / 5) * _DeltaTime; // 등속
-//    return ReturnVec;
-//}

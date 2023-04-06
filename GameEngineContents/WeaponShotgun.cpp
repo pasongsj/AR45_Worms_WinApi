@@ -22,7 +22,7 @@ void WeaponShotgun::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Shotgun";
-	MoveSpeed = 3000;
+	MoveSpeed = 4000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -159,6 +159,7 @@ void WeaponShotgun::CheckFiring()
 
 void WeaponShotgun::Firing(float _DeltaTime)
 {
+
     LoadDelay -= _DeltaTime;
     if (LoadDelay > 0) // 장전 딜레이(장전소리)
     {
@@ -166,56 +167,46 @@ void WeaponShotgun::Firing(float _DeltaTime)
     }
     CurPlayer->ChangePlayerAnimation("HandgunFire", static_cast<int>(AimIndex));
 
-	for (int i = 0; i < BulletCount; i++)
-	{
-		if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate()) // 현재 On인 총알
-		{
-            float4 MoveVec = ShotGunDir[i] * _DeltaTime * MoveSpeed;
-            ShotGunCollision[i]->SetMove(MoveVec);
-            float4 CheckCollision = CheckCollisionSide(ShotGunCollision[i]);
-            if (CheckCollision == float4::Up &&Dir.Size() > 0.001f)
-            {
-                ShotGunCollision[i]->SetMove(-MoveVec);
-                Dir *= 0.3f;
-                return;
-            }
+    for (int i = 0; i < BulletCount; i++)
+    {
+
+        if (true == isShooted[i] && true == ShotGunCollision[i]->IsUpdate()) // 현재 On인 총알
+        {
             // 카메라 이동
             float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), ShotGunCollision[i]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
             GetLevel()->SetCameraPos(CamPos);
-
-			if (0 < CheckCollision.Size() || Dir.Size() < 0.001f) // 콜리전 체크(플레이어, 맵)
-			{
-                // 연기이펙트
+            float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
+            float4 CheckCol = Check4Side(ShotGunCollision[i], ShotGunCollision[i]->GetActorPlusPos() + MoveVec);
+            ShotGunCollision[i]->SetMove(MoveVec);
+            if (CheckCol.AddAllVec() > 0)
+            {
+                ShotGunCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(ShotGunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
 
-                // Player 와 콜리전 체크를 위함
-				GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);				// 1. Bomb 콜리전 가져오기
-				BombCollision->SetPosition(ShotGunCollision[i]->GetPosition());							        // 2. Bomb 콜리전 이동
-
+                //Player 와 콜리전 체크를 위함
                 // shotgun은 다른 총들과 다르게 최대 데미지가 크기때문에 BombScale을 재 설정한다.
-                float4 Dis = BombCollision->GetActorPlusPos() - GetPos();
+                float4 Dis = ShotGunCollision[i]->GetPosition();
                 float Dis_Ratio = (Dis.Size() / 500) > 1 ? 1 : Dis.Size() / 500;
                 BombScale = MaxKnockBackPower * (1 - Dis_Ratio) + MinKnockBackPower * Dis_Ratio;
-                BombCollision->SetScale(float4{ static_cast<float>(BombScale) });  // 폭탄크기 재설정
+                ShotGunCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });  // 폭탄크기 재설정
 
-                AttackPlayerGun(BombCollision, 500);																// 3. Bomb콜리전 Player Check
+                AttackPlayerGun(ShotGunCollision[i], 500);																// 3. Bomb콜리전 Player Check
 
-				MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), static_cast<int>(BombScale));	// 4. 구멍 만들기
+                MapModifier::MainModifier->CreateHole(GetPos() + ShotGunCollision[i]->GetPosition(), static_cast<int>(BombScale));	// 4. 구멍 만들기
 
-				ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
+                ShotGunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;
-
-                if (i+1 < BulletCount)
+                if (i + 1 < BulletCount)
                 {
                     isFire = false;
 
                 }
                 WaitingTime = GetLiveTime() + 1.5f;
-			}
-		}
-	}
+            }
+        }
+    }
 
 }
 

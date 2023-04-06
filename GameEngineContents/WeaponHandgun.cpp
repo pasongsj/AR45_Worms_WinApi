@@ -21,7 +21,7 @@ void WeaponHandgun::Start()
 {
 	// 핸드건 기본 설정
 	WeaponName = "Handgun";
-	MoveSpeed = 3000;
+	MoveSpeed = 4000;
 	//Dir = float4::Right;
 	BombScale = 22;
 
@@ -201,23 +201,16 @@ void WeaponHandgun::Firing(float _DeltaTime)
                 CurPlayer->ChangePlayerAnimation("Idle");
                 isIsFireAnimationDone = true;
             }
-            HandgunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
-            float4 CheckCollision = CheckCollisionSide(HandgunCollision[i]);
-            if (CheckCollision == float4::Up && Dir.Size() > 0.001f)
+            float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
+            float4 CheckCol = Check4Side(HandgunCollision[i], HandgunCollision[i]->GetActorPlusPos() + MoveVec);
+            HandgunCollision[i]->SetMove(MoveVec);
+            if (CheckCol.AddAllVec() > 0)
             {
-                HandgunCollision[i]->SetMove(-Dir * _DeltaTime * MoveSpeed);
-                Dir *= 0.3f;
-                return;
-            }
-            if (CheckCollision.Size() > 0 || Dir.Size() < 0.001f) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
-            {
+                HandgunCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(HandgunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
 
-/*                GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);
-                BombCollision->SetPosition(HandgunCollision[i]->GetPosition());		*/					  // 1. Bomb 콜리전 가져오기'
-                //BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
                 HandgunCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });
 
 

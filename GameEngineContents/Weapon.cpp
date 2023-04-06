@@ -297,7 +297,6 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 
 float4 Weapon::Check4Side(GameEngineCollision* _Col, float4 _NextPos)
 {
-
     // 맵 밖으로 나갔는지 체크
     float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
     if (!(-640 <= _Pos.x && _Pos.x < 5600 && -743 <= _Pos.y && _Pos.y < 1300))
@@ -447,10 +446,7 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
         for (int i = 0; i < CollisionList.size(); i++)
         {
             Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
-            //if (ColPlayer == CurPlayer) // Gun은 본인에게 데미지를 주지 않음?? 주더라?
-            //{
-            //    continue;
-            //}
+
             float4 Distance = _Col->GetActorPlusPos() - GetPos(); //폭발 구점
 
             float Ratio = Distance.Size() / _refDistance; // 일정 길이 이상으로 넘어가면 값 고정
@@ -468,10 +464,7 @@ void Weapon::AttackPlayerGun(GameEngineCollision* _Col, float _refDistance)
             Distance.Normalize();
 
             //              거리 비례데미지,    날라가는 방향,   거리 비례 날라가는 세기 
-            if(ColPlayer->GetIsMyTurn() == false)
-            {
-                ColPlayer->Damaged(proportional_dmg, Distance, proportional_power);
-            }
+            ColPlayer->Damaged(proportional_dmg, Distance, proportional_power); // 본인도 데미지를 입음
             //여기서 Dmg 는 최대 데미지, KnockBackPower은 최대 넉백 파워를 이야기함
         }
     }

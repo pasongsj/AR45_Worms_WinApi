@@ -24,8 +24,8 @@ protected:
 
 private:
     // 발사전
-    float AimIndex = 12;
-    int NextAimIndex = 15;
+    float AimIndex = 17;
+    int NextAimIndex = 16;
 
     //발사 후
     bool isExplosion = false; // MainBomb 폭발체크
@@ -46,6 +46,8 @@ private:
     // 메인 폭탄 이미지랜더, 콜리전
     GameEngineRender* WeaponRender = nullptr;		        //렌더
     GameEngineCollision* WeaponCollision = nullptr;	        //콜리전
+    GameEngineCollision* NextPosCheckCollision = nullptr;
+
 
     //클러스터
     std::vector<GameEngineRender*> ClusterRender;           // 잔여 클러스터 랜더

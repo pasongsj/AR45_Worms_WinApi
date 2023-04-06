@@ -266,7 +266,7 @@ void GameEngineRender::ImageRender(float _DeltaTime)
             // -180도 회전 이미지 오류 예외처리
             if (-180.0f == Angle)
             {
-                Angle = Angle + 0.2f;
+                Angle = Angle + 1.0f;
             }
 
 			GameEngineWindow::GetDoubleBufferImage()->PlgCopy(Image, RenderPos, GetScale(), { 0, 0 }, Image->GetImageScale(), Angle, RotationFilter);

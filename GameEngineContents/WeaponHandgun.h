@@ -37,8 +37,8 @@ private:
 	void Firing(float _DeltaTime);
 	void CheckFiring();
 
-    float AimIndex = 12;
-    int NextAimIndex = 15;
+    float AimIndex = 17;
+    int NextAimIndex = 16;
     void SetAimFrameIndex();
 
     bool isIsFireAnimationDone = false;

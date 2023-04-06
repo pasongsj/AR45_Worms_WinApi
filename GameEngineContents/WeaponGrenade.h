@@ -33,8 +33,8 @@ private:
 
 	bool isExplosion = false;
     bool isPress = false;
-    float AimIndex = 12;
-    int NextAimIndex = 15;
+    float AimIndex = 17;
+    int NextAimIndex = 16;
     float WaitTime = 0.0f;
 
     // 에임 조준선
@@ -45,6 +45,7 @@ private:
     // 폭탄 이미지랜더, 콜리전
 	GameEngineRender* WeaponRender = nullptr;		//렌더
 	GameEngineCollision* WeaponCollision = nullptr;	//콜리전
+    GameEngineCollision* NextPosCheckCollision = nullptr;
 
     //타이머 랜더
     GameEngineRender* TimerRenderBack = nullptr;

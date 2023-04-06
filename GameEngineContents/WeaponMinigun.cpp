@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include "MapModifier.h"
 #include "Player.h"
 #include "SmokeSparkEffect.h"
@@ -20,7 +21,7 @@ void WeaponMinigun::Start()
 {
 	// 미니건 기본 설정
 	WeaponName = "Minigun";
-	MoveSpeed = 3000;
+	MoveSpeed = 4000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -180,6 +181,7 @@ void WeaponMinigun::Firing(float _DeltaTime)
             {
                 isShooted[i] = true;
                 MinigunCollision[i]->On();
+                MinigunCollision[i]->SetMove(float4(0, GameEngineRandom::MainRandom.RandomFloat(-3.0f, 3.0f)));
                 break;
             }
 
@@ -195,30 +197,22 @@ void WeaponMinigun::Firing(float _DeltaTime)
                 CurPlayer->ChangePlayerAnimation("Idle");
                 isIsFireAnimationDone = true;
             }
-            MinigunCollision[i]->SetMove(Dir * _DeltaTime * MoveSpeed);
-            float4 CheckCollision = CheckCollisionSide(MinigunCollision[i]);
 
-            if (CheckCollision == float4::Up && Dir.Size() > 0.001f)
+            float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
+            float4 CheckCol = Check4Side(MinigunCollision[i], MinigunCollision[i]->GetActorPlusPos() + MoveVec);
+            MinigunCollision[i]->SetMove(MoveVec);
+            if (CheckCol.AddAllVec() > 0)
             {
-                MinigunCollision[i]->SetMove(-Dir * _DeltaTime * MoveSpeed);
-                Dir *= 0.3f;
-                return;
-            }
-
-            if (CheckCollision.Size() > 0 || Dir.Size() < 0.001f) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
-            {
+                MinigunCollision[i]->SetMove(-MoveVec * 0.15f* CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(MinigunCollision[i]->GetActorPlusPos());
-                Smoke->CreateSmokeSpark(3, 1, BombScale);
+                Smoke->CreateSmokeSpark(6, 2, BombScale);
 
-                //GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);							  // 1. Bomb 콜리전 가져오기
-                //BombCollision->SetPosition(MinigunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동
-                //BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
                 MinigunCollision[i]->SetScale(float4{ static_cast<float>(BombScale) });
 
 
                 AttackPlayerGun(MinigunCollision[i], 500);																				  // 3. Bomb콜리전 Player Check
-                MapModifier::MainModifier->CreateHole(MinigunCollision[i]->GetActorPlusPos(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
+                MapModifier::MainModifier->CreateHole(GetPos() + MinigunCollision[i]->GetPosition(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
 
                 MinigunCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;

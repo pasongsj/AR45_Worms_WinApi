@@ -25,8 +25,8 @@ protected:
 private:
 
 	int BulletCount = 2;
-    float AimIndex = 15;
-    int NextAimIndex = 15;
+    float AimIndex = 17;
+    int NextAimIndex = 16;
     bool isExplosion = false;
 
 
