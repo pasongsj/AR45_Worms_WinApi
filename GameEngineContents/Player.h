@@ -250,6 +250,9 @@ private:
     bool StateCalBool3 = true;
     float StateCalValue = 0.0f;
 
+    //디버그용
+    bool IsDebugMode = false;
+
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;
     PlayerState PrevStateValue = PlayerState::IDLE;

@@ -63,4 +63,5 @@ void Player::EquipWeaponEnd()
     std::string _Name = CurWeapon->GetWeaponName() + "Off";
     DirCheck(_Name);
     //장비한 무기 애니메이션용 각도 리셋
+
 }

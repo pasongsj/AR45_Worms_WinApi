@@ -224,6 +224,12 @@ void Player::IdleStart()
 }
 void Player::IdleUpdate(float _DeltaTime)
 {
+    if (PlayerState::Win == PrevStateValue)
+    {
+        ChangeState(PlayerState::Win);
+        return;
+    }
+
     if (CurWeapon != nullptr && false == IsMyTurn)
     {
         CurWeapon->Death();
@@ -594,18 +600,22 @@ void Player::DeadEnd()
 
 void Player::WinStart()
 {
-    AnimationDir = DirString;
-
-    std::string AnimationName = "Win";
-    std::string AnimationText = AnimationDir.data() + AnimationName;
-    AnimationRender->ChangeAnimation(AnimationText);
-
-    PlaySoundOnce("Victory.wav");
+    StateCalBool = false;
 }
 
 void Player::WinUpdate(float _DeltatTime)
 {
+    if (true == AnimationRender->IsAnimationEnd())
+    {
+        AnimationDir = DirString;
+
+        std::string AnimationName = "Win";
+        std::string AnimationText = AnimationDir.data() + AnimationName;
+        AnimationRender->ChangeAnimation(AnimationText);
+    }
+
     MoveDir = float4::Zero;
+
 }
 
 void Player::WinEnd()
@@ -729,6 +739,12 @@ void Player::FlyAwayUpdate(float _DeltaTime)
 
     float testvalue = 0.5f;
     float FrictionValue = 0.7f;
+
+    if (MoveDir.Size() < 30.0f)
+    {
+        ChangeState(PlayerState::Sliding);
+        return;
+    }
 
     if (StateCalBool == true)
     {
