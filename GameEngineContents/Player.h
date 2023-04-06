@@ -123,6 +123,11 @@ public:
 		CanIMove = _Value;
 	}
 
+    void SetCurWeaponNum(WeaponNum _Value)
+    {
+        CurWeaponNum = _Value;
+    }
+
     bool GetIsAlive()
     {
         return IsAlive;
@@ -178,7 +183,7 @@ private:
     bool IsMyTurn = false; //내 턴인지 체크
 
     Weapon* CurWeapon = nullptr; //현재 무기
-    WeaponNum CurWeaponNum = WeaponNum::Bazooka;
+    WeaponNum CurWeaponNum = WeaponNum::None;
 
     void PlayerDead(); //플레이어 죽은 이후 실행하는 함수
     void SetGraveObject(const std::string_view& _GraveImage);

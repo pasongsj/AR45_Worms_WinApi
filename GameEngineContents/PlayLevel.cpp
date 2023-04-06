@@ -1173,6 +1173,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
             int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
             vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);
+            vecAllPlayer[i]->SetCurWeaponNum(WeaponNum::Bazooka);
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
