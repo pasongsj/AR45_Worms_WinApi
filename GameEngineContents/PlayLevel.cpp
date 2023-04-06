@@ -659,6 +659,9 @@ void PlayLevel::ImageLoad()
                 GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("X.bmp"));
             }
             {
+                GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("carpet1.bmp"));
+            }
+            {
                 GameEngineImage* WaeponInterface = GameEngineResources::GetInst().ImageLoad(InterFace.GetPlusFileName("cdrom.bmp"));
                 WaeponInterface->Cut(1, 25);
 
