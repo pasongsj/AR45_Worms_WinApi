@@ -26,6 +26,7 @@ void Button::Start()
 {
 	ButtonRender = CreateRender();
 	ButtonCollision = CreateCollision();
+    ButtonCollision->SetDebugRenderType(CollisionType::CT_Rect);
 }
 
 void Button::SetRenderOrder(int _Value)
@@ -48,6 +49,7 @@ void Button::SetCollisionOrder(int _Order)
 
 void Button::Update(float _DeltaTime)
 {
+   
     test = false;
     Hover = false;
 
