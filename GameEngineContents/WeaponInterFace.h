@@ -31,7 +31,7 @@ public:
     static int SheepCount;
     static int AirStrikeCount;
     static int TorchCount;
-
+    static int CarpetBomb;
    
 protected:
 
@@ -56,6 +56,7 @@ private:
     GameEngineRender* TorchUI = nullptr;
     GameEngineRender* firepnch = nullptr;
     GameEngineRender* drill = nullptr;
+    GameEngineRender* CarpetUI = nullptr;
     GameEngineRender* X = nullptr;
 
 
@@ -72,7 +73,7 @@ private:
     Button* Torch = nullptr;
     Button* FireFunch = nullptr;
     Button* Drill = nullptr;
-
+    Button* Carpet = nullptr;
 
 
   
@@ -86,7 +87,7 @@ private:
     NumberRenderObject SheepNumber;
     NumberRenderObject AirStrikeNumber;
     NumberRenderObject TorchNumber;
-
+    NumberRenderObject CarpetNumber;
     
 
   

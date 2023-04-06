@@ -28,7 +28,7 @@
 #include "WeaponAirStrike.h"
 #include "WeaponFirePunch.h"
 #include "WeaponDrill.h"
-
+#include "WeaponCarpetBomb.h"
 
 GameEngineLevel* WeaponInterFace::Value;
 WeaponInterFace* WeaponInterFace::Interface;
@@ -43,7 +43,7 @@ int WeaponInterFace::MinigunCount = 3;
 int WeaponInterFace::SheepCount = 3;
 int WeaponInterFace::AirStrikeCount = 3;
 int WeaponInterFace::TorchCount = 3;
-
+int WeaponInterFace::CarpetBomb = 3;
 
 //None,				//무기없음
 //Bazooka,			//F1
@@ -213,6 +213,16 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
         
         break;
     }
+    case WeaponNum::Carpet:
+    {
+        if (CurPlayer->GetPlayerWeaponCount()[14] > 0)
+        {
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponCarpetBomb>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
+        break;
+    }
+
     default:
         break;
     }
@@ -648,12 +658,16 @@ void WeaponInterFace::Start()
 		//button->SetClickCallBack();
 		ButtonManager.push_back(button);
 	}
+    //카펫
+
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,847 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        Carpet = GetLevel()->CreateActor<Button>();
+        Carpet->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,847 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        Carpet->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
 		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
+        Carpet->SetEnum(WeaponNum::Carpet);
+        Carpet->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(Carpet);
 	}
 	// 11번쨰 인터페이스 
 	{
@@ -720,6 +734,7 @@ void WeaponInterFace::Start()
 		//button->SetClickCallBack();
 		ButtonManager.push_back(button);
 	}
+   
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
 		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1444,905 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
@@ -850,6 +865,14 @@ void WeaponInterFace::Start()
         drill->On();
     }
 
+    {
+        CarpetUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        CarpetUI->SetImage("carpet.Bmp");
+        CarpetUI->SetPosition({ 1444,847 });
+        CarpetUI->SetScale({ 28, 28 });
+        CarpetUI->EffectCameraOff();
+        CarpetUI->On();
+    }
 
 
     {
@@ -949,7 +972,13 @@ void WeaponInterFace::Start()
    TorchNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[12]);
    TorchNumber.Off();
 
-
+   CarpetNumber.SetOwner(this);
+   CarpetNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+   CarpetNumber.SetRenderPos({ 1450,930 });
+   CarpetNumber.SetCameraEffect(false);
+   CarpetNumber.SetAlign(Align::Center);
+   CarpetNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[14]);
+   CarpetNumber.Off();
 
 	
 }
@@ -1007,7 +1036,7 @@ void WeaponInterFace::NumberManager()
     SheepNumber.Off();
     AirStrikeNumber.Off();
     TorchNumber.Off();
-
+    CarpetNumber.Off();
  
 
   
@@ -1278,8 +1307,30 @@ void WeaponInterFace::NumberManager()
       Torch->On();
   }
 
-  
+  //카펫
 
+  if (Carpet->GetHover() == true)
+  {
+      X->On();
+      CarpetNumber.On();
+  }
+  /*if (AirStrike->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
+  {
+      --AirStrikeCount;
+  }*/
+
+  if (CurPlayer->GetPlayerWeaponCount()[14] <= 0)
+  {
+      CarpetUI->Off();
+      //   AirStrike->Off();
+    /*  X->Off();
+      AirStrikeNumber.Off();*/
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[14] > 0)
+  {
+      CarpetUI->On();
+      AirStrike->On();
+  }
 
 
   
@@ -1331,7 +1382,10 @@ void WeaponInterFace::NumberManager()
   {
       TorchNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[12]));
   }
-
+  if (CurPlayer->GetPlayerWeaponCount()[14] >= 0)
+  {
+      CarpetNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[14]));
+  }
 
 
 }
