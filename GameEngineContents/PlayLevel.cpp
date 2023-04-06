@@ -1172,7 +1172,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             //vecAllPlayer[i]->SetPos(StartPos);
 
             int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
-            vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);              
+            vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
