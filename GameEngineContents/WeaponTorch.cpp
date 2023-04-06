@@ -33,7 +33,6 @@ void WeaponTorch::Update(float _DeltaTime)
     {
         isAttack = true;
         StartPos = CurPlayer->GetPos();
-        CurPlayer->ChangePlayerAnimation("Torchfire");
     }
 
     if(isAttack == true && isFireEnd == false)
@@ -87,7 +86,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 {
     float4 PlayerPos = CurPlayer->GetPos();
 
-    if (abs(StartPos.y - PlayerPos.y) > 1)
+    if (abs(StartPos.y - PlayerPos.y) > 5.0f)
     {
         CurPlayer->ChangePlayerAnimation("TorchOn", 7);
 
@@ -103,6 +102,20 @@ void WeaponTorch::TorchOn(float _DeltaTime)
         CurPlayer->ChangePlayerAnimation("TorchOn", 7);
         isFireEnd = true;
         return;
+    }
+
+    CurPlayer->ChangePlayerAnimation("Torchfire", AniIndex);
+    AniTimeCount += TimeCount;
+
+    if(AniTimeCount >= 0.1f)
+    {
+        AniIndex++;
+        AniTimeCount = 0.0f;
+
+        if (AniIndex >= 15)
+        {
+            AniIndex = 0;
+        }
     }
 
     TorchTime += TimeCount;

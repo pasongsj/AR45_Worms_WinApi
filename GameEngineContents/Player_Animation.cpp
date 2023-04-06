@@ -101,8 +101,8 @@ void Player::CreateAnimation()
 
     //ÅäÄ¡
     {
-        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchFire", .ImageName = "TorchFireLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.1f, .Loop = true });
-        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchFire", .ImageName = "TorchFireRight.bmp",.Start = 0, .End =14, .InterTime = 0.1f, .Loop = true });
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchFire", .ImageName = "TorchFireLeft.bmp",.Start = 0, .End = 14, .InterTime = 1000.0f, .Loop = true });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchFire", .ImageName = "TorchFireRight.bmp",.Start = 0, .End =14, .InterTime = 1000.0f, .Loop = true });
 
         AnimationRender->CreateAnimation({ .AnimationName = "Left_TorchOff", .ImageName = "TorchOffLeft.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });
         AnimationRender->CreateAnimation({ .AnimationName = "Right_TorchOff", .ImageName = "TorchOffRight.bmp",.Start = 0, .End = 14, .InterTime = 0.05f, .Loop = false });

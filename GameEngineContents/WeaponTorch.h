@@ -45,6 +45,9 @@ private:
 
     float4 StartPos = { 0, 0 };
 
+    int AniIndex = 0;
+    float AniTimeCount = 0.0f;
+
     GameEngineCollision* HoleCollision = nullptr;
 };
 

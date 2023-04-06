@@ -13,11 +13,12 @@ public:
 
         float4 CurPos = { 0,0 };
         float4 PrevPos = { 0,0 };
-        float4 Dir = { 0, 0 };
+        float4 MoveDir = { 0, 0 };
+        float4 RotDir = { 0, 0 };
 
         float MoveSpeed = 600.0f;
-        float Gravity = 0.0f;
-        float GravityAccel = 20.0f;
+        float Gravity = 1.5f;
+        float GravityAccel = 25.0f;
         float Wind = 0.0f;
 
         int BounceCount = 3;
@@ -49,7 +50,7 @@ private:
     void Explosion(Carpet* _Carpet);
     void SetCarpet();
     void ExplosionAnimation(float4 _Pos);
-
+    void CameraUpdate();
     void Timer();
 
     std::vector<Carpet*> CarpetList;
@@ -64,8 +65,12 @@ private:
     float PrevTime = 0.0f;
     float TimeCount = 0.0f;
 
+    float TurnChangeCount = 0.0f;
+
     bool isMoveRight = false;
     bool isHideTruck = false;
     bool isCarpetSet = false;
+
+    int ExplosionEndCount = 0;
 };
 

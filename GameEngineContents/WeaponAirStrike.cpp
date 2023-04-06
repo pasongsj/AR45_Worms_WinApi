@@ -119,11 +119,11 @@ void WeaponAirStrike::SetAirPlanePos()
 
 	if (isMoveRight == true)
 	{
-		AirPlaneStartPos.x -= 700.0f;
+		AirPlaneStartPos.x -= 1000.0f;
 	}
 	else
 	{
-		AirPlaneStartPos.x += 700.0f;
+		AirPlaneStartPos.x += 1000.0f;
 	}
 
 	Airplane->SetPosition(AirPlaneStartPos);
@@ -134,6 +134,19 @@ void WeaponAirStrike::SetAirPlanePos()
 
 void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 {
+    float MovePos = Airplane->GetPosition().x - AirPlaneStartPos.x;
+
+    if (abs(MovePos) > 2000.0f)
+    {
+        Airplane->Off();
+        return;
+    }
+
+    else if (abs(MovePos) > 500.0f)
+    {
+        isHideAirPlane = true;
+    }
+
     if (GameEngineInput::IsDown("Shoot") == true)
     {
         Airplane->On();
@@ -147,21 +160,13 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 	{
 		if (isMoveRight == true)
 		{
-			Airplane->SetMove(float4::Right * 600.0f * _DeltaTime);
+			Airplane->SetMove(float4::Right * 1500.0f * _DeltaTime);
 		}
 
 		else
 		{
-			Airplane->SetMove(float4::Left * 600.0f * _DeltaTime);
+			Airplane->SetMove(float4::Left * 1500.0f * _DeltaTime);
 		}
-	}
-
-	float MovePos = Airplane->GetPosition().x - AirPlaneStartPos.x;
-	
-	if (abs(MovePos) > 500.0f)
-	{
-		Airplane->Off();
-		isHideAirPlane = true;
 	}
 }
 
@@ -169,27 +174,44 @@ void WeaponAirStrike::Firing(float _DeltaTime)
 {	
 	if(Dir == float4{0,0})
 	{
-		Dir = TargetPos - MiddleMissileStartPos;
-		Dir.Normalize();
-
+		//Dir = TargetPos - MiddleMissileStartPos;
+		//Dir.Normalize();
+        if (isMoveRight == true)
+        {
+            Dir = float4::Right;
+        }
+        else
+        {
+            Dir = float4::Left;
+        }
 
 		for (int i = 0; i < MissileList.size(); i++)
 		{
 			MissileList[i]->On();
 		}
+
+        PrevAirPlanePos = MissileList[0]->GetActorPlusPos();
 	}
 
-	Gravity += 0.01f * _DeltaTime;
-	Dir += float4{0, Gravity};
-    Dir.Normalize();
+	//Gravity += 0.02f * _DeltaTime;
+	//Dir += float4{0, Gravity};
+ //   Dir.Normalize();
+    Gravity += 25.0f * _DeltaTime;
 
 	for (int i = 0; i < MissileList.size(); i++)
 	{
-		MissileList[i]->SetMove(Dir * 600.0f * _DeltaTime);
-		MissileCollisionList[i]->SetMove(Dir * 600.0f * _DeltaTime);
+		MissileList[i]->SetMove(Dir * 700.0f * _DeltaTime + float4{0, Gravity});
+		MissileCollisionList[i]->SetMove(Dir * 700.0f * _DeltaTime + float4{ 0, Gravity });
+        
+        CurAirPlanePos = MissileList[0]->GetActorPlusPos();
 
-        MissileList[i]->SetAngle(-Dir.GetAnagleDeg());
+        float4 RotDir = CurAirPlanePos - PrevAirPlanePos;
+
+        float rot = -RotDir.GetAnagleDeg();
+        MissileList[i]->SetAngle(-RotDir.GetAnagleDeg());
 	}
+
+    PrevAirPlanePos = CurAirPlanePos;
 
 	CurPos = MissileList[MissileNum / 2]->GetPosition();
 }
@@ -271,14 +293,14 @@ void WeaponAirStrike::Explosion()
 
 void WeaponAirStrike::CameraUpdate(float _DeltaTime)
 {
-	if (Airplane->IsUpdate() == true)
+	if (Airplane->IsUpdate() == true && isHideAirPlane == false)
 	{
         float4 AirPlanePos = Airplane->GetActorPlusPos();
         PrevCamPos = GetLevel()->GetCameraPos();
         fLerpRatio += _DeltaTime * fLerpSpeed;
         GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, AirPlanePos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
 	}
-	else if (MissileList[2]->IsUpdate() == true)
+	else if (isHideAirPlane == true && MissileList[2]->IsUpdate() == true)
 	{
 		GetLevel()->SetCameraPos(MissileList[2]->GetActorPlusPos() - ScreenSize.half());
 

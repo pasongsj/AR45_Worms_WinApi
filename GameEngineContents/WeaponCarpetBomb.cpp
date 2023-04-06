@@ -54,13 +54,39 @@ void WeaponCarpetBomb::Update(float _DeltaTime)
         Marker->Off();
     }
 
-    Firing(_DeltaTime);
 
+    if(ExplosionEndCount < 5)
+    {
+        Firing(_DeltaTime);
+    }
+    else if (ExplosionEndCount == 5)
+    {
+        TurnChangeCount += TimeCount;
+
+        if(TurnChangeCount >= 1.0f)
+        {
+            isWeaponDone = true;
+        }
+    }
+
+    CameraUpdate();
 }
 
 void WeaponCarpetBomb::Render(float _DeltaTime)
 {
+    //HDC _hdc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
 
+    //float4 CamPos = GetLevel()->GetCameraPos();
+    //for (int i = 0; i < CarpetList.size(); i++)
+    //{
+    //    if(CarpetList[i]->CarpetRender->IsUpdate() == true)
+    //    {
+    //        Rectangle(_hdc, CarpetList[i]->CarpetCollision->GetActorPlusPos().x - 15 - CamPos.x,
+    //            CarpetList[i]->CarpetCollision->GetActorPlusPos().y - 15 - CamPos.y,
+    //            CarpetList[i]->CarpetCollision->GetActorPlusPos().x + 15 - CamPos.x,
+    //            CarpetList[i]->CarpetCollision->GetActorPlusPos().y + 15 - CamPos.y);
+    //    }
+    //}
 }
 
 void WeaponCarpetBomb::CarpetInit()
@@ -73,6 +99,8 @@ void WeaponCarpetBomb::CarpetInit()
 
         NewCarpet->CarpetRender = CreateRender("Carpet.bmp", WormsRenderOrder::Weapon);
         NewCarpet->CarpetRender->SetScale({ 60, 60 });
+        NewCarpet->CarpetRender->CreateAnimation({ .AnimationName = "Roll", .ImageName = "carpet.bmp",.Start = 0, .End = 9, .InterTime = 0.05f });
+        NewCarpet->CarpetRender->ChangeAnimation("Roll");
         NewCarpet->CarpetRender->Off();
 
         NewCarpet->CarpetCollision = CreateCollision(WormsCollisionOrder::Weapon);
@@ -87,8 +115,8 @@ void WeaponCarpetBomb::CarpetInit()
 
     TruckRender = CreateRender("CarpetTruckLeft.bmp", WormsRenderOrder::Weapon);
     TruckRender->SetScale({ 100, 100 });
-    TruckRender->CreateAnimation({ .AnimationName = "TruckLeft", .ImageName = "CarpetTruckLeft.bmp",.Start = 0, .End = 3, .InterTime = 0.1f});
-    TruckRender->CreateAnimation({ .AnimationName = "TruckRight", .ImageName = "CarpetTruckRight.bmp",.Start = 0, .End = 3, .InterTime = 0.1f});
+    TruckRender->CreateAnimation({ .AnimationName = "TruckLeft", .ImageName = "CarpetTruckLeft.bmp",.Start = 0, .End = 3, .InterTime = 0.05f});
+    TruckRender->CreateAnimation({ .AnimationName = "TruckRight", .ImageName = "CarpetTruckRight.bmp",.Start = 0, .End = 3, .InterTime = 0.05f});
 
     TruckRender->Off();
 
@@ -155,10 +183,7 @@ void WeaponCarpetBomb::Firing(float _DeltaTime)
         return;
     }
 
-    if(isHideTruck == false)
-    {
-        TruckMove(_DeltaTime);
-    }
+    TruckMove(_DeltaTime);
 
     if (isHideTruck == true)
     {
@@ -168,26 +193,31 @@ void WeaponCarpetBomb::Firing(float _DeltaTime)
 
 void WeaponCarpetBomb::TruckMove(float _DeltaTime)
 {
+    float MovePos = TruckRender->GetPosition().x - TruckStartPos.x;
+
+    if (abs(MovePos) > 2000.0f)
+    {
+        TruckRender->Off();
+        return;
+    }
+    else if (abs(MovePos) > 500.0f)
+    {
+        isHideTruck = true;
+    }
+
     if (TruckRender->IsUpdate() == true)
     {
         if (isMoveRight == true)
         {
-            TruckRender->SetMove(float4::Right * 600.0f * _DeltaTime);
+            TruckRender->SetMove(float4::Right * 1500.0f * _DeltaTime);
         }
 
         else
         {
-            TruckRender->SetMove(float4::Left * 600.0f * _DeltaTime);
+            TruckRender->SetMove(float4::Left * 1500.0f * _DeltaTime);
         }
     }
 
-    float MovePos = TruckRender->GetPosition().x - TruckStartPos.x;
-
-    if (abs(MovePos) > 500.0f)
-    {
-        TruckRender->Off();
-        isHideTruck = true;
-    }
 }
 
 void WeaponCarpetBomb::DropCarpet(float _DeltaTime)
@@ -207,15 +237,22 @@ void WeaponCarpetBomb::DropCarpet(float _DeltaTime)
             CarpetList[i]->PrevPos = CarpetList[i]->CarpetRender->GetActorPlusPos();
         }
 
+        if (CarpetList[i]->MoveDir == float4{ 0, 0 })
+        {
+            CarpetList[i]->MoveDir = Dir;
+        }
+
+        float wind = GlobalValue::gValue.GetWindSpeed();
+
         CarpetList[i]->Gravity += CarpetList[i]->GravityAccel * _DeltaTime;
 
-        CarpetList[i]->CarpetRender->SetMove(Dir * CarpetList[i]->MoveSpeed * _DeltaTime + float4{ CarpetList[i]->Wind * _DeltaTime, CarpetList[i]->Gravity });
-        CarpetList[i]->CarpetCollision->SetMove(Dir * CarpetList[i]->MoveSpeed * _DeltaTime + float4{ CarpetList[i]->Wind * _DeltaTime, CarpetList[i]->Gravity });
+        CarpetList[i]->CarpetRender->SetMove(CarpetList[i]->MoveDir * CarpetList[i]->MoveSpeed * _DeltaTime + float4{ wind * _DeltaTime, CarpetList[i]->Gravity });
+        CarpetList[i]->CarpetCollision->SetMove(CarpetList[i]->MoveDir * CarpetList[i]->MoveSpeed * _DeltaTime + float4{ wind * _DeltaTime, CarpetList[i]->Gravity });
         
         CarpetList[i]->CurPos = CarpetList[i]->CarpetRender->GetActorPlusPos();
 
-        CarpetList[i]->Dir = CarpetList[i]->CurPos - CarpetList[i]->PrevPos;
-        CarpetList[i]->Dir.Normalize();
+        CarpetList[i]->RotDir = CarpetList[i]->CurPos - CarpetList[i]->PrevPos;
+        CarpetList[i]->RotDir.Normalize();
 
         CarpetList[i]->PrevPos = CarpetList[i]->CurPos;
 
@@ -275,6 +312,9 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
         _Carpet->CarpetCollision->Off();
         _Carpet->BounceCount--;
         ExplosionAnimation(_Carpet->CarpetRender->GetActorPlusPos());
+        GameEngineResources::GetInst().SoundPlay("Explosion3.wav");
+        
+        ExplosionEndCount++;
 
         return;
     }
@@ -282,17 +322,18 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
     else if(_Carpet->BounceCount > 1)
     {
         MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100.0f);
-        Dir = -_Carpet->Dir;
+        _Carpet->MoveDir = -_Carpet->RotDir + float4::Up;
         Dir.Normalize();
 
         _Carpet->Gravity = 0.0f;
         _Carpet->BounceCount--;
-        _Carpet->MoveSpeed = 750.0f;
+        _Carpet->MoveSpeed = 400.0f;
         _Carpet->GravityAccel = 10.0f;
         //_Carpet->Wind = GlobalValue::gValue.GetWindSpeed();
         _Carpet->Wind = 120.0f;
 
         ExplosionAnimation(_Carpet->CarpetRender->GetActorPlusPos());
+        GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
     }
 }
 
@@ -307,10 +348,33 @@ void WeaponCarpetBomb::Timer()
 
 void WeaponCarpetBomb::ExplosionAnimation(float4 _Pos)
 {
-    GameEngineRender* Explosion = CreateRender(WormsRenderOrder::Weapon);
-    Explosion->SetScale({ 100, 100 });
-    Explosion->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp",.Start = 0, .End = 8, .InterTime = 0.05f, .Loop = false});
-    Explosion->SetPosition(_Pos);
-    Explosion->ChangeAnimation("Explosion");
+    GameEngineRender* ExplosionCircle = CreateRender(WormsRenderOrder::Weapon);
+    ExplosionCircle->SetScale({ 100, 100 });
+    ExplosionCircle->CreateAnimation({ .AnimationName = "Explosion", .ImageName = "circle50.bmp",.Start = 0, .End = 8, .InterTime = 0.05f, .Loop = false});
+    ExplosionCircle->SetPosition(_Pos);
+    ExplosionCircle->ChangeAnimation("Explosion");
 
+    GameEngineRender* ExplosionElipse = CreateRender(WormsRenderOrder::Weapon);
+    ExplosionElipse->SetScale({ 150, 150 });
+    ExplosionElipse->CreateAnimation({ .AnimationName = "Elipse", .ImageName = "Elipse75.bmp",.Start = 0, .End = 9, .InterTime = 0.05f, .Loop = false });
+    ExplosionElipse->SetPosition(_Pos);
+    ExplosionElipse->ChangeAnimation("Elipse");
+
+    GameEngineRender* Poot = CreateRender(WormsRenderOrder::Weapon);
+    Poot->SetScale({ 70, 70 });
+    Poot->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp",.Start = 0, .End = 17, .InterTime = 0.05f, .Loop = false });
+    Poot->SetPosition(_Pos);
+    Poot->ChangeAnimation("Poot");
+}
+
+void WeaponCarpetBomb::CameraUpdate()
+{
+    if (isHideTruck == false && TruckRender->IsUpdate() == true)
+    {
+        GetLevel()->SetCameraPos(TruckRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+    }
+    else if(isHideTruck == true && CarpetList[2]->CarpetRender->IsUpdate() == true)
+    {
+        GetLevel()->SetCameraPos(CarpetList[2]->CarpetRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
+    }
 }

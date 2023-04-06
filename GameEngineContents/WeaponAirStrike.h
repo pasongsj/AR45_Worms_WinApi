@@ -81,7 +81,8 @@ private:
 	float4 AirPlaneStartPos = { 0,0 };
 	float4 TargetPos = { 0,0 };
 
-	float4 PrevPos = { 0,0 };
+	float4 PrevAirPlanePos = { 0,0 };
+	float4 CurAirPlanePos = { 0,0 };
 	float4 CurPos = { 0,0 };
 
 	bool isMoveRight = 0;
