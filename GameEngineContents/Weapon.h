@@ -3,6 +3,30 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+
+enum class WeaponCollisionCheck
+{
+    ZERO         ,
+
+    UP           ,
+    UPLEFT       ,
+    LEFT         ,
+    DOWNLEFT     ,
+
+    UPHALF       ,
+    LEFTHALF     ,
+
+    RIGHTHALF    ,
+    DOWNHALF     ,
+
+    UPRIGHT      ,
+    RIGHT        ,
+    DOWNRIGHT    ,
+    DOWN         ,
+
+    ALL          ,
+
+};
 class Player;
 class GameEngineImage;
 class Weapon :public GameEngineActor
@@ -90,7 +114,10 @@ protected:
 	virtual void Init() {};
 	virtual bool CheckCollision(GameEngineCollision* _Col); // 가상화 삭제여부 추후 고민
 
-	float4 CheckCollisionSide(GameEngineCollision* _Col);
+
+    float4 CheckSide(float4 _Vec);
+    float4 CheckCollisionSide(GameEngineCollision* _Col);
+	float4 Check4Side(GameEngineCollision* _Col, float4 _NextPos);
 	float4 GetShootDir();
     
     // Shoot  Key와 관련된 커맨드

@@ -9,22 +9,22 @@
 #include "GlobalValue.h"
 
 
-WeaponGrenade::WeaponGrenade() 
+WeaponGrenade::WeaponGrenade()
 {
 }
 
-WeaponGrenade::~WeaponGrenade() 
+WeaponGrenade::~WeaponGrenade()
 {
 }
 
 void WeaponGrenade::Start()
 {
-	// 수류탄 기본 설정 -- 상수값 조정 필요
-	MoveSpeed = 1200; // 임시값
-	Gravity = 1.2f;// 임시값
-	Timer = 3.0f;// 임시값
-	WeaponName = "Grenade";
-	BombScale = 147;
+    // 수류탄 기본 설정 -- 상수값 조정 필요
+    MoveSpeed = 2000; // 임시값
+    Gravity = 2;// 임시값
+    Timer = 3.0f;// 임시값
+    WeaponName = "Grenade";
+    BombScale = 147;
 
     MaxDmg = 75;
     MinDmg = 35;
@@ -32,8 +32,8 @@ void WeaponGrenade::Start()
     MaxKnockBackPower = 294;
     MinKnockBackPower = 146;
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
-	WeaponNumber = static_cast<int>(WeaponNum::Grenade);
+    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
+    WeaponNumber = static_cast<int>(WeaponNum::Grenade);
 
 
 
@@ -67,22 +67,23 @@ void WeaponGrenade::Start()
 
 void WeaponGrenade::Update(float _DeltaTime)
 {
-	if (nullptr == WeaponRender) // 무기 랜더가 존재하지 않는 경우
-	{
-		WeaponGrenadeInit();
+    if (nullptr == WeaponRender) // 무기 랜더가 존재하지 않는 경우
+    {
+        WeaponGrenadeInit();
         SetCurPlayer();
-	}
+    }
 
     if (false == isFire) //발사가 안되었다면
-    {   
+    {
         Aiming(_DeltaTime);
     }
     else
     {
         if (false == isExplosion) // 발사되고 아직 터지기 전
         {
-            Firing(_DeltaTime); 
-        }   
+            Firing(_DeltaTime);
+            CheckTimer(_DeltaTime);
+        }
         else   // 발사 되고 터진 후
         {
             CheckExplosion();
@@ -204,52 +205,92 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
     float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), WeaponRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 10);
     GetLevel()->SetCameraPos(CamPos);
 
+    // 타이머
     Timer -= _DeltaTime;
+    TimerRenderBack->SetPosition(WeaponRender->GetPosition() - float4{ 30,30 });
+    TimerRender.SetRenderPos(WeaponRender->GetPosition() - float4{ 30,30 });
+    if (static_cast<int>(Timer) + 1 >= 0)
+    {
+        TimerRender.SetValue(static_cast<int>(Timer) + 1);
+
+    }
+
+
     if (false == isExplosion) // 아직 폭발하지 않았다면
     {
-        Dir.y = Dir.y + Gravity * _DeltaTime; // dt동안 중력의 영향 V == Vo + At
-
-        float4 MoveVec = CulWindMoveVec(_DeltaTime);
-
-        WeaponRender->SetAngle(Dir.GetAnagleDeg());
-
-        WeaponRender->SetMove(MoveVec);         //WeaponRender->SetMove(Dir * MoveSpeed * _DeltaTime);
-        WeaponCollision->SetMove(MoveVec);      //WeaponCollision->SetMove(Dir * MoveSpeed * _DeltaTime);
-
-        if (Timer > 3.0f - 0.08f) // 보정값 ( 땅에 박히는 오류 )
+        Dir.y += Gravity * _DeltaTime;
+        Dir.x += GlobalValue::gValue.GetWindPhase() / 10 * _DeltaTime;
+        float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
+        if (MoveVec.x < 10 && Timer < 1)
+        {
+            int a = 0;
+        }
+        WeaponRender->SetMove(MoveVec);
+        WeaponCollision->SetMove(MoveVec);
+        float4 CheckCol = Check4Side(WeaponCollision, WeaponCollision->GetActorPlusPos() + MoveVec);
+        if (CheckCol.AddAllVec() == 0)
         {
             return;
         }
-
-
-        float4 CheckedCol = CheckCollisionSide(WeaponCollision);
-
-        if (Dir.x * CheckedCol.x > 0) // 방향이 달라
+        else if (1 == CheckCol.AddAllVec() || 2 == CheckCol.AddAllVec())
         {
-            WeaponRender->SetMove(-MoveVec);    //WeaponRender->SetMove(-Dir * MoveSpeed * _DeltaTime);
-            WeaponCollision->SetMove(-MoveVec); //WeaponCollision->SetMove(-Dir * MoveSpeed * _DeltaTime);
+            if (1 == CheckCol.z)
+            {
+                Dir.y = -abs(Dir.y) * 0.25f;
+            }
+            if (1 == CheckCol.w)
+            {
+                Dir.y = abs(Dir.y) * 0.25f;
+            }
 
-            Dir.x = -Dir.x * 0.5f;										  //  x값은 마찰고려값
-            Dir.y = -Dir.y * 0.25f;
+            if (1 == CheckCol.x)
+            {
+                Dir.x = -abs(Dir.x * 0.5f);
+            }
+            if (1 == CheckCol.y)
+            {
+                Dir.x = abs(Dir.x * 0.5f);
+            }
+
+            return;
         }
-        else if (Dir.x * CheckedCol.x < 0 || CheckedCol.x == 0 && CheckedCol.y > 0)// 방향이 같아 or 좌우 이동x
+        else if (3 == CheckCol.AddAllVec())
         {
-            WeaponRender->SetMove({ 0, -MoveVec.y });       //WeaponRender->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
-            WeaponCollision->SetMove({ 0, -MoveVec.y });    //WeaponCollision->SetMove({ 0, -Dir.y * MoveSpeed * _DeltaTime });
-            Dir.x = Dir.x * 0.5f;
-            Dir.y = -Dir.y * 0.25f;
+            if (0 == CheckCol.z)
+            {
+                Dir.y = abs(Dir.y) * 0.25f;
+            }
+            if (0 == CheckCol.w)
+            {
+                Dir.y = -abs(Dir.y) * 0.25f;
+            }
+
+            if (0 == CheckCol.x)
+            {
+                Dir.x = abs(Dir.x * 0.5f);
+            }
+            if (0 == CheckCol.y)
+            {
+                Dir.x = -abs(Dir.x * 0.5f);
+            }
         }
-        else if(CheckedCol == float4::Up)
+        else
         {
             WeaponRender->SetMove(-MoveVec);
             WeaponCollision->SetMove(-MoveVec);
-            Dir *= 0.1f;
+            Dir.x = -Dir.x * 0.5f;
+            Dir.y = -Dir.y * 0.25f;
         }
-        TimerRenderBack->SetPosition(WeaponRender->GetPosition() - float4{ 30,30 });
-        TimerRender.SetRenderPos(WeaponRender->GetPosition() - float4{ 30,30 });
-        TimerRender.SetValue(static_cast<int>(Timer)+1);
+
+
     }
 
+
+
+}
+
+void WeaponGrenade::CheckTimer(float _DeltaTime)
+{
     // 폭발 체크
     if (Timer < 0 && isExplosion == false) //폭발, isExplosion중복 체크
     {
@@ -269,8 +310,8 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         PootTextAnimation->ChangeAnimation("Poot", 0);
 
         //Player 공격
-        GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-        BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+        GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);
+        BombCollision->SetPosition( WeaponCollision->GetPosition());
         BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
         AttackPlayer(BombCollision); // 임시값
         BombCollision->SetPosition(float4::Zero);
@@ -287,58 +328,58 @@ void WeaponGrenade::Firing(float _DeltaTime)// 발사 중 isFire == true
         WaitTime = GetLiveTime() + 1.5f;
 
     }
-
 }
 
 void WeaponGrenade::SetCharge() // Charging으로 함수이름 통일
 {
-	if (Charge > GetChargeTime())
-	{
-		return;
-	}
-	if (GetChargeTime() > 1.5f) // 최대 2배 차징
-	{
-		Charge = 1.5f;
-	}
-	else if (GetChargeTime() < 0.5f)
-	{
-		Charge = 0.5f;
-	}
-	else {
-		Charge = GetChargeTime();
-	}
+    if (Charge > GetChargeTime())
+    {
+        return;
+    }
+    if (GetChargeTime() > 1.5f) // 최대 2배 차징
+    {
+        Charge = 1.5f;
+    }
+    else if (GetChargeTime() < 0.5f)
+    {
+        Charge = 0.5f;
+    }
+    else {
+        Charge = GetChargeTime();
+    }
 }
 
 void WeaponGrenade::ResetWeapon()
 {
 
-	isFire = false;
-	isExplosion = false;
-	Timer = 3.0f;
-	if (nullptr == WeaponRender)
-	{
-		return;
-	}
-	WeaponRender->On();
-	WeaponRender->SetPosition(float4::Zero);
+    isFire = false;
+    isExplosion = false;
+    Timer = 3.0f;
+    if (nullptr == WeaponRender)
+    {
+        return;
+    }
+    WeaponRender->On();
+    WeaponRender->SetPosition(float4::Zero);
 
-	WeaponCollision->On();
-	WeaponCollision->SetPosition(float4::Zero);
+    WeaponCollision->On();
+    WeaponCollision->SetPosition(float4::Zero);
 
 }
 
 void WeaponGrenade::WeaponGrenadeInit()
 {
-	WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
-	WeaponRender->SetImage("Grenade.bmp");
+    WeaponRender = CreateRender(WormsRenderOrder::Weapon);		//렌더
+    WeaponRender->SetImage("Grenade.bmp");
     WeaponRender->SetRotFilter("GrenadeRot.bmp");
-	WeaponRender->SetScale({ 15,25 }); // 임시 설정 값 
+    WeaponRender->SetPosition(float4{ 0,-30 });
+    WeaponRender->SetScale({ 15,25 }); // 임시 설정 값 
 
-	WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
-    WeaponCollision->SetScale({15,25});
+    WeaponCollision = CreateCollision(WormsCollisionOrder::Weapon);	//콜리전
+    WeaponCollision->SetScale({ 15,25 });
     WeaponRender->Off();
     WeaponCollision->Off();
-	isFire = false;
+    isFire = false;
     ExplosionEffectInit(BombScale);
 }
 
@@ -349,7 +390,7 @@ float4 WeaponGrenade::CulWindMoveVec(float _DeltaTime)
     //    return Dir * MoveSpeed * _DeltaTime;
     //}
     //Dir.x += GlobalValue::gValue.GetWindPhase() * 0.1f * _DeltaTime; 가속
-    float4 ReturnVec = Dir * MoveSpeed * _DeltaTime;
-    ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 7) * (MoveSpeed / 2) * _DeltaTime; // 등속
+    float4 ReturnVec = float4(Dir.x + GlobalValue::gValue.GetWindPhase() / 10 * _DeltaTime, Dir.y) * MoveSpeed * _DeltaTime;
+    //ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 10) * (MoveSpeed / 5) * _DeltaTime; // 등속
     return ReturnVec;
 }

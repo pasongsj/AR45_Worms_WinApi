@@ -275,8 +275,8 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
         //if (true == CheckCollision(ClusterCollision[i])) // 콜리전 체크(플레이어, 맵, 전체 맵 밖)
         {
             isClusterExplosion = true;
-            GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();
-            BombCollision->SetPosition(GetPos() + WeaponCollision->GetPosition());
+            GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);
+            BombCollision->SetPosition(WeaponCollision->GetPosition());
             BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
             AttackPlayer(BombCollision); // 임시값
@@ -509,7 +509,8 @@ float4 WeaponClusterBomb::CulWindMoveVec(float _DeltaTime)
     //    return Dir * MoveSpeed * _DeltaTime;
     //}
     //Dir.x += GlobalValue::gValue.GetWindPhase() * 0.1f * _DeltaTime; 가속
+    Dir.x += GlobalValue::gValue.GetWindPhase() / 10 * _DeltaTime;
     float4 ReturnVec = Dir * MoveSpeed * _DeltaTime;
-    ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 7) * (MoveSpeed / 2) * _DeltaTime; // 등속
+    //ReturnVec.x += (GlobalValue::gValue.GetWindPhase() / 7) * (MoveSpeed / 2) * _DeltaTime; // 등속
     return ReturnVec;
 }

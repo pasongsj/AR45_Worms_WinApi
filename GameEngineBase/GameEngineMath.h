@@ -194,6 +194,11 @@ public:
 		return sqrtf(x * x + y * y);
 	}
 
+    float AddAllVec() const
+    {
+        return x + y + z + w;
+    }
+
 	// 2, 0
 	// 0, 2
 	void Normalize() 

@@ -65,6 +65,9 @@ private:
     // 발사에 맞는 설정 변경
     void Firing(float _DeltaTime);
 
+    // 타이머 폭발 체크
+    void CheckTimer(float _DeltaTime);
+
     //바람 추가
     float4 CulWindMoveVec(float _DeltaTime);
 

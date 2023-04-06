@@ -191,8 +191,8 @@ void WeaponShotgun::Firing(float _DeltaTime)
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
 
                 // Player 와 콜리전 체크를 위함
-				GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();				// 1. Bomb 콜리전 가져오기
-				BombCollision->SetPosition(ShotGunCollision[i]->GetActorPlusPos());							        // 2. Bomb 콜리전 이동
+				GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);				// 1. Bomb 콜리전 가져오기
+				BombCollision->SetPosition(ShotGunCollision[i]->GetPosition());							        // 2. Bomb 콜리전 이동
 
                 // shotgun은 다른 총들과 다르게 최대 데미지가 크기때문에 BombScale을 재 설정한다.
                 float4 Dis = BombCollision->GetActorPlusPos() - GetPos();

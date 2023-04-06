@@ -29,15 +29,15 @@ void WeaponFirePunch::Start()
     MaxDmg = 45;
     MinDmg = 21;
 
-    MaxKnockBackPower = 100; // 오류 날 가능성 높음
-    MinKnockBackPower = 50;
+    MaxKnockBackPower = 300; // dir Y값 조정 필요함
+    MinKnockBackPower = 200;
 
     WeaponNumber = static_cast<int>(WeaponNum::FirePunch);							// 무기 이름에 해당하는 Number
     WeaponName = "FirePunch";							// 무기 이름
 
     MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");		//충돌맵
     PunchCollision = CreateCollision(WormsCollisionOrder::Weapon);
-    PunchCollision->SetPosition({ 0,25 });
+    PunchCollision->SetPosition({ 0,50 });
     PunchCollision->SetScale({ 30,30 });
 
     Timer = 0.45f;								// 타이머
@@ -82,14 +82,15 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 if ((StartPos + Dir * _DeltaTime * 300.0f).y > 0)
                 {
                     StartPos += Dir * _DeltaTime * 300.0f;
+                    PunchCollision->SetMove(Dir * _DeltaTime * 300.0f);
                 }
                 CurPlayer->SetPos(StartPos); // 플레이어 이동
-                PunchCollision->SetPosition(StartPos - GetPos());
+                //PunchCollision->SetPosition(StartPos - GetPos() + float4{0,50});
 
                 if (EffectTimer < 0) // - 수정필요 스모크 대신 이펙트로 변경 필요함
                 {
                     GameEngineRender* StarSmoke = CreateRender(WormsRenderOrder::Weapon);
-                    StarSmoke->SetPosition(PunchCollision->GetPosition() + float4{GameEngineRandom::MainRandom.RandomFloat(-15.0f,15.0f)});
+                    StarSmoke->SetPosition(PunchCollision->GetPosition() + float4{0,-50} + float4{ GameEngineRandom::MainRandom.RandomFloat(-15.0f,15.0f) });
                     StarSmoke->SetScale({ 60, 60 });
                     StarSmoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "starEffect.bmp", .Start = 0, .End = 9, .InterTime = 0.1f , .Loop = false });
                     StarSmoke->ChangeAnimation("Smoke");
@@ -100,11 +101,11 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 if (true == AttackPlayer(PunchCollision, false) && HitTimer <0)																  // 3. Bomb콜리전 Player Check
                 {
                     GameEngineRender* StarSmoke = CreateRender(WormsRenderOrder::Weapon);
-                    StarSmoke->SetPosition(PunchCollision->GetPosition() );
+                    StarSmoke->SetPosition(PunchCollision->GetPosition() + float4{ 0,-50 });
                     StarSmoke->SetScale({ 50, 50 });
                     StarSmoke->CreateAnimation({ .AnimationName = "Hit", .ImageName = "firehit.bmp", .Start = 0, .End = 8, .InterTime = 0.1f , .Loop = false });
                     StarSmoke->ChangeAnimation("Hit");
-                    HitTimer = 0.01f;
+                    HitTimer = 0.1f;
                 }
 
                 MapModifier::MainModifier->CreateHole(StartPos, static_cast<int>(BombScale));                                         //4. createHole

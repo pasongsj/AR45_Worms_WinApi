@@ -178,9 +178,104 @@ float Weapon::GetChargeTime()
 	return GameEngineInput::GetPressTime("Shoot");
 }
 
+
+float4 Weapon::CheckSide(float4 _Vec)
+{
+    _Vec.Normalize();
+    float _X = _Vec.x;
+    float _Y = _Vec.y;
+    float4 ReturnNull = float4::Null;
+    if (_X > 0)
+    {
+        ReturnNull.x = 1;
+    }
+    else if (_X < 0)
+    {
+        ReturnNull.y = 1;
+    }
+
+    if (_Y > 0)
+    {
+        ReturnNull.z = 1;
+    }
+    else if (_Y < 0)
+    {
+        ReturnNull.w = 1;
+    }
+
+    if (abs(_X) + 0.5f < abs(_Y))
+    {
+        ReturnNull.x = 0;
+        ReturnNull.y = 0;
+    }
+    else if (abs(_X) > abs(_Y) + 0.5f)
+    {
+        ReturnNull.z = 0;
+        ReturnNull.w = 0;
+    }
+    return ReturnNull;
+
+
+    //if (abs(_X) + 0.5f < abs(_Y))
+    //{
+    //    if (_Y > 0)
+    //    {
+    //        return float4{ 0,0,1,0 };
+    //        //return static_cast<int>(WeaponCollisionCheck::DOWN);
+    //    }
+    //    else
+    //    {
+    //        return float4{ 0,0,0,1 };
+    //        //return static_cast<int>(WeaponCollisionCheck::UP);
+    //    }
+    //}
+
+    //if (_X > 0)
+    //{
+    //    if (abs(_X) > abs(_Y) + 0.5f)
+    //    {
+    //        return float4{ 1,0,0,0 };
+    //        //return static_cast<int>(WeaponCollisionCheck::RIGHT);
+    //    }
+    //    else
+    //    {
+    //        if (_Y > 0)
+    //        {
+    //            return float4{ 1,0,1,0 };
+    //            //return static_cast<int>(WeaponCollisionCheck::DOWNRIGHT);
+    //        }
+    //        else
+    //        {
+    //            return float4{ 1,0,0,1 };
+    //            //return static_cast<int>(WeaponCollisionCheck::UPRIGHT);
+    //        }
+    //    }
+    //}
+    //else if (_X < 0)
+    //{
+    //    if (abs(_X) > abs(_Y) + 0.5f)
+    //    {
+    //        return static_cast<int>(WeaponCollisionCheck::LEFT);
+    //    }
+    //    else
+    //    {
+    //        if (_Y > 0)
+    //        {
+    //            return static_cast<int>(WeaponCollisionCheck::DOWNLEFT);
+    //        }
+    //        else
+    //        {
+    //            return static_cast<int>(WeaponCollisionCheck::UPLEFT);
+    //        }
+    //    }
+    //}
+    //return static_cast<int>(WeaponCollisionCheck::ALL);
+
+}
+
 float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 {
-	float4 ReturnValue = float4::Zero;
+    float4 ReturnValue = float4::Zero;
 
     // 맵 밖으로 나갔는지 체크
     float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
@@ -191,14 +286,14 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
     }
 
 
-	std::vector<GameEngineCollision*> CollisionList;
+    std::vector<GameEngineCollision*> CollisionList;
     float CheckScale = _Col->GetScale().hx();
 
-	if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
-	{
-		for (int i = 0; i < CollisionList.size(); i++)
-		{
-			Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+    if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+    {
+        for (int i = 0; i < CollisionList.size(); i++)
+        {
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
             if (CurPlayer == ColPlayer)
             {
                 continue;
@@ -217,9 +312,9 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
                 ReturnValue.x -= 1;
             }
             return ReturnValue;
-		
-		}
-	}
+
+        }
+    }
 
     CollisionList.clear();
     if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
@@ -229,8 +324,8 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
     }
 
 
-	// 30 30 20,40
-    if(RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)) &&
+    // 30 30 20,40
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)) &&
         RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -CheckScale }, RGB(255, 0, 255)) &&
         RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,CheckScale }, RGB(255, 0, 255)))
     {
@@ -238,19 +333,136 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
     }
 
     if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ CheckScale }, RGB(255, 0, 255)))
+    {
+        ReturnValue.x += 1;
+    }
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -CheckScale }, RGB(255, 0, 255)))
+    {
+        ReturnValue.x -= 1;
+    }
+    if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,CheckScale }, RGB(255, 0, 255)))
+    {
+        ReturnValue.y += 1;
+    }
+
+    return ReturnValue;
+}
+
+
+
+float4 Weapon::Check4Side(GameEngineCollision* _Col, float4 _NextPos)
+{
+
+    // 맵 밖으로 나갔는지 체크
+    float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
+    if (!(-640 <= _Pos.x && _Pos.x < 5600 && -743 <= _Pos.y && _Pos.y < 1300))
+    {
+        Timer = -1;
+        return float4{1,1,1,1};
+    }
+
+
+	std::vector<GameEngineCollision*> CollisionList;
+
+	if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
 	{
-		ReturnValue.x += 1;
-	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ -CheckScale }, RGB(255, 0, 255)))
-	{
-		ReturnValue.x -= 1;
-	}
-	if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_Col->GetActorPlusPos() + float4{ 0,CheckScale }, RGB(255, 0, 255)))
-	{
-		ReturnValue.y += 1;
+        /*float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
+        return CheckSide(Range);*/
+        for (int i = 0; i < CollisionList.size(); i++)
+        {
+            Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+            if (CurPlayer == ColPlayer)
+            {
+                continue;
+            }
+            float4 Range = (ColPlayer->GetPos() - GetPos());
+            return CheckSide(Range);
+        }
+            
 	}
 
-	return ReturnValue;
+
+    CollisionList.clear();
+    if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+    {
+        float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
+        return CheckSide(Range);
+    }
+
+    float4 RetrunValue = float4::Null;
+    bool N = false, S = false, E = false, W = false;
+    float CheckScale = _Col->GetScale().hx();
+	// 30 30 20,40
+    if ( // 콜리전이 발생함
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ CheckScale }, RGB(255, 0, 255)) ||
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ -CheckScale }, RGB(255, 0, 255)) ||
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ 0,CheckScale }, RGB(255, 0, 255)) ||
+        RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ 0,-CheckScale }, RGB(255, 0, 255))
+        )
+    {
+        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ CheckScale }, RGB(255, 0, 255))) // 동
+        {
+            RetrunValue.x = 1;
+        }
+        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ -CheckScale }, RGB(255, 0, 255))) // 서
+        {
+            RetrunValue.y = 1;
+        }
+        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ 0,CheckScale }, RGB(255, 0, 255))) // 남
+        {
+            RetrunValue.z = 1;
+        }
+        if (RGB(0, 0, 255) == MapCollision->GetPixelColor(_NextPos + float4{ 0,-CheckScale }, RGB(255, 0, 255))) // 북
+        {
+            RetrunValue.w = 1;
+        }
+    }
+    if (RetrunValue.AddAllVec() > 0)
+    {
+        int a = 0;
+    }
+    return RetrunValue;
+
+        //if (true == S)
+        //{
+        //    if (true == N)
+        //    {
+        //        return static_cast<int>(WeaponCollisionCheck::ALL);
+        //    }
+        //    else if (true == E)
+        //    {
+        //        return static_cast<int>(WeaponCollisionCheck::DOWNRIGHT);
+        //    }
+        //    else if (true == W)
+        //    {
+        //        return static_cast<int>(WeaponCollisionCheck::DOWNLEFT);
+        //    }
+        //    return static_cast<int>(WeaponCollisionCheck::DOWN);
+        //}
+        //else if (true == N)
+        //{
+        //    if (true == E)
+        //    {
+        //        return static_cast<int>(WeaponCollisionCheck::UPRIGHT);
+        //    }
+        //    else if (true == W)
+        //    {
+        //        return static_cast<int>(WeaponCollisionCheck::UPLEFT);
+        //    }
+        //    return static_cast<int>(WeaponCollisionCheck::UP);
+        //}
+        //else if (true == E)
+        //{
+        //    return static_cast<int>(WeaponCollisionCheck::RIGHT);
+        //}
+        //else if (true == W)
+        //{
+        //    return static_cast<int>(WeaponCollisionCheck::LEFT);
+        //}
+    //}
+
+    //return static_cast<int>(WeaponCollisionCheck::ZERO);
+    
 }
 
 

@@ -211,8 +211,8 @@ void WeaponMinigun::Firing(float _DeltaTime)
                 Smoke->SetPos(MinigunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(3, 1, BombScale);
 
-                GameEngineCollision* BombCollision = MapModifier::MainModifier->GetModifierCollision();								  // 1. Bomb 콜리전 가져오기
-                BombCollision->SetPosition(MinigunCollision[i]->GetActorPlusPos());											  // 2. Bomb 콜리전 이동
+                GameEngineCollision* BombCollision = CreateCollision(WormsCollisionOrder::Weapon);							  // 1. Bomb 콜리전 가져오기
+                BombCollision->SetPosition(MinigunCollision[i]->GetPosition());											  // 2. Bomb 콜리전 이동
                 BombCollision->SetScale(float4{ static_cast<float>(BombScale) });
 
 
