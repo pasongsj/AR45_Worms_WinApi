@@ -38,6 +38,11 @@ public:
 
     void GameSetCheck();
 
+    inline bool IsDebugTextModeOn()
+    {
+        return IsDebugTextMode;
+    }
+
     GameEngineSoundPlayer BgmPlayer;
 	
 protected:
@@ -61,6 +66,8 @@ private:
 	float fLerpRatio = 0.f;
 	float fLerpSpeed = 2.f;
 	float fCamMoveSpeed = 500.f;
+
+    bool IsDebugTextMode = false;
 
 	float4 ScreenSize = float4::Zero;
     void SetUIImage();

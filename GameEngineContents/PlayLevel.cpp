@@ -94,13 +94,7 @@ void PlayLevel::ImageLoad()
 		GameEngineImage* ColMapImage4 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MapTrain_Ground.bmp"));
 
         //BackGround
-		//GameEngineImage* sky = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
-
-        //teste==============================================================================================
-        GameEngineImage* sky2 = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient2.bmp"));
-	
-		GameEngineImage* Mountain = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Midground.bmp"));
-        Mountain->Cut(4, 1);
+        GameEngineImage* sky = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("gradient.bmp"));
 
 		GameEngineImage* Water = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Under_Water.bmp"));
 
@@ -741,6 +735,8 @@ void PlayLevel::KeyLoad()
         GameEngineInput::CreateKey("SetPos", 'R');
 
         GameEngineInput::CreateKey("DebugSwitch", 'P');
+        GameEngineInput::CreateKey("DebugMode", '9');
+        GameEngineInput::CreateKey("DebugTextMode", '7');
 	}
 }
 
@@ -1095,6 +1091,10 @@ void PlayLevel::Update(float _DeltaTime)
     if (GameEngineInput::IsDown("SetPos"))
     {
         GlobalValue::gValue.GetPlayer()->SetPos(GetMousePosToCamera());
+    }
+    if (GameEngineInput::IsDown("DebugTextMode"))
+    {
+        IsDebugTextMode = !IsDebugTextMode;
     }
 }
 

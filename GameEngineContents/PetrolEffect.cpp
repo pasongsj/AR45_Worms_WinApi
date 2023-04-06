@@ -86,13 +86,11 @@ void PetrolEffect::HitDrumCheck()
 {
     std::vector<GameEngineCollision*> CollisionDrum;
 
-
     if (true == PetrolCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionDrum))
     {
         for (int i = 0; i < CollisionDrum.size(); i++)
         {
-            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(8);
-            PetrolCol->Off();
+            dynamic_cast<Drum*>(CollisionDrum[i]->GetActor())->DamageDrum(20);
         }
     }
 

@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
+#include "GlobalValue.h"
+#include "PlayLevel.h"
 #include "MapModifier.h"
 #include "Medikit.h"
 #include "Drum.h"
@@ -51,17 +53,12 @@ void Map::Start()
     ColMapName = ColMaps[MapMode];
 
     //입력 키 생성
-    if (false == GameEngineInput::IsKey("FreeMoveSwitch"))
+    if (false == GameEngineInput::IsKey("FreeLeft"))
     {
-        GameEngineInput::CreateKey("FreeMoveSwitch", '0');
         GameEngineInput::CreateKey("FreeLeft", VK_LEFT);
         GameEngineInput::CreateKey("FreeRight", VK_RIGHT);
         GameEngineInput::CreateKey("FreeUp", VK_UP);
         GameEngineInput::CreateKey("FreeDown", VK_DOWN);
-
-        //디버깅 모드_충돌맵 확인
-        GameEngineInput::CreateKey("DebugMode", '9');
-        GameEngineInput::CreateKey("DebugingText", '7');
     }
 
     //맵 오브젝트용 키 입력 생성
@@ -95,7 +92,7 @@ void Map::Start()
     //BackGround_Sky
     {
         GameEngineRender* BackGround = CreateRender(WormsRenderOrder::BackGround);
-        BackGround->SetImage("gradient2.bmp");
+        BackGround->SetImage("gradient.bmp");
         BackGround->SetPosition(MapScale.half());
         BackGround->SetScaleToImage();
     }
@@ -165,9 +162,22 @@ void Map::Start()
             Deco->MergeMap();
         }
 
+        //고정 위치에 드럼 생성(시연회용_드럼통 3단계 생상 변화를 위함)
+        {
+            Drum* Drum1 = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+            Drum1->SetPos({640.0f, 100.0f});
+
+            Drum* Drum2 = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+            Drum2->SetPos({ 670.0f, 100.0f });
+
+            Drum* Drum3 = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+            Drum3->SetPos({ 710.0f, 100.0f });
+        
+        }
+
 
         //맵에 오일드럼통 5개 미리 배치
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 3; ++i)
         {
             Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
             Object->SetPos(Object->GetMapObjPos());
@@ -209,12 +219,6 @@ void Map::Update(float _DeltaTime)
 
         return;
     }
-  
-
-	if (true == FreeMoveState(_DeltaTime))
-	{
-		return;
-	}
 
 	if (true == GameEngineInput::IsDown("DebugMode"))							    //디버깅 모드_충돌맵 혹은 맵을 볼 수 있음
 	{
@@ -229,46 +233,30 @@ void Map::Update(float _DeltaTime)
 			IsColMap = !IsColMap;
 			MapRender->On();
 			ColMapRender->Off();
-
-
 		}
 	}
 
-    if (true == GameEngineInput::IsDown("DebugingText"))
-    {
-        IsDebugMode = !IsDebugMode;
-    }
+    FreeMoveState(_DeltaTime);
 }
 
-bool FreeMove = false;
-bool Map::FreeMoveState(float _DeltaTime)
+void Map::FreeMoveState(float _DeltaTime)
 {
-	if (true == GameEngineInput::IsDown("FreeMoveSwitch"))
+	if (GameEngineInput::IsPress("FreeLeft"))
 	{
-		FreeMove = !FreeMove;
+		GetLevel()->SetCameraMove(float4::Left * FreeSpeed * _DeltaTime);
 	}
-
-	if (true == FreeMove)
+	if (GameEngineInput::IsPress("FreeRight"))
 	{
-		if (GameEngineInput::IsPress("FreeLeft"))
-		{
-			GetLevel()->SetCameraMove(float4::Left * FreeSpeed * _DeltaTime);
-		}
-		if (GameEngineInput::IsPress("FreeRight"))
-		{
-			GetLevel()->SetCameraMove(float4::Right * FreeSpeed * _DeltaTime);
-		}
-		if (GameEngineInput::IsPress("FreeUp"))
-		{
-			GetLevel()->SetCameraMove(float4::Up * FreeSpeed * _DeltaTime);
-		}
-		if (GameEngineInput::IsPress("FreeDown"))
-		{
-			GetLevel()->SetCameraMove(float4::Down * FreeSpeed * _DeltaTime);
-		}
+		GetLevel()->SetCameraMove(float4::Right * FreeSpeed * _DeltaTime);
 	}
-
-	return FreeMove;
+	if (GameEngineInput::IsPress("FreeUp"))
+	{
+		GetLevel()->SetCameraMove(float4::Up * FreeSpeed * _DeltaTime);
+	}
+    if (GameEngineInput::IsPress("FreeDown"))
+    {
+        GetLevel()->SetCameraMove(float4::Down * FreeSpeed * _DeltaTime);
+    }
 }
 
 HDC Map::GetMapDC() const
@@ -285,7 +273,9 @@ HDC Map::GetColMapDC() const
 
 void Map::Render(float _DeltaTime)
 {
-    if (true == IsDebugMode)
+    PlayLevel* CurLevel = GlobalValue::gValue.GetPlayLevel();    
+
+    if (CurLevel->IsDebugTextModeOn())
     {
         std::string MousePosStr = "MousePosition : ";
         MousePosStr += GetLevel()->GetMousePosToCamera().ToString();

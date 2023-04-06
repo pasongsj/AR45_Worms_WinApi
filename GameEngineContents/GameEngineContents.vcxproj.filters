@@ -173,9 +173,6 @@
     <ClInclude Include="MapObject.h">
       <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="Medikit.h">
-      <Filter>Play\Map</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
@@ -280,6 +277,9 @@
     <ClInclude Include="PlayChangeEnding.h" />
     <ClInclude Include="WeaponCarpetBomb.h">
       <Filter>Weapon\F10</Filter>
+    </ClInclude>
+    <ClInclude Include="Medikit.h">
+      <Filter>Play\Map\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

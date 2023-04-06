@@ -105,7 +105,6 @@ void Drum::HitWeaponCheck()
 {
     if (nullptr != MapObjCol)
     {
-        //무기 충돌체 생성되면 Modifier충돌 검사 제거할 예정
         if (true == MapObjCol->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Weapon), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle })
             )
         {

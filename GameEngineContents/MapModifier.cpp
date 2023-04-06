@@ -46,7 +46,6 @@ void MapModifier::SetModifierColPosition(float4 _Pos)
 void MapModifier::CreateHole(float4 _Pos, int _Diameter, bool _DrawLine)
 {
     int Radius = _Diameter / 2;
-    ModifierCollision->SetPosition(_Pos);
 
 	if (this == nullptr)
 	{
@@ -121,7 +120,6 @@ void MapModifier::CreateHole(float4 _Pos, int _Diameter, bool _DrawLine)
 
 void MapModifier::CreateRect(float4 _Pos, int _Horz, int _Vert, bool _DrawLine)
 {
-    ModifierCollision->SetPosition(_Pos);
 
     int HalfHorz = _Horz / 2;
     int HalfVert = _Vert / 2;

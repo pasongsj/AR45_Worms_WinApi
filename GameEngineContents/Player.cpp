@@ -251,10 +251,10 @@ void Player::Update(float _DeltaTime)
 	HPUI->SetPos({GetPos().x , GetPos().y - 50.0f}); //UI 프레임마다 위치 조정
 	DamagedTime += _DeltaTime; //플레이어가 한번에 여러번의 데미지를 받지않기 위한 변수
 
-    if (true == GameEngineInput::IsDown("DebugingText"))
-    {
-        IsDebugMode = !IsDebugMode;
-    }
+    //if (true == GameEngineInput::IsDown("DebugingText"))
+    //{
+    //    IsDebugMode = !IsDebugMode;
+    //}
 }
 
 void Player::GravityApplied(float _DeltaTime)

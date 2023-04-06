@@ -46,10 +46,8 @@ protected:
 
 private:
 	bool IsColMap = false;								//픽셀 충돌맵의 랜더링 여부
-    bool IsDebugMode = false;
 
-    int NumOfObj = 0;
-
+    int NumOfObj = 0;                                   //생성할 드럼 오브젝트의 개수
 
     float WaitTime = 40.0f;
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
@@ -83,6 +81,6 @@ private:
 
 
 	//카메라를 자유롭게 움직임
-	bool FreeMoveState(float _DeltaTime);
+	void FreeMoveState(float _DeltaTime);
 };
 
