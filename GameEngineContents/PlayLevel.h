@@ -2,6 +2,9 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <vector>
+#include <list>
+
+
 #include "GlobalValue.h"
 
 struct Wind
@@ -69,7 +72,7 @@ protected:
 
 private:
 	int iPlayerNumber = -1;
-    std::vector<float4> vecPlayerRandPos;
+    std::list<float4> listPlayerRandPos;
 	std::vector<Player*> vecAllPlayer;
     std::vector<std::string_view> vecPlayerUIImage;
 

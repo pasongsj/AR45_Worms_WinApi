@@ -887,7 +887,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 
 void PlayLevel::SetRandomPos(float _Interval)
 {
-    vecPlayerRandPos.clear();
+    listPlayerRandPos.clear();
 
     float4 StartPos = { 0.f, 0.f };
 
@@ -932,7 +932,7 @@ void PlayLevel::SetRandomPos(float _Interval)
                     MidDownPos.y -= 1;
                 }
               
-                vecPlayerRandPos.push_back(MidDownPos);
+                listPlayerRandPos.push_back(MidDownPos);
             }
             
             iGroundPoint = 0;
@@ -1171,8 +1171,14 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             //float4 StartPos = float4{ 400,50 };
             //vecAllPlayer[i]->SetPos(StartPos);
 
-            int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(vecPlayerRandPos.size()-1));
-            vecAllPlayer[i]->SetPos(vecPlayerRandPos[iRandIndex]);
+            int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(listPlayerRandPos.size()-1));
+            std::list<float4>::iterator Begin = listPlayerRandPos.begin();
+            for (int i = 0; i < iRandIndex; ++i)
+            {
+                ++Begin;
+            }           
+            vecAllPlayer[i]->SetPos(*Begin);
+            listPlayerRandPos.erase(Begin);
             vecAllPlayer[i]->SetCurWeaponNum(WeaponNum::Bazooka);
         }
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
