@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineResources.h>
 
 
 class TitleBack : public GameEngineActor
@@ -22,6 +23,8 @@ protected:
 
 
 private:
+    GameEngineSoundPlayer Heartbeat;
+    GameEngineSoundPlayer Bgm;
 
 	GameEngineRender* InTro = nullptr;
 	GameEngineRender* BackDrop = nullptr;

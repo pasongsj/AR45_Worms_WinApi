@@ -5,6 +5,8 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineResources.h>
+
 TitleBack::TitleBack()
 {
 }
@@ -150,12 +152,17 @@ void TitleBack::Update(float _DeltaTime)
 		if (IntroLogColor > 253)
 		{
 			InTro->Off(); 
+            if (false == TitleLogo->IsUpdate())
+            {
+                Heartbeat = GameEngineResources::GetInst().SoundPlayToControl("Heartbeat.wav");
+            
+            }
 			TitleLogo->On();
 			TitleAnimation->On();
 			AnimationWhiteTime += GameEngineTime::GlobalTime.GetFloatDeltaTime();
 		}
 	}
-
+    
 	if (TitleAnimation->IsAnimationEnd())
 	{
 		TitleCheck = true;
@@ -176,6 +183,12 @@ void TitleBack::Update(float _DeltaTime)
 	if (AnimationWhiteTime > 4)
 	{
 		WhiteBackGround->On();
+        if (false == BackDrop->IsUpdate())
+        {      
+            Heartbeat.Stop();
+            Bgm = GameEngineResources::GetInst().SoundPlayToControl("TitleScreen.mp3");           
+            GameEngineResources::GetInst().SoundPlay("meganuke.wav");
+        }
 		BackDrop->On();
 		InTroBackGround->Off();
 		TitleAnimation->Off();
@@ -198,45 +211,55 @@ void TitleBack::Update(float _DeltaTime)
 	{
 		WriteTime += GameEngineTime::GlobalTime.GetFloatDeltaTime();
 
-		if (WriteTime > 0.5)
+		if (WriteTime > 0.5&& false == A->IsUpdate())
 		{
 			A->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 1)
+		if (WriteTime > 1 && false == R->IsUpdate())
 		{
 			R->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 1.5)
+		if (WriteTime > 1.5 && false == M->IsUpdate())
 		{
 			M->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 2.0)
+		if (WriteTime > 2.0 && false == A1->IsUpdate())
 		{
 			A1->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 2.5)
+		if (WriteTime > 2.5 && false == G->IsUpdate())
 		{
 			G->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 3)
+		if (WriteTime > 3 && false == E->IsUpdate())
 		{
 			E->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 3.5)
+		if (WriteTime > 3.5 && false == D->IsUpdate())
 		{
 			D->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 4.0)
+		if (WriteTime > 4.0 && false == D1->IsUpdate())
 		{
 			D1->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 4.5)
+		if (WriteTime > 4.5 && false == O->IsUpdate())
 		{
 			O->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
-		if (WriteTime > 5.0)
+		if (WriteTime > 5.0 && false == N->IsUpdate())
 		{
 			N->On();
+            GameEngineResources::GetInst().SoundPlay("HANDGUNFIRE.wav");
 		}
 	}
     if (WriteTime > 5.0)
@@ -256,6 +279,7 @@ void TitleBack::Update(float _DeltaTime)
     }
     if (BlackAlpha > 254)
     {
+        Bgm.Stop();
         GameEngineCore::GetInst()->ChangeLevel("MainTitle");
     }
 
