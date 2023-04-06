@@ -64,6 +64,9 @@ public:
             return 0;
         }
     }
+
+    float4 GetGridRandPos();
+
 protected:
 	void Loading() override;
 	void Update(float _DeltaTime) override;
@@ -73,7 +76,7 @@ protected:
 
 private:
 	int iPlayerNumber = -1;
-    std::list<float4> listPlayerRandPos;
+    std::list<float4> listRandPos;
 	std::vector<Player*> vecAllPlayer;
     std::vector<std::string_view> vecPlayerUIImage;
 
@@ -97,8 +100,9 @@ private:
 
 	void PlayerChange(float _DeltaTime);
 	void MoveCamForMouse(float _DeltaTime);
-    void SetRandomPos(float _Interval);
     bool DamageAnimCheck();
+
+    void SetRandomPos(float _Interval);
 
     void Win(float _DeltaTime);
     void Draw(float _DeltaTime);

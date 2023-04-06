@@ -887,7 +887,7 @@ void PlayLevel::MoveCamForMouse(float _DeltaTime)
 
 void PlayLevel::SetRandomPos(float _Interval)
 {
-    listPlayerRandPos.clear();
+    listRandPos.clear();
 
     float4 StartPos = { 0.f, 0.f };
 
@@ -932,7 +932,7 @@ void PlayLevel::SetRandomPos(float _Interval)
                     MidDownPos.y -= 1;
                 }
               
-                listPlayerRandPos.push_back(MidDownPos);
+                listRandPos.push_back(MidDownPos);
             }
             
             iGroundPoint = 0;
@@ -1040,6 +1040,21 @@ void PlayLevel::GameSetCheck()
         bWin = true;
         bDraw = false;
     }
+}
+
+float4 PlayLevel::GetGridRandPos()
+{
+    int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(listRandPos.size() - 1));
+    std::list<float4>::iterator Begin = listRandPos.begin();
+    for (int i = 0; i < iRandIndex; ++i)
+    {
+        ++Begin;
+    }
+    float4 Return = *Begin;
+
+    listRandPos.erase(Begin);
+
+    return Return;
 }
 
 void PlayLevel::Loading()
@@ -1168,19 +1183,11 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
             vecAllPlayer[i]->SetHPUI(vecPlayerUIImage[UiNumber], vecPlayerUIImage[UiNumber + 1], vecPlayerUIImage[UiNumber + 2]);
             vecAllPlayer[i]->SetGraveString(vecPlayerUIImage[UiNumber + 3]);
 
-            //float4 StartPos = float4{ 400,50 };
-            //vecAllPlayer[i]->SetPos(StartPos);
+            vecAllPlayer[i]->SetPos(GetGridRandPos());
 
-            int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(listPlayerRandPos.size()-1));
-            std::list<float4>::iterator Begin = listPlayerRandPos.begin();
-            for (int i = 0; i < iRandIndex; ++i)
-            {
-                ++Begin;
-            }           
-            vecAllPlayer[i]->SetPos(*Begin);
-            listPlayerRandPos.erase(Begin);
             vecAllPlayer[i]->SetCurWeaponNum(WeaponNum::Bazooka);
         }
+
         GlobalValue::gValue.SetAllPlayer(vecAllPlayer);
 
         iPlayerNumber = 0;
@@ -1237,17 +1244,17 @@ void PlayLevel::SetUIImage()
     vecPlayerUIImage.push_back("GreenNumberRender.bmp");
     vecPlayerUIImage.push_back("GreenNameTag.bmp");
     vecPlayerUIImage.push_back("PlayerSelectArrowGreen.bmp");
-    vecPlayerUIImage.push_back("Grave3.bmp");
-
-    vecPlayerUIImage.push_back("PinkNumberRender.bmp");
-    vecPlayerUIImage.push_back("PinkNameTag.bmp");
-    vecPlayerUIImage.push_back("PlayerSelectArrowPink.bmp");
-    vecPlayerUIImage.push_back("Grave4.bmp");
+    vecPlayerUIImage.push_back("Grave3.bmp");    
 
     vecPlayerUIImage.push_back("YellowNumberRender.bmp");
     vecPlayerUIImage.push_back("YellowNameTag.bmp");
     vecPlayerUIImage.push_back("PlayerSelectArrowYellow.bmp");
     vecPlayerUIImage.push_back("Grave5.bmp");
+
+    vecPlayerUIImage.push_back("PinkNumberRender.bmp");
+    vecPlayerUIImage.push_back("PinkNameTag.bmp");
+    vecPlayerUIImage.push_back("PlayerSelectArrowPink.bmp");
+    vecPlayerUIImage.push_back("Grave4.bmp");
 
     vecPlayerUIImage.push_back("MintNumberRender.bmp");
     vecPlayerUIImage.push_back("MintNameTag.bmp");
