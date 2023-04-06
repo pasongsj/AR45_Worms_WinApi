@@ -55,6 +55,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayChangeEnding.h" />
     <ClInclude Include="PlayerGrave.h">
       <SubType>
       </SubType>
@@ -210,6 +211,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayChangeEnding.cpp" />
     <ClCompile Include="PlayerGrave.cpp">
       <SubType>
       </SubType>

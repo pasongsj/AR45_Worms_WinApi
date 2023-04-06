@@ -23,7 +23,7 @@
 #include "TurnTimeUI.h"
 #include "WeaponFirePunch.h"
 #include "LobbyChangePlay.h"
-
+#include "PlayChangeEnding.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -830,7 +830,7 @@ void PlayLevel::PlayerChange(float _DeltaTime)
                 fAnimTime += _DeltaTime;
                 if (fAnimTime > 6.f)
                 {
-                    GameEngineCore::GetInst()->ChangeLevel("Ending");
+                    PlayChangeEnding* Actor = CreateActor<PlayChangeEnding>();
                 }
             }
             else
