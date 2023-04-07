@@ -36,16 +36,20 @@ void WindUI::Start()
 
 
     pLWindBarHide = CreateRender(WormsRenderOrder::UI);
-    pLWindBarHide->SetImageToScaleToImage("windBarHider.bmp");
+    pLWindBarHide->SetImage("windBarHider.bmp");
+    pLWindBarHide->SetScaleToImage();
     //pLWindBarHide->Off();
     pLWindBarHide->SetPosition({ 1125,950 });
     pLWindBarHide->EffectCameraOff();
 
     pRWindBarHide = CreateRender(WormsRenderOrder::UI);
-    pRWindBarHide->SetImageToScaleToImage("windBarHider.bmp");
+    pRWindBarHide->SetImage("windBarHider.bmp");
+    pRWindBarHide->SetScaleToImage();
     //pRWindBarHide->Off();
     pRWindBarHide->SetPosition({ 1215,950 });
     pRWindBarHide->EffectCameraOff();
+    LHiderResult = pLWindBarHide->GetScale();
+    LHiderResult = pRWindBarHide->GetScale();
 
     LHiderScale = pLWindBarHide->GetScale();
     RHiderScale = pRWindBarHide->GetScale();

@@ -121,6 +121,8 @@ private:
 
 	Wind AddWind;
 
+    void WindChange();
+
 };
 
 

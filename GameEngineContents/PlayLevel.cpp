@@ -765,6 +765,17 @@ void PlayLevel::KeyLoad()
         GameEngineInput::CreateKey("DebugSwitch", 'P');
         GameEngineInput::CreateKey("DebugMode", '9');
         GameEngineInput::CreateKey("DebugTextMode", '7');
+
+
+        GameEngineInput::CreateKey("WindLeft1" ,  VK_NUMPAD1);
+        GameEngineInput::CreateKey("WindLeft5" ,  VK_NUMPAD4);
+        GameEngineInput::CreateKey("WindLeft10",  VK_NUMPAD7);
+        GameEngineInput::CreateKey("WindRight1" , VK_NUMPAD3);
+        GameEngineInput::CreateKey("WindRight5" , VK_NUMPAD6);
+        GameEngineInput::CreateKey("WindRight10", VK_NUMPAD9);
+        GameEngineInput::CreateKey("AddWindLeft", VK_NUMPAD2);
+        GameEngineInput::CreateKey("AddWindRight", VK_NUMPAD8);
+        GameEngineInput::CreateKey("Wind0", VK_NUMPAD5);
 	}
 }
 
@@ -1062,6 +1073,90 @@ void PlayLevel::GameSetCheck()
     }
 }
 
+void PlayLevel::WindChange()
+{
+    if (GameEngineInput::IsDown("WindLeft1"))
+    {
+        AddWind.WindPhase = -1;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("WindLeft5"))
+    {
+        AddWind.WindPhase = -5;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("WindLeft10"))
+    {
+        AddWind.WindPhase = -10;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("WindRight1"))
+    {
+        AddWind.WindPhase = 1;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("WindRight5"))
+    {
+        AddWind.WindPhase = 5;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("WindRight10"))
+    {
+        AddWind.WindPhase = 10;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("AddWindLeft"))
+    {
+        if (AddWind.WindPhase == -10)
+        {
+            return;
+        }
+        AddWind.WindPhase -= 1;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("AddWindRight"))
+    {
+        if (AddWind.WindPhase == 10)
+        {
+            return;
+        }
+        AddWind.WindPhase += 1;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+    if (GameEngineInput::IsDown("Wind0"))
+    {
+        AddWind.WindPhase = 0;
+        AddWind.WindResult = AddWind.WindPower * (AddWind.MaxWind * (static_cast<float>(AddWind.WindPhase) / 10.f));
+
+        GlobalValue::gValue.SetWindSpeed(AddWind.WindResult);
+        GlobalValue::gValue.SetWindPhase(AddWind.WindPhase);
+    }
+}
+
 float4 PlayLevel::GetGridRandPos()
 {
     int iRandIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(listRandPos.size() - 1));
@@ -1171,6 +1266,7 @@ void PlayLevel::Update(float _DeltaTime)
     {
         IsDebugTextMode = !IsDebugTextMode;
     }
+    WindChange();
 }
 
 void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -1224,6 +1320,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
     {
         AllPlayerHpUI* pAllPlayerHPUI = CreateActor<AllPlayerHpUI>();
         WindUI* WindUIActor = CreateActor<WindUI>();
+
        
     }
 
