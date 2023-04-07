@@ -755,7 +755,7 @@ void PlayLevel::KeyLoad()
 {
 	if (false == GameEngineInput::IsKey("ChangePlayer"))
 	{
-		GameEngineInput::CreateKey("ChangePlayer", 'n');
+		GameEngineInput::CreateKey("ChangePlayer", 'N');
 		GameEngineInput::CreateKey("DebugCollision", '8');
 		GameEngineInput::CreateKey("WeaponUp", 'W');
 		GameEngineInput::CreateKey("WeaponDown", 'S');
