@@ -29,7 +29,7 @@
 #include "WeaponFirePunch.h"
 #include "WeaponDrill.h"
 #include "WeaponCarpetBomb.h"
-
+#include "WeaponDonkey.h"
 GameEngineLevel* WeaponInterFace::Value;
 WeaponInterFace* WeaponInterFace::Interface;
 
@@ -44,7 +44,7 @@ int WeaponInterFace::SheepCount = 3;
 int WeaponInterFace::AirStrikeCount = 3;
 int WeaponInterFace::TorchCount = 3;
 int WeaponInterFace::CarpetBomb = 3;
-
+int WeaponInterFace::DonkeyCount = 3;
 //None,				//무기없음
 //Bazooka,			//F1
 //HomingMissile,      //F1
@@ -223,6 +223,16 @@ void asas(Button*a, int _Enum) // int를 받는 함수를 넣을수 있게 새로 만들어서 가
         break;
     }
 
+    case WeaponNum::Donkey:
+    {
+        if (CurPlayer->GetPlayerWeaponCount()[15] > 0)
+        {
+           
+            Weapon* NewWeapon = WeaponInterFace::Value->CreateActor<WeaponDonkey>();
+            CurPlayer->SetCurWeapon(NewWeapon);
+        }
+        break;
+    }
     default:
         break;
     }
@@ -684,12 +694,14 @@ void WeaponInterFace::Start()
 		//button->SetClickCallBack(avvv);
 		ButtonManager.push_back(button);
 	}
+    // 당나귀 
 	{
-		Button* button = GetLevel()->CreateActor<Button>();
-		button->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,876 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
-		button->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
-		//button->SetClickCallBack();
-		ButtonManager.push_back(button);
+        donkey = GetLevel()->CreateActor<Button>();
+        donkey->setting("WeaponIcon.bmp", "2020.bmp", "2020.bmp", { 1387,876 }, { 26,27 }, static_cast<int>(WormsRenderOrder::WeaPonInterFace), false);
+        donkey->SetTargetCollisionGroup(static_cast<int>(WormsCollisionOrder::WeaPonInterFace));
+        donkey->SetEnum(WeaponNum::Donkey);
+        donkey->SetClickCallBackEnum(asas);
+		ButtonManager.push_back(donkey);
 	}
 	{
 		Button* button = GetLevel()->CreateActor<Button>();
@@ -874,6 +886,14 @@ void WeaponInterFace::Start()
         CarpetUI->On();
     }
 
+    {
+        donkeyUI = CreateRender(WormsRenderOrder::WeaPonUI);
+        donkeyUI->SetImage("donkeyui.Bmp");
+        donkeyUI->SetPosition({ 1387,876 });
+        donkeyUI->SetScale({ 28, 28 });
+        donkeyUI->EffectCameraOff();
+        donkeyUI->On();
+    }
 
     {
         X = CreateRender(WormsRenderOrder::WeaPonUI);
@@ -980,6 +1000,14 @@ void WeaponInterFace::Start()
    CarpetNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[14]);
    CarpetNumber.Off();
 
+   DonkeyNumber.SetOwner(this);
+   DonkeyNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
+   DonkeyNumber.SetRenderPos({ 1450,930 });
+   DonkeyNumber.SetCameraEffect(false);
+   DonkeyNumber.SetAlign(Align::Center);
+   DonkeyNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[15]);
+   DonkeyNumber.Off();
+
 	
 }
 
@@ -1037,7 +1065,7 @@ void WeaponInterFace::NumberManager()
     AirStrikeNumber.Off();
     TorchNumber.Off();
     CarpetNumber.Off();
- 
+    DonkeyNumber.Off();
 
   
     Player* CurPlayer = GlobalValue::gValue.GetPlayer();
@@ -1288,11 +1316,7 @@ void WeaponInterFace::NumberManager()
       X->On();
       TorchNumber.On();
   }
- /* if (Torch->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-  {
-      --TorchCount;
-  }*/
-
+ 
   if (CurPlayer->GetPlayerWeaponCount()[12] <= 0)
   {
       TorchUI->Off();
@@ -1314,22 +1338,36 @@ void WeaponInterFace::NumberManager()
       X->On();
       CarpetNumber.On();
   }
-  /*if (AirStrike->GetTest() == true && GameEngineInput::IsDown("LeftClock"))
-  {
-      --AirStrikeCount;
-  }*/
+  
 
   if (CurPlayer->GetPlayerWeaponCount()[14] <= 0)
   {
       CarpetUI->Off();
-      //   AirStrike->Off();
-    /*  X->Off();
-      AirStrikeNumber.Off();*/
+    
   }
   if (CurPlayer->GetPlayerWeaponCount()[14] > 0)
   {
       CarpetUI->On();
-      AirStrike->On();
+      Carpet->On();
+  }
+  //당나귀 
+
+  if (donkey->GetHover() == true)
+  {
+      X->On();
+      DonkeyNumber.On();
+  }
+
+
+  if (CurPlayer->GetPlayerWeaponCount()[15] <= 0)
+  {
+      donkeyUI->Off();
+
+  }
+  if (CurPlayer->GetPlayerWeaponCount()[15] > 0)
+  {
+      donkeyUI->On();
+      donkey->On();
   }
 
 
@@ -1386,7 +1424,10 @@ void WeaponInterFace::NumberManager()
   {
       CarpetNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[14]));
   }
-
+  if (CurPlayer->GetPlayerWeaponCount()[15] >= 0)
+  {
+      DonkeyNumber.SetValue(static_cast<int>(CurPlayer->GetPlayerWeaponCount()[15]));
+  }
 
 }
 
