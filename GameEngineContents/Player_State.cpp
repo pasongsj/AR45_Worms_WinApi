@@ -335,6 +335,10 @@ void Player::MoveUpdate(float _DeltaTime)
 		return;
 	}
 
+    if (false == IsGround)
+    {
+        GravityApplied(_DeltaTime);
+    }
 
     if (false == IsGround && false == DownPixelCheck && false == RightDownPixelCheck && false == LeftDownPixelCheck)
     {

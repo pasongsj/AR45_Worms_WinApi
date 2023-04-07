@@ -17,6 +17,11 @@ void Player::EquipWeaponUpdate(float _DeltatTime)
 
     //GravityApplied(_DeltatTime);
 
+    if (false == IsGround)
+    {
+        GravityApplied(_DeltatTime);
+    }
+
     { // 움직임 체크
         if (GameEngineInput::IsPress("MoveLeft") && GameEngineInput::IsPress("MoveRight"))
         {
