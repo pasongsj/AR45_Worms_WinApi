@@ -162,6 +162,9 @@
     <ClCompile Include="WeaponDonkey.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerDynamite.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalValue.h" />
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="WeaponDonkey.h">
       <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDynamite.h">
+      <Filter>Play\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

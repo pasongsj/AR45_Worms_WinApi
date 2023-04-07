@@ -589,6 +589,7 @@ void Player::DeadUpdate(float _DeltaTime)
 
     if (AnimationRender->IsAnimationEnd())
     {
+        ExplosionDynamite();
         PlayerDead();
     }
 }

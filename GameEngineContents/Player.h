@@ -190,6 +190,7 @@ private:
     std::string_view PlayerGraveImageStringView;
 
     void Drowning(); //플레이어가 익사로 사망시 실행하는 함수
+    void ExplosionDynamite();
 
 	//플레이어 UI관련 (HP, 화살표이미지)
 	PlayerHPUI* HPUI = nullptr; //플레이어 HP를 보여줄 넘버 렌더러 
@@ -254,9 +255,6 @@ private:
     bool StateCalBool2 = true;
     bool StateCalBool3 = true;
     float StateCalValue = 0.0f;
-
-    //디버그용
-    bool IsDebugMode = false;
 
 	//플레이어의 현재 상태
 	PlayerState StateValue = PlayerState::IDLE;

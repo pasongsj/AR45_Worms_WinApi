@@ -12,12 +12,14 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
+#include "PlayLevel.h"
 #include "GlobalValue.h"
 #include "PlayerHPUI.h"
 #include "PlayerGetDamagedUI.h"
 #include "ContentsEnums.h"
 #include "Weapon.h"
 #include "PlayerGrave.h"
+#include "PlayerDynamite.h"
 
 Player::Player() 
 {
@@ -124,7 +126,8 @@ void Player::Test()
 
         float Power = 400.0f;
 
-		Damaged(1, TestDir, Power);
+		//Damaged(1, TestDir, Power);
+        Damaged(99);
         //ChangeState(PlayerState::Win);
 
         //UsingHealkit(50);
@@ -660,7 +663,9 @@ void Player::SetPlayerAnimationFrame(int _Frame)
 
 void Player::Render(float _DeltaTime)
 {
-    if (false == IsDebugMode)
+    PlayLevel* CurLevel = GlobalValue::gValue.GetPlayLevel();
+
+    if (false == CurLevel->IsDebugTextModeOn())
     {
         return;
     }
@@ -918,6 +923,12 @@ void Player::Drowning()
 
     Off();
     HPUI->Off();
+}
+
+void Player::ExplosionDynamite()
+{
+    PlayerDynamite* DynamiteObject = GetLevel()->CreateActor<PlayerDynamite>();
+    DynamiteObject->ExplosionDynamite(GetPos());
 }
 
 void Player::SetGraveObject(const std::string_view& _GraveImage)
