@@ -2,6 +2,7 @@
 #include "MapModifier.h"
 #include "ContentsEnums.h"
 #include "Player.h"
+#include "Map.h"
 
 #include <ctime>
 
@@ -62,7 +63,8 @@ void WeaponTorch::TorchInit()
 {
     SetCurPlayer();
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
     ScreenSize = GameEngineWindow::GetScreenSize();
 

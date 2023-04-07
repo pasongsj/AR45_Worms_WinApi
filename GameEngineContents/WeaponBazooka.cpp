@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "MapModifier.h"
 #include "GlobalValue.h"
+#include "Map.h"
 
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -91,8 +92,8 @@ void WeaponBazooka::WeaponBazookaInit()
     MinDmg = 35;
     MaxDmg = 75;
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
-
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
     AimingLine = CreateRender(WormsRenderOrder::Weapon);
     AimingLine->SetImage("AimingLine.bmp");

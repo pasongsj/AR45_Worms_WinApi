@@ -2,6 +2,7 @@
 #include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "Player.h"
+#include "Map.h"
 
 #include <ctime>
 
@@ -101,7 +102,8 @@ void HomingMissile::HomingMissileInit()
     MinDmg = 35;
     MaxDmg = 75;
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
     WeaponRender->SetScaleToImage(); //임시 설정값
     WeaponRender->Off();

@@ -71,6 +71,8 @@ private:
     bool isHideTruck = false;
     bool isCarpetSet = false;
 
+    bool isTruckSoundOn = false;
+
     int ExplosionEndCount = 0;
 };
 

@@ -2,6 +2,7 @@
 #include "ContentsEnums.h"
 #include "Player.h"
 #include "MapModifier.h"
+#include "Map.h"
 
 #include <cmath>
 
@@ -79,8 +80,9 @@ void WeaponSheep::WeaponSheepInit()
 
 	WeaponRender = CreateRender("SheepWalkRight.bmp", static_cast<int>(WormsRenderOrder::Weapon));
 	WeaponCollision = CreateCollision(static_cast<int>(WormsCollisionOrder::Weapon));
-
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+   
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
 	SetPos({ 500, 0 });
 

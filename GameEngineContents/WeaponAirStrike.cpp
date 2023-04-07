@@ -2,6 +2,7 @@
 #include "ContentsEnums.h"
 #include "Player.h"
 #include "MapModifier.h"
+#include "Map.h"
 
 #include <cmath>
 
@@ -52,7 +53,8 @@ void WeaponAirStrike::WeaponAirStrikeInit()
 	Airplane->SetScaleToImage();
 	Airplane->Off();
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
 	ScreenSize = GameEngineWindow::GetScreenSize();
 
@@ -237,11 +239,11 @@ void WeaponAirStrike::SetMissiles()
 
     if (isMoveRight == true)
     {
-        MissileXpos = -150.0f;
+        MissileXpos = -120.0f;
     }
     else
     {
-        MissileXpos = 150.0f;
+        MissileXpos = 120.0f;
     }
 
 	for (int i = 0; i < MissileNum; i++)
@@ -252,11 +254,11 @@ void WeaponAirStrike::SetMissiles()
 
 		if (isMoveRight == true)
 		{
-			MissileXpos += 75.0f;
+			MissileXpos += 60.0f;
 		}
 		else
 		{
-			MissileXpos -= 75.0f;
+			MissileXpos -= 60.0f;
 		}
 	}
 

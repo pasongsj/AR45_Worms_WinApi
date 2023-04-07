@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "GlobalValue.h"
 #include "MapModifier.h"
+#include "Map.h"
 
 #include <ctime>
 
@@ -111,7 +112,8 @@ void WeaponCarpetBomb::CarpetInit()
 
     SetCurPlayer();
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
     TruckRender = CreateRender("CarpetTruckLeft.bmp", WormsRenderOrder::Weapon);
     TruckRender->SetScale({ 100, 100 });
@@ -137,6 +139,7 @@ void WeaponCarpetBomb::MarkerInit()
 
 void WeaponCarpetBomb::SetTarget()
 {
+    GameEngineResources::GetInst().SoundPlay("JUSTYOUWAIT.wav");
     TargetPos = GetLevel()->GetMousePosToCamera();
 
     Marker->SetPosition(TargetPos);
@@ -194,6 +197,12 @@ void WeaponCarpetBomb::Firing(float _DeltaTime)
 void WeaponCarpetBomb::TruckMove(float _DeltaTime)
 {
     float MovePos = TruckRender->GetPosition().x - TruckStartPos.x;
+
+    if(isTruckSoundOn == false)
+    {
+        GameEngineResources::GetInst().SoundPlay("Airstrike.wav");
+        isTruckSoundOn = true;
+    }
 
     if (abs(MovePos) > 2000.0f)
     {
@@ -271,11 +280,11 @@ void WeaponCarpetBomb::SetCarpet()
 
     if (isMoveRight == true)
     {
-        CarpetXpos = -150.0f;
+        CarpetXpos = -100.0f;
     }
     else
     {
-        CarpetXpos = +150.0f;
+        CarpetXpos = +100.0f;
     }
 
     for (int i = 0; i < CarpetList.size(); i++)
@@ -288,11 +297,11 @@ void WeaponCarpetBomb::SetCarpet()
 
         if (isMoveRight == true)
         {
-            CarpetXpos += 75.0f;
+            CarpetXpos += 50.0f;
         }
         else
         {
-            CarpetXpos -= 75.0f;
+            CarpetXpos -= 50.0f;
         }
     }
 }
@@ -321,8 +330,11 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if(_Carpet->BounceCount > 1)
     {
+        float RandomXdir = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
+        float RandomYdir = GameEngineRandom::MainRandom.RandomFloat(-1.0, 0.0);
+
         MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100);
-        _Carpet->MoveDir = -_Carpet->RotDir + float4::Up;
+        _Carpet->MoveDir = -_Carpet->RotDir + float4{ RandomXdir , RandomYdir };
         Dir.Normalize();
 
         _Carpet->Gravity = 0.0f;
