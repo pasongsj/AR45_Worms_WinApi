@@ -19,7 +19,7 @@ void PetrolEffect::Start()
 {
     SetColImage();
 
-    PetrolRender = CreateRender(static_cast<int>(WormsRenderOrder::MapObject));
+    PetrolRender = CreateRender(static_cast<int>(WormsRenderOrder::Petrol));
     PetrolRender->SetPosition(GetPos());
     PetrolRender->SetScale({ 45, 45 });
 

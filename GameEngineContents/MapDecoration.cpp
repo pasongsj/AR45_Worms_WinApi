@@ -97,7 +97,6 @@ void MapDecoration::MakeRandomPosSets()
     GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(ColMapName);
 
     int B_Count = 0;
-    int M_Count = 0;
 
     for (; StartGridPos.y < Boundary.y; StartGridPos.y += Scale.y)
     {
@@ -107,67 +106,29 @@ void MapDecoration::MakeRandomPosSets()
             float4 CenterDown = { Center.x, Center.y + Scale.hy() };
             float4 LeftDown = { CenterDown.x - Scale.hx(), CenterDown.y };
             float4 RightDown = { CenterDown.x + Scale.hx(), CenterDown.y };
-            float4 CenterUp = { Center.x, Center.y - Scale.hy() };
-            float4 LeftUp = { CenterUp.x - Scale.hx(), CenterUp.y };
-            float4 RightUp = { CenterUp.x + Scale.hx(), CenterUp.y };
 
             if (Blue == ColImage->GetPixelColor(CenterDown, Magenta))
             {
                 ++B_Count;
             }
-            else
-            {
-                ++M_Count;
-            }
+
             if (Blue == ColImage->GetPixelColor(LeftDown, Magenta))
             {
                 ++B_Count;
             }
-            else
-            {
-                ++M_Count;
-            }
+
             if (Blue == ColImage->GetPixelColor(RightDown, Magenta))
             {
                 ++B_Count;
             }
-            else
-            {
-                ++M_Count;
-            }
 
-            if (Blue == ColImage->GetPixelColor(CenterUp, Magenta))
-            {
-                ++B_Count;
-            }
-            else
-            {
-                ++M_Count;
-            }
-            if (Blue == ColImage->GetPixelColor(LeftUp, Magenta))
-            {
-                ++B_Count;
-            }
-            else
-            {
-                ++M_Count;
-            }
-            if (Blue == ColImage->GetPixelColor(RightUp, Magenta))
-            {
-                ++B_Count;
-            }
-            else
-            {
-                ++M_Count;
-            }
 
-            if (3 <= B_Count && 2 <= M_Count && Blue != ColImage->GetPixelColor(Center, Magenta))
+            if (3 == B_Count && Blue != ColImage->GetPixelColor(Center, Magenta))
             {
                 RandPosSets.push_back(Center);
             }
 
             B_Count = 0;
-            M_Count = 0;
         }
     }
 
@@ -175,10 +136,14 @@ void MapDecoration::MakeRandomPosSets()
 
 float4 MapDecoration::GetRandomPos()
 {
-    MakeRandomPosSets();
+    if (PrevIdx != RandIdx)
+    {
+        MakeRandomPosSets();
+        PrevIdx = RandIdx;
+    }
 
     int Size = static_cast<int>(RandPosSets.size());
-    int RandIdx = GameEngineRandom::MainRandom.RandomInt(0, Size - 1);
+    int RandNum = GameEngineRandom::MainRandom.RandomInt(0, Size - 1);
 
-    return RandPosSets[RandIdx];
+    return RandPosSets[RandNum];
 }

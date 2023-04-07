@@ -176,12 +176,12 @@ void Map::Start()
         }
 
 
-        //맵에 오일드럼통 5개 미리 배치
-        for (int i = 0; i < 3; ++i)
-        {
-            Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-            Object->SetPos(Object->GetMapObjPos());
-        }
+        ////맵에 오일드럼통 5개 미리 배치
+        //for (int i = 0; i < 3; ++i)
+        //{
+        //    Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
+        //    Object->SetPos(Object->GetMapObjPos());
+        //}
     }
 }
 

@@ -10,6 +10,7 @@ enum class WormsRenderOrder
     MapObject,
 	Player,
 	Weapon,
+    Petrol,
 	UI,
 	WeaPonInterFace,
     WeaPonUI,

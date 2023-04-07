@@ -26,6 +26,7 @@ private:
     int Blue = RGB(0, 0, 255);
     int Magenta = RGB(255, 0, 255);
 
+    int PrevIdx = -1;
     int RandIdx = 0;
 
     float4 DecoScale = float4::Zero;              //꾸미기용 오브젝트들의 스케일을 저장하는 용도

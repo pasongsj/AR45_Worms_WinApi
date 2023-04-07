@@ -28,7 +28,7 @@ private:
     bool IsJump = false;
     bool IsWindEffectEnd = false;
   
-    float JumpPower = -100.0f;
+    float JumpPower = -150.0f;
     float Gravity = 500.0f;
     float MoveSpeed = 150.0f;
     float WaitTime = 0.2f;
