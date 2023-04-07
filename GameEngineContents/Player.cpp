@@ -127,7 +127,7 @@ void Player::Test()
         float Power = 400.0f;
 
 		//Damaged(1, TestDir, Power);
-        Damaged(99);
+        //Damaged(99);
         //ChangeState(PlayerState::Win);
 
         //UsingHealkit(50);
@@ -217,7 +217,8 @@ void Player::CheckTurn()
         return;
     }
 
-    if (CurWeapon!= nullptr && true == CurWeapon->IsWeaponDone() && TurnCheckValue == true)
+
+    if (CurWeapon != nullptr && true == CurWeapon->IsWeaponDone() && TurnCheckValue == true)
     {
         SetIsMyTurn(false);
         SetCanIMove(true);
@@ -319,13 +320,18 @@ void Player::PlayerPixelCheck(float _Deltatime)
         CheckPos.RotaitonZDeg(-Angle);				                                        
         CheckPos += CenterPos;						                                       
 
-        const float AngleValue = 22.5;
-
+        const float AngleValue = 22.5f;
+        const float AngleValueLow = 0.5f;
 
         if ((Angle >= 0.0f && Angle <= AngleValue) || (Angle >= 360.0f - AngleValue && Angle <= 360.0f))
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                if (Angle > AngleValue)
+                {
+                    break;
+                }
+
                 UpPixelCheck = true;
             }
             else
@@ -337,6 +343,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 3;
+
                 LeftUpPixelCheck = true;
             }
             else
@@ -348,6 +356,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 5;
+
                 LeftPixelCheck = true;
             }
             else
@@ -359,6 +369,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 7;
+
                 LeftDownPixelCheck = true;
             }
             else
@@ -370,6 +382,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 9;
+
                 DownPixelCheck = true;
             }
             else
@@ -381,6 +395,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 11;
+
                 RightDownPixelCheck = true;
             }
             else
@@ -392,6 +408,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 13;
+
                 RightPixelCheck = true;
             }
             else
@@ -403,6 +421,8 @@ void Player::PlayerPixelCheck(float _Deltatime)
         {
             if (RGB(0, 0, 255) == ColImage->GetPixelColor(CheckPos, RGB(0, 0, 0))) //상단
             {
+                Angle = AngleValue * 15;
+
                 RightUpPixelCheck = true;
             }
             else
@@ -977,24 +997,24 @@ void Player::RandomDamagedSound()
     }
 }
 
-//enum class WeaponNum
-//{
-//    None,				//무기없음
-//    Bazooka,			//F1
-//    HomingMissile,      //F1
-//    Grenade,			//F2
-//    ClusterBomb,
-//    Shotgun,			//F3
-//    Handgun,
-//    Uzi,
-//    Minigun,
-//    Sheep,				//F5
-//    AirStrike,			//F6
-//    Torch,              //F7
-//    Drill,              //F7
-//    WeaponCount        //Enum 개수 확인하기위한 Count (마지막에 있어야 함)
-//};
-
+//}
+//None,				//무기없음
+//Bazooka,			//F1
+//HomingMissile,      //F1
+//Grenade,			//F2
+//ClusterBomb,
+//Shotgun,			//F3
+//Handgun,
+//Uzi,
+//Minigun,
+//FirePunch,          //F4
+//Sheep,				//F5
+//AirStrike,			//F6
+//Torch,              //F7
+//Drill,              //F7
+//Carpet,             //F10
+//Donkey,             //F11
+//WeaponCount        //Enum 개수 확인하기위한 Count (마지막에 있어야 함)
 
 void Player::SetCurWeapon(Weapon* _Weapon)
 {
@@ -1022,6 +1042,8 @@ void Player::SetWeaponCount()
     WeaponCount.push_back(3);
     WeaponCount.push_back(-1);
     WeaponCount.push_back(2);
+    WeaponCount.push_back(3);
+    WeaponCount.push_back(3);
     WeaponCount.push_back(3);
 }
 

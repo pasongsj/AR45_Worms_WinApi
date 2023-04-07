@@ -372,8 +372,7 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Left))
         {
             MoveDir = float4::Left * MoveSpeed;
-            GravityApplied(_DeltaTime);
-
+            //GravityApplied(_DeltaTime);
             //MoveDir += float4::Down * Gravity;
         }
         else
@@ -388,7 +387,7 @@ void Player::MoveUpdate(float _DeltaTime)
         if (true == ReturnCanIMove(PlayerAngleDir::Right))
         {
             MoveDir = float4::Right * MoveSpeed;
-            GravityApplied(_DeltaTime);
+            //GravityApplied(_DeltaTime);
             //MoveDir += float4::Down * Gravity;
         }
         else
@@ -656,7 +655,7 @@ void Player::FlyDownUpdate(float _DeltaTime)
             {
                 //이후 데미지 받음
                 ChangeState(PlayerState::Sliding);
-                DamagedValue += static_cast<int>(Value) % 10;
+                DamagedValue += static_cast<int>(Value) / 10;
 
                 RandomDamagedSound();
 
@@ -678,7 +677,7 @@ void Player::FlyDownUpdate(float _DeltaTime)
             if (Value >= 50.0f)
             {
                 //데미지 받음
-                DamagedValue += static_cast<int>(Value) % 10;
+                DamagedValue += static_cast<int>(Value) / 10;
 
                 ChangeState(PlayerState::FacePlant);
                 return;
@@ -742,15 +741,17 @@ void Player::FlyAwayStart()
 
 void Player::FlyAwayUpdate(float _DeltaTime)
 {
-    if (DownPixelCheck == false)
+    if (IsGround == false)
     {
         StateCalBool = true;
     }
 
+    StateCalBool = true;
+
     float testvalue = 0.5f;
     float FrictionValue = 0.7f;
 
-    if (MoveDir.Size() < 30.0f)
+    if (MoveDir.Size() <= 30.0f)
     {
         ChangeState(PlayerState::Sliding);
         return;
@@ -1112,10 +1113,11 @@ void Player::AngryUpdate(float _DeltaTime)
     {
         TurnCheckValue = true;
 
-        if (true == IsMyTurn)
+        if (true == IsMyTurn && CurWeapon != nullptr && CurWeapon->IsFiring() == false)
         {
             SetIsMyTurn(false);
         }
+
         ChangeState(PlayerState::IDLE);
         return;
 
