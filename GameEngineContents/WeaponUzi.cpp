@@ -22,7 +22,7 @@ void WeaponUzi::Start()
 {
 	// 샷건 기본 설정
 	WeaponName = "Uzi";
-	MoveSpeed = 4000;
+	MoveSpeed = 3000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -87,7 +87,7 @@ void WeaponUzi::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-10 };
         Dir = GetShootDir();
         SetPos(PlayerPos);
 
@@ -99,7 +99,7 @@ void WeaponUzi::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("UziAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetPosition(Dir * 150 ); // 조준선 이동
         AimingLine->SetAngle(-Dir.GetAnagleDeg());
         float tmp = -Dir.GetAnagleDeg();
         CheckFiring(); // 방향체크, 발사 체크
@@ -194,11 +194,15 @@ void WeaponUzi::Firing(float _DeltaTime)
             }
 
             float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
-            float4 CheckCol = Check4Side(UziCollision[i], UziCollision[i]->GetActorPlusPos() + MoveVec);
             UziCollision[i]->SetMove(MoveVec);
+            float4 CheckCol = Check4Side(UziCollision[i], UziCollision[i]->GetActorPlusPos());
             if (CheckCol.AddAllVec() > 0)
             {
-                UziCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
+                if (CheckCol.AddAllVec() == 4)
+                {
+                    UziCollision[i]->SetMove(-MoveVec * 0.3f);
+                }
+                //UziCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(UziCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
@@ -222,7 +226,7 @@ void WeaponUzi::WeaponUziInit()
 {
 	// Uzi은 랜더이미지가 존재하지 않음
 	GameEngineCollision* Collision = CreateCollision(WormsCollisionOrder::Weapon);
-	Collision->SetScale({ 10,10 });
+	Collision->SetScale({ 20,20 });
     Collision->Off();
 
 	UziCollision.push_back(Collision);

@@ -21,7 +21,7 @@ void WeaponMinigun::Start()
 {
 	// 미니건 기본 설정
 	WeaponName = "Minigun";
-	MoveSpeed = 4000;
+	MoveSpeed = 3000;
 	//Dir = float4::Right;
     BombScale = 22;
 
@@ -86,7 +86,7 @@ void WeaponMinigun::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-10 };
         Dir = GetShootDir();
         SetPos(PlayerPos);
 
@@ -98,7 +98,7 @@ void WeaponMinigun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("MinigunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetPosition(Dir * 150 ); // 조준선 이동
         AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
         CheckFiring(); // 방향체크, 발사 체크
@@ -169,7 +169,6 @@ void WeaponMinigun::Firing(float _DeltaTime)
     float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), MinigunCollision[0]->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
     GetLevel()->SetCameraPos(CamPos);
 
-    //SetPos(CurPlayer->GetPos() + float4{ 0,-15 });
 
     DelayTime -= _DeltaTime;
     if (DelayTime < 0)
@@ -199,11 +198,15 @@ void WeaponMinigun::Firing(float _DeltaTime)
             }
 
             float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
-            float4 CheckCol = Check4Side(MinigunCollision[i], MinigunCollision[i]->GetActorPlusPos() + MoveVec);
             MinigunCollision[i]->SetMove(MoveVec);
+            float4 CheckCol = Check4Side(MinigunCollision[i], MinigunCollision[i]->GetActorPlusPos());
             if (CheckCol.AddAllVec() > 0)
             {
-                MinigunCollision[i]->SetMove(-MoveVec * 0.15f* CheckCol.AddAllVec());
+                if (CheckCol.AddAllVec() == 4)
+                {
+                    MinigunCollision[i]->SetMove(-MoveVec * 0.3f);
+                }
+                //MinigunCollision[i]->SetMove(-MoveVec * 0.1f* CheckCol.AddAllVec());
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(MinigunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
@@ -227,7 +230,7 @@ void WeaponMinigun::WeaponMinigunInit()
 {
 	// Minigun은 랜더이미지가 존재하지 않음
 	GameEngineCollision* Collision = CreateCollision(WormsCollisionOrder::Weapon);
-	Collision->SetScale({ 10,10 });
+	Collision->SetScale({ 20,20 });
     Collision->Off();
 
 	MinigunCollision.push_back(Collision);

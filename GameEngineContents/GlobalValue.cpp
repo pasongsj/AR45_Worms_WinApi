@@ -15,6 +15,7 @@
 #include "WeaponTorch.h"
 #include "WeaponSheep.h"
 #include "WeaponAirStrike.h"
+#include "WeaponDonkey.h"
 
 
 void GlobalValue::SetWeapon(int _Value)
@@ -104,6 +105,13 @@ void GlobalValue::SetWeapon(int _Value)
     case WeaponNum::Torch:
     {
         Weapon* NewWeapon = pPlayLevel->CreateActor<WeaponTorch>();
+        pCurPlayer->SetCurWeapon(NewWeapon);
+        break;
+    }
+
+    case WeaponNum::Donkey:
+    {
+        Weapon* NewWeapon = pPlayLevel->CreateActor<WeaponDonkey>();
         pCurPlayer->SetCurWeapon(NewWeapon);
         break;
     }

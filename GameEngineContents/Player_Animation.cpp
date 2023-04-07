@@ -225,4 +225,13 @@ void Player::CreateAnimation()
         AnimationRender->CreateAnimation({ .AnimationName = "Right_CarpetOff", .ImageName = "CarpetOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
 
     }
+
+    {
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_DonkeyOn", .ImageName = "DonkeyOnLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_DonkeyOn", .ImageName = "DonkeyOnRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+        AnimationRender->CreateAnimation({ .AnimationName = "Left_DonkeyOff", .ImageName = "DonkeyOffLeft.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+        AnimationRender->CreateAnimation({ .AnimationName = "Right_DonkeyOff", .ImageName = "DonkeyOffRight.bmp",.Start = 0, .End = 9, .InterTime = 0.1f, .Loop = false });
+
+    }
 }

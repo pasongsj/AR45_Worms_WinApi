@@ -26,6 +26,7 @@
 #include "PlayChangeEnding.h"
 #include "WeaponCarpetBomb.h"
 #include "Result.h"
+#include "WeaponDonkey.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineDebug.h>
@@ -189,6 +190,7 @@ void PlayLevel::ImageLoad()
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ClusterbombRot.bmp"));
         GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("cluster.bmp"));
 		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("clusterRot.bmp"));
+		GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Donkey.bmp"));
 
         GameEngineImage* CarpetTruckLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetTruckLeft.bmp"));
         CarpetTruckLeft->Cut(1, 4);
@@ -422,6 +424,11 @@ void PlayLevel::ImageLoad()
             CarpetOffLeft->Cut(1, 10);
             GameEngineImage* CarpetOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOnLeft.bmp"));
             CarpetOnLeft->Cut(1, 10);
+
+            GameEngineImage* DonkeyOffLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DonkeyOffLeft.bmp"));
+            DonkeyOffLeft->Cut(1, 10);
+            GameEngineImage* DonkeyOnLeft = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DonkeyOnLeft.bmp"));
+            DonkeyOnLeft->Cut(1, 10);
 		}
 
 		{
@@ -560,6 +567,11 @@ void PlayLevel::ImageLoad()
             CarpetOffRight->Cut(1, 10);
             GameEngineImage* CarpetOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CarpetOnRight.bmp"));
             CarpetOnRight->Cut(1, 10);
+
+            GameEngineImage* DonkeyOffRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DonkeyOffRight.bmp"));
+            DonkeyOffRight->Cut(1, 10);
+            GameEngineImage* DonkeyOnRight = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("DonkeyOnRight.bmp"));
+            DonkeyOnRight->Cut(1, 10);
 
 		}
 		Dir.MoveParent();
@@ -1224,6 +1236,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<WeaponMinigun>();
     //CreateActor<WeaponClusterBomb>();
     //CreateActor<WeaponShotgun>();
+    //CreateActor<WeaponDonkey>();
 }
 
 //SetHPUI("RedNumberRender.bmp", "RedNameTag.bmp", "PlayerSelectArrowRed.bmp");

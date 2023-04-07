@@ -21,7 +21,7 @@ void WeaponHandgun::Start()
 {
 	// 핸드건 기본 설정
 	WeaponName = "Handgun";
-	MoveSpeed = 4000;
+	MoveSpeed = 3000;
 	//Dir = float4::Right;
 	BombScale = 22;
 
@@ -51,7 +51,7 @@ void WeaponHandgun::Aiming(float _DeltaTime)
     if (CurPlayer->GetPlayerState() == PlayerState::EQUIPWEAPON) // 현재 플레이어가 무기 State
     {
         // 위치
-        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-15 };
+        float4 PlayerPos = CurPlayer->GetPos() + float4{ 0,-10 };;
         Dir = GetShootDir();
         SetPos(PlayerPos);
 
@@ -63,7 +63,7 @@ void WeaponHandgun::Aiming(float _DeltaTime)
         AimIndex = AimIndex * (1.0f - Ratio) + (NextAimIndex * Ratio);
 
         CurPlayer->ChangePlayerAnimation("HandgunAim", static_cast<int>(AimIndex));
-        AimingLine->SetPosition(Dir * 150 + float4{ 0,15 }); // 조준선 이동
+        AimingLine->SetPosition(Dir * 150); // 조준선 이동
         AimingLine->SetAngle(-Dir.GetAnagleDeg());
 
 
@@ -202,11 +202,14 @@ void WeaponHandgun::Firing(float _DeltaTime)
                 isIsFireAnimationDone = true;
             }
             float4 MoveVec = Dir * MoveSpeed * _DeltaTime;
-            float4 CheckCol = Check4Side(HandgunCollision[i], HandgunCollision[i]->GetActorPlusPos() + MoveVec);
             HandgunCollision[i]->SetMove(MoveVec);
+            float4 CheckCol = Check4Side(HandgunCollision[i], HandgunCollision[i]->GetActorPlusPos());
             if (CheckCol.AddAllVec() > 0)
             {
-                HandgunCollision[i]->SetMove(-MoveVec * 0.15f * CheckCol.AddAllVec());
+                if (CheckCol.AddAllVec() == 4)
+                {
+                    HandgunCollision[i]->SetMove(-MoveVec * 0.3f);
+                }
                 SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
                 Smoke->SetPos(HandgunCollision[i]->GetActorPlusPos());
                 Smoke->CreateSmokeSpark(6, 2, BombScale);
@@ -230,7 +233,7 @@ void WeaponHandgun::WeaponHandgunInit()
 {
 	// Handgun은 랜더이미지가 존재하지 않음
 	GameEngineCollision* Collision = CreateCollision(WormsCollisionOrder::Weapon);
-	Collision->SetScale({ 15,15 });
+	Collision->SetScale({ 20,20 });
     Collision->Off();
 
 	HandgunCollision.push_back(Collision);

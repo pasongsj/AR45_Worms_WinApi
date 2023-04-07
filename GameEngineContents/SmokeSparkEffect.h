@@ -14,7 +14,7 @@ public:
 	SmokeSparkEffect& operator=(const SmokeSparkEffect& _Other) = delete;
 	SmokeSparkEffect& operator=(SmokeSparkEffect&& _Other) noexcept = delete;
 
-    void CreateSmokeSpark(int _Smoke, int _Spark, float _Scale);
+    void CreateSmokeSpark(int _Smoke, int _Spark, float _Scale, float _MultiScale = 1);
 
     bool IsEnd()
     {
@@ -25,10 +25,10 @@ protected:
     void Update(float _DeltaTime) override;
 private:
 
-    float Evaporation = -2.5f; // Y축 증발
+    float Evaporation = -1.7f; // Y축 증발
     float Resist = 0.5f; //x축 공기저항
 
-    float MoveSpeed = 300;
+    float MoveSpeed = 500;
     bool isEnd = false;
 
     int SmokeCnt = 0;

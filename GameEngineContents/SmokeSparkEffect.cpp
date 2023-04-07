@@ -11,7 +11,7 @@ SmokeSparkEffect::~SmokeSparkEffect()
 {
 }
 
-void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, float _Scale)
+void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, float _Scale, float _MultiScale)
 {
     SmokeCnt = _Smoke;
     SparkCnt = _Spark;
@@ -35,8 +35,8 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, float _Scale)
         float4 dir = float4{ GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale), GameEngineRandom::MainRandom.RandomFloat(-BombScale,BombScale) };
         NewSmoke->SetPosition(dir);
         dir.Normalize();
-        NewSmoke->SetScale({ 60, 60 });
-        NewSmoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "Smoke100.bmp", .Start = 0, .End = 27, .InterTime = 0.03f , .Loop = false });
+        NewSmoke->SetScale(float4(60, 60) * _MultiScale);
+        NewSmoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "Smoke100.bmp", .Start = 0, .End = 27, .InterTime = 0.02f , .Loop = false });
         NewSmoke->ChangeAnimation("Smoke");
         AllSmokeDir.push_back(dir);
         AllSmoke.push_back(NewSmoke);
@@ -49,7 +49,7 @@ void SmokeSparkEffect::CreateSmokeSpark(int _Smoke, int _Spark, float _Scale)
         dir.y -= BombScale;
         NewSpark->SetPosition(dir);
         dir.Normalize();
-        NewSpark->SetScale({ 60, 60 });
+        NewSpark->SetScale(float4(60, 60) * _MultiScale);
         NewSpark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
         NewSpark->ChangeAnimation("Spark");
         AllSparkDir.push_back(dir);
