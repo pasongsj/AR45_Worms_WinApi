@@ -53,6 +53,10 @@ private:
     void CameraUpdate();
     void Timer();
     void DamageToPlayer(int _Index);
+    
+    void MakeSmoke(float4 _pos);
+    void MakeSpark(float4 _pos);
+    void SparkMove(float _DeltaTime);
 
     std::vector<Carpet*> CarpetList;
 
@@ -75,5 +79,11 @@ private:
     bool isTruckSoundOn = false;
 
     int ExplosionEndCount = 0;
+
+    int CarpetNum = 5;
+
+    std::vector<GameEngineRender*> SparkList;
+    std::vector<float> GravityList;
+    std::vector<float4> DirList;
 };
 

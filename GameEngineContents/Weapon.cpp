@@ -523,7 +523,7 @@ void Weapon::ExplosionEffectInit(float _CircleDiameter)
     ExplosionElipse->Off();
 
     PootTextAnimation = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
-    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
+    PootTextAnimation->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.05f , .Loop = false });
     PootTextAnimation->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
     PootTextAnimation->SetScale({ 70 , 70 });
 

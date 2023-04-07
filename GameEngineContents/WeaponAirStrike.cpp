@@ -483,7 +483,7 @@ void WeaponAirStrike::ExplosionEffectInit()
         ExplosionCircleList.push_back(Circle);
 
         GameEngineRender* Elipse = CreateRender("Elipse75.bmp", WormsRenderOrder::Weapon);
-        Elipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse75.bmp", .Start = 0, .End = 9, .InterTime = 0.03f , .Loop = false });
+        Elipse->CreateAnimation({ .AnimationName = "ExplosionElipse", .ImageName = "Elipse75.bmp", .Start = 0, .End = 9, .InterTime = 0.05f , .Loop = false });
         Elipse->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Elipse75.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
         Elipse->SetScale({ BombScale * 1.5f , BombScale * 1.5f });
 
@@ -493,7 +493,7 @@ void WeaponAirStrike::ExplosionEffectInit()
         ExplosionElipseList.push_back(Elipse);
 
         GameEngineRender* PootText = CreateRender("Poot.bmp", WormsRenderOrder::Weapon);
-        PootText->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.02f , .Loop = false });
+        PootText->CreateAnimation({ .AnimationName = "Poot", .ImageName = "Poot.bmp", .Start = 0, .End = 17, .InterTime = 0.05f , .Loop = false });
         PootText->CreateAnimation({ .AnimationName = "Idle", .ImageName = "Poot.bmp", .Start = 0, .End = 1, .InterTime = 0.05f , .Loop = false });
         PootText->SetScale({ 70, 70 });
 

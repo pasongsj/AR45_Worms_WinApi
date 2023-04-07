@@ -71,6 +71,7 @@ void WeaponCarpetBomb::Update(float _DeltaTime)
     }
 
     CameraUpdate();
+    SparkMove(_DeltaTime);
 }
 
 void WeaponCarpetBomb::Render(float _DeltaTime)
@@ -93,6 +94,9 @@ void WeaponCarpetBomb::Render(float _DeltaTime)
 void WeaponCarpetBomb::CarpetInit()
 {
     CarpetList.reserve(5);
+    SparkList.reserve(100);
+    GravityList.reserve(100);
+    DirList.reserve(100);
 
     for (int i = 0; i < CarpetList.capacity(); i++)
     {
@@ -112,6 +116,7 @@ void WeaponCarpetBomb::CarpetInit()
 
     SetCurPlayer();
 
+    Gravity = 500.0f;
     MinDmg = 10;
     MaxDmg = 25;
 
@@ -119,7 +124,6 @@ void WeaponCarpetBomb::CarpetInit()
     MaxKnockBackPower = 20.0f;
 
     BombScale = 100.0f;
-
     std::string Name = Map::MainMap->GetColMapName();
     MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
@@ -324,6 +328,9 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if (_Carpet->BounceCount == 1)
     {
+        MakeSmoke(_Carpet->CarpetRender->GetActorPlusPos());
+        MakeSpark(_Carpet->CarpetRender->GetActorPlusPos());
+
         MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), BombScale);
 
         _Carpet->CarpetRender->Off();
@@ -339,6 +346,9 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if(_Carpet->BounceCount > 1)
     {
+        MakeSmoke(_Carpet->CarpetRender->GetActorPlusPos());
+        MakeSpark(_Carpet->CarpetRender->GetActorPlusPos());
+
         float RandomXdir = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
         float RandomYdir = GameEngineRandom::MainRandom.RandomFloat(-1.0, 0.0);
 
@@ -407,4 +417,62 @@ void WeaponCarpetBomb::DamageToPlayer(int _Index)
     HoleCollision->SetPosition(CarpetList[_Index]->CarpetCollision->GetActorPlusPos());
 
     AttackPlayer(HoleCollision);
+}
+
+void WeaponCarpetBomb::MakeSmoke(float4 _pos)
+{
+    for (int i = 0; i < 9; i++)
+    {
+        GameEngineRender* Smoke = CreateRender(WormsRenderOrder::Weapon);
+
+        Smoke->CreateAnimation({ .AnimationName = "Smoke", .ImageName = "Smoke100.bmp", .Start = 0, .End = 27, .InterTime = 0.03f , .Loop = false });
+        Smoke->SetScale({ 134, 134 });
+
+        float X = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+        float Y = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+
+        Smoke->SetPosition(_pos + float4{ X,Y });
+        Smoke->ChangeAnimation("Smoke");
+        Smoke->On();
+    }
+}
+
+void WeaponCarpetBomb::MakeSpark(float4 _pos)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        GameEngineRender* Spark = CreateRender(WormsRenderOrder::Weapon);
+
+        Spark->CreateAnimation({ .AnimationName = "Spark", .ImageName = "Spark1.bmp", .Start = 0, .End = 31, .InterTime = 0.05f , .Loop = false });
+        Spark->SetScale({ 60, 60 });
+
+        float X = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+        float Y = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+
+        Spark->SetPosition(_pos + float4{ X,Y });
+        Spark->ChangeAnimation("Spark");
+        Spark->On();
+
+        SparkList.push_back(Spark);
+        GravityList.push_back(0);
+
+        float4 SparkDir = float4{ X, Y };
+        SparkDir.Normalize();
+
+        DirList.push_back(SparkDir);
+    }
+}
+
+void  WeaponCarpetBomb::SparkMove(float _DeltaTime)
+{
+
+    float Wind = GlobalValue::gValue.GetWindSpeed();
+
+
+    //DirList µµ ÇÊ¿ä
+    for (int i = 0; i < SparkList.size(); i++)
+    {
+        SparkList[i]->SetMove(DirList[i] * 200.0f * _DeltaTime + float4{0,  GravityList[i]} *_DeltaTime);
+        GravityList[i] += 5.0f;
+    }
 }
