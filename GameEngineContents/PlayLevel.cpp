@@ -1172,7 +1172,7 @@ void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
         for (size_t i = 0; i < vecAllPlayer.capacity(); i++)
         {
 
-            vecAllPlayer.push_back(CreateActor<Player>(WormsRenderOrder::Player));
+            vecAllPlayer.push_back(CreateActor<Player>());
             vecTurnEnd.push_back(false);
             vecAllPlayer[i]->SetColImage(Map::MainMap->GetColMapName());
 

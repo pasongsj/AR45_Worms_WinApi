@@ -30,6 +30,7 @@ protected:
     // Scale이 줄어드는것 또한 순차적으로 줄어들어야한다(?)
 
 private:
+    class PlayLevel* pPlayLevel = nullptr;
     std::vector<int> vecMixNum;
     std::vector<GameEngineRender*> vecPlayerHpBar;
     std::vector<GameEngineRender*> vecPlayerName;

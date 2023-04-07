@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include "ContentsEnums.h"
 #include "GlobalValue.h"
+#include "PlayLevel.h"
 
 
 WindUI::WindUI() 
@@ -48,10 +49,16 @@ void WindUI::Start()
 
     LHiderScale = pLWindBarHide->GetScale();
     RHiderScale = pRWindBarHide->GetScale();
+    pPlayLevel = GlobalValue::gValue.GetPlayLevel();
 }
 
 void WindUI::Update(float _Deltatime)
 {
+    if (0 != pPlayLevel->GetGameSet())
+    {
+        Death();
+    }
+
     int WindPhase = GlobalValue::gValue.GetWindPhase();
     if (iLastWindPhase == WindPhase)
     {

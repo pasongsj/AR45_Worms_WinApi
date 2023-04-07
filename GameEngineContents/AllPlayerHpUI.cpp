@@ -101,10 +101,16 @@ void AllPlayerHpUI::Start()
     }
 
     fMaxHP = static_cast<float>(GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().iPlayerHp);
+    pPlayLevel = GlobalValue::gValue.GetPlayLevel();
 }
 
 void AllPlayerHpUI::Update(float _DeltaTime)
 {
+    if (0!= pPlayLevel->GetGameSet())
+    {
+        Death();
+    }
+    
 
     if (true == bSetHP)
     {

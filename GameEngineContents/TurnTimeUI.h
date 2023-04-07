@@ -23,6 +23,7 @@ protected:
 
 
 private:
+    class PlayLevel* pPlayLevel = nullptr;
     NumberRenderObject pTimeRender;
     GameEngineRender* pTimeEdgeRender = nullptr;
     Player* pCurPlayer = nullptr;

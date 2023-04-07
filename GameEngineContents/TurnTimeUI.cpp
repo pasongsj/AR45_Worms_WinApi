@@ -32,15 +32,24 @@ void TurnTimeUI::Start()
     pTimeRender.SetAlign(Align::Center);
     pTimeRender.SetValue(static_cast<int>(fTurnTime));
 
+    
     pCurPlayer = GlobalValue::gValue.GetPlayer();
+
+    pPlayLevel = GlobalValue::gValue.GetPlayLevel();
 }
 
 void TurnTimeUI::Update(float _DeltaTime)
 {
+
+    if (0 != pPlayLevel->GetGameSet())
+    {
+        Death();
+    }
+
     if (pCurPlayer != GlobalValue::gValue.GetPlayer())
     {
         pCurPlayer = GlobalValue::gValue.GetPlayer();
-        fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
+        fTurnTime = pPlayLevel->GetLevelSetting().fTime;
         IsFire = false;
         return;
     }
@@ -63,7 +72,7 @@ void TurnTimeUI::Update(float _DeltaTime)
     if (fTurnTime <= 0.f)
     {
         GlobalValue::gValue.GetPlayer()->SetIsMyTurn(false);
-        fTurnTime = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().fTime;
+        fTurnTime = pPlayLevel->GetLevelSetting().fTime;
         return;
     }
 

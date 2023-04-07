@@ -22,6 +22,7 @@ protected:
     void Update(float _Deltatime) override;
 
 private:
+    class PlayLevel* pPlayLevel= nullptr;
     GameEngineRender* pLAnim = nullptr;
     GameEngineRender* pRAnim = nullptr;
     GameEngineRender* pLWindBarHide = nullptr;
