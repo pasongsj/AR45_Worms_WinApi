@@ -841,7 +841,11 @@ void PlayLevel::PlayerChange(float _DeltaTime)
         CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
         PrevCamPos = GetCameraPos();
 
-        AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
+        if (0==GetGameSet())
+        {
+            AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
+        }
+        
         bCamMove = true;
     }
 
