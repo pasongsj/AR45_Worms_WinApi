@@ -297,40 +297,43 @@ float4 Weapon::CheckCollisionSide(GameEngineCollision* _Col)
 
 float4 Weapon::Check4Side(GameEngineCollision* _Col, float4 _NextPos)
 {
-    // 맵 밖으로 나갔는지 체크
-    float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
-    if (!(-640 <= _Pos.x && _Pos.x < 5600 && -743 <= _Pos.y && _Pos.y < 1300))
+    if (WeaponNumber != static_cast<int>(WeaponNum::Donkey))
     {
-        Timer = -1;
-        return float4{1,1,1,1};
-    }
-
-
-	std::vector<GameEngineCollision*> CollisionList;
-
-	if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
-	{
-        /*float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
-        return CheckSide(Range);*/
-        for (int i = 0; i < CollisionList.size(); i++)
+        // 맵 밖으로 나갔는지 체크
+        float4 _Pos = _Col->GetActorPlusPos(); // 값 확인 필요함.
+        if (!(-640 <= _Pos.x && _Pos.x < 5600 && -743 <= _Pos.y && _Pos.y < 1300))
         {
-            Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
-            if (CurPlayer == ColPlayer)
+            Timer = -1;
+            return float4{ 1,1,1,1 };
+        }
+
+
+        std::vector<GameEngineCollision*> CollisionList;
+
+        if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Player), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+        {
+            /*float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
+            return CheckSide(Range);*/
+            for (int i = 0; i < CollisionList.size(); i++)
             {
-                continue;
+                Player* ColPlayer = dynamic_cast<Player*>(CollisionList[i]->GetActor());
+                if (CurPlayer == ColPlayer)
+                {
+                    continue;
+                }
+                float4 Range = (ColPlayer->GetPos() - GetPos());
+                return CheckSide(Range);
             }
-            float4 Range = (ColPlayer->GetPos() - GetPos());
+
+        }
+
+
+        CollisionList.clear();
+        if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
+        {
+            float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
             return CheckSide(Range);
         }
-            
-	}
-
-
-    CollisionList.clear();
-    if (true == _Col->Collision({ .TargetGroup = static_cast<int>(WormsCollisionOrder::Drum), .TargetColType = CollisionType::CT_CirCle, .ThisColType = CollisionType::CT_CirCle }, CollisionList))
-    {
-        float4 Range = (CollisionList.back()->GetActorPlusPos() - GetPos());
-        return CheckSide(Range);
     }
 
     float4 RetrunValue = float4::Null;

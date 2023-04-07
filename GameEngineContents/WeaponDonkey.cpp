@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "MapModifier.h"
 #include "SmokeSparkEffect.h"
+#include "Player.h"
+
 WeaponDonkey::WeaponDonkey()
 {
 }
@@ -32,7 +34,7 @@ void WeaponDonkey::Start()
 
     DonkeyInit();
     MarkerInit();
-    ExplosionEffectInit(DonkeyCollision->GetScale().ix() + 20);
+    ExplosionEffectInit(DonkeyCollision->GetScale().x + 20);
 
     if (GameEngineInput::IsKey("LeftMouseClick") == false)
     {
@@ -41,6 +43,10 @@ void WeaponDonkey::Start()
 }
 void WeaponDonkey::Update(float _DeltaTime)
 {
+    if (nullptr == CurPlayer)
+    {
+        SetCurPlayer();
+    }
     if (false == isFire)
     {
         if (GameEngineInput::IsDown("LeftMouseClick") == true)
@@ -59,6 +65,7 @@ void WeaponDonkey::Update(float _DeltaTime)
 
     else // true == isFire
     {
+        //CurPlayer->ChangePlayerAnimation("Idle");
         Firing(_DeltaTime);
     }
 
@@ -96,7 +103,7 @@ void WeaponDonkey::Firing(float _DeltaTime)
 
         SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();
         Smoke->SetPos(DonkeyCollision->GetActorPlusPos() + float4(0, 120));
-        Smoke->CreateSmokeSpark(18, 0, DonkeyCollision->GetScale().ix(), 2.0f);
+        Smoke->CreateSmokeSpark(18, 0, DonkeyCollision->GetScale().x, 2.0f);
 
         // Poot 애니메이션
         ExplosionCircle->SetPosition(DonkeyCollision->GetPosition() + float4(0, 120));
