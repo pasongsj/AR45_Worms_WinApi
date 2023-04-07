@@ -3,6 +3,9 @@
 
 #include "Weapon.h"
 
+#include <GameEngineCore/GameEngineResources.h>
+
+class GameEngineSoundPlayer;
 class MapModifier;
 class WeaponTorch : public Weapon
 {
@@ -48,6 +51,9 @@ private:
     int AniIndex = 0;
     float AniTimeCount = 0.0f;
 
+    float SoundTimeCount = 0.0f;
+
+    GameEngineSoundPlayer TorchSound;
     GameEngineCollision* HoleCollision = nullptr;
 };
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "Weapon.h"
 
+#include <GameEngineCore/GameEngineResources.h>
+
 class MapModifier;
 class WeaponDrill : public Weapon
 {
@@ -42,6 +44,7 @@ private:
 
     float4 StartPos = { 0,0 };
 
+    GameEngineSoundPlayer DrillSound;
     GameEngineCollision* HoleCollision = nullptr;
 };
 

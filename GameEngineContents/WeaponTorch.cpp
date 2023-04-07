@@ -8,6 +8,7 @@
 
 #include <GameEnginePlatform/GameEngineImage.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -33,6 +34,8 @@ void WeaponTorch::Update(float _DeltaTime)
     if (GameEngineInput::IsDown("Shoot") == true)
     {
         isAttack = true;
+        TorchSound = GameEngineResources::GetInst().SoundPlayToControl("TorchFire.wav");
+        TorchSound.PauseOff();
         StartPos = CurPlayer->GetPos();
     }
 
@@ -91,6 +94,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     if (abs(StartPos.y - PlayerPos.y) > 5.0f)
     {
         CurPlayer->ChangePlayerAnimation("TorchOn", 7);
+        TorchSound.PauseOn();
 
         TorchTime = 5.0f;
         isFireEnd = true;
@@ -101,6 +105,7 @@ void WeaponTorch::TorchOn(float _DeltaTime)
 
     if (TorchTime >= 5.0f)
     {
+        TorchSound.PauseOn();
         CurPlayer->ChangePlayerAnimation("TorchOn", 7);
         isFireEnd = true;
         return;
@@ -135,10 +140,13 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     attackTimeCount += TimeCount;
 
     if(attackTimeCount >= 0.5f)
-    {
+    {       
         AttackPlayer(HoleCollision, false);
         attackTimeCount = 0;
     }
+
+    SoundTimeCount = 0.0f;
+
 
     CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);
   

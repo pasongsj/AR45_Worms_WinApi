@@ -34,6 +34,8 @@ void WeaponDrill::Update(float _DeltaTime)
         isAttack = true;
         StartPos = CurPlayer->GetPos();
         CurPlayer->ChangePlayerAnimation("Drillfire");
+        DrillSound = GameEngineResources::GetInst().SoundPlayToControl("DRILLING.WAV");
+        DrillSound.PauseOff();
     }
 
     if (isAttack == true)
@@ -97,17 +99,18 @@ void WeaponDrill::Drilling(float _DeltaTime)
 
     GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());
 
-    if (DrillOnTime >= 4.0f)
+    if (DrillOnTime >= 3.0f)
     {
         isAttack = false;
         isDrillEnd = true;
         CurPlayer->ChangePlayerAnimation("DrillOff");
+        DrillSound.PauseOn();
         return;
     }
 
     DrillCycleTime += TimeCount;
 
-    if (DrillCycleTime >= 0.2f)
+    if (DrillCycleTime >= 0.1f)
     {
         DrillCycleTime = 0.0f;
         float4 HolePos = { StartPos.x, CurPlayer->GetPos().y};

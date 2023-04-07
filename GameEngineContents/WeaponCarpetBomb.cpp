@@ -112,6 +112,14 @@ void WeaponCarpetBomb::CarpetInit()
 
     SetCurPlayer();
 
+    MinDmg = 10;
+    MaxDmg = 25;
+
+    MinKnockBackPower = 10.0f;
+    MaxKnockBackPower = 20.0f;
+
+    BombScale = 100.0f;
+
     std::string Name = Map::MainMap->GetColMapName();
     MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
@@ -268,6 +276,7 @@ void WeaponCarpetBomb::DropCarpet(float _DeltaTime)
         if(CheckCollision(CarpetList[i]->CarpetCollision) == true)
         {
             Explosion(CarpetList[i]);
+            DamageToPlayer(i);
         }
     }
 
@@ -315,7 +324,7 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
 
     else if (_Carpet->BounceCount == 1)
     {
-        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100);
+        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), BombScale);
 
         _Carpet->CarpetRender->Off();
         _Carpet->CarpetCollision->Off();
@@ -333,7 +342,7 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
         float RandomXdir = GameEngineRandom::MainRandom.RandomFloat(-0.5, 0.5);
         float RandomYdir = GameEngineRandom::MainRandom.RandomFloat(-1.0, 0.0);
 
-        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), 100);
+        MapModifier::MainModifier->CreateHole(_Carpet->CarpetCollision->GetActorPlusPos(), BombScale);
         _Carpet->MoveDir = -_Carpet->RotDir + float4{ RandomXdir , RandomYdir };
         Dir.Normalize();
 
@@ -389,4 +398,13 @@ void WeaponCarpetBomb::CameraUpdate()
     {
         GetLevel()->SetCameraPos(CarpetList[2]->CarpetRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half());
     }
+}
+
+void WeaponCarpetBomb::DamageToPlayer(int _Index)
+{
+    GameEngineCollision* HoleCollision = CreateCollision(WormsCollisionOrder::Weapon);
+    HoleCollision->SetScale({ BombScale, BombScale });
+    HoleCollision->SetPosition(CarpetList[_Index]->CarpetCollision->GetActorPlusPos());
+
+    AttackPlayer(HoleCollision);
 }

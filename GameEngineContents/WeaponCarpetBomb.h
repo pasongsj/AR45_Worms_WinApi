@@ -52,6 +52,7 @@ private:
     void ExplosionAnimation(float4 _Pos);
     void CameraUpdate();
     void Timer();
+    void DamageToPlayer(int _Index);
 
     std::vector<Carpet*> CarpetList;
 
