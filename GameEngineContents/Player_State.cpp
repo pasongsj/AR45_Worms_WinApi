@@ -1072,7 +1072,10 @@ void Player::AngryStart()
     {
         DisplayDamageUI(static_cast<float>(DamagedValue));
 
-        PlayerHP -= DamagedValue;
+        if (true != PowerOverwhelming)
+        {
+            PlayerHP -= DamagedValue;
+        }
         DamagedValue = 0;
     }
     else

@@ -36,6 +36,12 @@ void Player::Start()
 	AnimationRender->SetPosition({ 0, -10 });
     CreateAnimation();
 
+    PORender = CreateRender(WormsRenderOrder::UI);
+    PORender->SetImage("PowerOverwhelming.bmp");
+    PORender->SetPosition({ -35, -55 });
+    PORender->SetScaleToImage();
+    PORender->Off();
+
 	//콜리전
 	{
 		BodyCollision = CreateCollision(WormsCollisionOrder::Player);
@@ -51,10 +57,10 @@ void Player::Start()
 		GameEngineInput::CreateKey("MoveLeft", 'A');
 		GameEngineInput::CreateKey("Jump", 'K');
 
-		GameEngineInput::CreateKey("TestButton", 'M');
+        //테스트
+		GameEngineInput::CreateKey("InstantKill", 'M');
+        GameEngineInput::CreateKey("PowerOverwhelming", 'B');
 	}
-
-    
 
     SetWeaponCount();
 
@@ -112,26 +118,24 @@ void Player::SetColImage(const std::string_view& _Name)
 
 void Player::Test()
 {
-	if (GameEngineInput::IsDown("TestButton") && IsMyTurn == true)
+	if (GameEngineInput::IsDown("InstantKill") && IsMyTurn == true) // 즉사
 	{
-        float4 TestDir = float4::Up;
-        if (GameEngineInput::IsPress("MoveRight") == true)
+        Damaged(PlayerHP);
+	}
+
+    if (GameEngineInput::IsDown("PowerOverwhelming") && IsMyTurn == true) // HP 치트
+    {
+        PowerOverwhelming = !PowerOverwhelming;
+
+        if (PowerOverwhelming)
         {
-            TestDir += float4::Right;
+            PORender->On();
         }
         else
         {
-            TestDir += float4::Left;
+            PORender->Off();
         }
-
-        float Power = 400.0f;
-
-		//Damaged(1, TestDir, Power);
-        //Damaged(99);
-        //ChangeState(PlayerState::Win);
-
-        //UsingHealkit(50);
-	}
+    }
 }
 
 //void Player::CheckAlive()

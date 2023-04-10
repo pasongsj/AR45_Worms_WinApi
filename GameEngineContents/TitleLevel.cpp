@@ -662,6 +662,10 @@ void TitleLevel::Loading()
 
             //캐릭터 체력 백그라운드 이미지
             GameEngineImage* PlayerHPBackgroundImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PlayerHPBackground.bmp"));
+
+            //캐릭터 무적 이미지
+            GameEngineImage* PlayerPowerOverwhelmingImage = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PowerOverwhelming.bmp"));
+
             Dir.MoveParent();
         }
         Dir.MoveParent();

@@ -1264,6 +1264,7 @@ void PlayLevel::Update(float _DeltaTime)
     if (GameEngineInput::IsDown("SetPos"))
     {
         GlobalValue::gValue.GetPlayer()->SetPos(GetMousePosToCamera());
+        GlobalValue::gValue.GetPlayer()->SetPlayerState(PlayerState::IDLE);
     }
     if (GameEngineInput::IsDown("DebugTextMode"))
     {

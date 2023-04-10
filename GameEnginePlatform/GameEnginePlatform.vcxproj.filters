@@ -35,6 +35,33 @@
     <ClInclude Include="ThirdParty\FMOD\inc\fmod_output.h">
       <Filter>ThirdParty\FMOD\Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineActor.h">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineComponent.h">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineLevel.h">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineObject.h">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineRender.h">
+      <Filter>ThirdParty\FMOD\Header\Object\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineCollision.h">
+      <Filter>ThirdParty\FMOD\Header\Object\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\Button.h">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\GameEngineTileMap.h">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineCore\NumberRenderObject.h">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\SubClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineWindow.cpp" />
@@ -46,6 +73,33 @@
     </ClCompile>
     <ClCompile Include="GameEngineSound.cpp">
       <Filter>Resources\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineActor.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineComponent.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineLevel.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineObject.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineRender.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineCollision.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\Button.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\GameEngineTileMap.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameEngineCore\NumberRenderObject.cpp">
+      <Filter>ThirdParty\FMOD\Header\Object\BasicContents\SubClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +126,24 @@
     </Filter>
     <Filter Include="ThirdParty\FMOD\bin">
       <UniqueIdentifier>{3eb608e5-2383-4cfb-b7a5-3b1572654fb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object">
+      <UniqueIdentifier>{d807700c-e139-41ed-9f83-f273962026f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object\Rendering">
+      <UniqueIdentifier>{17d66bab-4087-412e-923a-6df4d9b33bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object\Collision">
+      <UniqueIdentifier>{9424e47b-6d85-48b6-a610-9bdabb94b3ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object\BasicContents">
+      <UniqueIdentifier>{f8f874f6-1f0d-4323-8e61-eef640700ec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object\BasicContents\Actor">
+      <UniqueIdentifier>{ddc1a5df-2dd6-43ba-8427-3fc9eac48016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Header\Object\BasicContents\SubClass">
+      <UniqueIdentifier>{abcf9863-2b8c-4ba8-b43c-c76fa28c4cbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -172,6 +172,9 @@ private:
     void RandomDamagedSound();
 
     //플레이어 스테이터스 관련 (HP,움직일 수 있는지,생존여부)
+    GameEngineRender* PORender = nullptr; // 무적 이미지 렌더
+    bool PowerOverwhelming = false;       // 무적 여부
+
     bool CanIMove = true;
     int PlayerHP = 100;
     int MaxHP = 100;
