@@ -151,6 +151,8 @@ void WeaponAirStrike::AirPlaneMove(float _DeltaTime)
 
     if (GameEngineInput::IsDown("Shoot") == true)
     {
+        CurPlayer->SetCanIMove(false);
+
         Airplane->On();
         Marker->Off();
 

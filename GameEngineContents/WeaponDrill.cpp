@@ -95,6 +95,8 @@ void WeaponDrill::Drilling(float _DeltaTime)
 {
     isFire = true;
 
+    CurPlayer->SetCanIMove(false);
+
     DrillOnTime += TimeCount;
 
     GetLevel()->SetCameraPos(CurPlayer->GetPos() - GameEngineWindow::GetScreenSize().half());

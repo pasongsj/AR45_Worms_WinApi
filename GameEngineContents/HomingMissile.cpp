@@ -460,6 +460,8 @@ void HomingMissile::Charging()
 {
     if (GameEngineInput::IsPress("Shoot") == true)
     {
+        CurPlayer->SetCanIMove(false);
+
         isChargingStart = true;
 
         ChargingRenderOn();

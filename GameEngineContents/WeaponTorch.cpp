@@ -90,6 +90,7 @@ void WeaponTorch::TorchInit()
 void WeaponTorch::TorchOn(float _DeltaTime)
 {
     float4 PlayerPos = CurPlayer->GetPos();
+    CurPlayer->SetCanIMove(false);
 
     if (abs(StartPos.y - PlayerPos.y) > 5.0f)
     {
@@ -146,7 +147,6 @@ void WeaponTorch::TorchOn(float _DeltaTime)
     }
 
     SoundTimeCount = 0.0f;
-
 
     CurPlayer->SetMove(Dir * 25.0f * _DeltaTime);
   

@@ -42,6 +42,7 @@ void WeaponSheep::Update(float _DeltaTime)
 	if (GameEngineInput::IsDown("Shoot") == true && isShoot == false)
 	{
 		isShoot = true;
+        CurPlayer->SetCanIMove(false);
         GameEngineResources::GetInst().SoundPlay("Sheep.wav");
 	}
 

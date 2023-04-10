@@ -410,6 +410,8 @@ void WeaponBazooka::ChargingRenderOn()
         return;
     }
 
+    CurPlayer->SetCanIMove(false);
+
 	float4 PlayerPos = CurPlayer->GetPos();
 
 	float4 StartPos = PlayerPos + float4{ ShootDir.x * 5, ShootDir.y * 5 } + float4{ 0, -8 };
