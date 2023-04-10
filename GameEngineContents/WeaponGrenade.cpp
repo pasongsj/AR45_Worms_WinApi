@@ -23,7 +23,7 @@ void WeaponGrenade::Start()
     // 수류탄 기본 설정 -- 상수값 조정 필요
     MoveSpeed = 1200; // 임시값
     Gravity = 2;// 임시값
-    Timer = 2.0f;// 임시값
+    Timer = 1.5f;// 임시값
     WeaponName = "Grenade";
     BombScale = 147;
 

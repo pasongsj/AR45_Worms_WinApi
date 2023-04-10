@@ -41,7 +41,7 @@ void WeaponFirePunch::Start()
     MapCollision = GameEngineResources::GetInst().ImageFind(Name);
     PunchCollision = CreateCollision(WormsCollisionOrder::Weapon);
     PunchCollision->SetPosition({ 0,50 });
-    PunchCollision->SetScale({ 30,30 });
+    PunchCollision->SetScale({ 50,50 });
 
     Timer = 0.45f;								// 타이머
 }
@@ -73,6 +73,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 StartPos = CurPlayer->GetPos();
                 SetPos(StartPos);
                 GameEngineResources::GetInst().SoundPlay("DRAGONPUNCH.wav");
+                PunchCollision->SetMove(CurPlayer->GetPlayerDir() * 10);
             }
             else if (true == PressShoot() && GetChargeTime() > 0.6f)
             {
@@ -97,6 +98,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                     PunchCollision->SetMove(Dir * _DeltaTime * 300.0f);
                 }
                 CurPlayer->SetPos(StartPos); // 플레이어 이동
+                
                 //PunchCollision->SetPosition(StartPos - GetPos() + float4{0,50});
 
                 if (EffectTimer < 0) // - 수정필요 스모크 대신 이펙트로 변경 필요함
