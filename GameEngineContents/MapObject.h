@@ -21,6 +21,7 @@ public:
 
     void SetColImage();
 
+
 protected:
     int Blue = RGB(0, 0, 255);
     int Magenta = RGB(255, 0, 255);
@@ -41,6 +42,5 @@ protected:
     bool IsGroundCheck();                                          //현재 있는 위치가 땅인지 확인하는 함수
     bool IsUnderWaterCheck();                                      //바다 위치 체크
 private:
-   
 };
 

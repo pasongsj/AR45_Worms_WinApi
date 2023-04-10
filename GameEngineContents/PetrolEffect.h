@@ -1,8 +1,8 @@
 #pragma once
-#include "MapObject.h"
+#include "Drum.h"
 
 // Ό³Έν : Oil Effect
-class PetrolEffect :public MapObject
+class PetrolEffect :public Drum
 {
 public:
 	// constrcuter destructer
@@ -26,7 +26,6 @@ protected:
 private:
     bool IsGravityOff = false;
     bool IsJump = false;
-    bool IsWindEffectEnd = false;
     bool IsBlowOut = false;
   
     float JumpPower = -150.0f;
@@ -38,7 +37,9 @@ private:
     float4 MoveDir = float4::Zero;
 
     GameEngineRender* PetrolRender = nullptr;
+    GameEngineRender* PetrolRender2 = nullptr;
     GameEngineCollision* PetrolCol = nullptr;
+
 
     bool IsGroundCheck(float4 _Pos);
 

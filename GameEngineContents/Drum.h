@@ -4,6 +4,9 @@
 // 설명 :
 class Drum : public MapObject
 {
+ public:
+    static bool EffectEnd;
+    static int Count;
 public:
 	// constrcuter destructer
 	Drum();
@@ -26,14 +29,14 @@ protected:
 
 private:
     bool IsExplosion = false;
-    bool IsPetrolEffectEnd = false;
-  
+    bool IsPetrolEffectOn = false;
+    bool IsSoundOn = false;
 
     int Gauge = 150;
     int BombScale = 100;
     int NumOfPetrol = 0;                          //생성할 오일 입자 수
 
-    //수치조정 필요
+    float SoundWaitTime = 1.0f;
     float RangeX = 70.0f;                         //생성할 오일 입자의 x값 범위
     float MaxDmg = 50;
     float MinDmg = 20;
@@ -44,7 +47,6 @@ private:
     GameEngineRender* ExplosionCircle = nullptr;
     GameEngineRender* ExplosionElipse = nullptr;
     GameEngineRender* PootTextAnimation = nullptr;
-
     
     void HitWeaponCheck();                          //Weapon의 폭발 영향권에 있을때 드럼통에 영향 적용
     void HitPlayerCheck();                          //플레이어와 충돌한 Modifier충돌체를 받아서 넘김

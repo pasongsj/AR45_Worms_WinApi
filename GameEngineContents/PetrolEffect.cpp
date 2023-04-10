@@ -1,7 +1,8 @@
 #include "PetrolEffect.h"
-#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "GlobalValue.h"
 #include "MapModifier.h"
 #include "Drum.h"
@@ -24,10 +25,16 @@ void PetrolEffect::Start()
     PetrolRender->SetScale({ 45, 45 });
 
     PetrolRender->CreateAnimation({ .AnimationName = "petrol_40", .ImageName = "petrol40.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
-    PetrolRender->CreateAnimation({ .AnimationName = "petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
-
     PetrolRender->ChangeAnimation("petrol_40");
-   
+
+    PetrolRender2 = CreateRender(static_cast<int>(WormsRenderOrder::Petrol));
+    PetrolRender2->SetPosition(GetPos());
+    PetrolRender2->SetScale({ 40, 40 });
+
+    PetrolRender2->CreateAnimation({ .AnimationName = "petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
+    PetrolRender2->ChangeAnimation("petrol_30");
+
+    PetrolRender2->Off();
 
     PetrolCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Petrol));
     PetrolCol->SetScale({ 10, 10 });
@@ -68,10 +75,16 @@ void PetrolEffect::Update(float _DeltaTime)
     {
         WaitTime -= _DeltaTime;
 
-        if (false  == IsBlowOut && 0.9f >= LiveTime)
+        if (false == Drum::EffectEnd)
+        {
+            Drum::EffectEnd = true;
+        }
+
+        if (false  == IsBlowOut && 0.9f >= LiveTime)                    //더 작은 입자로 교체
         {
             IsBlowOut = true;
-            PetrolRender->ChangeAnimation("petrol_30");
+            PetrolRender2->On();
+            PetrolRender->Off();
         }
 
         if (0.0f >= WaitTime)
@@ -86,6 +99,7 @@ void PetrolEffect::Update(float _DeltaTime)
 
     if (0.0f >= LiveTime)
     {
+        ++Drum::Count;
         Death();
     }
 }

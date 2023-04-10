@@ -105,3 +105,4 @@ bool MapObject::IsUnderWaterCheck()
     }
     return false;
 }
+

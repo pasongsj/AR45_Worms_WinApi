@@ -2,6 +2,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "GlobalValue.h"
 #include "Map.h"
 #include "Player.h"
@@ -45,11 +46,16 @@ void Medikit::Start()
 
 void Medikit::Update(float _DeltaTime)
 {
+    if (false == IsPlaySound)
+    {
+        GameEngineResources::GetInst().SoundPlay("Airstrike.wav");
+        IsPlaySound = true;
+    }
+
     if (true == IsWindApplied() && false == IsChangedAnim)             //처음 공중에서 낙하할 때, 낙하산 애니메이션 적용(1회)
     {
         //공중에 있는 동안은 바람의 영향을 받아야 함
         MoveDir.x += static_cast<float>(GlobalValue::gValue.GetWindPhase());
-
         DirCheck("Medikit_Flying");                                   //wind의 방향에 맞게 애니메이션 교체해야 함
     }
 

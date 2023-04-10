@@ -21,8 +21,9 @@ protected:
 
 private:
     bool IsChangedAnim = false;                                //처음 생성되서 낙하산으로 하강하고 땅에 닿았다면 그 이후로는 애니메이션을 변경하지 않음
+    bool IsPlaySound = false;
 
-    int Recovery = 50;
+    int Recovery = 70;
 
     std::string DirString = "Right_";                          //낙하할 때 방향
 

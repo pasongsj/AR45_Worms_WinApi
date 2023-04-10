@@ -12,6 +12,9 @@
 #include "Player.h"
 #include "Weapon.h"
 
+bool Drum::EffectEnd = false;
+int Drum::Count = 0;
+
 Drum::Drum()
 {
 }
@@ -58,12 +61,27 @@ void Drum::Update(float _DeltaTime)
        Explosion();
     }
    
-    if (true == IsExplosion)
-    {
+    if (true == IsExplosion && false == IsPetrolEffectOn)
+    { 
+        IsPetrolEffectOn = true;
+        MapObjCol->Off();
         CreatePetrol(30);
-
-        Death();                                                       //Petrol 입자를 생성하고 난 뒤, 더이상 드럼통은 필요없으므로 제거
     }
+
+    //if (true == EffectEnd && false == IsSoundOn)
+    //{
+    //   IsSoundOn == true;
+    //   GameEngineResources::GetInst().SoundPlay("SIZZLE.WAV");
+    //}
+
+    if (30 == Count)
+    {
+        Count = 0;
+        EffectEnd = false;
+        IsSoundOn = false;
+        Death();
+    }
+
 
     if (true == IsUnderWaterCheck())                                   //바다에 빠지면 액터 제거
     {
