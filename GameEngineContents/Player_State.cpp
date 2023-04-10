@@ -698,6 +698,7 @@ void Player::FlyDownEnd()
 
 void Player::FacePlantStart()
 {
+    MoveDir = float4::Zero;
 
     if (LobbyChangePlay::test == true)
     {

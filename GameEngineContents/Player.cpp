@@ -39,7 +39,8 @@ void Player::Start()
     PORender = CreateRender(WormsRenderOrder::UI);
     PORender->SetImage("PowerOverwhelming.bmp");
     PORender->SetPosition({ -35, -55 });
-    PORender->SetScaleToImage();
+    PORender->SetScale({ 24, 24 });
+
     PORender->Off();
 
 	//ÄÝ¸®Àü
