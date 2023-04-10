@@ -1,13 +1,15 @@
 #include "WeaponFirePunch.h"
-#include "ContentsEnums.h"
-#include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineLevel.h>
+
+#include "ContentsEnums.h"
 #include "Player.h"
 #include "SmokeSparkEffect.h"
 #include "MapModifier.h"
 #include "SmokeSparkEffect.h"
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineBase/GameEngineRandom.h>
+#include "Map.h"
 
 WeaponFirePunch::WeaponFirePunch()
 {
@@ -35,7 +37,8 @@ void WeaponFirePunch::Start()
     WeaponNumber = static_cast<int>(WeaponNum::FirePunch);							// 무기 이름에 해당하는 Number
     WeaponName = "FirePunch";							// 무기 이름
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp");		//충돌맵
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
     PunchCollision = CreateCollision(WormsCollisionOrder::Weapon);
     PunchCollision->SetPosition({ 0,50 });
     PunchCollision->SetScale({ 30,30 });
@@ -69,6 +72,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 isFire = true;
                 StartPos = CurPlayer->GetPos();
                 SetPos(StartPos);
+                GameEngineResources::GetInst().SoundPlay("DRAGONPUNCH.wav");
             }
             else if (true == PressShoot() && GetChargeTime() > 0.6f)
             {
@@ -114,6 +118,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                     StarSmoke->CreateAnimation({ .AnimationName = "Hit", .ImageName = "firehit.bmp", .Start = 0, .End = 8, .InterTime = 0.1f , .Loop = false });
                     StarSmoke->ChangeAnimation("Hit");
                     HitTimer = 0.1f;
+                    GameEngineResources::GetInst().SoundPlay("FirePunchImpact.wav");
                 }
 
                 MapModifier::MainModifier->CreateHole(StartPos + float4(0,-20), static_cast<int>(BombScale));                                         //4. createHole

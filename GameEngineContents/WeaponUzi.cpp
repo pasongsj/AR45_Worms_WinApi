@@ -1,14 +1,15 @@
 #include "WeaponUzi.h"
-#include "ContentsEnums.h"
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineBase/GameEngineRandom.h>
 
+#include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "Player.h"
 #include "SmokeSparkEffect.h"
+#include "Map.h"
 
 WeaponUzi::WeaponUzi()
 {
@@ -31,7 +32,8 @@ void WeaponUzi::Start()
     MaxKnockBackPower = 40;
     MinKnockBackPower = 22;
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
 	//AllWeapons[WeaponName] = this;
 	WeaponNumber = static_cast<int>(WeaponNum::Uzi);
@@ -130,6 +132,7 @@ void WeaponUzi::CheckFiring()
         isFire = true;
         AimingLine->Off();
         CurPlayer->ChangePlayerAnimation("UziFire", static_cast<int>(AimIndex));
+        GameEngineResources::GetInst().SoundPlayToControl("UZIFIRE.wav").LoopCount(5);
     }
 }
 
@@ -212,7 +215,6 @@ void WeaponUzi::Firing(float _DeltaTime)
 
                 AttackPlayerGun(UziCollision[i], 500);																				  // 3. Bomb콜리전 Player Check
                 MapModifier::MainModifier->CreateHole(GetPos() + UziCollision[i]->GetPosition(), static_cast<int>(BombScale));					  // 4. 구멍 만들기
-
                 UziCollision[i]->Off(); // 발사가 끝난 총탄 콜리전
                 isExplosion = true;
             }

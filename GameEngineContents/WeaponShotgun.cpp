@@ -1,14 +1,14 @@
 #include "WeaponShotgun.h"
-#include "ContentsEnums.h"
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 
-
+#include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "Player.h"
 #include "SmokeSparkEffect.h"
+#include "Map.h"
 
 WeaponShotgun::WeaponShotgun()
 {
@@ -31,7 +31,8 @@ void WeaponShotgun::Start()
     MaxKnockBackPower = 97;
     MinKnockBackPower = 22;
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
 	WeaponNumber = static_cast<int>(WeaponNum::Shotgun);
 
@@ -149,6 +150,7 @@ void WeaponShotgun::CheckFiring()
 				isFire = true;
                 isExplosion = false;
                 LoadDelay = 0.5f;
+                GameEngineResources::GetInst().SoundPlay("SHOTGUNRELOAD.wav");
                 break;
 			}
 		}
@@ -208,6 +210,7 @@ void WeaponShotgun::Firing(float _DeltaTime)
 
                 }
                 WaitingTime = GetLiveTime() + 1.5f;
+                GameEngineResources::GetInst().SoundPlay("ShotGunFire.wav");
             }
         }
     }

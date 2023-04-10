@@ -1,11 +1,13 @@
 #include "WeaponDonkey.h"
-#include "ContentsEnums.h"
-#include <GameEngineCore/GameEngineResources.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
+
+#include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "SmokeSparkEffect.h"
 #include "Player.h"
+#include "Map.h"
 
 WeaponDonkey::WeaponDonkey()
 {
@@ -21,14 +23,9 @@ void WeaponDonkey::Start()
     Gravity = 4.0f;
     MoveSpeed = 1000;
     Dir = float4::Down;
-    //BombScale = 22;
 
-    //MaxDmg = 10;
-    //MinDmg = 3;
-    //MaxKnockBackPower = 22;
-    //MinKnockBackPower = 22;
-
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 
     WeaponNumber = static_cast<int>(WeaponNum::Donkey);
 
@@ -60,6 +57,7 @@ void WeaponDonkey::Update(float _DeltaTime)
             DonkeyCollision->On();
             Marker->Off();
             isFire = true;
+            GameEngineResources::GetInst().SoundPlay("HOLYDONKEY.wav");
         }
     }
 
@@ -73,8 +71,8 @@ void WeaponDonkey::Update(float _DeltaTime)
 
 void WeaponDonkey::Firing(float _DeltaTime)
 {
-    /*float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), DonkeyRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
-    GetLevel()->SetCameraPos(CamPos);*/
+    float4 CamPos = float4::Zero.Lerp(GetLevel()->GetCameraPos(), DonkeyRender->GetActorPlusPos() - GameEngineWindow::GetScreenSize().half(), _DeltaTime * 100);
+    GetLevel()->SetCameraPos(CamPos);
 
     CheckAnimationDone();
     Dir.y += Gravity * _DeltaTime;
@@ -87,6 +85,7 @@ void WeaponDonkey::Firing(float _DeltaTime)
     {
         if (DonkeyRender->GetActorPlusPos().y > 1600)
         {
+            GameEngineResources::GetInst().SoundPlay("Drowning.wav");
             isWeaponDone = true;
         }
         return;
@@ -99,6 +98,7 @@ void WeaponDonkey::Firing(float _DeltaTime)
 
         MapModifier::MainModifier->CreateRect(DonkeyCollision->GetActorPlusPos(), DonkeyCollision->GetScale().ix()+ 10, DonkeyCollision->GetScale().iy()+20);
         MapModifier::MainModifier->CreateHole(DonkeyCollision->GetActorPlusPos() + float4(0,120), DonkeyCollision->GetScale().ix() + 20);
+        GameEngineResources::GetInst().SoundPlay("Explosion3.wav");
         
 
         SmokeSparkEffect* Smoke = GetLevel()->CreateActor<SmokeSparkEffect>();

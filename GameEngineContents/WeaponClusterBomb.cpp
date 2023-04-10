@@ -1,12 +1,13 @@
 #include "WeaponClusterBomb.h"
+#include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineLevel.h>
 #include "Player.h"
 #include "MapModifier.h"
 #include "ContentsEnums.h"
-#include <GameEngineCore/GameEngineResources.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineBase/GameEngineRandom.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 #include "GlobalValue.h"
+#include "Map.h"
 
 WeaponClusterBomb::WeaponClusterBomb()
 {
@@ -31,7 +32,8 @@ void WeaponClusterBomb::Start()
     MinKnockBackPower = 70;
     WeaponName = "ClusterBomb";
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
     WeaponNumber = static_cast<int>(WeaponNum::ClusterBomb);
 
     // 터지는 애니메이션 랜더
@@ -203,6 +205,8 @@ void WeaponClusterBomb::Aiming(float _DeltaTime)
                 ChargeAnimation->ChangeAnimation("Charge", 0);
                 ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
                 isPress = true;
+                GameEngineResources::GetInst().SoundPlay("Charging.wav");
+                GameEngineResources::GetInst().SoundPlay("WATCHTHIS.wav");
             }
             SetCharge();// 차징포인트 계산
         }
@@ -221,6 +225,7 @@ void WeaponClusterBomb::Aiming(float _DeltaTime)
             // 타이머랜더
             TimerRenderBack->On();
             TimerRender.On();
+            GameEngineResources::GetInst().SoundPlay("THROWRELEASE.wav");
         }
 
     }
@@ -299,6 +304,7 @@ void WeaponClusterBomb::ClusterFiring(float _DeltaTime)
             MapModifier::MainModifier->CreateHole(ClusterCollision[i]->GetActorPlusPos(), static_cast<int>(BombScale));
             ClusterRender[i]->Off();
             ClusterCollision[i]->Off();
+            GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
         }
 
     }
@@ -443,6 +449,8 @@ void WeaponClusterBomb::CheckTimer(float _DeltaTime)
 
         ClusterOn(WeaponRender->GetPosition());
         isClusterFire = true;
+
+        GameEngineResources::GetInst().SoundPlay("Explosion1.wav");
     }
 
 }

@@ -1,13 +1,14 @@
 #include "WeaponMinigun.h"
-#include "ContentsEnums.h"
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineRandom.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEngineBase/GameEngineRandom.h>
+#include "ContentsEnums.h"
 #include "MapModifier.h"
 #include "Player.h"
 #include "SmokeSparkEffect.h"
+#include "Map.h"
 
 WeaponMinigun::WeaponMinigun()
 {
@@ -31,7 +32,8 @@ void WeaponMinigun::Start()
     MaxKnockBackPower = 22;
     MinKnockBackPower = 22;
 
-	MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 수정 필요 : Level or Map엑터에서 가져와야함
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
 	//AllWeapons[WeaponName] = this;
 	WeaponNumber = static_cast<int>(WeaponNum::Minigun);
 
@@ -157,7 +159,7 @@ void WeaponMinigun::CheckFiring()
         isFire = true;
         AimingLine->Off();
         CurPlayer->ChangePlayerAnimation("MinigunFire", static_cast<int>(AimIndex));
-
+        GameEngineResources::GetInst().SoundPlayToControl("MiniGunFire.wav").LoopCount(2);
     }
 
 }

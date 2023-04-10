@@ -1,12 +1,13 @@
 #include "WeaponGrenade.h"
-#include "ContentsEnums.h"
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
-#include <GameEnginePlatform/GameEngineWindow.h>
+#include "ContentsEnums.h"
 #include "Player.h"
 #include "MapModifier.h"
 #include "GlobalValue.h"
+#include "Map.h"
 
 
 WeaponGrenade::WeaponGrenade()
@@ -32,7 +33,8 @@ void WeaponGrenade::Start()
     MaxKnockBackPower = 294;
     MinKnockBackPower = 146;
 
-    MapCollision = GameEngineResources::GetInst().ImageFind("MapCity_Ground.bmp"); // 이미지 이름 변수or 함수화 필요
+    std::string Name = Map::MainMap->GetColMapName();
+    MapCollision = GameEngineResources::GetInst().ImageFind(Name);
     WeaponNumber = static_cast<int>(WeaponNum::Grenade);
 
 
@@ -148,6 +150,8 @@ void WeaponGrenade::Aiming(float _DeltaTime)
                 ChargeAnimation->ChangeAnimation("Charge", 0);
                 ChargeAnimation->SetAngle(270 - Dir.GetAnagleDeg());
                 isPress = true;
+                GameEngineResources::GetInst().SoundPlay("Charging.wav");
+                GameEngineResources::GetInst().SoundPlay("WATCHTHIS.wav");
             }
             SetCharge();// 차징포인트 계산
         }
@@ -166,6 +170,7 @@ void WeaponGrenade::Aiming(float _DeltaTime)
             // 타이머랜더
             TimerRenderBack->On();
             TimerRender.On();
+            GameEngineResources::GetInst().SoundPlay("THROWRELEASE.wav");
         }
 
     }
@@ -329,6 +334,8 @@ void WeaponGrenade::CheckTimer(float _DeltaTime)
         WeaponCollision->Off();
         NextPosCheckCollision->Off();
         WaitTime = GetLiveTime() + 1.5f;
+
+        GameEngineResources::GetInst().SoundPlay("Explosion3.wav");
 
     }
 }
