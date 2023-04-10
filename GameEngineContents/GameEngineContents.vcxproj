@@ -60,6 +60,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayerEsc.h" />
     <ClInclude Include="PlayerGrave.h">
       <SubType>
       </SubType>
@@ -228,6 +229,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerEsc.cpp" />
     <ClCompile Include="PlayerGrave.cpp">
       <SubType>
       </SubType>

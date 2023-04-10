@@ -15,6 +15,8 @@
 #include "GlobalValue.h"
 #include "PlayLevel.h"
 #include "Map.h"
+#include "WormsCore.h"
+bool Lobby::PlayerDeath = false;
 Lobby::Lobby()
 {
 
@@ -34,6 +36,11 @@ void Lobby::Start()
         BackGround = CreateRender("Lobby_Backdrop.bmp", WormsMainTitle::BackGround);
         BackGround->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y });
         BackGround->SetScale({ GameEngineWindow::GetScreenSize().x,GameEngineWindow::GetScreenSize().y });
+
+        BlackBackGround = CreateRender("backGround.bmp", WormsMainTitle::BlackBackGround);
+        BlackBackGround->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y });
+        BlackBackGround->SetScale({ GameEngineWindow::GetScreenSize().x,GameEngineWindow::GetScreenSize().y });
+        BlackBackGround->SetAlpha(255);
 
         MapSelect = CreateRender("MapSelect.bmp", WormsMainTitle::Select);
         MapSelect->SetPosition({ 330,200 });
@@ -366,6 +373,23 @@ void Lobby::Start()
 
 void Lobby::Update(float _DeltaTime)
 {
+    if (check == false)
+    {
+        if (BlackAlpha < 254)
+        {
+            BlackAlpha += 200 * _DeltaTime;
+            BlackBackGround->SetAlpha(255-BlackAlpha);
+        }
+        if (BlackAlpha > 253)
+        {
+           // BlackAlpha += 200 * _DeltaTime;
+            BlackBackGround->SetAlpha(0);
+            check = true;
+        }
+    }
+
+
+
     float RandomX = GameEngineRandom::MainRandom.RandomFloat(-800, 1000);
     float RandomY = GameEngineRandom::MainRandom.RandomFloat(-200, 0);
     Time += GameEngineTime::GlobalTime.GetFloatDeltaTime();
@@ -391,10 +415,15 @@ void Lobby::Update(float _DeltaTime)
             MouseSelect->SetScale({ 392, 126 });
 
             MouseSelect->On();
+           
+
             if (GameEngineInput::IsDown("LeftClock"))
             {
+               
+
                 GameEngineCore::GetInst()->ChangeLevel("Play");
                 GameEngineResources::GetInst().SoundPlay("CursorSelect.wav");
+                            
             }
         }
         else
@@ -682,21 +711,21 @@ void Lobby::Mapchoice()
         Map2->Off();
         Map3->Off();
         Map4->Off();
-        Map::MapMode = 0;
+        Map::MapMode = 1;
         break;
     case 1:
         Map->Off();
         Map2->On();
         Map3->Off();
         Map4->Off();
-        Map::MapMode = 1;
+        Map::MapMode = 2;
         break;
     case 2:
         Map->Off();
         Map2->Off();
         Map3->On();
         Map4->Off();
-        Map::MapMode = 2;
+        Map::MapMode = 0;
         break;
     case 3:
         Map->Off();

@@ -27,6 +27,6 @@ private:
 	// constrcuter destructer
 	WormsCore();
 	~WormsCore();
-
+   
 };
 

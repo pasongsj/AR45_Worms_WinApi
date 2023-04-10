@@ -32,7 +32,7 @@
 #include "WeaponDonkey.h"
 GameEngineLevel* WeaponInterFace::Value;
 WeaponInterFace* WeaponInterFace::Interface;
-
+bool WeaponInterFace::SoundCheck = false;
 int WeaponInterFace::HomingMissileCount = 3;
 int WeaponInterFace::GrenadeCount = 3;
 int WeaponInterFace::ClusterBombCount = 3;
@@ -1027,8 +1027,14 @@ void WeaponInterFace::Update(float _DeltaTime)
 		MoveDir = float4::Right * 300;
 	}
 
-   
-
+    if (GetPos().x > -179)
+    {
+        SoundCheck = false;
+    }
+    if (GetPos().x < -179)
+    {
+        SoundCheck = true;
+    }
 
 	if (GetPos().x < -180 && InterfaceMove == true)
 	{

@@ -33,7 +33,7 @@ public:
     static int TorchCount;
     static int CarpetBomb;
     static int DonkeyCount;
-   
+    static bool SoundCheck;
 protected:
 
 	void Start() override;
@@ -99,4 +99,5 @@ private:
 	float4 MoveDir = float4::Zero;
 	std::vector<Button*> ButtonManager;
 	bool InterfaceMove = true;
+   
 };

@@ -41,6 +41,7 @@ void LobbyChangePlay::Start()
 
 void LobbyChangePlay::Update(float _DeltaTime)
 {
+ 
     if (Animation->IsAnimationEnd())
     {
         AnimationCheck = true;

@@ -2,6 +2,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineContents/WeaponInterFace.h>
 Button::Button() 
 {
 	State = ButtonState::Release;
@@ -112,23 +113,26 @@ void Button::Update(float _DeltaTime)
 	case ButtonState::Hover:
 
 	{
-        Hover = true;
-		float4 MousePoisition = GameEngineWindow::GetMousePosition();
-		float4 ActorPos = ButtonCollision->GetActorPlusPos();
-        ++HoverCount;
-        if (1== HoverCount)
+        if (WeaponInterFace::SoundCheck == true)
         {
-            GameEngineResources::GetInst().SoundPlay("LoadingTick.wav");
-        }
-		
+            Hover = true;
+            float4 MousePoisition = GameEngineWindow::GetMousePosition();
+            float4 ActorPos = ButtonCollision->GetActorPlusPos();
+            ++HoverCount;
+            if (1 == HoverCount)
+            {
+                GameEngineResources::GetInst().SoundPlay("LoadingTick.wav");
+            }
 
-		CurImageName = HoverImageName;
-		ButtonRender->SetImage(HoverImageName);
-		if (-1 != HoverIndex)
-		{
-			ButtonRender->SetFrame(HoverIndex);
-		}
-		ButtonRender->SetScale(Scale);
+
+            CurImageName = HoverImageName;
+            ButtonRender->SetImage(HoverImageName);
+            if (-1 != HoverIndex)
+            {
+                ButtonRender->SetFrame(HoverIndex);
+            }
+            ButtonRender->SetScale(Scale);
+        }
 		break;
 	}
 	default:

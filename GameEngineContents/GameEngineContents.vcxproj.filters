@@ -165,6 +165,7 @@
     <ClCompile Include="PlayerDynamite.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerEsc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GlobalValue.h" />
@@ -323,6 +324,7 @@
     <ClInclude Include="PlayerDynamite.h">
       <Filter>Play\Player</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerEsc.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Play">

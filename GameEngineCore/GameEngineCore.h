@@ -49,7 +49,7 @@ public:
 	{
 		return IsDebugValue;
 	}
-
+   
 protected:
 	template<typename LevelType>
 	void CreateLevel(const std::string_view& _Name) 
@@ -74,12 +74,14 @@ protected:
 	virtual void Start() = 0;
 	virtual void Update() = 0;
 	virtual void End() = 0;
+    std::map<std::string, GameEngineLevel*> Levels;
 
 private:
+    
 	// 그래서 map을 사용한다. 
 	// 레벨이라는것은 장면입니다.
 	// GameEngineLevel을 "어떠한 이름"으로 찾고 이름으로 실행시키고.
-	std::map<std::string, GameEngineLevel*> Levels;
+	
 
 	GameEngineLevel* NextLevel = nullptr;
 

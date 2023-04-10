@@ -1,4 +1,4 @@
-#include "PlayChangeEnding.h"
+#include "PlayerEsc.h"
 #include "ContentsEnums.h"
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -6,40 +6,40 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineCore/GameEngineCore.h>
 
-PlayChangeEnding::PlayChangeEnding()
+bool PlayerEsc::Check = false;
+PlayerEsc::PlayerEsc()
 {
 }
 
-PlayChangeEnding::~PlayChangeEnding()
+PlayerEsc::~PlayerEsc()
 {
 }
 
-void PlayChangeEnding::Start()
+void PlayerEsc::Start()
 {
     BackGround = CreateRender("backGround.bmp", WormsRenderOrder::PlayChange);
     BackGround->SetPosition({ GameEngineWindow::GetScreenSize().half().x,GameEngineWindow::GetScreenSize().half().y });
     BackGround->SetScale(GameEngineWindow::GetScreenSize());
     BackGround->EffectCameraOff();
     BackGround->SetAlpha(0);
+
 }
 
-void PlayChangeEnding::Update(float _DeltaTime)
+void PlayerEsc::Update(float _DeltaTime)
 {
     UpBlackAlpha += 400.0f * _DeltaTime;
 
-    if (UpBlackAlpha < 253.0f )
+    if (UpBlackAlpha < 253.0f)
     {
-       
+
         BackGround->SetAlpha(static_cast<int>(UpBlackAlpha));
 
-       
+
     }
 
-    if (UpBlackAlpha > 253.0f )
+    if (UpBlackAlpha > 253.0f)
     {
-        GameEngineCore::GetInst()->ChangeLevel("Ending");
-        this->Death();
+        Check = true;
     }
-
 
 }

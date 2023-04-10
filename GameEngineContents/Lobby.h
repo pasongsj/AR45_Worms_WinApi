@@ -25,7 +25,7 @@ public:
     void Teleportchoice(); 
     void Playerchoice();
     void Playerdown();
-
+    static bool PlayerDeath;
 protected:
     void Start() override;
     void Update(float _DeltaTime) override;
@@ -36,6 +36,7 @@ protected:
 
 private:
     GameEngineRender* BackGround = nullptr;
+    GameEngineRender* BlackBackGround = nullptr;
     GameEngineRender* MapSelect = nullptr;
     GameEngineRender* Teams = nullptr;
     GameEngineRender* Barracks = nullptr;
@@ -128,9 +129,11 @@ private:
     int PlayerChoice = 0;
     int PlayerDown = 6;
 
+    bool check = false;
     float BlackAlpha = 0;
     float Time = 0;
 
+   
     LevelSetting SetLevel = {};
 
     std::vector<int> vecHoverCheck;
