@@ -932,6 +932,7 @@ void Player::Drowning()
 {
     TurnCheckValue = true;
     IsAlive = false;
+    PlayerHP = 0;
 
     PlaySoundOnce("Drowning.wav");
 
