@@ -55,18 +55,29 @@ void WeaponCarpetBomb::Update(float _DeltaTime)
         Marker->Off();
     }
 
-
     if(ExplosionEndCount < 5)
     {
         Firing(_DeltaTime);
     }
     else if (ExplosionEndCount == 5)
     {
-        TurnChangeCount += TimeCount;
+        CameraWaitCount += TimeCount;
 
-        if(TurnChangeCount >= 1.0f)
+        if (CameraWaitCount >= 1.0f && fLerpRatio < 1)
         {
-            isWeaponDone = true;
+            CurPlayerPos = CurPlayer->GetPos();
+            PrevCamPos = GetLevel()->GetCameraPos();
+            fLerpRatio += _DeltaTime * fLerpSpeed;
+            GetLevel()->SetCameraPos(LerpCamPos.LerpClamp(PrevCamPos, CurPlayerPos - GameEngineWindow::GetScreenSize().half(), fLerpRatio));
+        }
+        else if (fLerpRatio >= 1)
+        {
+            TurnChangeCount += TimeCount;
+
+            if(TurnChangeCount >= 0.5f)
+            {
+                isWeaponDone = true;
+            }
         }
     }
 
@@ -359,9 +370,7 @@ void WeaponCarpetBomb::Explosion(Carpet* _Carpet)
         _Carpet->Gravity = 0.0f;
         _Carpet->BounceCount--;
         _Carpet->MoveSpeed = 400.0f;
-        _Carpet->GravityAccel = 10.0f;
-        //_Carpet->Wind = GlobalValue::gValue.GetWindSpeed();
-        _Carpet->Wind = 120.0f;
+        _Carpet->GravityAccel = 15.0f;
 
         ExplosionAnimation(_Carpet->CarpetRender->GetActorPlusPos());
         GameEngineResources::GetInst().SoundPlay("Explosion1.wav");

@@ -71,7 +71,7 @@ private:
     float TimeCount = 0.0f;
 
     float TurnChangeCount = 0.0f;
-
+    float CameraWaitCount = 0.0f;
     bool isMoveRight = false;
     bool isHideTruck = false;
     bool isCarpetSet = false;

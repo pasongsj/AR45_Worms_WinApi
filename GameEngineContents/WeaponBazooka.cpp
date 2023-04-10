@@ -584,7 +584,7 @@ void WeaponBazooka::CameraUpdate(float _DeltaTime)
     {
         CameraTimeCount += TimeCount;
 
-        if (CameraTimeCount >= 3.0f && fLerpRatio < 1)
+        if (CameraTimeCount >= 1.5f && fLerpRatio < 1)
         {
             CurPlayerPos = CurPlayer->GetPos();
             PrevCamPos = GetLevel()->GetCameraPos();
