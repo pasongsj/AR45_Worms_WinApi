@@ -65,11 +65,14 @@ void Map::Start()
     if (false == GameEngineInput::IsKey("MediKitButton"))
     {
         GameEngineInput::CreateKey("MediKitButton", 'I');
+        GameEngineInput::CreateKey("OilDrumButton", 'O');
     }
 
-    if (false == GameEngineInput::IsKey("OilDrumButton"))
+
+    //CreateHole 사용을 위한 키 생성
+    if (false == GameEngineInput::IsKey("CreateHoleButton"))
     {
-        GameEngineInput::CreateKey("OilDrumButton", 'O');
+        GameEngineInput::CreateKey("CreateHoleButton", 'H');
     }
 
     //MapRender 생성
@@ -174,14 +177,6 @@ void Map::Start()
             Drum3->SetPos({ 710.0f, 100.0f });
         
         }
-
-
-        ////맵에 오일드럼통 5개 미리 배치
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        //    Object->SetPos(Object->GetMapObjPos());
-        //}
     }
 }
 
@@ -201,21 +196,30 @@ void Map::Update(float _DeltaTime)
         WaitTime = 40.0f;
     }
 	
+    if (true == GameEngineInput::IsDown("CreateHoleButton"))
+    {
+        float4 Pos = GetLevel()->GetMousePosToCamera();
+        MapModifier::MainModifier->CreateHole(Pos, 50);
+
+        return;
+    }
+    
+
 
     if (true == GameEngineInput::IsDown("MediKitButton"))
     {
+        float4 Pos = GetLevel()->GetMousePosToCamera();
         Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
-        Object->SetPos(Object->GetMapObjPos());
+        Object->SetPos(Pos);
    
         return;
     }
 
     if (true == GameEngineInput::IsDown("OilDrumButton"))
     {
-        MapModifier::MainModifier->SetModifierColPosition({ 0.0f, 0.0f });
-
+        float4 Pos = GetLevel()->GetMousePosToCamera();
         Drum* Object = GetLevel()->CreateActor<Drum>(WormsRenderOrder::MapObject);
-        Object->SetPos(Object->GetMapObjPos());
+        Object->SetPos(Pos);
 
         return;
     }

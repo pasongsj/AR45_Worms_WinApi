@@ -24,7 +24,10 @@ void PetrolEffect::Start()
     PetrolRender->SetScale({ 45, 45 });
 
     PetrolRender->CreateAnimation({ .AnimationName = "petrol_40", .ImageName = "petrol40.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
+    PetrolRender->CreateAnimation({ .AnimationName = "petrol_30", .ImageName = "petrol30.bmp", .Start = 0, .End = 19, .InterTime = 0.05f });
+
     PetrolRender->ChangeAnimation("petrol_40");
+   
 
     PetrolCol = CreateCollision(static_cast<int>(WormsCollisionOrder::Petrol));
     PetrolCol->SetScale({ 10, 10 });
@@ -64,6 +67,12 @@ void PetrolEffect::Update(float _DeltaTime)
     if (true == IsGroundCheck(GetPos()))
     {
         WaitTime -= _DeltaTime;
+
+        if (false  == IsBlowOut && 0.9f >= LiveTime)
+        {
+            IsBlowOut = true;
+            PetrolRender->ChangeAnimation("petrol_30");
+        }
 
         if (0.0f >= WaitTime)
         {

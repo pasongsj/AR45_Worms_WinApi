@@ -27,6 +27,7 @@ private:
     bool IsGravityOff = false;
     bool IsJump = false;
     bool IsWindEffectEnd = false;
+    bool IsBlowOut = false;
   
     float JumpPower = -150.0f;
     float Gravity = 500.0f;
