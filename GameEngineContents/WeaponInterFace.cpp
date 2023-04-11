@@ -898,7 +898,7 @@ void WeaponInterFace::Start()
     {
         X = CreateRender(WormsRenderOrder::WeaPonUI);
         X->SetImage("X.Bmp");
-        X->SetPosition({ 1440,930 });
+        X->SetPosition({ 1415,930 });
         X->SetScale({ 16,17 });
         X->EffectCameraOff();
         X->Off();
@@ -910,7 +910,7 @@ void WeaponInterFace::Start()
     HomingMissileNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     HomingMissileNumber.SetRenderPos({ 1450,930 });
     HomingMissileNumber.SetCameraEffect(false);
-    HomingMissileNumber.SetAlign(Align::Center);
+    HomingMissileNumber.SetAlign(Align::Right);
     HomingMissileNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[2]);
     HomingMissileNumber.Off();
 
@@ -918,7 +918,7 @@ void WeaponInterFace::Start()
     GrenadeNummber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     GrenadeNummber.SetRenderPos({ 1450,930 });
     GrenadeNummber.SetCameraEffect(false);
-    GrenadeNummber.SetAlign(Align::Center);
+    GrenadeNummber.SetAlign(Align::Right);
     GrenadeNummber.SetValue(CurPlayer->GetPlayerWeaponCount()[3]);
     GrenadeNummber.Off();
 
@@ -927,7 +927,7 @@ void WeaponInterFace::Start()
     ClusterBombNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     ClusterBombNumber.SetRenderPos({ 1450,930 });
     ClusterBombNumber.SetCameraEffect(false);
-    ClusterBombNumber.SetAlign(Align::Center);
+    ClusterBombNumber.SetAlign(Align::Right);
     ClusterBombNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[4]);
     ClusterBombNumber.Off();
 
@@ -937,7 +937,7 @@ void WeaponInterFace::Start()
     ShotgunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     ShotgunNumber.SetRenderPos({ 1450,930 });
     ShotgunNumber.SetCameraEffect(false);
-    ShotgunNumber.SetAlign(Align::Center);
+    ShotgunNumber.SetAlign(Align::Right);
     ShotgunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[5]);
     ShotgunNumber.Off();
 
@@ -945,7 +945,7 @@ void WeaponInterFace::Start()
     HandgunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     HandgunNumber.SetRenderPos({ 1450,930 });
     HandgunNumber.SetCameraEffect(false);
-    HandgunNumber.SetAlign(Align::Center);
+    HandgunNumber.SetAlign(Align::Right);
     HandgunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[6]);
     HandgunNumber.Off();
 
@@ -954,7 +954,7 @@ void WeaponInterFace::Start()
     UziNummber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     UziNummber.SetRenderPos({ 1450,930 });
     UziNummber.SetCameraEffect(false);
-    UziNummber.SetAlign(Align::Center);
+    UziNummber.SetAlign(Align::Right);
     UziNummber.SetValue(CurPlayer->GetPlayerWeaponCount()[7]);
     UziNummber.Off();
 
@@ -964,7 +964,7 @@ void WeaponInterFace::Start()
     MinigunNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     MinigunNumber.SetRenderPos({ 1450,930 });
     MinigunNumber.SetCameraEffect(false);
-    MinigunNumber.SetAlign(Align::Center);
+    MinigunNumber.SetAlign(Align::Right);
     MinigunNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[8]);
     MinigunNumber.Off();
 
@@ -972,7 +972,7 @@ void WeaponInterFace::Start()
     SheepNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     SheepNumber.SetRenderPos({ 1450,930 });
     SheepNumber.SetCameraEffect(false);
-    SheepNumber.SetAlign(Align::Center);
+    SheepNumber.SetAlign(Align::Right);
     SheepNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[10]);
     SheepNumber.Off();
 
@@ -980,7 +980,7 @@ void WeaponInterFace::Start()
     AirStrikeNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
     AirStrikeNumber.SetRenderPos({ 1450,930 });
     AirStrikeNumber.SetCameraEffect(false);
-    AirStrikeNumber.SetAlign(Align::Center);
+    AirStrikeNumber.SetAlign(Align::Right);
     AirStrikeNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[11]);
     AirStrikeNumber.Off();
 
@@ -988,7 +988,7 @@ void WeaponInterFace::Start()
    TorchNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
    TorchNumber.SetRenderPos({ 1450,930 });
    TorchNumber.SetCameraEffect(false);
-   TorchNumber.SetAlign(Align::Center);
+   TorchNumber.SetAlign(Align::Right);
    TorchNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[12]);
    TorchNumber.Off();
 
@@ -996,7 +996,7 @@ void WeaponInterFace::Start()
    CarpetNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
    CarpetNumber.SetRenderPos({ 1450,930 });
    CarpetNumber.SetCameraEffect(false);
-   CarpetNumber.SetAlign(Align::Center);
+   CarpetNumber.SetAlign(Align::Right);
    CarpetNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[14]);
    CarpetNumber.Off();
 
@@ -1004,7 +1004,7 @@ void WeaponInterFace::Start()
    DonkeyNumber.SetImage("TimerNum.bmp", { 12,20 }, static_cast<int>(WormsRenderOrder::WeaPonUI), RGB(255, 0, 255));
    DonkeyNumber.SetRenderPos({ 1450,930 });
    DonkeyNumber.SetCameraEffect(false);
-   DonkeyNumber.SetAlign(Align::Center);
+   DonkeyNumber.SetAlign(Align::Right);
    DonkeyNumber.SetValue(CurPlayer->GetPlayerWeaponCount()[15]);
    DonkeyNumber.Off();
 
