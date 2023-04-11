@@ -25,7 +25,7 @@ void WormsCore::Start()
 	CreateLevel<PlayLevel>("Play");
 	CreateLevel<TestLevel>("Test");
     CreateLevel<EndingLevel>("Ending");
-	ChangeLevel("Center");
+	ChangeLevel("Title");
 
 
 

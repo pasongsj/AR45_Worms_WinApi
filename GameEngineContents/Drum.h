@@ -30,7 +30,6 @@ protected:
 private:
     bool IsExplosion = false;
     bool IsPetrolEffectOn = false;
-    bool IsSoundOn = false;
 
     int Gauge = 150;
     int BombScale = 100;

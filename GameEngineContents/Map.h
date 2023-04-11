@@ -49,7 +49,7 @@ private:
 
     int NumOfObj = 0;                                   //생성할 드럼 오브젝트의 개수
 
-    float WaitTime = 40.0f;
+    float WaitTime = 70.0f;
 	float WaveAnimeDiff = 55.0f;						//Wave Animation Render 간의 높이 차
 	float FreeSpeed = 900.0f;							//FreeMove 스피드
 

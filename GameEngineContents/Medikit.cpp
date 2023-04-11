@@ -48,7 +48,10 @@ void Medikit::Update(float _DeltaTime)
 {
     if (false == IsPlaySound)
     {
-        GameEngineResources::GetInst().SoundPlay("Airstrike.wav");
+        GameEngineSoundPlayer SoundEffect = GameEngineResources::GetInst().SoundPlayToControl("Airstrike.wav");
+        SoundEffect.LoopCount(1);
+        SoundEffect.Volume(0.5f);
+
         IsPlaySound = true;
     }
 

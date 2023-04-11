@@ -68,17 +68,11 @@ void Drum::Update(float _DeltaTime)
         CreatePetrol(30);
     }
 
-    //if (true == EffectEnd && false == IsSoundOn)
-    //{
-    //   IsSoundOn == true;
-    //   GameEngineResources::GetInst().SoundPlay("SIZZLE.WAV");
-    //}
 
     if (30 == Count)
     {
         Count = 0;
         EffectEnd = false;
-        IsSoundOn = false;
         Death();
     }
 

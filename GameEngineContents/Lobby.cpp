@@ -378,7 +378,7 @@ void Lobby::Update(float _DeltaTime)
         if (BlackAlpha < 254)
         {
             BlackAlpha += 200 * _DeltaTime;
-            BlackBackGround->SetAlpha(255-BlackAlpha);
+            BlackBackGround->SetAlpha(255.0f-BlackAlpha);
         }
         if (BlackAlpha > 253)
         {

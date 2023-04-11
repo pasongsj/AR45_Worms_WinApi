@@ -193,7 +193,7 @@ void Map::Update(float _DeltaTime)
             Medikit* Object = GetLevel()->CreateActor<Medikit>(WormsRenderOrder::MapObject);
             Object->SetPos(Object->GetMapObjPos());
         }
-        WaitTime = 40.0f;
+        WaitTime = 70.0f;
     }
 	
     if (true == GameEngineInput::IsDown("CreateHoleButton"))
@@ -204,7 +204,6 @@ void Map::Update(float _DeltaTime)
         return;
     }
     
-
 
     if (true == GameEngineInput::IsDown("MediKitButton"))
     {
