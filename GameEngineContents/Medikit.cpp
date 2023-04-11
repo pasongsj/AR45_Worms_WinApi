@@ -132,6 +132,7 @@ void Medikit::RecoveryCheck()
             dynamic_cast<Player*>(CollisionPlayer[i]->GetActor())->UsingHealkit(Recovery);
         }
         Death();
+        GameEngineResources::GetInst().SoundPlay("SNOTPLOP.WAV");
     }
 }
 
