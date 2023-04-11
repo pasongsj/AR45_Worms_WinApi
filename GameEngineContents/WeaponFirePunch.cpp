@@ -134,7 +134,7 @@ void WeaponFirePunch::Update(float _DeltaTime)
                 }
                 else
                 {
-                    CurPlayer->SetMove(float4(0, 120*_DeltaTime));
+                    CurPlayer->SetMove(float4(0, 150 * _DeltaTime));
                     if (true == CurPlayer->IsPlayerAnimationEnd()) // 떨어지는 애니메이션이 끝났다면
                     {
                         isWeaponDone = true; // 무기종료
