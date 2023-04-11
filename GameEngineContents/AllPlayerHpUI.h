@@ -45,6 +45,7 @@ private:
     bool bSetHP = false;
     bool bSort = false;
 
+    float HPScaleRatio = 100.f;
 
 };
 

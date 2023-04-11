@@ -36,7 +36,7 @@ void AllPlayerHpUI::SetAllPlayerHP()
 void AllPlayerHpUI::Start()
 {
     AllHpUI = this;
-
+    HPScaleRatio = GlobalValue::gValue.GetPlayLevel()->GetLevelSetting().iPlayerHp;
     std::vector<Player*> PlayerList = GlobalValue::gValue.GetAllPlayer();
         
     vecPlayerHpBar.reserve(PlayerList.size());
@@ -168,7 +168,7 @@ void AllPlayerHpUI::Update(float _DeltaTime)
             float4 LerpNamePos = float4::Zero;
 
             
-            float fHpRatio = (fMaxHP -vecPlayerCurHp[i]) / 100.f;
+            float fHpRatio = (fMaxHP -vecPlayerCurHp[i]) / HPScaleRatio;
             float4 end = LerpCamPos.LerpClamp(vecLastPos[i], float4{ rStartPos.x,rStartPos.y + (i * 17.f) }, fLerpRatio);
             float4 NameEnd = LerpNamePos.LerpClamp(vecLastPos[i] + float4{ -38,0 }, float4{ rStartPos.x,rStartPos.y + (i * 17.f) } + float4{ -38,0 }, fLerpRatio);
             vecPlayerHpBar[i]->SetPosition(end);

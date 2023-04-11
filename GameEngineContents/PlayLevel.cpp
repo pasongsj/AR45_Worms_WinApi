@@ -823,8 +823,12 @@ void PlayLevel::PlayerChange(float _DeltaTime)
         if(true == GameEngineCore::GetInst()->IsDebug())
         {
             GlobalValue::gValue.GetPlayer()->SetIsMyTurn(true);
+            if (0 == GetGameSet())
+            {
+                AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
+            }
             return;
-        }
+        }       
 
         //º¤ÅÍ ÀÎµ¦½º Áõ°¡
         ++iPlayerNumber;        
@@ -852,10 +856,11 @@ void PlayLevel::PlayerChange(float _DeltaTime)
         CurPlayerPos = GlobalValue::gValue.GetPlayer()->GetPos();
         PrevCamPos = GetCameraPos();
 
-        if (0==GetGameSet())
+        if (0 == GetGameSet())
         {
             AllPlayerHpUI::AllHpUI->SetAllPlayerHP();
         }
+        
         
         bCamMove = true;
     }
