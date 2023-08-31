@@ -1,6 +1,9 @@
 # Introduction
 * AR45_Worms_WinApi는 포트폴리오를 위해  C++을 사용하여 Worms Armageddon 제작한 팀 프로젝트 입니다.
 
+# Video
+[![Video Label](http://img.youtube.com/vi/1LR2VAg_Cq0/0.jpg)](https://youtu.be/1LR2VAg_Cq0?t=0s)
+
 # Contributors
 
 | Name | Role |
